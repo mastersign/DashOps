@@ -20,9 +20,24 @@ namespace Mastersign.DashOps
     /// </summary>
     public partial class MainWindow : Window
     {
+        private App App => Application.Current as App;
+
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = App?.ProjectLoader?.ProjectView;
+        }
+
+        private ProjectView ProjectView => (ProjectView)DataContext;
+
+        private void GoToPageCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            ProjectView.CurrentPerspective = e.Parameter as Perspective ?? ProjectView.CurrentPerspective;
+        }
+
+        private void GoToPageCommandCheck(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = e.Parameter != ProjectView.CurrentPerspective;
         }
     }
 }

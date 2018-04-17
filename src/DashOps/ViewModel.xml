@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://scaleton.mastersign.de/2014/model">
+
+  <ReferencedTypes>
+    <ReferencedType id="dict" name="System.Collections.Generic.Dictionary`2[System.String, System.String]" />
+    <ReferencedType id="ActionFilter" name="System.Func`2[ActionView,System.Boolean]" kind="Delegate" />
+    <ReferencedType id="ActionClassifier" name="System.Func`2[ActionView,System.String]" kind="Delegate" />
+  </ReferencedTypes>
+  
+  <Configuration modelType="ChangeTracking">
+    <ChangeTrackingConfiguration level="Notification" />
+    <OverrideToString value="false" />
+  </Configuration>
+
+  <Types>
+    
+    <Class name="ActionView">
+      <Property name="Description" />
+      <Property name="Command" />
+      <Property name="Arguments" type="string[]" />
+      <Property name="Tags" type="string[]" />
+      <Property name="Facettes" type="dict" />
+    </Class>
+
+    <Class name="ActionSubset">
+      <Property name="Title" immutable="true" />
+      <Property name="Actions" isCollection="true" type="ActionView" defaultInitialization="true" />
+    </Class>
+
+    <Class name="Perspective">
+      <CustomInitializer>Initialize</CustomInitializer>
+      <Property name="Title" immutable="true" />
+      <Property name="SourceActions" isCollection="true" type="ActionView" immutable="true" />
+      <Property name="Filter" type="ActionFilter" immutable="true" />
+      <Property name="Classifier" type="ActionClassifier" immutable="true" />
+      <Property name="Subsets" type="ActionSubset" isCollection="true" defaultInitialization="true" />
+    </Class>
+
+    <Class name="ProjectView">
+      <Property name="Title" />
+      <Property name="ActionViews" isCollection="true" type="ActionView" defaultInitialization="true" immutable="true" />
+      <Property name="Perspectives" isCollection="true" type="Perspective" defaultInitialization="true" immutable="true" />
+      <Property name="CurrentPerspective" type="Perspective" />
+    </Class>
+
+  </Types>
+</Model>

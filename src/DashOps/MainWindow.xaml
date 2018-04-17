@@ -5,8 +5,60 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mastersign.DashOps"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="{Binding Title}" Height="450" Width="800"
+        d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:DesignTimeProjectView}}">
+    <Window.CommandBindings>
+        <CommandBinding Command="NavigationCommands.GoToPage" 
+                        CanExecute="GoToPageCommandCheck" 
+                        Executed="GoToPageCommandHandler" />
+    </Window.CommandBindings>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <ItemsControl x:Name="Perspectives" 
+                      Grid.ColumnSpan="2"
+                      Margin="20,12,20,10"
+                      ItemsSource="{Binding Perspectives}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Content="{Binding Title}" Padding="4" Margin="0,0,10,0" Height="Auto"
+                            Command="NavigationCommands.GoToPage" CommandParameter="{Binding}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <ListBox x:Name="ActionSubsets"
+                 Grid.Row="1"
+                 Margin="20,0,0,20"
+                 BorderThickness="0"
+                 Padding="0"
+                 ItemsSource="{Binding CurrentPerspective.Subsets}">
+        </ListBox>
+        <ItemsControl x:Name="Actions"
+                      Grid.Row="1" Grid.Column="1"
+                      Margin="10,0,20,20"
+                      ItemsSource="{Binding ElementName=ActionSubsets, Path=SelectedItem.Actions}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Vertical" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Content="{Binding Description}"
+                            Margin="0,0,0,10" Padding="10,5"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </Window>

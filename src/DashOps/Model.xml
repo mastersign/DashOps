@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://scaleton.mastersign.de/2014/model">
+
+  <Namespace>Mastersign.DashOps.Model</Namespace>
+
+  <ReferencedTypes>
+    <ReferencedType id="dict" name="System.Collections.Generic.Dictionary`2[System.String, System.String]" />
+  </ReferencedTypes>
+
+  <Configuration modelType="ChangeTracking">
+    <OverrideToString value="true" />
+  </Configuration>
+  
+  <Types>
+
+    <Class name="CommandAction">
+      <Property name="Description" />
+      <Property name="Command" />
+      <Property name="Arguments" type="string[]" />
+      <Property name="Verb" />
+      <Property name="Service" />
+      <Property name="Host" />
+      <Property name="Tags" type="string[]" />
+      <Property name="Facettes" type="dict" />
+    </Class>
+    
+    <Class name="Project">
+      <Property name="Title" />
+      <Property name="Actions" isCollection="true" type="CommandAction" defaultInitialization="true" />
+    </Class>
+
+  </Types>
+</Model>

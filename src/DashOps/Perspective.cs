@@ -1,0 +1,39 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Mastersign.DashOps
+{
+    partial class Perspective
+    {
+        private void Initialize()
+        {
+            this.SourceActions.CollectionChanged += SourceActionsCollectionChangedHandler;
+        }
+
+        private void SourceActionsCollectionChangedHandler(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            UpdateSubsets();
+        }
+
+        private void UpdateSubsets()
+        {
+            var classes = this.SourceActions.Where(Filter).Select(Classifier).Distinct().OrderBy(c => c);
+            this.Subsets.Clear();
+            foreach (var cls in classes)
+            {
+                var subset = new ActionSubset(cls);
+                foreach (var a in this.SourceActions.Where(Filter).Where(a => Classifier(a) == cls))
+                {
+                    subset.Actions.Add(a);
+                }
+                this.Subsets.Add(subset);
+            }
+        }
+
+        public override string ToString() => Title;
+    }
+}
