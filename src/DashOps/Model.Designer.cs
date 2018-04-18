@@ -349,6 +349,7 @@ namespace Mastersign.DashOps.Model
             }
             return (this.GetType().FullName + @": " + (
                 (Environment.NewLine + @"    Title = " + (!ReferenceEquals(_title, null) ? _title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Actions = " + (!ReferenceEquals(_actions, null) ? (_actions.Count.ToString() + @" items" + __collection_Actions.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Perspectives = " + (!ReferenceEquals(_perspectives, null) ? (_perspectives.Count.ToString() + @" items" + __collection_Perspectives.ToString()) : @"null").Replace("\n", "\n    "))));
         }
@@ -397,6 +398,38 @@ namespace Mastersign.DashOps.Model
                 }
                 _title = value;
                 this.OnTitleChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property Logs
+        
+        private string _logs;
+        
+        public event EventHandler LogsChanged;
+        
+        protected virtual void OnLogsChanged()
+        {
+            EventHandler handler = LogsChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Logs");
+        }
+        
+        public virtual string Logs
+        {
+            get { return _logs; }
+            set
+            {
+                if (string.Equals(value, _logs))
+                {
+                    return;
+                }
+                _logs = value;
+                this.OnLogsChanged();
             }
         }
         

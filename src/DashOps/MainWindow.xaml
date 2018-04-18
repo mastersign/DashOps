@@ -7,6 +7,34 @@
         mc:Ignorable="d"
         Title="{Binding Title}" Height="450" Width="800"
         d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:DesignTimeProjectView}}">
+    <Window.Resources>
+        <Style x:Key="PerspectiveButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Black" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="NavigationCommands.GoToPage" 
                         CanExecute="GoToPageCommandCheck" 
@@ -17,7 +45,7 @@
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="48"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -35,8 +63,11 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Content="{Binding Title}" Padding="4" Margin="0,0,10,0" Height="Auto"
-                            Command="NavigationCommands.GoToPage" CommandParameter="{Binding}"/>
+                    <Button Content="{Binding Title}"
+                            Padding="0" Margin="0,0,20,0" Height="Auto"
+                            Command="NavigationCommands.GoToPage" CommandParameter="{Binding}"
+                            Style="{StaticResource PerspectiveButtonStyle}">
+                    </Button>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

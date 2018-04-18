@@ -44,7 +44,11 @@ namespace Mastersign.DashOps
         {
             if (e.Parameter is ActionView action)
             {
-                App.Executor.Execute(action);
+                var ts = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                var logFile = !string.IsNullOrWhiteSpace(App.ProjectLoader.ProjectView.Logs) 
+                    ? System.IO.Path.Combine(App.ProjectLoader.ProjectView.Logs, ts + ".log") 
+                    : null;
+                App.Executor.Execute(action, logFile);
             }
         }
 

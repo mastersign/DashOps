@@ -1,6 +1,7 @@
 ﻿using Mastersign.DashOps.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -25,15 +26,44 @@ namespace Mastersign.DashOps
 
         public ProjectView ProjectView { get; private set; }
 
-        public ProjectLoader(string projectPath)
+        private FileSystemWatcher _watcher;
+
+        private Action<Action> Dispatcher { get; set; }
+
+        public ProjectLoader(string projectPath, Action<Action> dispatcher)
         {
+            Dispatcher = dispatcher;
             if (!File.Exists(projectPath))
             {
                 throw new FileNotFoundException("Project file not found.", projectPath);
             }
-            this.ProjectPath = projectPath;
-            this.ProjectView = new ProjectView();
+            ProjectPath = Path.IsPathRooted(projectPath) ? projectPath : Path.Combine(Environment.CurrentDirectory, projectPath);
+            System.Windows.MessageBox.Show(ProjectPath);
+            _watcher = new FileSystemWatcher(Path.GetDirectoryName(ProjectPath), Path.GetFileName(ProjectPath));
+            _watcher.Changed += ProjectFileChangedHandler;
+            _watcher.Created += ProjectFileChangedHandler;
+            _watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size;
+            ProjectView = new ProjectView();
             InitializeDeserialization();
+            LoadProject();
+            UpdateProjectView();
+            _watcher.EnableRaisingEvents = true;
+        }
+
+        private void ProjectFileChangedHandler(object sender, FileSystemEventArgs e)
+        {
+            if (Dispatcher != null)
+            {
+                Dispatcher(ReloadProjectAndProjectView);
+            }
+            else
+            {
+                ReloadProjectAndProjectView();
+            }
+        }
+
+        private void ReloadProjectAndProjectView()
+        {
             LoadProject();
             UpdateProjectView();
         }
@@ -42,17 +72,41 @@ namespace Mastersign.DashOps
 
         private void InitializeDeserialization()
         {
-            this._deserializer = new DeserializerBuilder()
+            _deserializer = new DeserializerBuilder()
                 .WithNamingConvention(new CamelCaseNamingConvention())
                 .Build();
         }
 
         private void LoadProject()
         {
-            using (var s = File.Open(this.ProjectPath, FileMode.Open, FileAccess.Read, FileShare.Read))
-            using (var r = new StreamReader(s, Encoding.UTF8))
+            Stream s = null;
+            var w = new Stopwatch();
+            w.Start();
+            Exception exc = null;
+            while (s == null && w.ElapsedMilliseconds < 2000)
             {
-                this.Project = this._deserializer.Deserialize<Project>(r);
+                try
+                {
+                    s = File.Open(ProjectPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    exc = null;
+                }
+                catch (IOException ioe)
+                {
+                    exc = ioe;
+                }
+            }
+            w.Stop();
+            if (exc != null) throw exc;
+            try
+            {
+                using (var r = new StreamReader(s, Encoding.UTF8))
+                {
+                    Project = _deserializer.Deserialize<Project>(r);
+                }
+            }
+            finally
+            {
+                s.Dispose();
             }
         }
 
@@ -64,8 +118,8 @@ namespace Mastersign.DashOps
                 Arguments = action.Arguments,
                 Description = action.Description,
                 Tags = action.Tags,
-                Facettes = action.Facettes != null 
-                    ? new Dictionary<string, string>(action.Facettes) 
+                Facettes = action.Facettes != null
+                    ? new Dictionary<string, string>(action.Facettes)
                     : new Dictionary<string, string>(),
             };
             if (!string.IsNullOrWhiteSpace(action.Verb))
@@ -85,16 +139,32 @@ namespace Mastersign.DashOps
 
         private void UpdateProjectView()
         {
-            this.ProjectView.ActionViews.Clear();
-            this.ProjectView.Title = this.Project?.Title ?? "Unknown";
-            if (this.Project == null) return;
+            ProjectView.ActionViews.Clear();
+            ProjectView.Perspectives.Clear();
+            ProjectView.Title = Project?.Title ?? "Unknown";
+            ProjectView.Logs = Project?.Logs;
+            if (Project == null) return;
 
-            this.ProjectView.InitializeFacettePerspectives(
-                DEF_PERSPECTIVES.Concat(this.Project.Perspectives).ToArray());
-            foreach (var action in this.Project.Actions)
+            if (ProjectView.Logs != null)
             {
-                this.ProjectView.ActionViews.Add(ActionViewFromCommandAction(action));
+                if (!Path.IsPathRooted(ProjectView.Logs))
+                {
+                    ProjectView.Logs = Path.Combine(Environment.CurrentDirectory, ProjectView.Logs);
+                }
+                if (!Directory.Exists(ProjectView.Logs))
+                {
+                    Directory.CreateDirectory(ProjectView.Logs);
+                }
             }
+
+            foreach (var action in Project.Actions)
+            {
+                ProjectView.ActionViews.Add(ActionViewFromCommandAction(action));
+            }
+
+            ProjectView.AddTagsPerspective();
+            ProjectView.AddFacettePerspectives(DEF_PERSPECTIVES);
+            ProjectView.AddFacettePerspectives(Project.Perspectives.ToArray());
         }
     }
 }

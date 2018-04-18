@@ -11,6 +11,12 @@ namespace Mastersign.DashOps
     public static class CommandLine
     {
         /// <summary>
+        /// An absolute path to the PowerShell executable.
+        /// </summary>
+        public static string PowerShellExe =>
+            Environment.ExpandEnvironmentVariables(@"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe");
+
+        /// <summary>
         /// Given an array of strings, containing batch style placeholders for
         /// environment variables and numbered parameters, the placeholders are 
         /// replaced by the referred parameter values.

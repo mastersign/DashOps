@@ -31,7 +31,7 @@ namespace Mastersign.DashOps
             }
             try
             {
-                ProjectLoader = new ProjectLoader(e.Args[0]);
+                ProjectLoader = new ProjectLoader(e.Args[0], Dispatch);
                 //MessageBox.Show(ProjectLoader.Project.ToString());
             }
             catch (Exception exc)
@@ -40,6 +40,11 @@ namespace Mastersign.DashOps
                 Shutdown(1);
             }
             Executor = new Executor();
+        }
+
+        private void Dispatch(Action action)
+        {
+            Dispatcher.BeginInvoke(action);
         }
     }
 }

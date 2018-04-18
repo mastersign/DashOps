@@ -5,7 +5,7 @@
   <ReferencedTypes>
     <ReferencedType id="dict" name="System.Collections.Generic.Dictionary`2[System.String, System.String]" />
     <ReferencedType id="ActionFilter" name="System.Func`2[ActionView,System.Boolean]" kind="Delegate" />
-    <ReferencedType id="ActionClassifier" name="System.Func`2[ActionView,System.String]" kind="Delegate" />
+    <ReferencedType id="ActionClassifier" name="System.Func`2[ActionView,System.String[]]" kind="Delegate" />
   </ReferencedTypes>
   
   <Configuration modelType="ChangeTracking">
@@ -39,6 +39,7 @@
 
     <Class name="ProjectView">
       <Property name="Title" />
+      <Property name="Logs" />
       <Property name="ActionViews" isCollection="true" type="ActionView" defaultInitialization="true" immutable="true" />
       <Property name="Perspectives" isCollection="true" type="PerspectiveView" defaultInitialization="true" immutable="true" />
       <Property name="CurrentPerspective" type="PerspectiveView" />

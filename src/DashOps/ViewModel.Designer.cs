@@ -273,7 +273,7 @@ namespace Mastersign.DashOps
             this.Initialize();
         }
         
-        public PerspectiveView(string title, global::System.Collections.ObjectModel.ObservableCollection<ActionView> sourceActions, Func<ActionView, bool> filter, Func<ActionView, string> classifier)
+        public PerspectiveView(string title, global::System.Collections.ObjectModel.ObservableCollection<ActionView> sourceActions, Func<ActionView, bool> filter, Func<ActionView, String[]> classifier)
         {
             this._title = title;
             this._sourceActions = sourceActions;
@@ -333,9 +333,9 @@ namespace Mastersign.DashOps
         
         #region Property Classifier
         
-        private Func<ActionView, string> _classifier;
+        private Func<ActionView, String[]> _classifier;
         
-        public virtual Func<ActionView, string> Classifier
+        public virtual Func<ActionView, String[]> Classifier
         {
             get { return _classifier; }
         }
@@ -431,6 +431,38 @@ namespace Mastersign.DashOps
                 }
                 _title = value;
                 this.OnTitleChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property Logs
+        
+        private string _logs;
+        
+        public event EventHandler LogsChanged;
+        
+        protected virtual void OnLogsChanged()
+        {
+            EventHandler handler = LogsChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Logs");
+        }
+        
+        public virtual string Logs
+        {
+            get { return _logs; }
+            set
+            {
+                if (string.Equals(value, _logs))
+                {
+                    return;
+                }
+                _logs = value;
+                this.OnLogsChanged();
             }
         }
         

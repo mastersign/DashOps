@@ -12,7 +12,7 @@ namespace Mastersign.DashOps
         public DesignTimeProjectView()
         {
             Title = "Design Time Project View";
-            InitializeFacettePerspectives(
+            AddFacettePerspectives(
                 nameof(CommandAction.Host),
                 nameof(CommandAction.Service),
                 nameof(CommandAction.Verb),

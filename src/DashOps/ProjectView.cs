@@ -15,16 +15,25 @@ namespace Mastersign.DashOps
                     title: facetteName + "s",
                     sourceActions: ActionViews,
                     filter: a => a.HasFacette(facetteName),
-                    classifier: a => a.GetFacetteValue(facetteName)));
+                    classifier: a => new[] { a.GetFacetteValue(facetteName) }));
         }
 
-        public void InitializeFacettePerspectives(params string[] facetteNames)
+        public void AddFacettePerspectives(params string[] facetteNames)
         {
-            Perspectives.Clear();
             foreach (var facetteName in facetteNames)
             {
                 AddFacettePerspective(facetteName);
             }
+        }
+
+        public void AddTagsPerspective()
+        {
+            Perspectives.Add(
+                new PerspectiveView(
+                    title: "Tags",
+                    sourceActions: ActionViews,
+                    filter: a => (a.Tags?.Length ?? 0) > 0,
+                    classifier: a => a.Tags));
         }
     }
 }
