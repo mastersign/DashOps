@@ -38,7 +38,6 @@ namespace Mastersign.DashOps
                 throw new FileNotFoundException("Project file not found.", projectPath);
             }
             ProjectPath = Path.IsPathRooted(projectPath) ? projectPath : Path.Combine(Environment.CurrentDirectory, projectPath);
-            System.Windows.MessageBox.Show(ProjectPath);
             _watcher = new FileSystemWatcher(Path.GetDirectoryName(ProjectPath), Path.GetFileName(ProjectPath));
             _watcher.Changed += ProjectFileChangedHandler;
             _watcher.Created += ProjectFileChangedHandler;

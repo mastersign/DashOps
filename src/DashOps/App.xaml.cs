@@ -32,11 +32,16 @@ namespace Mastersign.DashOps
             try
             {
                 ProjectLoader = new ProjectLoader(e.Args[0], Dispatch);
-                //MessageBox.Show(ProjectLoader.Project.ToString());
             }
             catch (Exception exc)
             {
-                MessageBox.Show(exc.Message);
+                var msg = exc.Message;
+                while (exc.InnerException != null)
+                {
+                    exc = exc.InnerException;
+                    msg += Environment.NewLine + exc.Message;
+                }
+                MessageBox.Show(msg);
                 Shutdown(1);
             }
             Executor = new Executor();
