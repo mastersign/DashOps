@@ -315,6 +315,7 @@ namespace Mastersign.DashOps.Model
         public Project()
         {
             this._actions = new global::System.Collections.ObjectModel.ObservableCollection<CommandAction>();
+            this._perspectives = new global::System.Collections.ObjectModel.ObservableCollection<string>();
         }
         
         #region String Representation
@@ -336,9 +337,20 @@ namespace Mastersign.DashOps.Model
                     __collection_Actions.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
                 }
             }
+            global::System.Text.StringBuilder __collection_Perspectives = new global::System.Text.StringBuilder();
+            if ((!ReferenceEquals(_perspectives, null) && !(_perspectives.Count == 0)))
+            {
+                for (int __index = 0; __index < Math.Min(_perspectives.Count, 10); __index++)
+                {
+                    string __item = _perspectives[__index];
+                    __collection_Perspectives.AppendLine();
+                    __collection_Perspectives.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString(formatProvider) : @"null")));
+                }
+            }
             return (this.GetType().FullName + @": " + (
                 (Environment.NewLine + @"    Title = " + (!ReferenceEquals(_title, null) ? _title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Actions = " + (!ReferenceEquals(_actions, null) ? (_actions.Count.ToString() + @" items" + __collection_Actions.ToString()) : @"null").Replace("\n", "\n    "))));
+                (Environment.NewLine + @"    Actions = " + (!ReferenceEquals(_actions, null) ? (_actions.Count.ToString() + @" items" + __collection_Actions.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    Perspectives = " + (!ReferenceEquals(_perspectives, null) ? (_perspectives.Count.ToString() + @" items" + __collection_Perspectives.ToString()) : @"null").Replace("\n", "\n    "))));
         }
         
         #endregion
@@ -417,6 +429,38 @@ namespace Mastersign.DashOps.Model
                 }
                 _actions = value;
                 this.OnActionsChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property Perspectives
+        
+        private global::System.Collections.ObjectModel.ObservableCollection<string> _perspectives;
+        
+        public event EventHandler PerspectivesChanged;
+        
+        protected virtual void OnPerspectivesChanged()
+        {
+            EventHandler handler = PerspectivesChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Perspectives");
+        }
+        
+        public virtual global::System.Collections.ObjectModel.ObservableCollection<string> Perspectives
+        {
+            get { return _perspectives; }
+            set
+            {
+                if ((value == _perspectives))
+                {
+                    return;
+                }
+                _perspectives = value;
+                this.OnPerspectivesChanged();
             }
         }
         

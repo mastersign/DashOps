@@ -15,6 +15,8 @@ namespace Mastersign.DashOps
     {
         public ProjectLoader ProjectLoader { get; private set; }
 
+        public Executor Executor { get; private set; }
+
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             if (e.Args.Length < 1)
@@ -37,6 +39,7 @@ namespace Mastersign.DashOps
                 MessageBox.Show(exc.Message);
                 Shutdown(1);
             }
+            Executor = new Executor();
         }
     }
 }

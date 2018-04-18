@@ -264,16 +264,16 @@ namespace Mastersign.DashOps
         #endregion
     }
     
-    public partial class Perspective : INotifyPropertyChanged
+    public partial class PerspectiveView : INotifyPropertyChanged
     {
-        public Perspective()
+        public PerspectiveView()
         {
             this._sourceActions = new global::System.Collections.ObjectModel.ObservableCollection<ActionView>();
             this._subsets = new global::System.Collections.ObjectModel.ObservableCollection<ActionSubset>();
             this.Initialize();
         }
         
-        public Perspective(string title, global::System.Collections.ObjectModel.ObservableCollection<ActionView> sourceActions, Func<ActionView, bool> filter, Func<ActionView, string> classifier)
+        public PerspectiveView(string title, global::System.Collections.ObjectModel.ObservableCollection<ActionView> sourceActions, Func<ActionView, bool> filter, Func<ActionView, string> classifier)
         {
             this._title = title;
             this._sourceActions = sourceActions;
@@ -380,10 +380,10 @@ namespace Mastersign.DashOps
         public ProjectView()
         {
             this._actionViews = new global::System.Collections.ObjectModel.ObservableCollection<ActionView>();
-            this._perspectives = new global::System.Collections.ObjectModel.ObservableCollection<Perspective>();
+            this._perspectives = new global::System.Collections.ObjectModel.ObservableCollection<PerspectiveView>();
         }
         
-        public ProjectView(global::System.Collections.ObjectModel.ObservableCollection<ActionView> actionViews, global::System.Collections.ObjectModel.ObservableCollection<Perspective> perspectives)
+        public ProjectView(global::System.Collections.ObjectModel.ObservableCollection<ActionView> actionViews, global::System.Collections.ObjectModel.ObservableCollection<PerspectiveView> perspectives)
         {
             this._actionViews = actionViews;
             this._perspectives = perspectives;
@@ -449,9 +449,9 @@ namespace Mastersign.DashOps
         
         #region Property Perspectives
         
-        private global::System.Collections.ObjectModel.ObservableCollection<Perspective> _perspectives;
+        private global::System.Collections.ObjectModel.ObservableCollection<PerspectiveView> _perspectives;
         
-        public virtual global::System.Collections.ObjectModel.ObservableCollection<Perspective> Perspectives
+        public virtual global::System.Collections.ObjectModel.ObservableCollection<PerspectiveView> Perspectives
         {
             get { return _perspectives; }
         }
@@ -460,7 +460,7 @@ namespace Mastersign.DashOps
         
         #region Property CurrentPerspective
         
-        private Perspective _currentPerspective;
+        private PerspectiveView _currentPerspective;
         
         public event EventHandler CurrentPerspectiveChanged;
         
@@ -474,7 +474,7 @@ namespace Mastersign.DashOps
             this.OnPropertyChanged(@"CurrentPerspective");
         }
         
-        public virtual Perspective CurrentPerspective
+        public virtual PerspectiveView CurrentPerspective
         {
             get { return _currentPerspective; }
             set

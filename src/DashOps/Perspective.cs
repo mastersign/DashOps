@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Mastersign.DashOps
 {
-    partial class Perspective
+    partial class PerspectiveView
     {
         private void Initialize()
         {

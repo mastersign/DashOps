@@ -28,7 +28,7 @@
       <Property name="Actions" isCollection="true" type="ActionView" defaultInitialization="true" />
     </Class>
 
-    <Class name="Perspective">
+    <Class name="PerspectiveView">
       <CustomInitializer>Initialize</CustomInitializer>
       <Property name="Title" immutable="true" />
       <Property name="SourceActions" isCollection="true" type="ActionView" immutable="true" />
@@ -40,8 +40,8 @@
     <Class name="ProjectView">
       <Property name="Title" />
       <Property name="ActionViews" isCollection="true" type="ActionView" defaultInitialization="true" immutable="true" />
-      <Property name="Perspectives" isCollection="true" type="Perspective" defaultInitialization="true" immutable="true" />
-      <Property name="CurrentPerspective" type="Perspective" />
+      <Property name="Perspectives" isCollection="true" type="PerspectiveView" defaultInitialization="true" immutable="true" />
+      <Property name="CurrentPerspective" type="PerspectiveView" />
     </Class>
 
   </Types>

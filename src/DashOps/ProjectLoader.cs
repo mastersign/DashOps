@@ -12,6 +12,13 @@ namespace Mastersign.DashOps
 {
     public class ProjectLoader
     {
+        private readonly string[] DEF_PERSPECTIVES = new[]
+        {
+            nameof(CommandAction.Verb),
+            nameof(CommandAction.Service),
+            nameof(CommandAction.Host),
+        };
+
         public string ProjectPath { get; private set; }
 
         public Project Project { get; private set; }
@@ -27,7 +34,6 @@ namespace Mastersign.DashOps
             this.ProjectPath = projectPath;
             this.ProjectView = new ProjectView();
             InitializeDeserialization();
-            InitializePerspectives();
             LoadProject();
             UpdateProjectView();
         }
@@ -39,14 +45,6 @@ namespace Mastersign.DashOps
             this._deserializer = new DeserializerBuilder()
                 .WithNamingConvention(new CamelCaseNamingConvention())
                 .Build();
-        }
-
-        private void InitializePerspectives()
-        {
-            this.ProjectView.InitializeFacettePerspectives(
-                nameof(CommandAction.Host),
-                nameof(CommandAction.Service),
-                nameof(CommandAction.Verb));
         }
 
         private void LoadProject()
@@ -91,6 +89,8 @@ namespace Mastersign.DashOps
             this.ProjectView.Title = this.Project?.Title ?? "Unknown";
             if (this.Project == null) return;
 
+            this.ProjectView.InitializeFacettePerspectives(
+                DEF_PERSPECTIVES.Concat(this.Project.Perspectives).ToArray());
             foreach (var action in this.Project.Actions)
             {
                 this.ProjectView.ActionViews.Add(ActionViewFromCommandAction(action));

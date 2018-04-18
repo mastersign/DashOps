@@ -32,12 +32,26 @@ namespace Mastersign.DashOps
 
         private void GoToPageCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            ProjectView.CurrentPerspective = e.Parameter as Perspective ?? ProjectView.CurrentPerspective;
+            ProjectView.CurrentPerspective = e.Parameter as PerspectiveView ?? ProjectView.CurrentPerspective;
         }
 
         private void GoToPageCommandCheck(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = e.Parameter != ProjectView.CurrentPerspective;
+        }
+
+        private void ExecuteActionCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (e.Parameter is ActionView action)
+            {
+                App.Executor.Execute(action);
+            }
+        }
+
+        private void ExecuteActionCommandCheck(object sender, CanExecuteRoutedEventArgs e)
+        {
+            var action = e.Parameter as ActionView;
+            e.CanExecute = action != null && App.Executor.IsValid(action);
         }
     }
 }

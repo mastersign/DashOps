@@ -24,10 +24,11 @@
       <Property name="Tags" type="string[]" />
       <Property name="Facettes" type="dict" />
     </Class>
-    
+
     <Class name="Project">
       <Property name="Title" />
       <Property name="Actions" isCollection="true" type="CommandAction" defaultInitialization="true" />
+      <Property name="Perspectives" isCollection="true" defaultInitialization="true" />
     </Class>
 
   </Types>

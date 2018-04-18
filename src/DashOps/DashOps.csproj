@@ -58,7 +58,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ActionSubset.cs" />
+    <Compile Include="CommandLine.cs" />
+    <Compile Include="DashOpsCommands.cs" />
     <Compile Include="DesignTimeProjectView.cs" />
+    <Compile Include="Executor.cs" />
     <Compile Include="Perspective.cs" />
     <Compile Include="ActionView.cs" />
     <Compile Include="ProjectLoader.cs" />

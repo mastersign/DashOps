@@ -11,6 +11,9 @@
         <CommandBinding Command="NavigationCommands.GoToPage" 
                         CanExecute="GoToPageCommandCheck" 
                         Executed="GoToPageCommandHandler" />
+        <CommandBinding Command="local:DashOpsCommands.ExecuteAction"
+                        CanExecute="ExecuteActionCommandCheck"
+                        Executed="ExecuteActionCommandHandler" />
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -56,7 +59,9 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Button Content="{Binding Description}"
-                            Margin="0,0,0,10" Padding="10,5"/>
+                            Margin="0,0,0,10" Padding="10,5"
+                            Command="local:DashOpsCommands.ExecuteAction"
+                            CommandParameter="{Binding}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

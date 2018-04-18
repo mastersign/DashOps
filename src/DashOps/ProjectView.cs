@@ -11,7 +11,7 @@ namespace Mastersign.DashOps
         private void AddFacettePerspective(string facetteName)
         {
             Perspectives.Add(
-                new Perspective(
+                new PerspectiveView(
                     title: facetteName + "s",
                     sourceActions: ActionViews,
                     filter: a => a.HasFacette(facetteName),
@@ -20,6 +20,7 @@ namespace Mastersign.DashOps
 
         public void InitializeFacettePerspectives(params string[] facetteNames)
         {
+            Perspectives.Clear();
             foreach (var facetteName in facetteNames)
             {
                 AddFacettePerspective(facetteName);
