@@ -25,10 +25,23 @@
       <Property name="Facettes" type="dict" />
     </Class>
 
+    <Class name="CommandActionDiscovery">
+      <Property name="DescriptionTemplate" />
+      <Property name="BasePath" />
+      <Property name="PathRegex" />
+      <Property name="Arguments" type="string[]" />
+      <Property name="Verb" />
+      <Property name="Service" />
+      <Property name="Host" />
+      <Property name="Tags" type="string[]" />
+      <Property name="Facettes" type="dict" />
+    </Class>
+
     <Class name="Project">
       <Property name="Title" />
       <Property name="Logs" />
       <Property name="Actions" isCollection="true" type="CommandAction" defaultInitialization="true" />
+      <Property name="ActionDiscovery" isCollection="true" type="CommandActionDiscovery" defaultInitialization="true" />
       <Property name="Perspectives" isCollection="true" defaultInitialization="true" />
     </Class>
 

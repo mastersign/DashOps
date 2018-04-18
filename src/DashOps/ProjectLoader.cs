@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -72,7 +73,7 @@ namespace Mastersign.DashOps
         private void InitializeDeserialization()
         {
             _deserializer = new DeserializerBuilder()
-                .WithNamingConvention(new CamelCaseNamingConvention())
+                .WithNamingConvention(new HyphenatedNamingConvention())
                 .Build();
         }
 
@@ -160,10 +161,104 @@ namespace Mastersign.DashOps
             {
                 ProjectView.ActionViews.Add(ActionViewFromCommandAction(action));
             }
+            foreach (var actionDiscovery in Project.ActionDiscovery)
+            {
+                foreach(var actionView in DiscoverActions(actionDiscovery))
+                {
+                    ProjectView.ActionViews.Add(actionView);
+                }
+            }
 
             ProjectView.AddTagsPerspective();
             ProjectView.AddFacettePerspectives(DEF_PERSPECTIVES);
             ProjectView.AddFacettePerspectives(Project.Perspectives.ToArray());
+        }
+
+        private IEnumerable<ActionView> DiscoverActions(CommandActionDiscovery actionDiscovery)
+        {
+            var basePath = actionDiscovery.BasePath ?? string.Empty;
+            basePath = string.IsNullOrWhiteSpace(basePath)
+                ? Environment.CurrentDirectory
+                : Path.IsPathRooted(basePath)
+                    ? basePath
+                    : Path.Combine(Environment.CurrentDirectory, basePath);
+            var pathRegex = new Regex(actionDiscovery.PathRegex,
+                RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            var groupNames = pathRegex.GetGroupNames();
+
+            string lowerCase(string s) => char.ToLowerInvariant(s[0]) + s.Substring(1);
+            string upperCase(string s) => char.ToUpperInvariant(s[0]) + s.Substring(1);
+
+            string getGroupValue(Match m, string name, string def)
+            {
+                if (string.IsNullOrWhiteSpace(name)) return null;
+                var name1 = lowerCase(name);
+                if (groupNames.Contains(name1) && m.Groups[name1].Success)
+                {
+                    return m.Groups[name1].Value;
+                }
+                var name2 = upperCase(name);
+                if (groupNames.Contains(name2) && m.Groups[name2].Success)
+                {
+                    return m.Groups[name2].Value;
+                }
+                return def;
+            }
+
+            string expandTemplate(string template, Dictionary<string, string> variables)
+            {
+                var result = template;
+                foreach (var kvp in variables)
+                {
+                    result = result.Replace("${" + kvp.Key + "}", kvp.Value);
+                    result = result.Replace("${" + kvp.Key.ToLowerInvariant() + "}", kvp.Value);
+                }
+                return result;
+            }
+
+            foreach (var file in Directory.EnumerateFiles(basePath, "*", SearchOption.AllDirectories))
+            {
+                Debug.Assert(file.StartsWith(basePath, StringComparison.OrdinalIgnoreCase));
+                var relativePath = file.Substring(basePath.Length);
+                var m = pathRegex.Match(relativePath);
+                if (!m.Success) continue;
+                var verbGroup = groupNames.Contains("verb")
+                    ? m.Groups["verb"]
+                    : groupNames.Contains("Verb")
+                        ? m.Groups["Verb"]
+                        : null;
+                var facettes = actionDiscovery.Facettes != null
+                    ? new Dictionary<string, string>(actionDiscovery.Facettes)
+                    : new Dictionary<string, string>();
+                var verb = getGroupValue(m, nameof(CommandAction.Verb), actionDiscovery.Verb);
+                var service = getGroupValue(m, nameof(CommandAction.Service), actionDiscovery.Service);
+                var host = getGroupValue(m, nameof(CommandAction.Host), actionDiscovery.Host);
+                foreach (var groupName in groupNames)
+                {
+                    if (groupName == "0") continue;
+                    if (groupName == lowerCase(nameof(CommandAction.Verb)) ||
+                        groupName == upperCase(nameof(CommandAction.Verb)) ||
+                        groupName == lowerCase(nameof(CommandAction.Service)) ||
+                        groupName == upperCase(nameof(CommandAction.Service)) ||
+                        groupName == lowerCase(nameof(CommandAction.Host)) ||
+                        groupName == upperCase(nameof(CommandAction.Host))) continue;
+                    var g = m.Groups[groupName];
+                    if (!g.Success) continue;
+                    facettes[groupName] = g.Value;
+                }
+                if (verb != null) facettes[nameof(CommandAction.Verb)] = verb;
+                if (service != null) facettes[nameof(CommandAction.Service)] = service;
+                if (host != null) facettes[nameof(CommandAction.Host)] = host;
+                var tags = actionDiscovery.Tags;
+                yield return new ActionView()
+                {
+                    Description = expandTemplate(actionDiscovery.DescriptionTemplate, facettes),
+                    Command = file,
+                    Arguments = actionDiscovery.Arguments,
+                    Facettes = facettes,
+                    Tags = tags
+                };
+            }
         }
     }
 }
