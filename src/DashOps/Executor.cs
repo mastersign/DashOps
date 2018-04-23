@@ -11,23 +11,26 @@ namespace Mastersign.DashOps
     {
         public bool IsValid(ActionView action) => true;
 
-        public void Execute(ActionView action, string logPath = null)
+        public void Execute(ActionView action, string logDirectory, string logName)
         {
-            var args = CommandLine.FormatArgumentList(action.Arguments);
-            var expandedArgs = Environment.ExpandEnvironmentVariables(args);
-            var cmdLines = new List<string>();
-            if (logPath != null) cmdLines.Add($"$_ = Start-Transcript -Path \"{logPath}\"");
-            cmdLines.Add($"echo \"Command: {action.Command}\"");
-            cmdLines.Add($"echo \"Arguments: {expandedArgs}\"");
-            cmdLines.Add($"& \"{action.Command}\" {expandedArgs}");
-            cmdLines.Add("$success = $?");
-            cmdLines.Add("$exitCode = $LastExitCode");
-            if (logPath != null) cmdLines.Add("$_ = Stop-Transcript");
-            cmdLines.Add("echo \"\"");
-            cmdLines.Add("if (!$success) { if ($LastExitCode -ne $null) { Write-Warning \"Exit Code: $exitCode\" } else { Write-Warning \"Command failed.\" } }");
-            cmdLines.Add("echo \"Press any key to continue...\"");
-            cmdLines.Add("$_ = $Host.UI.RawUI.ReadKey()");
-            var cmd = string.Join("; ", cmdLines);
+            bool CanLog() => logDirectory != null;
+            string LogPath() => System.IO.Path.Combine(logDirectory, logName);
+
+            var expandedCommand = Environment.ExpandEnvironmentVariables(action.Command);
+            var expandedArgs = CommandLine.FormatArgumentList(action.Arguments.Select(Environment.ExpandEnvironmentVariables).ToArray());
+            var psLines = new List<string>();
+            if (CanLog()) psLines.Add($"$_ = Start-Transcript -Path \"{LogPath()}\"");
+            psLines.Add($"echo \"Command:   {expandedCommand}\"");
+            if (!string.IsNullOrWhiteSpace(expandedArgs)) psLines.Add($"echo \"Arguments: {expandedArgs.Replace("\"", "`\"")}\"");
+            psLines.Add($"& \"{expandedCommand}\" {expandedArgs}");
+            psLines.Add("$success = $?");
+            psLines.Add("$exitCode = $LastExitCode");
+            if (CanLog()) psLines.Add("$_ = Stop-Transcript");
+            psLines.Add("echo \"\"");
+            psLines.Add("if (!$success) { if ($LastExitCode -ne $null) { Write-Warning \"Exit Code: $exitCode\" } else { Write-Warning \"Command failed.\" } }");
+            psLines.Add("echo \"Press any key to continue...\"");
+            psLines.Add("$_ = $Host.UI.RawUI.ReadKey()");
+            var cmd = string.Join("; ", psLines);
             var encodedCmd = EncodePowerShellCommand(cmd);
             var psArgs = $"-NoLogo -ExecutionPolicy RemoteSigned -EncodedCommand {encodedCmd}";
             var psi = new ProcessStartInfo(CommandLine.PowerShellExe, psArgs)
