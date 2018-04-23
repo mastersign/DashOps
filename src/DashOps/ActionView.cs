@@ -11,7 +11,7 @@ namespace Mastersign.DashOps
     {
         private static MD5 md5 = MD5.Create();
 
-        public bool HasFacette(string name) 
+        public bool HasFacette(string name)
             => this.Facettes?.ContainsKey(name) ?? false;
 
         public string[] GetFacettes()
@@ -27,13 +27,14 @@ namespace Mastersign.DashOps
                 : null;
 
         public string CommandLabel => ExpandedCommand
-            + (string.IsNullOrWhiteSpace(ExpandedArguments) 
-                ? string.Empty 
+            + (string.IsNullOrWhiteSpace(ExpandedArguments)
+                ? string.Empty
                 : " " + ExpandedArguments);
 
         public string ExpandedCommand => Environment.ExpandEnvironmentVariables(Command);
 
-        public string ExpandedArguments => CommandLine.FormatArgumentList(Arguments.Select(Environment.ExpandEnvironmentVariables).ToArray());
+        public string ExpandedArguments 
+            => CommandLine.FormatArgumentList(Arguments.Select(Environment.ExpandEnvironmentVariables).ToArray());
 
         public string ActionId
         {
@@ -51,5 +52,14 @@ namespace Mastersign.DashOps
         public string LogNamePattern => $"*_{ActionId}.log";
 
         public string CreateLogName() => $"{DateTime.Now:yyyyMMdd_HHmmss}_{ActionId}.log";
+
+        private IEnumerable<string> LogFilePaths(string logDirectory)
+            => logDirectory != null && System.IO.Directory.Exists(logDirectory)
+                ? System.IO.Directory.EnumerateFiles(logDirectory, LogNamePattern).OrderByDescending(n => n)
+                : Enumerable.Empty<string>();
+
+        public string[] LogFiles(string logDirectory) => LogFilePaths(logDirectory).ToArray();
+
+        public string LastLogFile(string logDirectory) => LogFilePaths(logDirectory).FirstOrDefault();
     }
 }

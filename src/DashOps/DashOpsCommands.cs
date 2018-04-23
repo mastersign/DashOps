@@ -11,5 +11,8 @@ namespace Mastersign.DashOps
     {
         public static readonly RoutedUICommand ExecuteAction
             = new RoutedUICommand("Execute Action", "Execute Action", typeof(MainWindow));
+
+        public static readonly RoutedUICommand ShowLastActionLog
+            = new RoutedUICommand("Show Last Action Log", "Show Last Action Log", typeof(MainWindow));
     }
 }

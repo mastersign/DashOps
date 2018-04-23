@@ -42,6 +42,9 @@
         <CommandBinding Command="local:DashOpsCommands.ExecuteAction"
                         CanExecute="ExecuteActionCommandCheck"
                         Executed="ExecuteActionCommandHandler" />
+        <CommandBinding Command="local:DashOpsCommands.ShowLastActionLog"
+                        CanExecute="ShowLastActionLogCheck"
+                        Executed="ShowLastActionLogHandler" />
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -89,10 +92,24 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Content="{Binding Description}"
+                    <Button x:Name="ActionButton"
                             Margin="0,0,0,10" Padding="10,5"
+                            HorizontalContentAlignment="Stretch"
                             Command="local:DashOpsCommands.ExecuteAction"
-                            CommandParameter="{Binding}"/>
+                            CommandParameter="{Binding}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Label Content="{Binding Description}" />
+                            <Button Content="Log"
+                                    Grid.Column="1"
+                                    Padding="6,3"
+                                    Command="local:DashOpsCommands.ShowLastActionLog"
+                                    CommandParameter="{Binding}" />
+                        </Grid>
+                    </Button>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
