@@ -45,6 +45,9 @@
         <CommandBinding Command="local:DashOpsCommands.ShowLastActionLog"
                         CanExecute="ShowLastActionLogCheck"
                         Executed="ShowLastActionLogHandler" />
+        <CommandBinding Command="local:DashOpsCommands.ShowActionInfo"
+                        CanExecute="ShowActionInfoCheck"
+                        Executed="ShowActionInfoHandler" />
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -101,12 +104,16 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Label Content="{Binding Description}" />
                             <Button Content="Log"
-                                    Grid.Column="1"
-                                    Padding="6,3"
+                                    Grid.Column="1" Margin="6,0,0,0" Padding="6,3"
                                     Command="local:DashOpsCommands.ShowLastActionLog"
+                                    CommandParameter="{Binding}" />
+                            <Button Content="Info"
+                                    Grid.Column="2" Margin="6,0,0,0" Padding="6,3"
+                                    Command="local:DashOpsCommands.ShowActionInfo"
                                     CommandParameter="{Binding}" />
                         </Grid>
                     </Button>

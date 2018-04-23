@@ -69,5 +69,23 @@ namespace Mastersign.DashOps
                 System.Diagnostics.Process.Start(action.LastLogFile(LogDir));
             }
         }
+
+        private void ShowActionInfoCheck(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void ShowActionInfoHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (e.Parameter is ActionView action)
+            {
+                MessageBox.Show(
+                    $"{action.Description}\n\nID: {action.ActionId}\nCommand: {action.ExpandedCommand}\nArguments: {action.ExpandedArguments}",
+                    "Action Info",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+            }
+        }
+
     }
 }
