@@ -11,10 +11,10 @@ namespace Mastersign.DashOps
     {
         public bool IsValid(ActionView action) => true;
 
-        public void Execute(ActionView action, string logDirectory, string logName)
+        public void Execute(ActionView action, string logDirectory)
         {
             bool CanLog() => logDirectory != null;
-            string LogPath() => System.IO.Path.Combine(logDirectory, logName);
+            string LogPath() => System.IO.Path.Combine(logDirectory, action.CreateLogName());
 
             var psLines = new List<string>();
             if (CanLog()) psLines.Add($"$_ = Start-Transcript -Path \"{LogPath()}\"");

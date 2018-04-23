@@ -47,5 +47,9 @@ namespace Mastersign.DashOps
         }
 
         public override string ToString() => $"[{ActionId}] {Description}: {CommandLabel}";
+
+        public string LogNamePattern => $"*_{ActionId}.log";
+
+        public string CreateLogName() => $"{DateTime.Now:yyyyMMdd_HHmmss}_{ActionId}.log";
     }
 }

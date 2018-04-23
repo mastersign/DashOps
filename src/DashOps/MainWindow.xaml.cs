@@ -44,8 +44,7 @@ namespace Mastersign.DashOps
         {
             if (e.Parameter is ActionView action)
             {
-                var ts = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-                App.Executor.Execute(action, App.ProjectLoader.ProjectView.Logs, ts + ".log");
+                App.Executor.Execute(action, App.ProjectLoader.ProjectView.Logs);
             }
         }
 
