@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DashOps", "DashOps\DashOps.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{20976B1F-4B4A-4A4E-9F30-0DBFFC731902}"
 	ProjectSection(SolutionItems) = preProject
-		TestProject.yaml = TestProject.yaml
+		dashops.yaml = dashops.yaml
 	EndProjectSection
 EndProject
 Global

@@ -1,0 +1,50 @@
+title: Test Project
+logs: test-logs
+perspectives:
+  - Environment
+  - Role
+actions:
+  - description: List content of program files directory
+    command: Get-ChildItem
+    arguments: ['C:\Program Files']
+    host: Localhost
+    service: File System
+    verb: dir
+    facettes:
+      Environment: System
+    tags:
+      - Y
+      - X
+  - description: List content of user directory
+    command: Get-ChildItem
+    arguments: ['$env:UserProfile']
+    host: Localhost
+    service: File System
+    verb: dir
+    facettes:
+      Environment: User
+      Role: Everybody
+    tags:
+      - Z
+      - Y
+action-discovery:
+  - description-template: '${verb} ${service} on ${host}'
+    base-path: 'test-scripts\'
+    path-regex: '(?<service>.+?)\\(?<verb>[^_]+)_(?<host>[^\.]+)\.ps1'
+    arguments: ['a', 'b', 123]
+    host: incorrect
+    facettes:
+      Environment: Test
+    tags:
+      - discovered
+#action-patterns:
+#  - description-template: 'Check ${Service} on all hosts ${mode}'
+#    command-template: 'test-scripts\${service}\check-all.ps1'
+#    arguments: ['-Mode', '${mode}']
+#    service:
+#      - service A
+#      - service B
+#    facettes:
+#      mode: ['interactively', 'automatically', 'silently']
+#    tags:
+#      - expanded
