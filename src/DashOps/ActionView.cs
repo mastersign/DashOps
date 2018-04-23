@@ -24,5 +24,9 @@ namespace Mastersign.DashOps
                 : null;
 
         public string Label => Command + " " + string.Join(" ", Arguments);
+        public string ExpandedCommand => Environment.ExpandEnvironmentVariables(Command);
+
+        public string ExpandedArguments => CommandLine.FormatArgumentList(Arguments.Select(Environment.ExpandEnvironmentVariables).ToArray());
+
     }
 }

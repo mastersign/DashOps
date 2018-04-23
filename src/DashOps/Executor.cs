@@ -16,13 +16,12 @@ namespace Mastersign.DashOps
             bool CanLog() => logDirectory != null;
             string LogPath() => System.IO.Path.Combine(logDirectory, logName);
 
-            var expandedCommand = Environment.ExpandEnvironmentVariables(action.Command);
-            var expandedArgs = CommandLine.FormatArgumentList(action.Arguments.Select(Environment.ExpandEnvironmentVariables).ToArray());
             var psLines = new List<string>();
             if (CanLog()) psLines.Add($"$_ = Start-Transcript -Path \"{LogPath()}\"");
-            psLines.Add($"echo \"Command:   {expandedCommand}\"");
-            if (!string.IsNullOrWhiteSpace(expandedArgs)) psLines.Add($"echo \"Arguments: {expandedArgs.Replace("\"", "`\"")}\"");
-            psLines.Add($"& \"{expandedCommand}\" {expandedArgs}");
+            psLines.Add($"echo \"Command:   {action.ExpandedCommand}\"");
+            if (!string.IsNullOrWhiteSpace(action.ExpandedArguments))
+                psLines.Add($"echo \"Arguments: {action.ExpandedArguments.Replace("\"", "`\"")}\"");
+            psLines.Add($"& \"{action.ExpandedCommand}\" {action.ExpandedArguments}");
             psLines.Add("$success = $?");
             psLines.Add("$exitCode = $LastExitCode");
             if (CanLog()) psLines.Add("$_ = Stop-Transcript");
