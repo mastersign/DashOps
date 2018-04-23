@@ -6,7 +6,7 @@ perspectives:
 actions:
   - description: List content of program files directory
     command: Get-ChildItem
-    arguments: ['C:\Program Files']
+    arguments: ['%ProgramFiles%']
     host: Localhost
     service: File System
     verb: dir
