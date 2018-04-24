@@ -6,9 +6,9 @@ namespace Mastersign.DashOps.Model
 {
     #region Scaleton Model Designer generated code
     
-    // Scaleton Version: 0.2.4
+    // Scaleton Version: 0.2.5
     
-    public partial class CommandAction : INotifyPropertyChanged
+    public partial class CommandAction
     {
         public CommandAction()
         {
@@ -38,36 +38,9 @@ namespace Mastersign.DashOps.Model
         
         #endregion
         
-        #region Change Tracking
-        
-        public event PropertyChangedEventHandler PropertyChanged;
-        
-        protected virtual void OnPropertyChanged(string name)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, new PropertyChangedEventArgs(name));
-            }
-        }
-        
-        #endregion
-        
         #region Property Description
         
         private string _description;
-        
-        public event EventHandler DescriptionChanged;
-        
-        protected virtual void OnDescriptionChanged()
-        {
-            EventHandler handler = DescriptionChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"Description");
-        }
         
         public virtual string Description
         {
@@ -79,7 +52,6 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _description = value;
-                this.OnDescriptionChanged();
             }
         }
         
@@ -88,18 +60,6 @@ namespace Mastersign.DashOps.Model
         #region Property Command
         
         private string _command;
-        
-        public event EventHandler CommandChanged;
-        
-        protected virtual void OnCommandChanged()
-        {
-            EventHandler handler = CommandChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"Command");
-        }
         
         public virtual string Command
         {
@@ -111,7 +71,6 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _command = value;
-                this.OnCommandChanged();
             }
         }
         
@@ -120,18 +79,6 @@ namespace Mastersign.DashOps.Model
         #region Property Arguments
         
         private string[] _arguments;
-        
-        public event EventHandler ArgumentsChanged;
-        
-        protected virtual void OnArgumentsChanged()
-        {
-            EventHandler handler = ArgumentsChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"Arguments");
-        }
         
         public virtual string[] Arguments
         {
@@ -143,7 +90,6 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _arguments = value;
-                this.OnArgumentsChanged();
             }
         }
         
@@ -152,18 +98,6 @@ namespace Mastersign.DashOps.Model
         #region Property Verb
         
         private string _verb;
-        
-        public event EventHandler VerbChanged;
-        
-        protected virtual void OnVerbChanged()
-        {
-            EventHandler handler = VerbChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"Verb");
-        }
         
         public virtual string Verb
         {
@@ -175,7 +109,6 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _verb = value;
-                this.OnVerbChanged();
             }
         }
         
@@ -184,18 +117,6 @@ namespace Mastersign.DashOps.Model
         #region Property Service
         
         private string _service;
-        
-        public event EventHandler ServiceChanged;
-        
-        protected virtual void OnServiceChanged()
-        {
-            EventHandler handler = ServiceChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"Service");
-        }
         
         public virtual string Service
         {
@@ -207,7 +128,6 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _service = value;
-                this.OnServiceChanged();
             }
         }
         
@@ -216,18 +136,6 @@ namespace Mastersign.DashOps.Model
         #region Property Host
         
         private string _host;
-        
-        public event EventHandler HostChanged;
-        
-        protected virtual void OnHostChanged()
-        {
-            EventHandler handler = HostChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"Host");
-        }
         
         public virtual string Host
         {
@@ -239,7 +147,6 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _host = value;
-                this.OnHostChanged();
             }
         }
         
@@ -248,18 +155,6 @@ namespace Mastersign.DashOps.Model
         #region Property Tags
         
         private string[] _tags;
-        
-        public event EventHandler TagsChanged;
-        
-        protected virtual void OnTagsChanged()
-        {
-            EventHandler handler = TagsChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"Tags");
-        }
         
         public virtual string[] Tags
         {
@@ -271,7 +166,6 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _tags = value;
-                this.OnTagsChanged();
             }
         }
         
@@ -280,18 +174,6 @@ namespace Mastersign.DashOps.Model
         #region Property Facettes
         
         private Dictionary<string, string> _facettes;
-        
-        public event EventHandler FacettesChanged;
-        
-        protected virtual void OnFacettesChanged()
-        {
-            EventHandler handler = FacettesChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"Facettes");
-        }
         
         public virtual Dictionary<string, string> Facettes
         {
@@ -303,14 +185,13 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _facettes = value;
-                this.OnFacettesChanged();
             }
         }
         
         #endregion
     }
     
-    public partial class CommandActionDiscovery : INotifyPropertyChanged
+    public partial class CommandActionDiscovery
     {
         public CommandActionDiscovery()
         {
@@ -341,36 +222,9 @@ namespace Mastersign.DashOps.Model
         
         #endregion
         
-        #region Change Tracking
-        
-        public event PropertyChangedEventHandler PropertyChanged;
-        
-        protected virtual void OnPropertyChanged(string name)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, new PropertyChangedEventArgs(name));
-            }
-        }
-        
-        #endregion
-        
         #region Property DescriptionTemplate
         
         private string _descriptionTemplate;
-        
-        public event EventHandler DescriptionTemplateChanged;
-        
-        protected virtual void OnDescriptionTemplateChanged()
-        {
-            EventHandler handler = DescriptionTemplateChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"DescriptionTemplate");
-        }
         
         public virtual string DescriptionTemplate
         {
@@ -382,7 +236,6 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _descriptionTemplate = value;
-                this.OnDescriptionTemplateChanged();
             }
         }
         
@@ -391,18 +244,6 @@ namespace Mastersign.DashOps.Model
         #region Property BasePath
         
         private string _basePath;
-        
-        public event EventHandler BasePathChanged;
-        
-        protected virtual void OnBasePathChanged()
-        {
-            EventHandler handler = BasePathChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"BasePath");
-        }
         
         public virtual string BasePath
         {
@@ -414,7 +255,6 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _basePath = value;
-                this.OnBasePathChanged();
             }
         }
         
@@ -423,18 +263,6 @@ namespace Mastersign.DashOps.Model
         #region Property PathRegex
         
         private string _pathRegex;
-        
-        public event EventHandler PathRegexChanged;
-        
-        protected virtual void OnPathRegexChanged()
-        {
-            EventHandler handler = PathRegexChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"PathRegex");
-        }
         
         public virtual string PathRegex
         {
@@ -446,7 +274,6 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _pathRegex = value;
-                this.OnPathRegexChanged();
             }
         }
         
@@ -455,18 +282,6 @@ namespace Mastersign.DashOps.Model
         #region Property Arguments
         
         private string[] _arguments;
-        
-        public event EventHandler ArgumentsChanged;
-        
-        protected virtual void OnArgumentsChanged()
-        {
-            EventHandler handler = ArgumentsChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"Arguments");
-        }
         
         public virtual string[] Arguments
         {
@@ -478,7 +293,6 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _arguments = value;
-                this.OnArgumentsChanged();
             }
         }
         
@@ -487,18 +301,6 @@ namespace Mastersign.DashOps.Model
         #region Property Verb
         
         private string _verb;
-        
-        public event EventHandler VerbChanged;
-        
-        protected virtual void OnVerbChanged()
-        {
-            EventHandler handler = VerbChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"Verb");
-        }
         
         public virtual string Verb
         {
@@ -510,7 +312,6 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _verb = value;
-                this.OnVerbChanged();
             }
         }
         
@@ -519,18 +320,6 @@ namespace Mastersign.DashOps.Model
         #region Property Service
         
         private string _service;
-        
-        public event EventHandler ServiceChanged;
-        
-        protected virtual void OnServiceChanged()
-        {
-            EventHandler handler = ServiceChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"Service");
-        }
         
         public virtual string Service
         {
@@ -542,7 +331,6 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _service = value;
-                this.OnServiceChanged();
             }
         }
         
@@ -551,18 +339,6 @@ namespace Mastersign.DashOps.Model
         #region Property Host
         
         private string _host;
-        
-        public event EventHandler HostChanged;
-        
-        protected virtual void OnHostChanged()
-        {
-            EventHandler handler = HostChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"Host");
-        }
         
         public virtual string Host
         {
@@ -574,7 +350,6 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _host = value;
-                this.OnHostChanged();
             }
         }
         
@@ -583,18 +358,6 @@ namespace Mastersign.DashOps.Model
         #region Property Tags
         
         private string[] _tags;
-        
-        public event EventHandler TagsChanged;
-        
-        protected virtual void OnTagsChanged()
-        {
-            EventHandler handler = TagsChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"Tags");
-        }
         
         public virtual string[] Tags
         {
@@ -606,7 +369,6 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _tags = value;
-                this.OnTagsChanged();
             }
         }
         
@@ -615,18 +377,6 @@ namespace Mastersign.DashOps.Model
         #region Property Facettes
         
         private Dictionary<string, string> _facettes;
-        
-        public event EventHandler FacettesChanged;
-        
-        protected virtual void OnFacettesChanged()
-        {
-            EventHandler handler = FacettesChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"Facettes");
-        }
         
         public virtual Dictionary<string, string> Facettes
         {
@@ -638,20 +388,19 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _facettes = value;
-                this.OnFacettesChanged();
             }
         }
         
         #endregion
     }
     
-    public partial class Project : INotifyPropertyChanged
+    public partial class Project
     {
         public Project()
         {
-            this._actions = new global::System.Collections.ObjectModel.ObservableCollection<CommandAction>();
-            this._actionDiscovery = new global::System.Collections.ObjectModel.ObservableCollection<CommandActionDiscovery>();
-            this._perspectives = new global::System.Collections.ObjectModel.ObservableCollection<string>();
+            this._actions = new List<CommandAction>();
+            this._actionDiscovery = new List<CommandActionDiscovery>();
+            this._perspectives = new List<string>();
         }
         
         #region String Representation
@@ -703,36 +452,9 @@ namespace Mastersign.DashOps.Model
         
         #endregion
         
-        #region Change Tracking
-        
-        public event PropertyChangedEventHandler PropertyChanged;
-        
-        protected virtual void OnPropertyChanged(string name)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, new PropertyChangedEventArgs(name));
-            }
-        }
-        
-        #endregion
-        
         #region Property Title
         
         private string _title;
-        
-        public event EventHandler TitleChanged;
-        
-        protected virtual void OnTitleChanged()
-        {
-            EventHandler handler = TitleChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"Title");
-        }
         
         public virtual string Title
         {
@@ -744,7 +466,6 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _title = value;
-                this.OnTitleChanged();
             }
         }
         
@@ -753,18 +474,6 @@ namespace Mastersign.DashOps.Model
         #region Property Logs
         
         private string _logs;
-        
-        public event EventHandler LogsChanged;
-        
-        protected virtual void OnLogsChanged()
-        {
-            EventHandler handler = LogsChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"Logs");
-        }
         
         public virtual string Logs
         {
@@ -776,7 +485,6 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _logs = value;
-                this.OnLogsChanged();
             }
         }
         
@@ -784,21 +492,9 @@ namespace Mastersign.DashOps.Model
         
         #region Property Actions
         
-        private global::System.Collections.ObjectModel.ObservableCollection<CommandAction> _actions;
+        private List<CommandAction> _actions;
         
-        public event EventHandler ActionsChanged;
-        
-        protected virtual void OnActionsChanged()
-        {
-            EventHandler handler = ActionsChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"Actions");
-        }
-        
-        public virtual global::System.Collections.ObjectModel.ObservableCollection<CommandAction> Actions
+        public virtual List<CommandAction> Actions
         {
             get { return _actions; }
             set
@@ -808,7 +504,6 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _actions = value;
-                this.OnActionsChanged();
             }
         }
         
@@ -816,21 +511,9 @@ namespace Mastersign.DashOps.Model
         
         #region Property ActionDiscovery
         
-        private global::System.Collections.ObjectModel.ObservableCollection<CommandActionDiscovery> _actionDiscovery;
+        private List<CommandActionDiscovery> _actionDiscovery;
         
-        public event EventHandler ActionDiscoveryChanged;
-        
-        protected virtual void OnActionDiscoveryChanged()
-        {
-            EventHandler handler = ActionDiscoveryChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"ActionDiscovery");
-        }
-        
-        public virtual global::System.Collections.ObjectModel.ObservableCollection<CommandActionDiscovery> ActionDiscovery
+        public virtual List<CommandActionDiscovery> ActionDiscovery
         {
             get { return _actionDiscovery; }
             set
@@ -840,7 +523,6 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _actionDiscovery = value;
-                this.OnActionDiscoveryChanged();
             }
         }
         
@@ -848,21 +530,9 @@ namespace Mastersign.DashOps.Model
         
         #region Property Perspectives
         
-        private global::System.Collections.ObjectModel.ObservableCollection<string> _perspectives;
+        private List<string> _perspectives;
         
-        public event EventHandler PerspectivesChanged;
-        
-        protected virtual void OnPerspectivesChanged()
-        {
-            EventHandler handler = PerspectivesChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"Perspectives");
-        }
-        
-        public virtual global::System.Collections.ObjectModel.ObservableCollection<string> Perspectives
+        public virtual List<string> Perspectives
         {
             get { return _perspectives; }
             set
@@ -872,7 +542,6 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _perspectives = value;
-                this.OnPerspectivesChanged();
             }
         }
         

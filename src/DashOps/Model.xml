@@ -8,7 +8,7 @@
     <ReferencedType id="dict" name="System.Collections.Generic.Dictionary`2[System.String, System.String]" />
   </ReferencedTypes>
 
-  <Configuration modelType="ChangeTracking">
+  <Configuration modelType="Plain">
     <OverrideToString value="true" />
   </Configuration>
   
