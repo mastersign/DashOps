@@ -135,9 +135,9 @@ namespace Mastersign.DashOps
             {
                 foreach (var actionView in actionViews) ProjectView.ActionViews.Add(actionView);
             }
-            AddActionViews(Project.Actions.Select(ActionViewFromCommandAction));
-            AddActionViews(Project.ActionDiscovery.SelectMany(DiscoverActions));
-            AddActionViews(Project.ActionPatterns.SelectMany(ExpandActionPattern));
+            if (Project.Actions != null) AddActionViews(Project.Actions.Select(ActionViewFromCommandAction));
+            if (Project.ActionDiscovery != null) AddActionViews(Project.ActionDiscovery.SelectMany(DiscoverActions));
+            if (Project.ActionPatterns != null) AddActionViews(Project.ActionPatterns.SelectMany(ExpandActionPattern));
 
             ProjectView.AddTagsPerspective();
             ProjectView.AddFacettePerspectives(DEF_PERSPECTIVES);
@@ -151,6 +151,7 @@ namespace Mastersign.DashOps
                 Command = action.Command,
                 Arguments = action.Arguments,
                 Description = action.Description,
+                Reassure = action.Reassure,
                 Tags = action.Tags,
                 Facettes = action.Facettes != null
                     ? new Dictionary<string, string>(action.Facettes)
@@ -252,6 +253,7 @@ namespace Mastersign.DashOps
             return new ActionView()
             {
                 Description = ExpandTemplate(actionDiscovery.Description, facettes),
+                Reassure = actionDiscovery.Reassure,
                 Command = file,
                 Arguments = actionDiscovery.Arguments,
                 Facettes = facettes,
@@ -265,6 +267,7 @@ namespace Mastersign.DashOps
             return new ActionView()
             {
                 Description = ExpandTemplate(actionPattern.Description, facettes),
+                Reassure = actionPattern.Reassure,
                 Command = ExpandTemplate(actionPattern.Command, facettes),
                 Arguments = actionPattern.Arguments.Select(a => ExpandTemplate(a, facettes)).ToArray(),
                 Facettes = facettes,

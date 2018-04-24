@@ -17,6 +17,7 @@
     
     <Class name="ActionView">
       <Property name="Description" />
+      <Property name="Reassure" type="bool" />
       <Property name="Command" />
       <Property name="Arguments" type="string[]" />
       <Property name="Tags" type="string[]" />

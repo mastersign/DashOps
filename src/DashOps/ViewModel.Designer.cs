@@ -6,7 +6,7 @@ namespace Mastersign.DashOps
 {
     #region Scaleton Model Designer generated code
     
-    // Scaleton Version: 0.2.4
+    // Scaleton Version: 0.2.5
     
     public partial class ActionView : INotifyPropertyChanged
     {
@@ -58,6 +58,38 @@ namespace Mastersign.DashOps
                 }
                 _description = value;
                 this.OnDescriptionChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property Reassure
+        
+        private bool _reassure;
+        
+        public event EventHandler ReassureChanged;
+        
+        protected virtual void OnReassureChanged()
+        {
+            EventHandler handler = ReassureChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Reassure");
+        }
+        
+        public virtual bool Reassure
+        {
+            get { return _reassure; }
+            set
+            {
+                if ((value == _reassure))
+                {
+                    return;
+                }
+                _reassure = value;
+                this.OnReassureChanged();
             }
         }
         

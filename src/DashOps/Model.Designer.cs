@@ -27,6 +27,7 @@ namespace Mastersign.DashOps.Model
         {
             return (this.GetType().FullName + @": " + (
                 (Environment.NewLine + @"    Description = " + (!ReferenceEquals(_description, null) ? _description.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    Reassure = " + _reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Command = " + (!ReferenceEquals(_command, null) ? _command.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Verb = " + (!ReferenceEquals(_verb, null) ? _verb.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
@@ -52,6 +53,25 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _description = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Reassure
+        
+        private bool _reassure;
+        
+        public virtual bool Reassure
+        {
+            get { return _reassure; }
+            set
+            {
+                if ((value == _reassure))
+                {
+                    return;
+                }
+                _reassure = value;
             }
         }
         
@@ -210,6 +230,7 @@ namespace Mastersign.DashOps.Model
         {
             return (this.GetType().FullName + @": " + (
                 (Environment.NewLine + @"    Description = " + (!ReferenceEquals(_description, null) ? _description.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    Reassure = " + _reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    BasePath = " + (!ReferenceEquals(_basePath, null) ? _basePath.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    PathRegex = " + (!ReferenceEquals(_pathRegex, null) ? _pathRegex.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -236,6 +257,25 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _description = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Reassure
+        
+        private bool _reassure;
+        
+        public virtual bool Reassure
+        {
+            get { return _reassure; }
+            set
+            {
+                if ((value == _reassure))
+                {
+                    return;
+                }
+                _reassure = value;
             }
         }
         
@@ -416,6 +456,7 @@ namespace Mastersign.DashOps.Model
         {
             return (this.GetType().FullName + @": " + (
                 (Environment.NewLine + @"    Description = " + (!ReferenceEquals(_description, null) ? _description.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    Reassure = " + _reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Command = " + (!ReferenceEquals(_command, null) ? _command.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Verb = " + (!ReferenceEquals(_verb, null) ? _verb.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -441,6 +482,25 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _description = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Reassure
+        
+        private bool _reassure;
+        
+        public virtual bool Reassure
+        {
+            get { return _reassure; }
+            set
+            {
+                if ((value == _reassure))
+                {
+                    return;
+                }
+                _reassure = value;
             }
         }
         

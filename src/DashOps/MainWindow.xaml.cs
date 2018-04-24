@@ -44,7 +44,8 @@ namespace Mastersign.DashOps
 
         private void ExecuteActionCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            if (e.Parameter is ActionView action)
+            if (!(e.Parameter is ActionView action)) return;
+            if (!action.Reassure || Reassure(action))
             {
                 App.Executor.Execute(action, LogDir);
             }
@@ -52,14 +53,12 @@ namespace Mastersign.DashOps
 
         private void ExecuteActionCommandCheck(object sender, CanExecuteRoutedEventArgs e)
         {
-            var action = e.Parameter as ActionView;
-            e.CanExecute = action != null && App.Executor.IsValid(action);
+            e.CanExecute = e.Parameter is ActionView action && App.Executor.IsValid(action);
         }
 
         private void ShowLastActionLogCheck(object sender, CanExecuteRoutedEventArgs e)
         {
-            var action = e.Parameter as ActionView;
-            e.CanExecute = action != null && action.LastLogFile(LogDir) != null;
+            e.CanExecute = e.Parameter is ActionView action && action.LastLogFile(LogDir) != null;
         }
 
         private void ShowLastActionLogHandler(object sender, ExecutedRoutedEventArgs e)
@@ -79,13 +78,34 @@ namespace Mastersign.DashOps
         {
             if (e.Parameter is ActionView action)
             {
-                MessageBox.Show(
-                    $"{action.Description}\n\nID: {action.ActionId}\nCommand: {action.ExpandedCommand}\nArguments: {action.ExpandedArguments}",
-                    "Action Info",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
+                MessageBox.Show(ActionInfo(action), "Action Info",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
+        private static string ActionInfo(ActionView action)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine(action.Description);
+            sb.AppendLine();
+            sb.Append("ID: ");
+            sb.AppendLine(action.ActionId);
+            sb.Append("Command: ");
+            sb.AppendLine(action.ExpandedCommand);
+            if (!string.IsNullOrWhiteSpace(action.ExpandedArguments))
+            {
+                sb.Append("Arguments: ");
+                sb.AppendLine(action.ExpandedArguments);
+            }
+            return sb.ToString();
+        }
+
+        private static bool Reassure(ActionView action)
+        {
+            var result = MessageBox.Show(
+                "Are you sure you want to execute the following action?\n\n" + ActionInfo(action),
+                "Execute Action", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            return result == MessageBoxResult.OK;
+        }
     }
 }

@@ -17,6 +17,7 @@
 
     <Class name="CommandAction">
       <Property name="Description" />
+      <Property name="Reassure" type="bool" />
       <Property name="Command" />
       <Property name="Arguments" type="string[]" />
       <Property name="Verb" />
@@ -28,6 +29,7 @@
 
     <Class name="CommandActionDiscovery">
       <Property name="Description" />
+      <Property name="Reassure" type="bool" />
       <Property name="BasePath" />
       <Property name="PathRegex" />
       <Property name="Arguments" type="string[]" />
@@ -40,6 +42,7 @@
 
     <Class name="CommandActionPattern">
       <Property name="Description" />
+      <Property name="Reassure" type="bool" />
       <Property name="Command" />
       <Property name="Arguments" type="string[]" />
       <Property name="Verb" type="string[]" />
