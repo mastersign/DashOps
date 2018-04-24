@@ -27,27 +27,28 @@ namespace Mastersign.DashOps
 
         public ProjectView ProjectView { get; private set; }
 
-        private FileSystemWatcher _watcher;
-
         private Action<Action> Dispatcher { get; set; }
 
         public ProjectLoader(string projectPath, Action<Action> dispatcher)
         {
+            if (projectPath == null) throw new ArgumentNullException(nameof(projectPath));
             Dispatcher = dispatcher;
             if (!File.Exists(projectPath))
             {
                 throw new FileNotFoundException("Project file not found.", projectPath);
             }
             ProjectPath = Path.IsPathRooted(projectPath) ? projectPath : Path.Combine(Environment.CurrentDirectory, projectPath);
-            _watcher = new FileSystemWatcher(Path.GetDirectoryName(ProjectPath), Path.GetFileName(ProjectPath));
-            _watcher.Changed += ProjectFileChangedHandler;
-            _watcher.Created += ProjectFileChangedHandler;
-            _watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size;
+
+            var watcher = new FileSystemWatcher(Path.GetDirectoryName(ProjectPath), Path.GetFileName(ProjectPath));
+            watcher.Changed += ProjectFileChangedHandler;
+            watcher.Created += ProjectFileChangedHandler;
+            watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size;
+
             ProjectView = new ProjectView();
             InitializeDeserialization();
             LoadProject();
             UpdateProjectView();
-            _watcher.EnableRaisingEvents = true;
+            watcher.EnableRaisingEvents = true;
         }
 
         private void ProjectFileChangedHandler(object sender, FileSystemEventArgs e)
@@ -110,6 +111,39 @@ namespace Mastersign.DashOps
             }
         }
 
+        private void UpdateProjectView()
+        {
+            ProjectView.ActionViews.Clear();
+            ProjectView.Perspectives.Clear();
+            ProjectView.Title = Project?.Title ?? "Unknown";
+            ProjectView.Logs = Project?.Logs;
+            if (Project == null) return;
+
+            if (ProjectView.Logs != null)
+            {
+                if (!Path.IsPathRooted(ProjectView.Logs))
+                {
+                    ProjectView.Logs = Path.Combine(Environment.CurrentDirectory, ProjectView.Logs);
+                }
+                if (!Directory.Exists(ProjectView.Logs))
+                {
+                    Directory.CreateDirectory(ProjectView.Logs);
+                }
+            }
+
+            void AddActionViews(IEnumerable<ActionView> actionViews)
+            {
+                foreach (var actionView in actionViews) ProjectView.ActionViews.Add(actionView);
+            }
+            AddActionViews(Project.Actions.Select(ActionViewFromCommandAction));
+            AddActionViews(Project.ActionDiscovery.SelectMany(DiscoverActions));
+            AddActionViews(Project.ActionPatterns.SelectMany(ExpandActionPattern));
+
+            ProjectView.AddTagsPerspective();
+            ProjectView.AddFacettePerspectives(DEF_PERSPECTIVES);
+            ProjectView.AddFacettePerspectives(Project.Perspectives.ToArray());
+        }
+
         private ActionView ActionViewFromCommandAction(CommandAction action)
         {
             var actionView = new ActionView
@@ -137,83 +171,62 @@ namespace Mastersign.DashOps
             return actionView;
         }
 
-        private void UpdateProjectView()
+        private IEnumerable<ActionView> DiscoverActions(CommandActionDiscovery actionDiscovery)
         {
-            ProjectView.ActionViews.Clear();
-            ProjectView.Perspectives.Clear();
-            ProjectView.Title = Project?.Title ?? "Unknown";
-            ProjectView.Logs = Project?.Logs;
-            if (Project == null) return;
+            var basePath = actionDiscovery.BasePath ?? string.Empty;
+            basePath = string.IsNullOrWhiteSpace(basePath)
+                ? Environment.CurrentDirectory
+                : Path.IsPathRooted(basePath)
+                    ? basePath
+                    : Path.Combine(Environment.CurrentDirectory, basePath);
+            var pathRegex = new Regex(actionDiscovery.PathRegex,
+                RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            var groupNames = pathRegex.GetGroupNames();
 
-            if (ProjectView.Logs != null)
+            foreach (var file in Directory.EnumerateFiles(basePath, "*", SearchOption.AllDirectories))
             {
-                if (!Path.IsPathRooted(ProjectView.Logs))
-                {
-                    ProjectView.Logs = Path.Combine(Environment.CurrentDirectory, ProjectView.Logs);
-                }
-                if (!Directory.Exists(ProjectView.Logs))
-                {
-                    Directory.CreateDirectory(ProjectView.Logs);
-                }
+                Debug.Assert(file.StartsWith(basePath, StringComparison.OrdinalIgnoreCase));
+                var relativePath = file.Substring(basePath.Length);
+                var m = pathRegex.Match(relativePath);
+                if (!m.Success) continue;
+                yield return ActionViewFromDiscoveredMatch(actionDiscovery, groupNames, m, file);
             }
-
-            foreach (var action in Project.Actions)
-            {
-                ProjectView.ActionViews.Add(ActionViewFromCommandAction(action));
-            }
-            foreach (var actionDiscovery in Project.ActionDiscovery)
-            {
-                foreach(var actionView in DiscoverActions(actionDiscovery))
-                {
-                    ProjectView.ActionViews.Add(actionView);
-                }
-            }
-
-            ProjectView.AddTagsPerspective();
-            ProjectView.AddFacettePerspectives(DEF_PERSPECTIVES);
-            ProjectView.AddFacettePerspectives(Project.Perspectives.ToArray());
         }
 
-        private string LowerCase(string s) => char.ToLowerInvariant(s[0]) + s.Substring(1);
-
-        private string UpperCase(string s) => char.ToUpperInvariant(s[0]) + s.Substring(1);
-
-        private string GetGroupValue(string[] groupNames, Match m, string name, string def)
+        private IEnumerable<ActionView> ExpandActionPattern(CommandActionPattern actionPattern)
         {
-            if (string.IsNullOrWhiteSpace(name)) return null;
-            var name1 = LowerCase(name);
-            if (groupNames.Contains(name1) && m.Groups[name1].Success)
-            {
-                return m.Groups[name1].Value;
-            }
-            var name2 = UpperCase(name);
-            if (groupNames.Contains(name2) && m.Groups[name2].Success)
-            {
-                return m.Groups[name2].Value;
-            }
-            return def;
-        }
+            var facettes = actionPattern.Facettes != null
+                ? new Dictionary<string, string[]>(actionPattern.Facettes)
+                : new Dictionary<string, string[]>();
 
-        private string ExpandTemplate(string template, Dictionary<string, string> variables)
-        {
-            var result = template;
-            foreach (var kvp in variables)
+            void AddFacetteValues(string key, string[] values)
             {
-                result = result.Replace("${" + kvp.Key + "}", kvp.Value);
-                result = result.Replace("${" + kvp.Key.ToLowerInvariant() + "}", kvp.Value);
+                if (values == null || values.Length == 0) return;
+                if (facettes.TryGetValue(key, out string[] oldValues))
+                    facettes[key] = oldValues.Concat(values).Distinct().ToArray();
+                else
+                    facettes[key] = values;
             }
-            return result;
+            AddFacetteValues(nameof(CommandAction.Verb), actionPattern.Verb);
+            AddFacetteValues(nameof(CommandAction.Service), actionPattern.Service);
+            AddFacetteValues(nameof(CommandAction.Host), actionPattern.Host);
+
+            var facetteKeys = facettes.Keys;
+            var facette = new Dictionary<string, string>();
+
+            IEnumerable<Dictionary<string, string>> AddDimension(IEnumerable<Dictionary<string, string>> values, string key)
+            {
+                return values.SelectMany(d => facettes[key], (d2, v) => new Dictionary<string, string>(d2) {{key, v}});
+            }
+
+            return facetteKeys.Aggregate(Enumerable.Repeat(new Dictionary<string, string>(), 1),
+                AddDimension).Select(d => ActionViewFromPatternVariation(actionPattern, d));
         }
 
         private ActionView ActionViewFromDiscoveredMatch(
             CommandActionDiscovery actionDiscovery,
             string[] groupNames, Match m, string file)
         {
-            var verbGroup = groupNames.Contains("verb")
-                ? m.Groups["verb"]
-                : groupNames.Contains("Verb")
-                    ? m.Groups["Verb"]
-                    : null;
             var facettes = actionDiscovery.Facettes != null
                 ? new Dictionary<string, string>(actionDiscovery.Facettes)
                 : new Dictionary<string, string>();
@@ -236,37 +249,58 @@ namespace Mastersign.DashOps
             if (verb != null) facettes[nameof(CommandAction.Verb)] = verb;
             if (service != null) facettes[nameof(CommandAction.Service)] = service;
             if (host != null) facettes[nameof(CommandAction.Host)] = host;
-            var tags = actionDiscovery.Tags;
             return new ActionView()
             {
                 Description = ExpandTemplate(actionDiscovery.Description, facettes),
                 Command = file,
                 Arguments = actionDiscovery.Arguments,
                 Facettes = facettes,
-                Tags = tags
+                Tags = actionDiscovery.Tags
             };
         }
 
-        private IEnumerable<ActionView> DiscoverActions(CommandActionDiscovery actionDiscovery)
+        private ActionView ActionViewFromPatternVariation(CommandActionPattern actionPattern,
+            Dictionary<string, string> facettes)
         {
-            var basePath = actionDiscovery.BasePath ?? string.Empty;
-            basePath = string.IsNullOrWhiteSpace(basePath)
-                ? Environment.CurrentDirectory
-                : Path.IsPathRooted(basePath)
-                    ? basePath
-                    : Path.Combine(Environment.CurrentDirectory, basePath);
-            var pathRegex = new Regex(actionDiscovery.PathRegex,
-                RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-            var groupNames = pathRegex.GetGroupNames();
-
-            foreach (var file in Directory.EnumerateFiles(basePath, "*", SearchOption.AllDirectories))
+            return new ActionView()
             {
-                Debug.Assert(file.StartsWith(basePath, StringComparison.OrdinalIgnoreCase));
-                var relativePath = file.Substring(basePath.Length);
-                var m = pathRegex.Match(relativePath);
-                if (!m.Success) continue;
-                yield return ActionViewFromDiscoveredMatch(actionDiscovery, groupNames, m, file);
-            }
+                Description = ExpandTemplate(actionPattern.Description, facettes),
+                Command = ExpandTemplate(actionPattern.Command, facettes),
+                Arguments = actionPattern.Arguments.Select(a => ExpandTemplate(a, facettes)).ToArray(),
+                Facettes = facettes,
+                Tags = actionPattern.Tags
+            };
         }
+
+        private static string ExpandTemplate(string template, Dictionary<string, string> variables)
+        {
+            var result = template;
+            foreach (var kvp in variables)
+            {
+                result = result.Replace("${" + kvp.Key + "}", kvp.Value);
+                result = result.Replace("${" + kvp.Key.ToLowerInvariant() + "}", kvp.Value);
+            }
+            return result;
+        }
+
+        private static string GetGroupValue(string[] groupNames, Match m, string name, string def)
+        {
+            if (string.IsNullOrWhiteSpace(name)) return null;
+            var name1 = LowerCase(name);
+            if (groupNames.Contains(name1) && m.Groups[name1].Success)
+            {
+                return m.Groups[name1].Value;
+            }
+            var name2 = UpperCase(name);
+            if (groupNames.Contains(name2) && m.Groups[name2].Success)
+            {
+                return m.Groups[name2].Value;
+            }
+            return def;
+        }
+
+        private static string LowerCase(string s) => char.ToLowerInvariant(s[0]) + s.Substring(1);
+
+        private static string UpperCase(string s) => char.ToUpperInvariant(s[0]) + s.Substring(1);
     }
 }

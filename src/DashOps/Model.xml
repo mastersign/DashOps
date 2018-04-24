@@ -6,6 +6,7 @@
 
   <ReferencedTypes>
     <ReferencedType id="dict" name="System.Collections.Generic.Dictionary`2[System.String, System.String]" />
+    <ReferencedType id="mdict" name="System.Collections.Generic.Dictionary`2[System.String, System.String[]]" />
   </ReferencedTypes>
 
   <Configuration modelType="Plain">
@@ -37,11 +38,23 @@
       <Property name="Facettes" type="dict" />
     </Class>
 
+    <Class name="CommandActionPattern">
+      <Property name="Description" />
+      <Property name="Command" />
+      <Property name="Arguments" type="string[]" />
+      <Property name="Verb" type="string[]" />
+      <Property name="Service" type="string[]" />
+      <Property name="Host" type="string[]" />
+      <Property name="Tags" type="string[]" />
+      <Property name="Facettes" type="mdict" />
+    </Class>
+
     <Class name="Project">
       <Property name="Title" />
       <Property name="Logs" />
       <Property name="Actions" isCollection="true" type="CommandAction" defaultInitialization="true" />
       <Property name="ActionDiscovery" isCollection="true" type="CommandActionDiscovery" defaultInitialization="true" />
+      <Property name="ActionPatterns" isCollection="true" type="CommandActionPattern" defaultInitialization="true" />
       <Property name="Perspectives" isCollection="true" defaultInitialization="true" />
     </Class>
 

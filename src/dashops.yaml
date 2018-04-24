@@ -37,14 +37,14 @@ action-discovery:
       Environment: Test
     tags:
       - discovered
-#action-patterns:
-#  - description-template: 'Check ${Service} on all hosts ${mode}'
-#    command-template: 'test-scripts\${service}\check-all.ps1'
-#    arguments: ['-Mode', '${mode}']
-#    service:
-#      - service A
-#      - service B
-#    facettes:
-#      mode: ['interactively', 'automatically', 'silently']
-#    tags:
-#      - expanded
+action-patterns:
+  - description: 'Check ${Service} on all hosts ${mode}'
+    command: 'test-scripts\${service}\check-all.ps1'
+    arguments: ['-Mode', '${mode}']
+    service:
+      - service A
+      - service B
+    facettes:
+      mode: ['interactively', 'automatically', 'silently']
+    tags:
+     - expanded
