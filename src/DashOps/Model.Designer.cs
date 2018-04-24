@@ -209,7 +209,7 @@ namespace Mastersign.DashOps.Model
         public virtual string ToString(IFormatProvider formatProvider)
         {
             return (this.GetType().FullName + @": " + (
-                (Environment.NewLine + @"    DescriptionTemplate = " + (!ReferenceEquals(_descriptionTemplate, null) ? _descriptionTemplate.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    Description = " + (!ReferenceEquals(_description, null) ? _description.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    BasePath = " + (!ReferenceEquals(_basePath, null) ? _basePath.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    PathRegex = " + (!ReferenceEquals(_pathRegex, null) ? _pathRegex.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -222,20 +222,20 @@ namespace Mastersign.DashOps.Model
         
         #endregion
         
-        #region Property DescriptionTemplate
+        #region Property Description
         
-        private string _descriptionTemplate;
+        private string _description;
         
-        public virtual string DescriptionTemplate
+        public virtual string Description
         {
-            get { return _descriptionTemplate; }
+            get { return _description; }
             set
             {
-                if (string.Equals(value, _descriptionTemplate))
+                if (string.Equals(value, _description))
                 {
                     return;
                 }
-                _descriptionTemplate = value;
+                _description = value;
             }
         }
         

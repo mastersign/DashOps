@@ -239,7 +239,7 @@ namespace Mastersign.DashOps
             var tags = actionDiscovery.Tags;
             return new ActionView()
             {
-                Description = ExpandTemplate(actionDiscovery.DescriptionTemplate, facettes),
+                Description = ExpandTemplate(actionDiscovery.Description, facettes),
                 Command = file,
                 Arguments = actionDiscovery.Arguments,
                 Facettes = facettes,
