@@ -35,5 +35,7 @@ namespace Mastersign.DashOps
                     filter: a => (a.Tags?.Length ?? 0) > 0,
                     classifier: a => a.Tags));
         }
+
+        public string WindowTitle => "DashOps - " + Title;
     }
 }

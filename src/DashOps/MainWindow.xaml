@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mastersign.DashOps"
         mc:Ignorable="d"
-        Title="{Binding Title}" Height="450" Width="800"
-        d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:DesignTimeProjectView}}">
+        Title="{Binding WindowTitle}" Height="450" Width="800"
+        d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:DesignTimeProjectView}}" Icon="icon.ico">
     <Window.Resources>
         <Style x:Key="PerspectiveButtonStyle" TargetType="Button">
             <Setter Property="Template">
@@ -32,6 +32,15 @@
                 <Trigger Property="IsMouseOver" Value="true">
                     <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
                 </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ActionButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Reassure}" Value="true">
+                    <Setter Property="Background" Value="Tomato"/>
+                </DataTrigger>
             </Style.Triggers>
         </Style>
     </Window.Resources>
@@ -60,11 +69,11 @@
         </Grid.ColumnDefinitions>
         <ItemsControl x:Name="Perspectives" 
                       Grid.ColumnSpan="2"
-                      Margin="20,12,20,10"
+                      Margin="20,15,20,20"
                       ItemsSource="{Binding Perspectives}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
+                    <StackPanel Orientation="Horizontal" CanHorizontallyScroll="True" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
@@ -78,47 +87,48 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
         <ListBox x:Name="ActionSubsets"
-                 Grid.Row="1"
+                 Grid.Column="0" Grid.Row="1"
                  Margin="20,0,0,20"
                  BorderThickness="0"
                  Padding="0"
                  ItemsSource="{Binding CurrentPerspective.Subsets}">
         </ListBox>
-        <ItemsControl x:Name="Actions"
-                      Grid.Row="1" Grid.Column="1"
-                      Margin="10,0,20,20"
-                      ItemsSource="{Binding ElementName=ActionSubsets, Path=SelectedItem.Actions}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Vertical" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Button x:Name="ActionButton"
+        <ScrollViewer Grid.Row="1" Grid.Column="1" Margin="10,0,20,20">
+            <ItemsControl x:Name="Actions"
+                      ItemsSource="{Binding ElementName=ActionSubsets, Path=SelectedItem.Actions}" Padding="0,0,10,0">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button x:Name="ActionButton"
                             Margin="0,0,0,10" Padding="10,5"
                             HorizontalContentAlignment="Stretch"
                             Command="local:DashOpsCommands.ExecuteAction"
-                            CommandParameter="{Binding}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Label Content="{Binding Description}" />
-                            <Button Content="Log"
+                            CommandParameter="{Binding}"
+                            Style="{StaticResource ActionButtonStyle}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Label Content="{Binding Description}" />
+                                <Button Content="Log"
                                     Grid.Column="1" Margin="6,0,0,0" Padding="6,3"
                                     Command="local:DashOpsCommands.ShowLastActionLog"
                                     CommandParameter="{Binding}" />
-                            <Button Content="Info"
+                                <Button Content="Info"
                                     Grid.Column="2" Margin="6,0,0,0" Padding="6,3"
                                     Command="local:DashOpsCommands.ShowActionInfo"
                                     CommandParameter="{Binding}" />
-                        </Grid>
-                    </Button>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+                            </Grid>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </Window>
