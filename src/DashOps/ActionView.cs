@@ -9,21 +9,20 @@ namespace Mastersign.DashOps
 {
     partial class ActionView
     {
-        private static MD5 md5 = MD5.Create();
+        private static readonly MD5 Md5 = MD5.Create();
 
         public bool HasFacette(string name)
-            => this.Facettes?.ContainsKey(name) ?? false;
+            => Facettes?.ContainsKey(name) ?? false;
 
         public string[] GetFacettes()
-            => this.Facettes?.Keys.ToArray() ?? Array.Empty<string>();
+            => Facettes?.Keys.ToArray() ?? Array.Empty<string>();
 
         public bool HasFacetteValue(string name, string value)
-            => this.Facettes?.ContainsKey(name) ?? false
-                && string.Equals(this.Facettes[name], value);
+            => string.Equals(GetFacetteValue(name), value);
 
         public string GetFacetteValue(string name)
-            => this.Facettes != null
-                ? this.Facettes.TryGetValue(name, out string value) ? value : null
+            => Facettes != null
+                ? Facettes.TryGetValue(name, out var value) ? value : null
                 : null;
 
         public string CommandLabel => ExpandedCommand
@@ -42,7 +41,7 @@ namespace Mastersign.DashOps
             {
                 var str = Command + " " + CommandLine.FormatArgumentList(Arguments);
                 var data = Encoding.UTF8.GetBytes(str);
-                var hash = md5.ComputeHash(data);
+                var hash = Md5.ComputeHash(data);
                 return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
             }
         }

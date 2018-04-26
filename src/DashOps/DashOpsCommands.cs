@@ -9,6 +9,9 @@ namespace Mastersign.DashOps
 {
     public static class DashOpsCommands
     {
+        public static readonly RoutedUICommand RefreshProject
+            = new RoutedUICommand("Refresh Project", "Refresh Project", typeof(MainWindow));
+
         public static readonly RoutedUICommand ExecuteAction
             = new RoutedUICommand("Execute Action", "Execute Action", typeof(MainWindow));
 

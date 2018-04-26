@@ -14,42 +14,61 @@
   </Configuration>
   
   <Types>
-
-    <Class name="CommandAction">
+    
+    <Class name="CommandActionBase">
       <Property name="Description" />
       <Property name="Reassure" type="bool" />
-      <Property name="Command" />
       <Property name="Arguments" type="string[]" />
+      <Property name="Tags" type="string[]" />
+    </Class>
+    
+    <Class name="CommandAction" baseType="CommandActionBase">
+      <Property name="Command" />
       <Property name="Verb" />
       <Property name="Service" />
       <Property name="Host" />
-      <Property name="Tags" type="string[]" />
       <Property name="Facettes" type="dict" />
     </Class>
 
-    <Class name="CommandActionDiscovery">
-      <Property name="Description" />
-      <Property name="Reassure" type="bool" />
+    <Class name="CommandActionDiscovery" baseType="CommandActionBase">
       <Property name="BasePath" />
       <Property name="PathRegex" />
-      <Property name="Arguments" type="string[]" />
       <Property name="Verb" />
       <Property name="Service" />
       <Property name="Host" />
-      <Property name="Tags" type="string[]" />
       <Property name="Facettes" type="dict" />
     </Class>
 
-    <Class name="CommandActionPattern">
-      <Property name="Description" />
-      <Property name="Reassure" type="bool" />
+    <Class name="CommandActionPattern" baseType="CommandActionBase">
       <Property name="Command" />
-      <Property name="Arguments" type="string[]" />
       <Property name="Verb" type="string[]" />
       <Property name="Service" type="string[]" />
       <Property name="Host" type="string[]" />
-      <Property name="Tags" type="string[]" />
       <Property name="Facettes" type="mdict" />
+    </Class>
+    
+    <Enum name="ActionMatchMode">
+      <Member name="Description" />
+      <Member name="Command" />
+      <Member name="Facette" />
+      <Member name="Tag" />
+    </Enum>
+    
+    <Class name="ActionMatcher">
+      <Property name="Mode" type="ActionMatchMode" defaultInitialization="true">
+        <DefaultValue>Facette</DefaultValue>
+      </Property>
+      <Property name="Facette" />
+      <Property name="Regex" />
+      <Property name="Value" />
+    </Class>
+    
+    <Class name="AutoAnnotation">
+      <Property name="Include" type="ActionMatcher" isCollection="true" />
+      <Property name="Exclude" type="ActionMatcher" isCollection="true" />
+      <Property name="Facettes" type="dict" />
+      <Property name="Tags" type="string[]" />
+      <Property name="Reassure" type="bool" />
     </Class>
 
     <Class name="Project">
@@ -59,6 +78,7 @@
       <Property name="ActionDiscovery" isCollection="true" type="CommandActionDiscovery" defaultInitialization="true" />
       <Property name="ActionPatterns" isCollection="true" type="CommandActionPattern" defaultInitialization="true" />
       <Property name="Perspectives" isCollection="true" defaultInitialization="true" />
+      <Property name="Auto" type="AutoAnnotation" isCollection="true" defaultInitialization="true" />
     </Class>
 
   </Types>

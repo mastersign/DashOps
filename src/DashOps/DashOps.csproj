@@ -62,7 +62,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ActionMatcher.cs" />
     <Compile Include="ActionSubset.cs" />
+    <Compile Include="AutoAnnotation.cs" />
     <Compile Include="CommandLine.cs" />
     <Compile Include="DashOpsCommands.cs" />
     <Compile Include="DesignTimeProjectView.cs" />
@@ -76,6 +78,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ViewModel.xml</DependentUpon>
     </Compile>
+    <Page Include="Icons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

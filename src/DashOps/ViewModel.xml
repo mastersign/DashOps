@@ -36,6 +36,7 @@
       <Property name="Filter" type="ActionFilter" immutable="true" />
       <Property name="Classifier" type="ActionClassifier" immutable="true" />
       <Property name="Subsets" type="ActionSubset" isCollection="true" defaultInitialization="true" />
+      <Property name="CurrentSubset" type="ActionSubset" />
     </Class>
 
     <Class name="ProjectView">

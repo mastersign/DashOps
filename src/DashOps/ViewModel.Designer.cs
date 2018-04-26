@@ -405,6 +405,38 @@ namespace Mastersign.DashOps
         }
         
         #endregion
+        
+        #region Property CurrentSubset
+        
+        private ActionSubset _currentSubset;
+        
+        public event EventHandler CurrentSubsetChanged;
+        
+        protected virtual void OnCurrentSubsetChanged()
+        {
+            EventHandler handler = CurrentSubsetChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"CurrentSubset");
+        }
+        
+        public virtual ActionSubset CurrentSubset
+        {
+            get { return _currentSubset; }
+            set
+            {
+                if ((value == _currentSubset))
+                {
+                    return;
+                }
+                _currentSubset = value;
+                this.OnCurrentSubsetChanged();
+            }
+        }
+        
+        #endregion
     }
     
     public partial class ProjectView : INotifyPropertyChanged

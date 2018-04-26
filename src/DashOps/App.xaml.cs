@@ -20,7 +20,7 @@ namespace Mastersign.DashOps
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            var projectFile = default(string);
+            string projectFile;
             if (e.Args.Length == 1)
             {
                 if (File.Exists(e.Args[0]))

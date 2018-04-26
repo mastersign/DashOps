@@ -42,6 +42,16 @@ namespace Mastersign.DashOps
             e.CanExecute = e.Parameter != ProjectView.CurrentPerspective;
         }
 
+        private void RefreshProjectCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            App.ProjectLoader.ReloadProjectAndProjectView();
+        }
+
+        private void RefreshProjectCommandCheck(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
         private void ExecuteActionCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             if (!(e.Parameter is ActionView action)) return;

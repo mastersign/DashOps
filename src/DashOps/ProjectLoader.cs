@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -63,10 +64,22 @@ namespace Mastersign.DashOps
             }
         }
 
-        private void ReloadProjectAndProjectView()
+        public void ReloadProjectAndProjectView()
         {
+            var selectedPerspective = ProjectView.CurrentPerspective?.Title;
+            var selectedSubset = ProjectView.CurrentPerspective?.CurrentSubset?.Title;
             LoadProject();
             UpdateProjectView();
+            if (selectedPerspective != null)
+            {
+                ProjectView.CurrentPerspective =
+                    ProjectView.Perspectives.FirstOrDefault(p => p.Title == selectedPerspective);
+                if (selectedSubset != null && ProjectView.CurrentPerspective != null)
+                {
+                    ProjectView.CurrentPerspective.CurrentSubset =
+                        ProjectView.CurrentPerspective.Subsets.FirstOrDefault(s => s.Title == selectedSubset);
+                }
+            }
         }
 
         private Deserializer _deserializer;
@@ -139,9 +152,23 @@ namespace Mastersign.DashOps
             if (Project.ActionDiscovery != null) AddActionViews(Project.ActionDiscovery.SelectMany(DiscoverActions));
             if (Project.ActionPatterns != null) AddActionViews(Project.ActionPatterns.SelectMany(ExpandActionPattern));
 
+            ApplyAutoAnnotations();
+
             ProjectView.AddTagsPerspective();
             ProjectView.AddFacettePerspectives(DEF_PERSPECTIVES);
             ProjectView.AddFacettePerspectives(Project.Perspectives.ToArray());
+        }
+
+        private void ApplyAutoAnnotations()
+        {
+            if (Project.Auto == null) return;
+            foreach (var actionView in ProjectView.ActionViews)
+            {
+                foreach (var annotation in Project.Auto.Where(a => a.Match(actionView)))
+                {
+                    annotation.Apply(actionView);
+                }
+            }
         }
 
         private ActionView ActionViewFromCommandAction(CommandAction action)
@@ -152,7 +179,7 @@ namespace Mastersign.DashOps
                 Arguments = action.Arguments,
                 Description = action.Description,
                 Reassure = action.Reassure,
-                Tags = action.Tags,
+                Tags = action.Tags ?? Array.Empty<string>(),
                 Facettes = action.Facettes != null
                     ? new Dictionary<string, string>(action.Facettes)
                     : new Dictionary<string, string>(),
@@ -180,14 +207,30 @@ namespace Mastersign.DashOps
                 : Path.IsPathRooted(basePath)
                     ? basePath
                     : Path.Combine(Environment.CurrentDirectory, basePath);
-            var pathRegex = new Regex(actionDiscovery.PathRegex,
-                RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+
+            if (!Directory.Exists(basePath)) yield break;
+            if (string.IsNullOrWhiteSpace(actionDiscovery.PathRegex)) yield break;
+
+            Regex pathRegex;
+            try
+            {
+                pathRegex = new Regex(actionDiscovery.PathRegex,
+                    RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            }
+            catch (ArgumentException exc)
+            {
+                MessageBox.Show("Error in regular expression: " + exc.Message,
+                    "Parsing Regular Expression",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                yield break;
+            }
+
             var groupNames = pathRegex.GetGroupNames();
 
             foreach (var file in Directory.EnumerateFiles(basePath, "*", SearchOption.AllDirectories))
             {
                 Debug.Assert(file.StartsWith(basePath, StringComparison.OrdinalIgnoreCase));
-                var relativePath = file.Substring(basePath.Length);
+                var relativePath = file.Substring(basePath.Length + 1);
                 var m = pathRegex.Match(relativePath);
                 if (!m.Success) continue;
                 yield return ActionViewFromDiscoveredMatch(actionDiscovery, groupNames, m, file);
@@ -257,11 +300,11 @@ namespace Mastersign.DashOps
                 Command = file,
                 Arguments = actionDiscovery.Arguments,
                 Facettes = facettes,
-                Tags = actionDiscovery.Tags
+                Tags = actionDiscovery.Tags ?? Array.Empty<string>()
             };
         }
 
-        private ActionView ActionViewFromPatternVariation(CommandActionPattern actionPattern,
+        private static ActionView ActionViewFromPatternVariation(CommandActionPattern actionPattern,
             Dictionary<string, string> facettes)
         {
             return new ActionView()
@@ -271,7 +314,7 @@ namespace Mastersign.DashOps
                 Command = ExpandTemplate(actionPattern.Command, facettes),
                 Arguments = actionPattern.Arguments.Select(a => ExpandTemplate(a, facettes)).ToArray(),
                 Facettes = facettes,
-                Tags = actionPattern.Tags
+                Tags = actionPattern.Tags ?? Array.Empty<string>()
             };
         }
 
