@@ -22,6 +22,8 @@
       <Property name="Arguments" type="string[]" />
       <Property name="Tags" type="string[]" />
       <Property name="Facettes" type="dict" />
+      <Property name="Logs" />
+      <Property name="CurrentLogFile" />
     </Class>
 
     <Class name="ActionSubset">

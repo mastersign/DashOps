@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace Mastersign.DashOps
 {
@@ -48,17 +49,52 @@ namespace Mastersign.DashOps
 
         public override string ToString() => $"[{ActionId}] {Description}: {CommandLabel}";
 
-        public string LogNamePattern => $"*_{ActionId}.log";
+        public string CreatePreliminaryLogName() 
+            => LogFileManager.PreliminaryLogFileName(this);
 
-        public string CreateLogName() => $"{DateTime.Now:yyyyMMdd_HHmmss}_{ActionId}.log";
+        public string FinalizeLogName(string preliminaryLogName, int exitCode)
+            => LogFileManager.FinalizeLogFileName(preliminaryLogName, exitCode);
 
-        private IEnumerable<string> LogFilePaths(string logDirectory)
-            => logDirectory != null && System.IO.Directory.Exists(logDirectory)
-                ? System.IO.Directory.EnumerateFiles(logDirectory, LogNamePattern).OrderByDescending(n => n)
-                : Enumerable.Empty<string>();
+        public IEnumerable<string> LogFiles()
+            => LogFileManager.FindLogFiles(this, Logs);
 
-        public string[] LogFiles(string logDirectory) => LogFilePaths(logDirectory).ToArray();
+        public string LastLogFile
+            => LogFileManager.FindLogFiles(this, Logs)
+                .OrderByDescending(f => f)
+                .FirstOrDefault();
 
-        public string LastLogFile(string logDirectory) => LogFilePaths(logDirectory).FirstOrDefault();
+        public LogFileInfo LastLogFileInfo()
+        {
+            var lastLogFile = LastLogFile;
+            return lastLogFile != null
+                ? LogFileManager.GetInfo(lastLogFile)
+                : null;
+        }
+
+        public ControlTemplate LogIcon
+        {
+            get
+            {
+                var logInfo = LastLogFileInfo();
+                var resourceName =
+                    logInfo != null
+                        ? logInfo.HasExitCode
+                            ? logInfo.IsSuccess ? "IconLogOK" : "IconLogError"
+                            : "IconLog"
+                        : "IconLogEmpty";
+                return resourceName != null
+                    ? App.Current.FindResource(resourceName) as ControlTemplate
+                    : null;
+            }
+        }
+
+        public void NotifyLogChange()
+        {
+            OnPropertyChanged(nameof(LogIcon));
+            LogIconChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public event EventHandler LogIconChanged;
+
     }
 }

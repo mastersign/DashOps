@@ -37,11 +37,20 @@
         <Style x:Key="ActionButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="White"/>
             <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Reassure}" Value="true">
                     <Setter Property="Background" Value="Tomato"/>
                 </DataTrigger>
             </Style.Triggers>
+        </Style>
+        <Style x:Key="ActionAddButtonStyle" TargetType="Button">
+            <Setter Property="Margin" Value="6,0,0,0" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="Width" Value="28" />
+            <Setter Property="Height" Value="28" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
         </Style>
     </Window.Resources>
     <Window.CommandBindings>
@@ -94,7 +103,7 @@
                 Grid.Row="0" Grid.Column="2" Padding="4" Margin="20,0"
                 HorizontalAlignment="Center" VerticalAlignment="Center"
                 Command="local:DashOpsCommands.RefreshProject">
-            <Viewbox Child="{StaticResource IconRefresh}" Width="24" Height="24"/>
+            <ContentControl Template="{StaticResource IconRefresh}" Width="20" Height="20"/>
         </Button>
         <ListBox x:Name="ActionSubsets"
                  Grid.Column="0" Grid.Row="1"
@@ -114,29 +123,36 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button x:Name="ActionButton"
-                            Margin="0,0,0,10" Padding="10,5"
-                            HorizontalContentAlignment="Stretch"
-                            Command="local:DashOpsCommands.ExecuteAction"
-                            CommandParameter="{Binding}"
-                            Style="{StaticResource ActionButtonStyle}">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <Label Content="{Binding Description}" />
-                                <Button Content="Log"
-                                    Grid.Column="1" Margin="6,0,0,0" Padding="6,3"
-                                    Command="local:DashOpsCommands.ShowLastActionLog"
-                                    CommandParameter="{Binding}" />
-                                <Button Content="Info"
-                                    Grid.Column="2" Margin="6,0,0,0" Padding="6,3"
-                                    Command="local:DashOpsCommands.ShowActionInfo"
-                                    CommandParameter="{Binding}" />
-                            </Grid>
-                        </Button>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="ActionButton"
+                                Margin="0,0,0,10" Padding="10,5" Height="34"
+                                Command="local:DashOpsCommands.ExecuteAction"
+                                CommandParameter="{Binding}"
+                                Style="{StaticResource ActionButtonStyle}"
+                                Content="{Binding Description}">
+                            </Button>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,0,10">
+                                <Button Command="local:DashOpsCommands.ShowLastActionLog"
+                                        CommandParameter="{Binding}"
+                                        Style="{StaticResource ActionAddButtonStyle}">
+                                    <ContentControl Template="{Binding LogIcon}" />
+                                </Button>
+                                <Button Command="local:DashOpsCommands.ShowActionInfo"
+                                        CommandParameter="{Binding}"
+                                        Style="{StaticResource ActionAddButtonStyle}">
+                                    <ContentControl Template="{StaticResource IconInfo}" />
+                                </Button>
+                                <Button Visibility="Collapsed"
+                                        CommandParameter="{Binding}"
+                                        Style="{StaticResource ActionAddButtonStyle}">
+                                    <ContentControl Template="{StaticResource IconEditScript}" />
+                                </Button>
+                            </StackPanel>
+                        </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

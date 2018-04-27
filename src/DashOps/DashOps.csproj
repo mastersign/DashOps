@@ -69,6 +69,8 @@
     <Compile Include="DashOpsCommands.cs" />
     <Compile Include="DesignTimeProjectView.cs" />
     <Compile Include="Executor.cs" />
+    <Compile Include="LogFileInfo.cs" />
+    <Compile Include="LogFileManager.cs" />
     <Compile Include="Perspective.cs" />
     <Compile Include="ActionView.cs" />
     <Compile Include="ProjectLoader.cs" />

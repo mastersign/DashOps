@@ -42,7 +42,6 @@ namespace Mastersign.DashOps
 
             var watcher = new FileSystemWatcher(Path.GetDirectoryName(ProjectPath), Path.GetFileName(ProjectPath));
             watcher.Changed += ProjectFileChangedHandler;
-            watcher.Created += ProjectFileChangedHandler;
             watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size;
 
             ProjectView = new ProjectView();
@@ -153,6 +152,10 @@ namespace Mastersign.DashOps
             if (Project.ActionPatterns != null) AddActionViews(Project.ActionPatterns.SelectMany(ExpandActionPattern));
 
             ApplyAutoAnnotations();
+            foreach (var actionView in ProjectView.ActionViews)
+            {
+                if (actionView.Logs == null) actionView.Logs = ProjectView.Logs;
+            }
 
             ProjectView.AddTagsPerspective();
             ProjectView.AddFacettePerspectives(DEF_PERSPECTIVES);
@@ -179,6 +182,7 @@ namespace Mastersign.DashOps
                 Arguments = action.Arguments,
                 Description = action.Description,
                 Reassure = action.Reassure,
+                Logs = action.Logs,
                 Tags = action.Tags ?? Array.Empty<string>(),
                 Facettes = action.Facettes != null
                     ? new Dictionary<string, string>(action.Facettes)
@@ -297,6 +301,7 @@ namespace Mastersign.DashOps
             {
                 Description = ExpandTemplate(actionDiscovery.Description, facettes),
                 Reassure = actionDiscovery.Reassure,
+                Logs = ExpandTemplate(actionDiscovery.Logs, facettes),
                 Command = file,
                 Arguments = actionDiscovery.Arguments,
                 Facettes = facettes,
@@ -311,6 +316,7 @@ namespace Mastersign.DashOps
             {
                 Description = ExpandTemplate(actionPattern.Description, facettes),
                 Reassure = actionPattern.Reassure,
+                Logs = ExpandTemplate(actionPattern.Logs, facettes),
                 Command = ExpandTemplate(actionPattern.Command, facettes),
                 Arguments = actionPattern.Arguments.Select(a => ExpandTemplate(a, facettes)).ToArray(),
                 Facettes = facettes,
@@ -320,6 +326,7 @@ namespace Mastersign.DashOps
 
         private static string ExpandTemplate(string template, Dictionary<string, string> variables)
         {
+            if (string.IsNullOrWhiteSpace(template)) return template;
             var result = template;
             foreach (var kvp in variables)
             {

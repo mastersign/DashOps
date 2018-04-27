@@ -222,6 +222,70 @@ namespace Mastersign.DashOps
         }
         
         #endregion
+        
+        #region Property Logs
+        
+        private string _logs;
+        
+        public event EventHandler LogsChanged;
+        
+        protected virtual void OnLogsChanged()
+        {
+            EventHandler handler = LogsChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Logs");
+        }
+        
+        public virtual string Logs
+        {
+            get { return _logs; }
+            set
+            {
+                if (string.Equals(value, _logs))
+                {
+                    return;
+                }
+                _logs = value;
+                this.OnLogsChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property CurrentLogFile
+        
+        private string _currentLogFile;
+        
+        public event EventHandler CurrentLogFileChanged;
+        
+        protected virtual void OnCurrentLogFileChanged()
+        {
+            EventHandler handler = CurrentLogFileChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"CurrentLogFile");
+        }
+        
+        public virtual string CurrentLogFile
+        {
+            get { return _currentLogFile; }
+            set
+            {
+                if (string.Equals(value, _currentLogFile))
+                {
+                    return;
+                }
+                _currentLogFile = value;
+                this.OnCurrentLogFileChanged();
+            }
+        }
+        
+        #endregion
     }
     
     public partial class ActionSubset : INotifyPropertyChanged

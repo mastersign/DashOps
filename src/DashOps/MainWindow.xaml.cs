@@ -22,8 +22,6 @@ namespace Mastersign.DashOps
     {
         private App App => Application.Current as App;
 
-        private string LogDir => App.ProjectLoader.ProjectView.Logs;
-
         public MainWindow()
         {
             InitializeComponent();
@@ -57,7 +55,7 @@ namespace Mastersign.DashOps
             if (!(e.Parameter is ActionView action)) return;
             if (!action.Reassure || Reassure(action))
             {
-                App.Executor.Execute(action, LogDir);
+                App.Executor.Execute(action);
             }
         }
 
@@ -68,14 +66,14 @@ namespace Mastersign.DashOps
 
         private void ShowLastActionLogCheck(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = e.Parameter is ActionView action && action.LastLogFile(LogDir) != null;
+            e.CanExecute = e.Parameter is ActionView action && action.LastLogFile != null;
         }
 
         private void ShowLastActionLogHandler(object sender, ExecutedRoutedEventArgs e)
         {
             if (e.Parameter is ActionView action)
             {
-                System.Diagnostics.Process.Start(action.LastLogFile(LogDir));
+                System.Diagnostics.Process.Start(action.LastLogFile);
             }
         }
 
