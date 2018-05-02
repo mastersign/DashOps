@@ -1,0 +1,13 @@
+stages:
+- build
+
+build:
+  stage: build
+  tags:
+  - windows
+  - msbuild
+  artifacts:
+    paths:
+    - bin/
+  script:
+  - '.\auto\build.ps1 -Mode Release -MsBuildVerbosity normal'
