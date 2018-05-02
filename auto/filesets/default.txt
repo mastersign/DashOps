@@ -1,0 +1,4 @@
+#include deps
+
+bin\Release\DashOps.exe*
+README.md

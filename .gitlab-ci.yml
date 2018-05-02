@@ -8,6 +8,6 @@ build:
   - msbuild
   artifacts:
     paths:
-    - bin/
+    - release/
   script:
   - '.\auto\build.ps1 -Mode Release -MsBuildVerbosity normal'
