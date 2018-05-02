@@ -23,10 +23,11 @@ $solutionFile = "${projectName}.sln" # relative to source dir
 $nugetPath = "$thisDir\nuget.exe"
 & "$thisDir\download-nuget.ps1" $nugetPath
 
+pushd "$sourceDir"
+
 # Restore NuGet packages
 echo ""
 echo "Restoring NuGet packages ..."
-cd "$sourceDir"
 & $nugetPath restore $solutionFile
 if ($LastExitCode -ne 0)
 {
@@ -36,9 +37,9 @@ if ($LastExitCode -ne 0)
 }
 
 # Build Solution
-pushd $sourceDir
 & $msbuild $solutionFile /v:$verbosity /tv:$toolsVersion /t:$target /p:Configuration=$mode /m /nodereuse:false
 $buildError = $LastExitCode
+
 popd
 
 # Remove Roslyn compiler from projects
