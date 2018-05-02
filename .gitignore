@@ -1,4 +1,5 @@
 /bin
+/tmp
 obj/
 
 .vs/
@@ -6,3 +7,4 @@ obj/
 *.cache
 
 /src/packages/
+/auto/nuget.exe
