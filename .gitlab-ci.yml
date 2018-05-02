@@ -11,3 +11,4 @@ build:
     - release/
   script:
   - '.\auto\build.ps1 -Mode Release -MsBuildVerbosity normal'
+  - '.\auto\copy-fileset.ps1'
