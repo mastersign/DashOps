@@ -10,7 +10,7 @@ namespace Mastersign.DashOps
 {
     public class Executor
     {
-        private Dictionary<Process, ActionView> runningProcesses = new Dictionary<Process, ActionView>();
+        private readonly Dictionary<Process, ActionView> runningProcesses = new Dictionary<Process, ActionView>();
 
         public bool IsValid(ActionView action) => true;
 
@@ -21,13 +21,12 @@ namespace Mastersign.DashOps
                 Directory.CreateDirectory(action.Logs);
             }
             bool CanLog() => action.Logs != null;
-            string logFile = Path.Combine(action.Logs, action.CreatePreliminaryLogName());
-            if (CanLog()) action.CurrentLogFile = logFile;
+            if (CanLog()) action.CurrentLogFile = Path.Combine(action.Logs, action.CreatePreliminaryLogName());
 
             var psLines = new List<string>();
             if (CanLog())
             {
-                psLines.Add($"$_ = Start-Transcript -Path \"{logFile}\"");
+                psLines.Add($"$_ = Start-Transcript -Path \"{action.CurrentLogFile}\"");
             }
             psLines.Add("$t0 = [DateTime]::Now");
             psLines.Add("$tsf = \"yyyy-MM-dd HH:mm:ss\"");
@@ -45,7 +44,7 @@ namespace Mastersign.DashOps
             if (CanLog())
             {
                 psLines.Add("$_ = Stop-Transcript");
-                psLines.Add($"mv \"{logFile}\" \"{logFile}_$ec.log\"");
+                psLines.Add($"mv \"{action.CurrentLogFile}\" \"{action.CurrentLogFile}_$ec.log\"");
             }
             psLines.Add("echo \"Press any key to continue...\"");
             psLines.Add("$_ = $Host.UI.RawUI.ReadKey()");
@@ -58,13 +57,17 @@ namespace Mastersign.DashOps
                 WindowStyle = ProcessWindowStyle.Normal,
             };
             var p = Process.Start(psi);
-            p.EnableRaisingEvents = true;
-            lock (runningProcesses)
+            if (p != null)
             {
-                runningProcesses[p] = action;
-                p.Exited += ProcessExitedHandler;
+                p.EnableRaisingEvents = true;
+                lock (runningProcesses)
+                {
+                    runningProcesses[p] = action;
+                    p.Exited += ProcessExitedHandler;
+                }
+
+                if (p.HasExited) ProcessExitedHandler(p, EventArgs.Empty);
             }
-            if (p.HasExited) ProcessExitedHandler(p, EventArgs.Empty);
         }
 
         private void ProcessExitedHandler(object sender, EventArgs e)
@@ -75,7 +78,7 @@ namespace Mastersign.DashOps
             {
                 if (runningProcesses.TryGetValue(p, out action)) runningProcesses.Remove(p);
             }
-            if (action != null && action.CurrentLogFile != null)
+            if (action?.CurrentLogFile != null)
             {
                 action.CurrentLogFile = action.FinalizeLogName(action.CurrentLogFile, p.ExitCode);
                 if (File.Exists(action.LastLogFile))
@@ -90,7 +93,7 @@ namespace Mastersign.DashOps
             }
         }
 
-        private string EncodePowerShellCommand(string cmd)
+        private static string EncodePowerShellCommand(string cmd)
             => Convert.ToBase64String(Encoding.Unicode.GetBytes(cmd));
     }
 }
