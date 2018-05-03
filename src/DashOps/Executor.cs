@@ -37,7 +37,7 @@ namespace Mastersign.DashOps
             psLines.Add($"echo \"Start: $($t0.toString($tsf))\"");
             psLines.Add("echo \"\"");
             psLines.Add($"& \"{action.ExpandedCommand}\" {action.ExpandedArguments}");
-            psLines.Add("if ($LastExitCode -eq $null) { if ($?) { $ec = 0 } else { $ec = 1; echo \"\"; Write-Warning \"Command failed.\" } } else { $ec = $LastExitCode; echo \"\"; Write-Warning \"Exit Code: $ec\" }");
+            psLines.Add("if ($LastExitCode -eq $null) { if ($?) { $ec = 0 } else { $ec = 1; echo \"\"; Write-Warning \"Command failed.\" } } else { $ec = $LastExitCode; if ($ec -ne 0) { echo \"\"; Write-Warning \"Exit Code: $ec\" } }");
             psLines.Add("$t = [DateTime]::Now");
             psLines.Add("echo \"\"");
             psLines.Add($"echo \"End: $($t::Now.toString($tsf))\"");
