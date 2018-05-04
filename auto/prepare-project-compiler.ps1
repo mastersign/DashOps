@@ -1,21 +1,17 @@
 param (
   [switch]$Remove,
+  $Projects = @(),
   $CompilerPackageId = "Microsoft.Net.Compilers",
   $CompilerPackageVersion = "2.8.0",
-  $LangVersion = "7.2"
+  $CompilerPackageFramework = "net47",
+  $LangVersion = "7.2",
+  $ToolsVersion = "15.0"
 )
 
 $thisDir = Split-Path $MyInvocation.MyCommand.Path -Parent
 $sourceDir = Resolve-Path "$thisDir\..\src"
 
-# https://github.com/dotnet/roslyn/wiki/NuGet-packages
-$projects = @(
-    @{
-        "name" = "DashOps"
-        "targetFramework" = "net47"
-        "toolsVersion" = "15.0"
-    }
-)
+[string[]]$projects = $Projects
 
 function removeCompilerPackage($name, $packageId)
 {
@@ -56,7 +52,7 @@ function addCompilerPackage($name, $packageId, $packageVersion, $framework)
         [xml]$newDoc = "<?xml version=`"1.0`" encoding=`"utf-8`"?>`n<packages></packages>"
         $newDoc.Save($packagesConfigFile)
     }
-    echo "Adding package $packageId v$packageVersion to project $name"
+    echo "Adding package $packageId v$packageVersion for $framework to project $name"
     [xml]$packagesConfig = Get-Content $packagesConfigFile
     [Xml.XmlElement]$p = $packagesConfig.CreateElement("package")
     $p.SetAttribute("id", $packageId)
@@ -126,10 +122,10 @@ function prepareProject($name, $toolsVersion, $langVersion)
 
 foreach ($project in $projects)
 {
-    removeCompilerPackage $project.name $CompilerPackageId
+    removeCompilerPackage $project $CompilerPackageId
     if (!$Remove)
     {
-        addCompilerPackage $project.name $CompilerPackageId $CompilerPackageVersion $project.targetFramework
-        prepareProject $project.name $project.toolsVersion $LangVersion
+        addCompilerPackage $project $CompilerPackageId $CompilerPackageVersion $CompilerPackageFramework
+        prepareProject $project $ToolsVersion $LangVersion
     }
 }

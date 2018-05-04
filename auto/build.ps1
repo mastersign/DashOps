@@ -6,18 +6,27 @@ param (
 $thisDir = Split-Path $MyInvocation.MyCommand.Path -Parent
 $rootDir = Split-Path $thisDir -Parent
 $sourceDir = "$rootDir\src"
-$projectName = "DashOps"
+$solutionName = "DashOps"
+$projectNames = @("DashOps")
 $clrVersion = "4.0.30319"
 $toolsVersion = "4.0"
+$projectToolsVersion = "15.0"
 $compilerPackageVersion = "2.7.0"
+$compilerPackageFramework = "net46"
+$langVersion = "7.2"
 $mode = $Mode
 $target = "Clean;Build"
 $verbosity = $MsBuildVerbosity
 $msbuild = "$env:SystemRoot\Microsoft.NET\Framework\v${clrVersion}\MSBuild.exe"
-$solutionFile = "${projectName}.sln" # relative to source dir
+$solutionFile = "${solutionName}.sln" # relative to source dir
 
 # Add Roslyn compiler to projects
-& "$thisDir\prepare-project-compiler.ps1" -CompilerPackageVersion $compilerPackageVersion
+& "$thisDir\prepare-project-compiler.ps1" `
+    -Projects $projectNames `
+    -ToolsVersion $projectToolsVersion `
+    -CompilerPackageVersion $compilerPackageVersion `
+    -CompilerPackageFramework $compilerPackageFramework `
+    -LangVersion $langVersion
 
 # Download NuGet
 $nugetPath = "$thisDir\nuget.exe"
@@ -43,6 +52,6 @@ $buildError = $LastExitCode
 popd
 
 # Remove Roslyn compiler from projects
-& "$thisDir\prepare-project-compiler.ps1" -Remove
+& "$thisDir\prepare-project-compiler.ps1" -Projects $projectNames -Remove
 
 exit $buildError
