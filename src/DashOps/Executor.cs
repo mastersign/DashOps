@@ -20,15 +20,16 @@ namespace Mastersign.DashOps
             {
                 Directory.CreateDirectory(action.Logs);
             }
+            var timestamp = DateTime.Now;
             bool CanLog() => action.Logs != null;
-            if (CanLog()) action.CurrentLogFile = Path.Combine(action.Logs, action.CreatePreliminaryLogName());
+            if (CanLog()) action.CurrentLogFile = Path.Combine(action.Logs, action.CreatePreliminaryLogName(timestamp));
 
             var psLines = new List<string>();
             if (CanLog())
             {
                 psLines.Add($"$_ = Start-Transcript -Path \"{action.CurrentLogFile}\"");
             }
-            psLines.Add("$t0 = [DateTime]::Now");
+            psLines.Add($"$t0 = New-Object System.DateTime ({timestamp.Ticks})");
             psLines.Add("$tsf = \"yyyy-MM-dd HH:mm:ss\"");
             psLines.Add($"echo \"Directory:  {action.ExpandedWorkingDirectory}\"");
             psLines.Add($"echo \"Command:    {action.ExpandedCommand}\"");
