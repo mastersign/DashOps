@@ -34,7 +34,7 @@
 
     <Class name="CommandActionDiscovery" baseType="CommandActionBase">
       <Property name="BasePath" />
-      <Property name="PathRegex" />
+      <Property name="PathPattern" />
       <Property name="Verb" />
       <Property name="Service" />
       <Property name="Host" />
@@ -61,7 +61,7 @@
         <DefaultValue>Facette</DefaultValue>
       </Property>
       <Property name="Facette" />
-      <Property name="Regex" />
+      <Property name="Pattern" />
       <Property name="Value" />
     </Class>
     

@@ -10,8 +10,8 @@ namespace Mastersign.DashOps.Model
     {
         private bool MatchString(string value)
             => !string.IsNullOrWhiteSpace(value) &&
-               (Regex != null
-                   ? System.Text.RegularExpressions.Regex.IsMatch(value, Regex)
+               (Pattern != null
+                   ? System.Text.RegularExpressions.Regex.IsMatch(value, Pattern)
                    : string.Equals(value, Value));
 
         private string NormalizedFacette

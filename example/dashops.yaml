@@ -31,7 +31,7 @@ actions:
 action-discovery:
   - description: '${verb} ${service} on ${host}'
     base-path: "test-scripts\\"
-    path-regex: '(?<service>.+?)\\(?<verb>[^_]+)_(?<host>[^\.]+)\.ps1'
+    path-pattern: '(?<service>.+?)\\(?<verb>[^_]+)_(?<host>[^\.]+)\.ps1'
     arguments: ['a', 'b', 123]
     host: incorrect
     facettes:

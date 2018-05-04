@@ -251,12 +251,12 @@ namespace Mastersign.DashOps
                     : Path.Combine(Environment.CurrentDirectory, basePath);
 
             if (!Directory.Exists(basePath)) yield break;
-            if (string.IsNullOrWhiteSpace(actionDiscovery.PathRegex)) yield break;
+            if (string.IsNullOrWhiteSpace(actionDiscovery.PathPattern)) yield break;
 
             Regex pathRegex;
             try
             {
-                pathRegex = new Regex(actionDiscovery.PathRegex,
+                pathRegex = new Regex(actionDiscovery.PathPattern,
                     RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             }
             catch (ArgumentException exc)
@@ -302,7 +302,7 @@ namespace Mastersign.DashOps
 
             IEnumerable<Dictionary<string, string>> AddDimension(IEnumerable<Dictionary<string, string>> values, string key)
             {
-                return values.SelectMany(d => facettes[key], (d2, v) => new Dictionary<string, string>(d2) {{key, v}});
+                return values.SelectMany(d => facettes[key], (d2, v) => new Dictionary<string, string>(d2) { { key, v } });
             }
 
             return facetteKeys.Aggregate(Enumerable.Repeat(new Dictionary<string, string>(), 1),

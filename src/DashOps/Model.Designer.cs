@@ -309,7 +309,7 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    BasePath = " + (!ReferenceEquals(_basePath, null) ? _basePath.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    PathRegex = " + (!ReferenceEquals(_pathRegex, null) ? _pathRegex.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    PathPattern = " + (!ReferenceEquals(_pathPattern, null) ? _pathPattern.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Verb = " + (!ReferenceEquals(_verb, null) ? _verb.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Service = " + (!ReferenceEquals(_service, null) ? _service.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Host = " + (!ReferenceEquals(_host, null) ? _host.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
@@ -337,20 +337,20 @@ namespace Mastersign.DashOps.Model
         
         #endregion
         
-        #region Property PathRegex
+        #region Property PathPattern
         
-        private string _pathRegex;
+        private string _pathPattern;
         
-        public virtual string PathRegex
+        public virtual string PathPattern
         {
-            get { return _pathRegex; }
+            get { return _pathPattern; }
             set
             {
-                if (string.Equals(value, _pathRegex))
+                if (string.Equals(value, _pathPattern))
                 {
                     return;
                 }
-                _pathRegex = value;
+                _pathPattern = value;
             }
         }
         
@@ -582,7 +582,7 @@ namespace Mastersign.DashOps.Model
             return (this.GetType().FullName + @": " + (
                 (Environment.NewLine + @"    Mode = " + _mode.ToString().Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Facette = " + (!ReferenceEquals(_facette, null) ? _facette.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Regex = " + (!ReferenceEquals(_regex, null) ? _regex.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    Pattern = " + (!ReferenceEquals(_pattern, null) ? _pattern.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Value = " + (!ReferenceEquals(_value, null) ? _value.ToString(formatProvider) : @"null").Replace("\n", "\n    "))));
         }
         
@@ -629,20 +629,20 @@ namespace Mastersign.DashOps.Model
         
         #endregion
         
-        #region Property Regex
+        #region Property Pattern
         
-        private string _regex;
+        private string _pattern;
         
-        public virtual string Regex
+        public virtual string Pattern
         {
-            get { return _regex; }
+            get { return _pattern; }
             set
             {
-                if (string.Equals(value, _regex))
+                if (string.Equals(value, _pattern))
                 {
                     return;
                 }
-                _regex = value;
+                _pattern = value;
             }
         }
         
