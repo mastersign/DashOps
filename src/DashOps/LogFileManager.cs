@@ -15,8 +15,8 @@ namespace Mastersign.DashOps
         public static string LogNamePattern(ActionView action)
             => $"*_{action.ActionId}_*.log";
 
-        public static string PreliminaryLogFileName(ActionView action)
-            => DateTime.Now.ToString(TS_FORMAT, CultureInfo.InvariantCulture) + "_" + action.ActionId;
+        public static string PreliminaryLogFileName(ActionView action, DateTime timestamp)
+            => timestamp.ToString(TS_FORMAT, CultureInfo.InvariantCulture) + "_" + action.ActionId;
 
         public static string FinalizeLogFileName(string preliminaryLogFileName, int exitCode)
             => $"{preliminaryLogFileName}_{exitCode}.log";

@@ -51,8 +51,8 @@ namespace Mastersign.DashOps
 
         public override string ToString() => $"[{ActionId}] {Description}: {CommandLabel}";
 
-        public string CreatePreliminaryLogName() 
-            => LogFileManager.PreliminaryLogFileName(this);
+        public string CreatePreliminaryLogName(DateTime timestamp) 
+            => LogFileManager.PreliminaryLogFileName(this, timestamp);
 
         public string FinalizeLogName(string preliminaryLogName, int exitCode)
             => LogFileManager.FinalizeLogFileName(preliminaryLogName, exitCode);

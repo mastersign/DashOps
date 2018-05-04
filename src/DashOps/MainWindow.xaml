@@ -64,8 +64,11 @@
                         CanExecute="ExecuteActionCommandCheck"
                         Executed="ExecuteActionCommandHandler" />
         <CommandBinding Command="local:DashOpsCommands.ShowLastActionLog"
-                        CanExecute="ShowLastActionLogCheck"
+                        CanExecute="HasLogCheck"
                         Executed="ShowLastActionLogHandler" />
+        <CommandBinding Command="local:DashOpsCommands.ShowLogHistoryContextMenu"
+                        CanExecute="HasLogCheck"
+                        Executed="ShowLogHistoryContextMenuHandler" />
         <CommandBinding Command="local:DashOpsCommands.ShowActionInfo"
                         CanExecute="ShowActionInfoCheck"
                         Executed="ShowActionInfoHandler" />
@@ -140,6 +143,12 @@
                                         CommandParameter="{Binding}"
                                         Style="{StaticResource ActionAddButtonStyle}">
                                     <ContentControl Template="{Binding LogIcon}" />
+                                </Button>
+                                <Button Command="local:DashOpsCommands.ShowLogHistoryContextMenu"
+                                        CommandParameter="{Binding}"
+                                        Style="{StaticResource ActionAddButtonStyle}"
+                                        Margin="0" Padding="0" Width="14">
+                                    <ContentControl Template="{StaticResource IconGlyphDown}" />
                                 </Button>
                                 <Button Command="local:DashOpsCommands.ShowActionInfo"
                                         CommandParameter="{Binding}"

@@ -149,5 +149,11 @@
   <ItemGroup>
     <Resource Include="icon.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\StatusError.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\StatusOK.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

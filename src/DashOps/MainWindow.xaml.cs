@@ -64,16 +64,58 @@ namespace Mastersign.DashOps
             e.CanExecute = e.Parameter is ActionView action && App.Executor.IsValid(action);
         }
 
-        private void ShowLastActionLogCheck(object sender, CanExecuteRoutedEventArgs e)
+        private void HasLogCheck(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = e.Parameter is ActionView action && action.LastLogFile != null;
         }
+
+        private static void ShowLogFile(string filepath)
+            => System.Diagnostics.Process.Start(filepath);
 
         private void ShowLastActionLogHandler(object sender, ExecutedRoutedEventArgs e)
         {
             if (e.Parameter is ActionView action)
             {
-                System.Diagnostics.Process.Start(action.LastLogFile);
+                ShowLogFile(action.LastLogFile);
+            }
+        }
+
+        private static Image SuccessStatusIcon(bool success)
+            => new Image
+            {
+                Source = success
+                    ? new BitmapImage(new Uri("pack://application:,,,/images/StatusOK.png"))
+                    : new BitmapImage(new Uri("pack://application:,,,/images/StatusError.png"))
+            };
+
+        private static MenuItem CreateActionLogMenuItem(string log)
+        {
+            var info = LogFileManager.GetInfo(log);
+            var item = new MenuItem
+            {
+                Header = info.Timestamp.ToString("yyyy-MM-dd HH:mm:ss"),
+                Icon = SuccessStatusIcon(info.IsSuccess),
+            };
+
+            item.Click += (s, ea) => ShowLogFile(log);
+            return item;
+        }
+
+        private void ShowLogHistoryContextMenuHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (e.Parameter is ActionView action)
+            {
+                var menu = new ContextMenu
+                {
+                    PlacementTarget = (UIElement)e.OriginalSource,
+                    Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom,
+                };
+                var logs = action.LogFiles().OrderByDescending(n => n).Take(20);
+                foreach (var log in logs)
+                {
+                    menu.Items.Add(CreateActionLogMenuItem(log));
+                }
+                menu.IsOpen = true;
             }
         }
 
@@ -117,5 +159,6 @@ namespace Mastersign.DashOps
                 "Execute Action", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
             return result == MessageBoxResult.OK;
         }
+
     }
 }
