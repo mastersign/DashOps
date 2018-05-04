@@ -50,3 +50,9 @@ action-patterns:
       mode: ['interactively', 'automatically', 'silently']
     tags:
      - expanded
+
+default-monitor-interval: 2
+monitors:
+  - title: Monitor 1
+    command: test-scripts\monitor-1.ps1
+    arguments: [5]

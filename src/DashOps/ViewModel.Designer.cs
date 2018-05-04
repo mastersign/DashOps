@@ -535,18 +535,422 @@ namespace Mastersign.DashOps
         #endregion
     }
     
+    public partial class MonitorView : INotifyPropertyChanged
+    {
+        public MonitorView()
+        {
+            this._requiredPatterns = new global::System.Text.RegularExpressions.Regex[0];
+            this._forbiddenPatterns = new global::System.Text.RegularExpressions.Regex[0];
+        }
+        
+        #region Change Tracking
+        
+        public event PropertyChangedEventHandler PropertyChanged;
+        
+        protected virtual void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
+        
+        #endregion
+        
+        #region Property Title
+        
+        private string _title;
+        
+        public event EventHandler TitleChanged;
+        
+        protected virtual void OnTitleChanged()
+        {
+            EventHandler handler = TitleChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Title");
+        }
+        
+        public virtual string Title
+        {
+            get { return _title; }
+            set
+            {
+                if (string.Equals(value, _title))
+                {
+                    return;
+                }
+                _title = value;
+                this.OnTitleChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property Logs
+        
+        private string _logs;
+        
+        public event EventHandler LogsChanged;
+        
+        protected virtual void OnLogsChanged()
+        {
+            EventHandler handler = LogsChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Logs");
+        }
+        
+        public virtual string Logs
+        {
+            get { return _logs; }
+            set
+            {
+                if (string.Equals(value, _logs))
+                {
+                    return;
+                }
+                _logs = value;
+                this.OnLogsChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property Interval
+        
+        private int _interval;
+        
+        public event EventHandler IntervalChanged;
+        
+        protected virtual void OnIntervalChanged()
+        {
+            EventHandler handler = IntervalChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Interval");
+        }
+        
+        public virtual int Interval
+        {
+            get { return _interval; }
+            set
+            {
+                if ((value == _interval))
+                {
+                    return;
+                }
+                _interval = value;
+                this.OnIntervalChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property RequiredPatterns
+        
+        private global::System.Text.RegularExpressions.Regex[] _requiredPatterns;
+        
+        public event EventHandler RequiredPatternsChanged;
+        
+        protected virtual void OnRequiredPatternsChanged()
+        {
+            EventHandler handler = RequiredPatternsChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"RequiredPatterns");
+        }
+        
+        public virtual global::System.Text.RegularExpressions.Regex[] RequiredPatterns
+        {
+            get { return _requiredPatterns; }
+            set
+            {
+                if ((value == _requiredPatterns))
+                {
+                    return;
+                }
+                _requiredPatterns = value;
+                this.OnRequiredPatternsChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property ForbiddenPatterns
+        
+        private global::System.Text.RegularExpressions.Regex[] _forbiddenPatterns;
+        
+        public event EventHandler ForbiddenPatternsChanged;
+        
+        protected virtual void OnForbiddenPatternsChanged()
+        {
+            EventHandler handler = ForbiddenPatternsChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"ForbiddenPatterns");
+        }
+        
+        public virtual global::System.Text.RegularExpressions.Regex[] ForbiddenPatterns
+        {
+            get { return _forbiddenPatterns; }
+            set
+            {
+                if ((value == _forbiddenPatterns))
+                {
+                    return;
+                }
+                _forbiddenPatterns = value;
+                this.OnForbiddenPatternsChanged();
+            }
+        }
+        
+        #endregion
+    }
+    
+    public partial class CommandMonitorView : MonitorView, INotifyPropertyChanged
+    {
+        public CommandMonitorView()
+        {
+            this._arguments = new string[0];
+        }
+        
+        #region Change Tracking
+        
+        
+        #endregion
+        
+        #region Property Command
+        
+        private string _command;
+        
+        public event EventHandler CommandChanged;
+        
+        protected virtual void OnCommandChanged()
+        {
+            EventHandler handler = CommandChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Command");
+        }
+        
+        public virtual string Command
+        {
+            get { return _command; }
+            set
+            {
+                if (string.Equals(value, _command))
+                {
+                    return;
+                }
+                _command = value;
+                this.OnCommandChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property Arguments
+        
+        private string[] _arguments;
+        
+        public event EventHandler ArgumentsChanged;
+        
+        protected virtual void OnArgumentsChanged()
+        {
+            EventHandler handler = ArgumentsChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Arguments");
+        }
+        
+        public virtual string[] Arguments
+        {
+            get { return _arguments; }
+            set
+            {
+                if ((value == _arguments))
+                {
+                    return;
+                }
+                _arguments = value;
+                this.OnArgumentsChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property WorkingDirectory
+        
+        private string _workingDirectory;
+        
+        public event EventHandler WorkingDirectoryChanged;
+        
+        protected virtual void OnWorkingDirectoryChanged()
+        {
+            EventHandler handler = WorkingDirectoryChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"WorkingDirectory");
+        }
+        
+        public virtual string WorkingDirectory
+        {
+            get { return _workingDirectory; }
+            set
+            {
+                if (string.Equals(value, _workingDirectory))
+                {
+                    return;
+                }
+                _workingDirectory = value;
+                this.OnWorkingDirectoryChanged();
+            }
+        }
+        
+        #endregion
+    }
+    
+    public partial class WebMonitorView : MonitorView, INotifyPropertyChanged
+    {
+        public WebMonitorView()
+        {
+            this._statusCodes = new int[0];
+        }
+        
+        #region Change Tracking
+        
+        
+        #endregion
+        
+        #region Property Url
+        
+        private string _url;
+        
+        public event EventHandler UrlChanged;
+        
+        protected virtual void OnUrlChanged()
+        {
+            EventHandler handler = UrlChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Url");
+        }
+        
+        public virtual string Url
+        {
+            get { return _url; }
+            set
+            {
+                if (string.Equals(value, _url))
+                {
+                    return;
+                }
+                _url = value;
+                this.OnUrlChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property Headers
+        
+        private Dictionary<string, string> _headers;
+        
+        public event EventHandler HeadersChanged;
+        
+        protected virtual void OnHeadersChanged()
+        {
+            EventHandler handler = HeadersChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Headers");
+        }
+        
+        public virtual Dictionary<string, string> Headers
+        {
+            get { return _headers; }
+            set
+            {
+                if ((value == _headers))
+                {
+                    return;
+                }
+                _headers = value;
+                this.OnHeadersChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property StatusCodes
+        
+        private int[] _statusCodes;
+        
+        public event EventHandler StatusCodesChanged;
+        
+        protected virtual void OnStatusCodesChanged()
+        {
+            EventHandler handler = StatusCodesChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"StatusCodes");
+        }
+        
+        public virtual int[] StatusCodes
+        {
+            get { return _statusCodes; }
+            set
+            {
+                if ((value == _statusCodes))
+                {
+                    return;
+                }
+                _statusCodes = value;
+                this.OnStatusCodesChanged();
+            }
+        }
+        
+        #endregion
+    }
+    
     public partial class ProjectView : INotifyPropertyChanged
     {
         public ProjectView()
         {
             this._actionViews = new global::System.Collections.ObjectModel.ObservableCollection<ActionView>();
             this._perspectives = new global::System.Collections.ObjectModel.ObservableCollection<PerspectiveView>();
+            this._monitors = new global::System.Collections.ObjectModel.ObservableCollection<MonitorView>();
         }
         
-        public ProjectView(global::System.Collections.ObjectModel.ObservableCollection<ActionView> actionViews, global::System.Collections.ObjectModel.ObservableCollection<PerspectiveView> perspectives)
+        public ProjectView(global::System.Collections.ObjectModel.ObservableCollection<ActionView> actionViews, global::System.Collections.ObjectModel.ObservableCollection<PerspectiveView> perspectives, global::System.Collections.ObjectModel.ObservableCollection<MonitorView> monitors)
         {
             this._actionViews = actionViews;
             this._perspectives = perspectives;
+            this._monitors = monitors;
         }
         
         #region Change Tracking
@@ -677,6 +1081,49 @@ namespace Mastersign.DashOps
                 }
                 _currentPerspective = value;
                 this.OnCurrentPerspectiveChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property Monitors
+        
+        private global::System.Collections.ObjectModel.ObservableCollection<MonitorView> _monitors;
+        
+        public virtual global::System.Collections.ObjectModel.ObservableCollection<MonitorView> Monitors
+        {
+            get { return _monitors; }
+        }
+        
+        #endregion
+        
+        #region Property DefaultMonitorInterval
+        
+        private int _defaultMonitorInterval;
+        
+        public event EventHandler DefaultMonitorIntervalChanged;
+        
+        protected virtual void OnDefaultMonitorIntervalChanged()
+        {
+            EventHandler handler = DefaultMonitorIntervalChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"DefaultMonitorInterval");
+        }
+        
+        public virtual int DefaultMonitorInterval
+        {
+            get { return _defaultMonitorInterval; }
+            set
+            {
+                if ((value == _defaultMonitorInterval))
+                {
+                    return;
+                }
+                _defaultMonitorInterval = value;
+                this.OnDefaultMonitorIntervalChanged();
             }
         }
         

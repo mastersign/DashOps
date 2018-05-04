@@ -73,6 +73,42 @@
       <Property name="Reassure" type="bool" />
     </Class>
 
+    <Class name="MonitorBase">
+      <Property name="Title" />
+      <Property name="Logs" />
+      <Property name="Interval" type="int" />
+      <Property name="RequiredPatterns" type="string[]" />
+      <Property name="ForbiddenPatterns" type="string[]" />
+    </Class>
+
+    <Class name="CommandMonitorBase" baseType="MonitorBase">
+      <Property name="Arguments" type="string[]" />
+      <Property name="WorkingDirectory" />
+    </Class>
+    
+    <Class name="CommandMonitor" baseType="CommandMonitorBase">
+      <Property name="Command" />
+    </Class>
+
+    <Class name="CommandMonitorDiscovery" baseType="CommandMonitorBase">
+      <Property name="BasePath" />
+      <Property name="PathPattern" />
+    </Class>
+
+    <Class name="CommandMonitorPattern" baseType="CommandMonitor">
+      <Property name="Variables" type="mdict" />
+    </Class>
+
+    <Class name="WebMonitor" baseType="MonitorBase">
+      <Property name="Url" />
+      <Property name="Headers" type="dict" />
+      <Property name="StatusCodes" type="int[]" />
+    </Class>
+
+    <Class name="WebMonitorPattern" baseType="WebMonitor">
+      <Property name="Variables" type="mdict" />
+    </Class>
+
     <Class name="Project">
       <Property name="Version" />
       <Property name="Title" />
@@ -82,6 +118,14 @@
       <Property name="ActionPatterns" isCollection="true" type="CommandActionPattern" defaultInitialization="true" />
       <Property name="Perspectives" isCollection="true" defaultInitialization="true" />
       <Property name="Auto" type="AutoAnnotation" isCollection="true" defaultInitialization="true" />
+      <Property name="Monitors" type="CommandMonitor" isCollection="true" defaultInitialization="true" />
+      <Property name="MonitorDiscovery" type="CommandMonitorDiscovery" isCollection="true" defaultInitialization="true" />
+      <Property name="MonitorPatterns" type="CommandMonitorPattern" isCollection="true" defaultInitialization="true" />
+      <Property name="WebMonitors" type="WebMonitor" isCollection="true" defaultInitialization="true" />
+      <Property name="WebMonitorPatterns" type="WebMonitorPattern" isCollection="true" defaultInitialization="true" />
+      <Property name="DefaultMonitorInterval" type="int" defaultInitialization="true">
+        <DefaultValue>60</DefaultValue>
+      </Property>
     </Class>
 
   </Types>

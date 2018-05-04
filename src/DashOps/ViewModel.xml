@@ -4,6 +4,7 @@
 
   <ReferencedTypes>
     <ReferencedType id="dict" name="System.Collections.Generic.Dictionary`2[System.String, System.String]" />
+    <ReferencedType id="regexes" name="System.Text.RegularExpressions.Regex[]" />
     <ReferencedType id="ActionFilter" name="System.Func`2[ActionView,System.Boolean]" kind="Delegate" />
     <ReferencedType id="ActionClassifier" name="System.Func`2[ActionView,System.String[]]" kind="Delegate" />
   </ReferencedTypes>
@@ -42,12 +43,34 @@
       <Property name="CurrentSubset" type="ActionSubset" />
     </Class>
 
+    <Class name="MonitorView">
+      <Property name="Title" />
+      <Property name="Logs" />
+      <Property name="Interval" type="int" />
+      <Property name="RequiredPatterns" type="regexes" />
+      <Property name="ForbiddenPatterns" type="regexes" />
+    </Class>
+
+    <Class name="CommandMonitorView" baseType="MonitorView">
+      <Property name="Command" />
+      <Property name="Arguments" type="string[]" />
+      <Property name="WorkingDirectory" />
+    </Class>
+
+    <Class name="WebMonitorView" baseType="MonitorView">
+      <Property name="Url" />
+      <Property name="Headers" type="dict" />
+      <Property name="StatusCodes" type="int[]" />
+    </Class>
+
     <Class name="ProjectView">
       <Property name="Title" />
       <Property name="Logs" />
       <Property name="ActionViews" isCollection="true" type="ActionView" defaultInitialization="true" immutable="true" />
       <Property name="Perspectives" isCollection="true" type="PerspectiveView" defaultInitialization="true" immutable="true" />
       <Property name="CurrentPerspective" type="PerspectiveView" />
+      <Property name="Monitors" isCollection="true" type="MonitorView" defaultInitialization="true" immutable="true" />
+      <Property name="DefaultMonitorInterval" type="int" />
     </Class>
 
   </Types>
