@@ -67,6 +67,7 @@ namespace Mastersign.DashOps
                 }
             });
             CurrentPerspective = Perspectives[0];
+            CurrentPerspective.CurrentSubset = CurrentPerspective.Subsets[0];
         }
     }
 }
