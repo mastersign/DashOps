@@ -159,6 +159,38 @@ namespace Mastersign.DashOps
         
         #endregion
         
+        #region Property WorkingDirectory
+        
+        private string _workingDirectory;
+        
+        public event EventHandler WorkingDirectoryChanged;
+        
+        protected virtual void OnWorkingDirectoryChanged()
+        {
+            EventHandler handler = WorkingDirectoryChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"WorkingDirectory");
+        }
+        
+        public virtual string WorkingDirectory
+        {
+            get { return _workingDirectory; }
+            set
+            {
+                if (string.Equals(value, _workingDirectory))
+                {
+                    return;
+                }
+                _workingDirectory = value;
+                this.OnWorkingDirectoryChanged();
+            }
+        }
+        
+        #endregion
+        
         #region Property Tags
         
         private string[] _tags;

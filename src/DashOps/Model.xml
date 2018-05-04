@@ -20,6 +20,7 @@
       <Property name="Reassure" type="bool" />
       <Property name="Logs" />
       <Property name="Arguments" type="string[]" />
+      <Property name="WorkingDirectory" />
       <Property name="Tags" type="string[]" />
     </Class>
     

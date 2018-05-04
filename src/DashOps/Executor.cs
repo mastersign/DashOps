@@ -30,6 +30,7 @@ namespace Mastersign.DashOps
             }
             psLines.Add("$t0 = [DateTime]::Now");
             psLines.Add("$tsf = \"yyyy-MM-dd HH:mm:ss\"");
+            psLines.Add($"echo \"Directory:  {action.ExpandedWorkingDirectory}\"");
             psLines.Add($"echo \"Command:    {action.ExpandedCommand}\"");
             if (!string.IsNullOrWhiteSpace(action.ExpandedArguments))
                 psLines.Add($"echo \"Arguments:  {action.ExpandedArguments.Replace("\"", "`\"")}\"");
@@ -57,6 +58,7 @@ namespace Mastersign.DashOps
             var psi = new ProcessStartInfo(CommandLine.PowerShellExe, psArgs)
             {
                 WindowStyle = ProcessWindowStyle.Normal,
+                WorkingDirectory = action.ExpandedWorkingDirectory
             };
             var p = Process.Start(psi);
             if (p != null)

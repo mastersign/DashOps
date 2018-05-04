@@ -105,6 +105,8 @@ namespace Mastersign.DashOps
                 sb.Append("Arguments: ");
                 sb.AppendLine(action.ExpandedArguments);
             }
+            sb.Append("Working Directory: ");
+            sb.AppendLine(action.ExpandedWorkingDirectory);
             return sb.ToString();
         }
 

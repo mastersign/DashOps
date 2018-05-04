@@ -36,6 +36,8 @@ namespace Mastersign.DashOps
         public string ExpandedArguments 
             => CommandLine.FormatArgumentList(Arguments.Select(Environment.ExpandEnvironmentVariables).ToArray());
 
+        public string ExpandedWorkingDirectory => Environment.ExpandEnvironmentVariables(WorkingDirectory);
+
         public string ActionId
         {
             get

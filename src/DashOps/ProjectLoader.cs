@@ -176,10 +176,19 @@ namespace Mastersign.DashOps
 
         private ActionView ActionViewFromCommandAction(CommandAction action)
         {
+            var wdPath = action.WorkingDirectory?.TrimEnd(
+                Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) ?? string.Empty;
+            wdPath = string.IsNullOrWhiteSpace(wdPath)
+                ? Environment.CurrentDirectory
+                : Path.IsPathRooted(wdPath)
+                    ? wdPath
+                    : Path.Combine(Environment.CurrentDirectory, wdPath);
+
             var actionView = new ActionView
             {
                 Command = action.Command,
                 Arguments = action.Arguments,
+                WorkingDirectory = wdPath,
                 Description = action.Description,
                 Reassure = action.Reassure,
                 Logs = action.Logs,
@@ -205,7 +214,8 @@ namespace Mastersign.DashOps
 
         private IEnumerable<ActionView> DiscoverActions(CommandActionDiscovery actionDiscovery)
         {
-            var basePath = actionDiscovery.BasePath ?? string.Empty;
+            var basePath = actionDiscovery.BasePath?.TrimEnd(
+                Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) ?? string.Empty;
             basePath = string.IsNullOrWhiteSpace(basePath)
                 ? Environment.CurrentDirectory
                 : Path.IsPathRooted(basePath)
@@ -297,6 +307,16 @@ namespace Mastersign.DashOps
             if (verb != null) facettes[nameof(CommandAction.Verb)] = verb;
             if (service != null) facettes[nameof(CommandAction.Service)] = service;
             if (host != null) facettes[nameof(CommandAction.Host)] = host;
+
+            var wdPath = actionDiscovery.WorkingDirectory?.TrimEnd(
+                Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) ?? string.Empty;
+            wdPath = ExpandTemplate(wdPath, facettes);
+            wdPath = string.IsNullOrWhiteSpace(wdPath)
+                ? Environment.CurrentDirectory
+                : Path.IsPathRooted(wdPath)
+                    ? wdPath
+                    : Path.Combine(Environment.CurrentDirectory, wdPath);
+
             return new ActionView()
             {
                 Description = ExpandTemplate(actionDiscovery.Description, facettes),
@@ -304,6 +324,7 @@ namespace Mastersign.DashOps
                 Logs = ExpandTemplate(actionDiscovery.Logs, facettes),
                 Command = file,
                 Arguments = actionDiscovery.Arguments,
+                WorkingDirectory = wdPath,
                 Facettes = facettes,
                 Tags = actionDiscovery.Tags ?? Array.Empty<string>()
             };
@@ -312,6 +333,15 @@ namespace Mastersign.DashOps
         private static ActionView ActionViewFromPatternVariation(CommandActionPattern actionPattern,
             Dictionary<string, string> facettes)
         {
+            var wdPath = actionPattern.WorkingDirectory?.TrimEnd(
+                Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) ?? string.Empty;
+            wdPath = ExpandTemplate(wdPath, facettes);
+            wdPath = string.IsNullOrWhiteSpace(wdPath)
+                ? Environment.CurrentDirectory
+                : Path.IsPathRooted(wdPath)
+                    ? wdPath
+                    : Path.Combine(Environment.CurrentDirectory, wdPath);
+
             return new ActionView()
             {
                 Description = ExpandTemplate(actionPattern.Description, facettes),
@@ -319,6 +349,7 @@ namespace Mastersign.DashOps
                 Logs = ExpandTemplate(actionPattern.Logs, facettes),
                 Command = ExpandTemplate(actionPattern.Command, facettes),
                 Arguments = actionPattern.Arguments.Select(a => ExpandTemplate(a, facettes)).ToArray(),
+                WorkingDirectory = wdPath,
                 Facettes = facettes,
                 Tags = actionPattern.Tags ?? Array.Empty<string>()
             };
