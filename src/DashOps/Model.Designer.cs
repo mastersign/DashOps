@@ -883,6 +883,7 @@ namespace Mastersign.DashOps.Model
                 }
             }
             return (this.GetType().FullName + @": " + (
+                (Environment.NewLine + @"    Version = " + (!ReferenceEquals(_version, null) ? _version.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Title = " + (!ReferenceEquals(_title, null) ? _title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Actions = " + (!ReferenceEquals(_actions, null) ? (_actions.Count.ToString() + @" items" + __collection_Actions.ToString()) : @"null").Replace("\n", "\n    ")) + 
@@ -890,6 +891,25 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    ActionPatterns = " + (!ReferenceEquals(_actionPatterns, null) ? (_actionPatterns.Count.ToString() + @" items" + __collection_ActionPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Perspectives = " + (!ReferenceEquals(_perspectives, null) ? (_perspectives.Count.ToString() + @" items" + __collection_Perspectives.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Auto = " + (!ReferenceEquals(_auto, null) ? (_auto.Count.ToString() + @" items" + __collection_Auto.ToString()) : @"null").Replace("\n", "\n    "))));
+        }
+        
+        #endregion
+        
+        #region Property Version
+        
+        private string _version;
+        
+        public virtual string Version
+        {
+            get { return _version; }
+            set
+            {
+                if (string.Equals(value, _version))
+                {
+                    return;
+                }
+                _version = value;
+            }
         }
         
         #endregion

@@ -1,3 +1,4 @@
+version: '1.0'
 title: Test Project
 logs: test-logs
 perspectives:

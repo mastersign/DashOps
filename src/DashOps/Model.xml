@@ -74,6 +74,7 @@
     </Class>
 
     <Class name="Project">
+      <Property name="Version" />
       <Property name="Title" />
       <Property name="Logs" />
       <Property name="Actions" isCollection="true" type="CommandAction" defaultInitialization="true" />
