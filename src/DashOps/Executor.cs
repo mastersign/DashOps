@@ -30,17 +30,19 @@ namespace Mastersign.DashOps
             }
             psLines.Add("$t0 = [DateTime]::Now");
             psLines.Add("$tsf = \"yyyy-MM-dd HH:mm:ss\"");
-            psLines.Add($"echo \"Command:   {action.ExpandedCommand}\"");
+            psLines.Add($"echo \"Command:    {action.ExpandedCommand}\"");
             if (!string.IsNullOrWhiteSpace(action.ExpandedArguments))
-                psLines.Add($"echo \"Arguments: {action.ExpandedArguments.Replace("\"", "`\"")}\"");
-            psLines.Add($"echo \"Start: $($t0.toString($tsf))\"");
+                psLines.Add($"echo \"Arguments:  {action.ExpandedArguments.Replace("\"", "`\"")}\"");
+            psLines.Add($"echo \"Start:      $($t0.toString($tsf))\"");
+            psLines.Add("echo \"--------------------------------------------------------------------------------\"");
             psLines.Add("echo \"\"");
             psLines.Add($"& \"{action.ExpandedCommand}\" {action.ExpandedArguments}");
             psLines.Add("if ($LastExitCode -eq $null) { if ($?) { $ec = 0 } else { $ec = 1; echo \"\"; Write-Warning \"Command failed.\" } } else { $ec = $LastExitCode; if ($ec -ne 0) { echo \"\"; Write-Warning \"Exit Code: $ec\" } }");
             psLines.Add("$t = [DateTime]::Now");
             psLines.Add("echo \"\"");
-            psLines.Add($"echo \"End: $($t::Now.toString($tsf))\"");
-            psLines.Add($"echo \"Duration: $(($t - $t0).TotalSeconds) sec\"");
+            psLines.Add("echo \"--------------------------------------------------------------------------------\"");
+            psLines.Add($"echo \"End:        $($t::Now.toString($tsf))\"");
+            psLines.Add($"echo \"Duration:   $(($t - $t0).TotalSeconds) sec\"");
             if (CanLog())
             {
                 psLines.Add("$_ = Stop-Transcript");
