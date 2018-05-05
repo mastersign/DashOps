@@ -12,7 +12,6 @@ namespace Mastersign.DashOps
     {
         public ActionView()
         {
-            this._arguments = new string[0];
             this._tags = new string[0];
         }
         
@@ -129,7 +128,7 @@ namespace Mastersign.DashOps
         
         #region Property Arguments
         
-        private string[] _arguments;
+        private string _arguments;
         
         public event EventHandler ArgumentsChanged;
         
@@ -143,12 +142,12 @@ namespace Mastersign.DashOps
             this.OnPropertyChanged(@"Arguments");
         }
         
-        public virtual string[] Arguments
+        public virtual string Arguments
         {
             get { return _arguments; }
             set
             {
-                if ((value == _arguments))
+                if (string.Equals(value, _arguments))
                 {
                     return;
                 }
@@ -723,7 +722,6 @@ namespace Mastersign.DashOps
     {
         public CommandMonitorView()
         {
-            this._arguments = new string[0];
         }
         
         #region Change Tracking
@@ -765,7 +763,7 @@ namespace Mastersign.DashOps
         
         #region Property Arguments
         
-        private string[] _arguments;
+        private string _arguments;
         
         public event EventHandler ArgumentsChanged;
         
@@ -779,12 +777,12 @@ namespace Mastersign.DashOps
             this.OnPropertyChanged(@"Arguments");
         }
         
-        public virtual string[] Arguments
+        public virtual string Arguments
         {
             get { return _arguments; }
             set
             {
-                if ((value == _arguments))
+                if (string.Equals(value, _arguments))
                 {
                     return;
                 }

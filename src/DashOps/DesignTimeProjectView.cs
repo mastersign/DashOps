@@ -22,7 +22,7 @@ namespace Mastersign.DashOps
             {
                 Description = "Start X on A",
                 Command = "start_x",
-                Arguments = new[] { "--on", "a" },
+                Arguments ="--on a",
                 Facettes = new Dictionary<string, string>
                 {
                     {"Verb", "start"},
@@ -34,7 +34,7 @@ namespace Mastersign.DashOps
             {
                 Description = "Stop X on A",
                 Command = "stop_x",
-                Arguments = new[] { "--on", "a" },
+                Arguments = "--on a",
                 Facettes = new Dictionary<string, string>
                 {
                     {"Verb", "stop"},
@@ -46,7 +46,7 @@ namespace Mastersign.DashOps
             {
                 Description = "Start Y on A",
                 Command = "start_y",
-                Arguments = new[] { "--on", "a" },
+                Arguments = "--on a",
                 Facettes = new Dictionary<string, string>
                 {
                     {"Verb", "start"},
@@ -58,7 +58,7 @@ namespace Mastersign.DashOps
             {
                 Description = "Stop Y on A",
                 Command = "stop_y",
-                Arguments = new[] { "--on", "a" },
+                Arguments = "--on a",
                 Facettes = new Dictionary<string, string>
                 {
                     {"Verb", "stop"},

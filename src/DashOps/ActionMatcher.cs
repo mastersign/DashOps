@@ -47,7 +47,7 @@ namespace Mastersign.DashOps.Model
                 case ActionMatchMode.Description:
                     return MatchString(actionView.Description);
                 case ActionMatchMode.Command:
-                    return MatchString(actionView.ExpandedCommand);
+                    return MatchString(actionView.Command);
                 case ActionMatchMode.Facette:
                     return MatchString(actionView.GetFacetteValue(NormalizedFacette));
                 case ActionMatchMode.Tag:

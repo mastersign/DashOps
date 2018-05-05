@@ -20,7 +20,7 @@
       <Property name="Description" />
       <Property name="Reassure" type="bool" />
       <Property name="Command" />
-      <Property name="Arguments" type="string[]" />
+      <Property name="Arguments" type="string" />
       <Property name="WorkingDirectory" />
       <Property name="Tags" type="string[]" />
       <Property name="Facettes" type="dict" />
@@ -53,7 +53,7 @@
 
     <Class name="CommandMonitorView" baseType="MonitorView">
       <Property name="Command" />
-      <Property name="Arguments" type="string[]" />
+      <Property name="Arguments" type="string" />
       <Property name="WorkingDirectory" />
     </Class>
 

@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace Mastersign.DashOps
 {
-    partial class ActionView
+    partial class ActionView : IExecutable
     {
         private static readonly MD5 Md5 = MD5.Create();
 
@@ -26,19 +26,14 @@ namespace Mastersign.DashOps
                 ? Facettes.TryGetValue(name, out var value) ? value : null
                 : null;
 
-        public string CommandLabel => ExpandedCommand
-            + (string.IsNullOrWhiteSpace(ExpandedArguments)
+        public string CommandLabel => Command
+            + (string.IsNullOrWhiteSpace(Arguments)
                 ? string.Empty
-                : " " + ExpandedArguments);
+                : " " + Arguments);
 
-        public string ExpandedCommand => Environment.ExpandEnvironmentVariables(Command);
+        public bool CanExecute => true;
 
-        public string ExpandedArguments 
-            => CommandLine.FormatArgumentList(Arguments.Select(Environment.ExpandEnvironmentVariables).ToArray());
-
-        public string ExpandedWorkingDirectory => Environment.ExpandEnvironmentVariables(WorkingDirectory);
-
-        public string ActionId
+        public string CommandId
         {
             get
             {
@@ -49,13 +44,7 @@ namespace Mastersign.DashOps
             }
         }
 
-        public override string ToString() => $"[{ActionId}] {Description}: {CommandLabel}";
-
-        public string CreatePreliminaryLogName(DateTime timestamp) 
-            => LogFileManager.PreliminaryLogFileName(this, timestamp);
-
-        public string FinalizeLogName(string preliminaryLogName, int exitCode)
-            => LogFileManager.FinalizeLogFileName(preliminaryLogName, exitCode);
+        public override string ToString() => $"[{CommandId}] {Description}: {CommandLabel}";
 
         public IEnumerable<string> LogFiles()
             => LogFileManager.FindLogFiles(this, Logs);
@@ -90,7 +79,7 @@ namespace Mastersign.DashOps
             }
         }
 
-        public void NotifyLogChange()
+        public void NotifyExecutionFinished()
         {
             OnPropertyChanged(nameof(LogIcon));
             LogIconChanged?.Invoke(this, EventArgs.Empty);

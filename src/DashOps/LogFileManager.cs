@@ -12,18 +12,18 @@ namespace Mastersign.DashOps
     {
         private const string TS_FORMAT = "yyyyMMdd_HHmmss";
 
-        public static string LogNamePattern(ActionView action)
-            => $"*_{action.ActionId}_*.log";
+        public static string LogNamePattern(IExecutable executable)
+            => $"*_{executable.CommandId}_*.log";
 
-        public static string PreliminaryLogFileName(ActionView action, DateTime timestamp)
-            => timestamp.ToString(TS_FORMAT, CultureInfo.InvariantCulture) + "_" + action.ActionId;
+        public static string PreliminaryLogFileName(IExecutable executable, DateTime timestamp)
+            => timestamp.ToString(TS_FORMAT, CultureInfo.InvariantCulture) + "_" + executable.CommandId;
 
         public static string FinalizeLogFileName(string preliminaryLogFileName, int exitCode)
             => $"{preliminaryLogFileName}_{exitCode}.log";
 
-        public static IEnumerable<string> FindLogFiles(ActionView action, string logDirectory)
-            => logDirectory != null && System.IO.Directory.Exists(logDirectory)
-                ? System.IO.Directory.EnumerateFiles(logDirectory, LogNamePattern(action))
+        public static IEnumerable<string> FindLogFiles(IExecutable executable, string logDirectory)
+            => logDirectory != null && Directory.Exists(logDirectory)
+                ? System.IO.Directory.EnumerateFiles(logDirectory, LogNamePattern(executable))
                 : Enumerable.Empty<string>();
 
         private readonly static Regex NamePattern = new Regex(@"^(?<ts>.{" + TS_FORMAT.Length + @"})_(?<aid>[^_]+)(?:_(?<ec>-?\d+))?\.log$");

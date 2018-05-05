@@ -74,6 +74,7 @@
     <Compile Include="DashOpsCommands.cs" />
     <Compile Include="DesignTimeProjectView.cs" />
     <Compile Include="Executor.cs" />
+    <Compile Include="IExecutable.cs" />
     <Compile Include="LogFileInfo.cs" />
     <Compile Include="LogFileManager.cs" />
     <Compile Include="MonitorView.cs" />

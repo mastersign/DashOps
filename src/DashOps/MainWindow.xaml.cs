@@ -55,13 +55,20 @@ namespace Mastersign.DashOps
             if (!(e.Parameter is ActionView action)) return;
             if (!action.Reassure || Reassure(action))
             {
-                App.Executor.ExecuteAction(action);
+                App.Executor.Execute(action, 
+                    onExit: ExecutionFinishedHandler,
+                    visible: true);
             }
+        }
+
+        private void ExecutionFinishedHandler(object sender, EventArgs e)
+        {
+            // trigger reevaluation of ShowLastActionLog command check
         }
 
         private void ExecuteActionCommandCheck(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = e.Parameter is ActionView action && App.Executor.IsValid(action);
+            e.CanExecute = e.Parameter is ActionView action && action.CanExecute;
         }
 
         private void HasLogCheck(object sender, CanExecuteRoutedEventArgs e)
@@ -139,16 +146,16 @@ namespace Mastersign.DashOps
             sb.AppendLine(action.Description);
             sb.AppendLine();
             sb.Append("ID: ");
-            sb.AppendLine(action.ActionId);
+            sb.AppendLine(action.CommandId);
             sb.Append("Command: ");
-            sb.AppendLine(action.ExpandedCommand);
-            if (!string.IsNullOrWhiteSpace(action.ExpandedArguments))
+            sb.AppendLine(action.Command);
+            if (!string.IsNullOrWhiteSpace(action.Arguments))
             {
                 sb.Append("Arguments: ");
-                sb.AppendLine(action.ExpandedArguments);
+                sb.AppendLine(action.Arguments);
             }
             sb.Append("Working Directory: ");
-            sb.AppendLine(action.ExpandedWorkingDirectory);
+            sb.AppendLine(action.WorkingDirectory);
             return sb.ToString();
         }
 

@@ -217,9 +217,8 @@ namespace Mastersign.DashOps
             var actionView = new ActionView
             {
                 Command = ExpandEnv(action.Command),
-                Arguments = action.Arguments?
-                    .Select(ExpandEnv).ToArray() ?? Array.Empty<string>(),
-                WorkingDirectory = BuildAbsolutePath(ExpandEnv(action.WorkingDirectory)),
+                Arguments = FormatArguments(action.Arguments),
+                WorkingDirectory = BuildAbsolutePath(action.WorkingDirectory),
                 Description = action.Description,
                 Reassure = action.Reassure,
                 Logs = ExpandEnv(action.Logs),
@@ -245,7 +244,7 @@ namespace Mastersign.DashOps
 
         private IEnumerable<ActionView> DiscoverActions(CommandActionDiscovery actionDiscovery)
         {
-            var basePath = BuildAbsolutePath(ExpandEnv(actionDiscovery.BasePath));
+            var basePath = BuildAbsolutePath(actionDiscovery.BasePath);
             if (!Directory.Exists(basePath)) yield break;
             var pathRegex = BuildRegexFromPattern(actionDiscovery.PathPattern,
                 RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
@@ -315,10 +314,9 @@ namespace Mastersign.DashOps
                 Reassure = actionDiscovery.Reassure,
                 Logs = ExpandEnv(ExpandTemplate(actionDiscovery.Logs, facettes)),
                 Command = file,
-                Arguments = actionDiscovery.Arguments?
-                    .Select(ExpandEnv).ToArray() ?? Array.Empty<string>(),
+                Arguments = FormatArguments(actionDiscovery.Arguments),
                 WorkingDirectory = BuildAbsolutePath(
-                    ExpandEnv(ExpandTemplate(actionDiscovery.WorkingDirectory, facettes))),
+                    ExpandTemplate(actionDiscovery.WorkingDirectory, facettes)),
                 Facettes = facettes,
                 Tags = actionDiscovery.Tags ?? Array.Empty<string>()
             };
@@ -332,11 +330,10 @@ namespace Mastersign.DashOps
                 Reassure = actionPattern.Reassure,
                 Logs = ExpandEnv(ExpandTemplate(actionPattern.Logs, facettes)),
                 Command = ExpandEnv(ExpandTemplate(actionPattern.Command, facettes)),
-                Arguments = actionPattern.Arguments?
-                    .Select(a => ExpandEnv(ExpandTemplate(a, facettes)))
-                    .ToArray() ?? Array.Empty<string>(),
+                Arguments = FormatArguments(
+                    actionPattern.Arguments?.Select(a => ExpandTemplate(a, facettes))),
                 WorkingDirectory = BuildAbsolutePath(
-                    ExpandEnv(ExpandTemplate(actionPattern.WorkingDirectory, facettes))),
+                    ExpandTemplate(actionPattern.WorkingDirectory, facettes)),
                 Facettes = facettes,
                 Tags = actionPattern.Tags ?? Array.Empty<string>()
             };
@@ -348,9 +345,8 @@ namespace Mastersign.DashOps
                 Logs = ExpandEnv(monitor.Logs),
                 Interval = monitor.Interval,
                 Command = ExpandEnv(monitor.Command),
-                Arguments = monitor.Arguments?
-                    .Select(ExpandEnv).ToArray() ?? Array.Empty<string>(),
-                WorkingDirectory = BuildAbsolutePath(ExpandEnv(monitor.WorkingDirectory)),
+                Arguments = FormatArguments(monitor.Arguments),
+                WorkingDirectory = BuildAbsolutePath(monitor.WorkingDirectory),
                 RequiredPatterns = BuildPatterns(monitor.RequiredPatterns),
                 ForbiddenPatterns = BuildPatterns(monitor.ForbiddenPatterns)
             };
@@ -396,10 +392,9 @@ namespace Mastersign.DashOps
                 Logs = ExpandEnv(ExpandTemplate(monitorDiscovery.Logs, variables)),
                 Interval = monitorDiscovery.Interval,
                 Command = file,
-                Arguments = monitorDiscovery.Arguments?
-                    .Select(a => ExpandEnv(ExpandTemplate(a, variables)))
-                    .ToArray() ?? Array.Empty<string>(),
-                WorkingDirectory = BuildAbsolutePath(ExpandEnv(monitorDiscovery.WorkingDirectory)),
+                Arguments = FormatArguments(
+                    monitorDiscovery.Arguments?.Select(a => ExpandTemplate(a, variables))),
+                WorkingDirectory = BuildAbsolutePath(monitorDiscovery.WorkingDirectory),
                 RequiredPatterns = BuildPatterns(monitorDiscovery.RequiredPatterns),
                 ForbiddenPatterns = BuildPatterns(monitorDiscovery.ForbiddenPatterns)
             };
@@ -413,10 +408,9 @@ namespace Mastersign.DashOps
                 Logs = ExpandEnv(ExpandTemplate(monitorPattern.Logs, variables)),
                 Interval = monitorPattern.Interval,
                 Command = ExpandEnv(ExpandTemplate(monitorPattern.Command, variables)),
-                Arguments = monitorPattern.Arguments?
-                    .Select(a => ExpandEnv(ExpandTemplate(a, variables)))
-                    .ToArray() ?? Array.Empty<string>(),
-                WorkingDirectory = BuildAbsolutePath(ExpandEnv(monitorPattern.WorkingDirectory)),
+                Arguments = FormatArguments(
+                    monitorPattern.Arguments?.Select(a => ExpandTemplate(a, variables))),
+                WorkingDirectory = BuildAbsolutePath(monitorPattern.WorkingDirectory),
                 RequiredPatterns = BuildPatterns(monitorPattern.RequiredPatterns),
                 ForbiddenPatterns = BuildPatterns(monitorPattern.ForbiddenPatterns)
             };
@@ -458,15 +452,16 @@ namespace Mastersign.DashOps
                 ForbiddenPatterns = BuildPatterns(monitorPattern.ForbiddenPatterns)
             };
 
-        private static string BuildAbsolutePath(string workingDirectory)
+        private static string BuildAbsolutePath(string dir)
         {
-            workingDirectory = workingDirectory?.TrimEnd(
+            dir = ExpandEnv(dir);
+            dir = dir?.TrimEnd(
                 Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) ?? string.Empty;
-            return string.IsNullOrWhiteSpace(workingDirectory)
+            return string.IsNullOrWhiteSpace(dir)
                 ? Environment.CurrentDirectory
-                : Path.IsPathRooted(workingDirectory)
-                    ? workingDirectory
-                    : Path.Combine(Environment.CurrentDirectory, workingDirectory);
+                : Path.IsPathRooted(dir)
+                    ? dir
+                    : Path.Combine(Environment.CurrentDirectory, dir);
         }
 
         private static Regex BuildRegexFromPattern(string pattern, RegexOptions options)
@@ -544,6 +539,12 @@ namespace Mastersign.DashOps
             => string.IsNullOrWhiteSpace(template)
                 ? template
                 : Environment.ExpandEnvironmentVariables(template);
+
+        private static string FormatArguments(IEnumerable<string> arguments)
+            => arguments != null
+                ? CommandLine.FormatArgumentList(
+                    arguments.Select(ExpandEnv).ToArray())
+                : null;
 
         private static Dictionary<TKey, TValue> MapValues<TKey, TValue>(
             Dictionary<TKey, TValue> dict, Func<TValue, TValue> f)

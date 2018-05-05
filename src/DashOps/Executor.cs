@@ -10,64 +10,95 @@ namespace Mastersign.DashOps
 {
     public class Executor
     {
-        private readonly Dictionary<Process, ActionView> runningProcesses = new Dictionary<Process, ActionView>();
-
-        public bool IsValid(ActionView action) => true;
-
-        public void ExecuteAction(ActionView action)
+        private class Execution
         {
-            if (action.Logs != null && !Directory.Exists(action.Logs))
+            public readonly Process Process;
+            public readonly IExecutable Executable;
+            public readonly EventHandler Exited;
+
+            public Execution(Process process, IExecutable executable, EventHandler exited)
             {
-                Directory.CreateDirectory(action.Logs);
+                Process = process;
+                Executable = executable;
+                Exited = exited;
+            }
+        }
+
+        private readonly Dictionary<Process, Execution> runningProcesses
+            = new Dictionary<Process, Execution>();
+
+        public void Execute<T>(T executable, EventHandler onExit = null, bool visible = true)
+            where T : IExecutable
+        {
+            if (executable.Logs != null && !Directory.Exists(executable.Logs))
+            {
+                Directory.CreateDirectory(executable.Logs);
             }
             var timestamp = DateTime.Now;
-            var logfile = action.Logs != null
-                    ? Path.Combine(action.Logs, action.CreatePreliminaryLogName(timestamp))
+            var logfile = executable.Logs != null
+                    ? Path.Combine(
+                        executable.Logs, 
+                        LogFileManager.PreliminaryLogFileName(executable, timestamp))
                     : null;
 
             var psArgs = BuildPowerShellArguments(logfile, timestamp,
-                action.ExpandedWorkingDirectory, action.ExpandedCommand, action.ExpandedArguments,
-                waitForKeyPress: true);
+                executable.WorkingDirectory, executable.Command, executable.Arguments,
+                waitForKeyPress: visible);
 
             var psi = new ProcessStartInfo(CommandLine.PowerShellExe, psArgs)
             {
                 WindowStyle = ProcessWindowStyle.Normal,
-                WorkingDirectory = action.ExpandedWorkingDirectory,
+                WorkingDirectory = executable.WorkingDirectory,
+                UseShellExecute = false,
             };
+            if (!visible)
+            {
+                psi.CreateNoWindow = true;
+            }
             var p = Process.Start(psi);
             if (p != null)
             {
+                executable.CurrentLogFile = logfile;
                 p.EnableRaisingEvents = true;
                 lock (runningProcesses)
                 {
-                    runningProcesses[p] = action;
-                    p.Exited += ActionProcessExitedHandler;
+                    runningProcesses[p] = new Execution(p, executable, onExit);
+                    p.Exited += ProcessExitedHandler;
                 }
 
-                if (p.HasExited) ActionProcessExitedHandler(p, EventArgs.Empty);
+                if (p.HasExited) ProcessExitedHandler(p, EventArgs.Empty);
             }
         }
 
-        private void ActionProcessExitedHandler(object sender, EventArgs e)
+        private void ProcessExitedHandler(object sender, EventArgs e)
         {
             var p = (Process)sender;
-            ActionView action = null;
+            Execution execution = null;
             lock (runningProcesses)
             {
-                if (runningProcesses.TryGetValue(p, out action)) runningProcesses.Remove(p);
+                if (runningProcesses.TryGetValue(p, out execution)) runningProcesses.Remove(p);
             }
-            if (action?.CurrentLogFile != null)
+            if (execution != null)
             {
-                action.CurrentLogFile = action.FinalizeLogName(action.CurrentLogFile, p.ExitCode);
-                if (File.Exists(action.LastLogFile))
+                var executable = execution.Executable;
+                if (executable != null)
                 {
-                    LogFileManager.PostprocessLogFile(action.CurrentLogFile);
+                    var logFile = executable.CurrentLogFile;
+                    if (logFile != null)
+                    {
+                        logFile = LogFileManager.FinalizeLogFileName(logFile, p.ExitCode);
+                        if (File.Exists(logFile))
+                        {
+                            LogFileManager.PostprocessLogFile(logFile);
+                        }
+                        else
+                        {
+                            executable.CurrentLogFile = null;
+                        }
+                    }
+                    executable.NotifyExecutionFinished();
                 }
-                else
-                {
-                    action.CurrentLogFile = null;
-                }
-                action.NotifyLogChange();
+                execution.Exited?.Invoke(this, EventArgs.Empty);
             }
         }
 
