@@ -14,52 +14,25 @@ namespace Mastersign.DashOps
 
         public bool IsValid(ActionView action) => true;
 
-        public void Execute(ActionView action)
+        public void ExecuteAction(ActionView action)
         {
             if (action.Logs != null && !Directory.Exists(action.Logs))
             {
                 Directory.CreateDirectory(action.Logs);
             }
             var timestamp = DateTime.Now;
-            bool CanLog() => action.Logs != null;
-            if (CanLog()) action.CurrentLogFile = Path.Combine(action.Logs, action.CreatePreliminaryLogName(timestamp));
+            var logfile = action.Logs != null
+                    ? Path.Combine(action.Logs, action.CreatePreliminaryLogName(timestamp))
+                    : null;
 
-            var psLines = new List<string>();
-            if (CanLog())
-            {
-                psLines.Add($"$_ = Start-Transcript -Path \"{action.CurrentLogFile}\"");
-            }
-            psLines.Add($"$t0 = New-Object System.DateTime ({timestamp.Ticks})");
-            psLines.Add("$tsf = \"yyyy-MM-dd HH:mm:ss\"");
-            psLines.Add($"echo \"Directory:  {action.ExpandedWorkingDirectory}\"");
-            psLines.Add($"echo \"Command:    {action.ExpandedCommand}\"");
-            if (!string.IsNullOrWhiteSpace(action.ExpandedArguments))
-                psLines.Add($"echo \"Arguments:  {action.ExpandedArguments.Replace("\"", "`\"")}\"");
-            psLines.Add($"echo \"Start:      $($t0.toString($tsf))\"");
-            psLines.Add("echo \"--------------------------------------------------------------------------------\"");
-            psLines.Add("echo \"\"");
-            psLines.Add($"& \"{action.ExpandedCommand}\" {action.ExpandedArguments}");
-            psLines.Add("if ($LastExitCode -eq $null) { if ($?) { $ec = 0 } else { $ec = 1; echo \"\"; Write-Warning \"Command failed.\" } } else { $ec = $LastExitCode; if ($ec -ne 0) { echo \"\"; Write-Warning \"Exit Code: $ec\" } }");
-            psLines.Add("$t = [DateTime]::Now");
-            psLines.Add("echo \"\"");
-            psLines.Add("echo \"--------------------------------------------------------------------------------\"");
-            psLines.Add($"echo \"End:        $($t::Now.toString($tsf))\"");
-            psLines.Add($"echo \"Duration:   $(($t - $t0).TotalSeconds) sec\"");
-            if (CanLog())
-            {
-                psLines.Add("$_ = Stop-Transcript");
-                psLines.Add($"mv \"{action.CurrentLogFile}\" \"{action.CurrentLogFile}_$ec.log\"");
-            }
-            psLines.Add("echo \"Press any key to continue...\"");
-            psLines.Add("$_ = $Host.UI.RawUI.ReadKey()");
-            psLines.Add("exit $ec");
-            var cmd = string.Join(Environment.NewLine, psLines);
-            var encodedCmd = EncodePowerShellCommand(cmd);
-            var psArgs = $"-NoLogo -ExecutionPolicy RemoteSigned -EncodedCommand {encodedCmd}";
+            var psArgs = BuildPowerShellArguments(logfile, timestamp,
+                action.ExpandedWorkingDirectory, action.ExpandedCommand, action.ExpandedArguments,
+                waitForKeyPress: true);
+
             var psi = new ProcessStartInfo(CommandLine.PowerShellExe, psArgs)
             {
                 WindowStyle = ProcessWindowStyle.Normal,
-                WorkingDirectory = action.ExpandedWorkingDirectory
+                WorkingDirectory = action.ExpandedWorkingDirectory,
             };
             var p = Process.Start(psi);
             if (p != null)
@@ -68,14 +41,14 @@ namespace Mastersign.DashOps
                 lock (runningProcesses)
                 {
                     runningProcesses[p] = action;
-                    p.Exited += ProcessExitedHandler;
+                    p.Exited += ActionProcessExitedHandler;
                 }
 
-                if (p.HasExited) ProcessExitedHandler(p, EventArgs.Empty);
+                if (p.HasExited) ActionProcessExitedHandler(p, EventArgs.Empty);
             }
         }
 
-        private void ProcessExitedHandler(object sender, EventArgs e)
+        private void ActionProcessExitedHandler(object sender, EventArgs e)
         {
             var p = (Process)sender;
             ActionView action = null;
@@ -98,7 +71,47 @@ namespace Mastersign.DashOps
             }
         }
 
+        private string BuildPowerShellArguments(string logfile, DateTime timestamp,
+            string workingDirectory, string command, string arguments, bool waitForKeyPress)
+        {
+            var psLines = new List<string>();
+            if (logfile != null)
+            {
+                psLines.Add($"$_ = Start-Transcript -Path \"{logfile}\"");
+            }
+            psLines.Add($"$t0 = New-Object System.DateTime ({timestamp.Ticks})");
+            psLines.Add("$tsf = \"yyyy-MM-dd HH:mm:ss\"");
+            psLines.Add($"echo \"Directory:  {workingDirectory}\"");
+            psLines.Add($"echo \"Command:    {command}\"");
+            if (!string.IsNullOrWhiteSpace(arguments))
+                psLines.Add($"echo \"Arguments:  {arguments.Replace("\"", "`\"")}\"");
+            psLines.Add($"echo \"Start:      $($t0.toString($tsf))\"");
+            psLines.Add("echo \"--------------------------------------------------------------------------------\"");
+            psLines.Add("echo \"\"");
+            psLines.Add($"& \"{command}\" {arguments}");
+            psLines.Add("if ($LastExitCode -eq $null) { if ($?) { $ec = 0 } else { $ec = 1; echo \"\"; Write-Warning \"Command failed.\" } } else { $ec = $LastExitCode; if ($ec -ne 0) { echo \"\"; Write-Warning \"Exit Code: $ec\" } }");
+            psLines.Add("$t = [DateTime]::Now");
+            psLines.Add("echo \"\"");
+            psLines.Add("echo \"--------------------------------------------------------------------------------\"");
+            psLines.Add($"echo \"End:        $($t::Now.toString($tsf))\"");
+            psLines.Add($"echo \"Duration:   $(($t - $t0).TotalSeconds) sec\"");
+            if (logfile != null)
+            {
+                psLines.Add("$_ = Stop-Transcript");
+                psLines.Add($"mv \"{logfile}\" \"{logfile}_$ec.log\"");
+            }
+            if (waitForKeyPress)
+            {
+                psLines.Add("echo \"Press any key to continue...\"");
+                psLines.Add("$_ = $Host.UI.RawUI.ReadKey()");
+            }
+            psLines.Add("exit $ec");
+            var cmd = string.Join(Environment.NewLine, psLines);
+            var encodedCmd = EncodePowerShellCommand(cmd);
+            return $"-NoLogo -ExecutionPolicy RemoteSigned -EncodedCommand {encodedCmd}";
+        }
+
         private static string EncodePowerShellCommand(string cmd)
-            => Convert.ToBase64String(Encoding.Unicode.GetBytes(cmd));
+                    => Convert.ToBase64String(Encoding.Unicode.GetBytes(cmd));
     }
 }

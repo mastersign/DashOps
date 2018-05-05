@@ -55,7 +55,7 @@ namespace Mastersign.DashOps
             if (!(e.Parameter is ActionView action)) return;
             if (!action.Reassure || Reassure(action))
             {
-                App.Executor.Execute(action);
+                App.Executor.ExecuteAction(action);
             }
         }
 
