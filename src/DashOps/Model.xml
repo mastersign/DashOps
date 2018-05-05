@@ -76,7 +76,9 @@
     <Class name="MonitorBase">
       <Property name="Title" />
       <Property name="Logs" />
-      <Property name="Interval" type="int" />
+      <Property name="Interval" type="int" defaultInitialization="true">
+        <DefaultValue>-1</DefaultValue>
+      </Property>
       <Property name="RequiredPatterns" type="string[]" />
       <Property name="ForbiddenPatterns" type="string[]" />
     </Class>

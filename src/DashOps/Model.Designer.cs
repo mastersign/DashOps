@@ -816,6 +816,7 @@ namespace Mastersign.DashOps.Model
     {
         public MonitorBase()
         {
+            this._interval = DEF_INTERVAL;
             this._requiredPatterns = new string[0];
             this._forbiddenPatterns = new string[0];
         }
@@ -881,6 +882,9 @@ namespace Mastersign.DashOps.Model
         
         private int _interval;
         
+        private const int DEF_INTERVAL = -1;
+        
+        [DefaultValue(DEF_INTERVAL)]
         public virtual int Interval
         {
             get { return _interval; }
