@@ -214,16 +214,15 @@ namespace Mastersign.DashOps
 
         private ActionView ActionViewFromCommandAction(CommandAction action)
         {
-            var wdPath = BuildAbsolutePath(action.WorkingDirectory);
-
             var actionView = new ActionView
             {
-                Command = action.Command,
-                Arguments = action.Arguments,
-                WorkingDirectory = wdPath,
+                Command = ExpandEnv(action.Command),
+                Arguments = action.Arguments?
+                    .Select(ExpandEnv).ToArray() ?? Array.Empty<string>(),
+                WorkingDirectory = BuildAbsolutePath(ExpandEnv(action.WorkingDirectory)),
                 Description = action.Description,
                 Reassure = action.Reassure,
-                Logs = action.Logs,
+                Logs = ExpandEnv(action.Logs),
                 Tags = action.Tags ?? Array.Empty<string>(),
                 Facettes = action.Facettes != null
                     ? new Dictionary<string, string>(action.Facettes)
@@ -246,12 +245,12 @@ namespace Mastersign.DashOps
 
         private IEnumerable<ActionView> DiscoverActions(CommandActionDiscovery actionDiscovery)
         {
-            var basePath = BuildAbsolutePath(actionDiscovery.BasePath);
+            var basePath = BuildAbsolutePath(ExpandEnv(actionDiscovery.BasePath));
             if (!Directory.Exists(basePath)) yield break;
             var pathRegex = BuildRegexFromPattern(actionDiscovery.PathPattern,
                 RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             if (pathRegex == null) yield break;
-            
+
             var groupNames = pathRegex.GetGroupNames();
             foreach (var discovery in DiscoverFiles(basePath, pathRegex))
             {
@@ -314,10 +313,12 @@ namespace Mastersign.DashOps
             {
                 Description = ExpandTemplate(actionDiscovery.Description, facettes),
                 Reassure = actionDiscovery.Reassure,
-                Logs = ExpandTemplate(actionDiscovery.Logs, facettes),
+                Logs = ExpandEnv(ExpandTemplate(actionDiscovery.Logs, facettes)),
                 Command = file,
-                Arguments = actionDiscovery.Arguments,
-                WorkingDirectory = BuildAbsolutePath(ExpandTemplate(actionDiscovery.WorkingDirectory, facettes)),
+                Arguments = actionDiscovery.Arguments?
+                    .Select(ExpandEnv).ToArray() ?? Array.Empty<string>(),
+                WorkingDirectory = BuildAbsolutePath(
+                    ExpandEnv(ExpandTemplate(actionDiscovery.WorkingDirectory, facettes))),
                 Facettes = facettes,
                 Tags = actionDiscovery.Tags ?? Array.Empty<string>()
             };
@@ -329,10 +330,13 @@ namespace Mastersign.DashOps
             {
                 Description = ExpandTemplate(actionPattern.Description, facettes),
                 Reassure = actionPattern.Reassure,
-                Logs = ExpandTemplate(actionPattern.Logs, facettes),
-                Command = ExpandTemplate(actionPattern.Command, facettes),
-                Arguments = actionPattern.Arguments?.Select(a => ExpandTemplate(a, facettes)).ToArray() ?? Array.Empty<string>(),
-                WorkingDirectory = BuildAbsolutePath(ExpandTemplate(actionPattern.WorkingDirectory, facettes)),
+                Logs = ExpandEnv(ExpandTemplate(actionPattern.Logs, facettes)),
+                Command = ExpandEnv(ExpandTemplate(actionPattern.Command, facettes)),
+                Arguments = actionPattern.Arguments?
+                    .Select(a => ExpandEnv(ExpandTemplate(a, facettes)))
+                    .ToArray() ?? Array.Empty<string>(),
+                WorkingDirectory = BuildAbsolutePath(
+                    ExpandEnv(ExpandTemplate(actionPattern.WorkingDirectory, facettes))),
                 Facettes = facettes,
                 Tags = actionPattern.Tags ?? Array.Empty<string>()
             };
@@ -341,11 +345,12 @@ namespace Mastersign.DashOps
             => new CommandMonitorView
             {
                 Title = monitor.Title,
-                Logs = monitor.Logs,
+                Logs = ExpandEnv(monitor.Logs),
                 Interval = monitor.Interval,
-                Command = monitor.Command,
-                Arguments = monitor.Arguments,
-                WorkingDirectory = BuildAbsolutePath(monitor.WorkingDirectory),
+                Command = ExpandEnv(monitor.Command),
+                Arguments = monitor.Arguments?
+                    .Select(ExpandEnv).ToArray() ?? Array.Empty<string>(),
+                WorkingDirectory = BuildAbsolutePath(ExpandEnv(monitor.WorkingDirectory)),
                 RequiredPatterns = BuildPatterns(monitor.RequiredPatterns),
                 ForbiddenPatterns = BuildPatterns(monitor.ForbiddenPatterns)
             };
@@ -373,28 +378,7 @@ namespace Mastersign.DashOps
                     .Select(d => MonitorViewFromPatternVariation(monitorPattern, d))
                 : Enumerable.Empty<MonitorView>();
 
-        private static MonitorView MonitorViewFromWebMonitor(WebMonitor monitor)
-            => new WebMonitorView
-            {
-                Title = monitor.Title,
-                Logs = monitor.Logs,
-                Interval = monitor.Interval,
-                Url = monitor.Url,
-                Headers = monitor.Headers,
-                StatusCodes = monitor.StatusCodes != null && monitor.StatusCodes.Length > 0 
-                    ? monitor.StatusCodes 
-                    : new[] { 200, 201, 202, 203, 204 },
-                RequiredPatterns = BuildPatterns(monitor.RequiredPatterns),
-                ForbiddenPatterns = BuildPatterns(monitor.ForbiddenPatterns),
-            };
-
-        private static IEnumerable<MonitorView> ExpandWebMonitorPattern(WebMonitorPattern monitorPattern)
-            => monitorPattern.Variables != null
-                ? EnumerateVariations(monitorPattern.Variables)
-                    .Select(d => MonitorViewFromPatternVariation(monitorPattern, d))
-                : Enumerable.Empty<MonitorView>();
-
-        private static MonitorView MonitorViewFromDiscoveredMatch(CommandMonitorDiscovery monitorDiscovery, 
+        private static MonitorView MonitorViewFromDiscoveredMatch(CommandMonitorDiscovery monitorDiscovery,
             string[] groupNames, Match m, string file)
         {
             var variables = new Dictionary<string, string>();
@@ -409,11 +393,13 @@ namespace Mastersign.DashOps
             return new CommandMonitorView
             {
                 Title = ExpandTemplate(monitorDiscovery.Title, variables),
-                Logs = ExpandTemplate(monitorDiscovery.Logs, variables),
+                Logs = ExpandEnv(ExpandTemplate(monitorDiscovery.Logs, variables)),
                 Interval = monitorDiscovery.Interval,
                 Command = file,
-                Arguments = monitorDiscovery.Arguments?.Select(a => ExpandTemplate(a, variables)).ToArray() ?? Array.Empty<string>(),
-                WorkingDirectory = BuildAbsolutePath(monitorDiscovery.WorkingDirectory),
+                Arguments = monitorDiscovery.Arguments?
+                    .Select(a => ExpandEnv(ExpandTemplate(a, variables)))
+                    .ToArray() ?? Array.Empty<string>(),
+                WorkingDirectory = BuildAbsolutePath(ExpandEnv(monitorDiscovery.WorkingDirectory)),
                 RequiredPatterns = BuildPatterns(monitorDiscovery.RequiredPatterns),
                 ForbiddenPatterns = BuildPatterns(monitorDiscovery.ForbiddenPatterns)
             };
@@ -424,24 +410,47 @@ namespace Mastersign.DashOps
             => new CommandMonitorView
             {
                 Title = ExpandTemplate(monitorPattern.Title, variables),
-                Logs = ExpandTemplate(monitorPattern.Logs, variables),
+                Logs = ExpandEnv(ExpandTemplate(monitorPattern.Logs, variables)),
                 Interval = monitorPattern.Interval,
-                Command = ExpandTemplate(monitorPattern.Command, variables),
-                Arguments = monitorPattern.Arguments?.Select(a => ExpandTemplate(a, variables)).ToArray() ?? Array.Empty<string>(),
-                WorkingDirectory = BuildAbsolutePath(monitorPattern.WorkingDirectory),
+                Command = ExpandEnv(ExpandTemplate(monitorPattern.Command, variables)),
+                Arguments = monitorPattern.Arguments?
+                    .Select(a => ExpandEnv(ExpandTemplate(a, variables)))
+                    .ToArray() ?? Array.Empty<string>(),
+                WorkingDirectory = BuildAbsolutePath(ExpandEnv(monitorPattern.WorkingDirectory)),
                 RequiredPatterns = BuildPatterns(monitorPattern.RequiredPatterns),
                 ForbiddenPatterns = BuildPatterns(monitorPattern.ForbiddenPatterns)
             };
+
+        private static MonitorView MonitorViewFromWebMonitor(WebMonitor monitor)
+            => new WebMonitorView
+            {
+                Title = monitor.Title,
+                Logs = ExpandEnv(monitor.Logs),
+                Interval = monitor.Interval,
+                Url = monitor.Url,
+                Headers = monitor.Headers,
+                StatusCodes = monitor.StatusCodes != null && monitor.StatusCodes.Length > 0
+                    ? monitor.StatusCodes
+                    : new[] { 200, 201, 202, 203, 204 },
+                RequiredPatterns = BuildPatterns(monitor.RequiredPatterns),
+                ForbiddenPatterns = BuildPatterns(monitor.ForbiddenPatterns),
+            };
+
+        private static IEnumerable<MonitorView> ExpandWebMonitorPattern(WebMonitorPattern monitorPattern)
+            => monitorPattern.Variables != null
+                ? EnumerateVariations(monitorPattern.Variables)
+                    .Select(d => MonitorViewFromPatternVariation(monitorPattern, d))
+                : Enumerable.Empty<MonitorView>();
 
         private static MonitorView MonitorViewFromPatternVariation(
             WebMonitorPattern monitorPattern, Dictionary<string, string> variables)
             => new WebMonitorView
             {
                 Title = ExpandTemplate(monitorPattern.Title, variables),
-                Logs = ExpandTemplate(monitorPattern.Logs, variables),
+                Logs = ExpandEnv(ExpandTemplate(monitorPattern.Logs, variables)),
                 Interval = monitorPattern.Interval,
                 Url = ExpandTemplate(monitorPattern.Url, variables),
-                Headers = ExpandTemplateDictionary(monitorPattern.Headers, variables),
+                Headers = ExpandDictionaryTemplate(monitorPattern.Headers, variables),
                 StatusCodes = monitorPattern.StatusCodes != null && monitorPattern.StatusCodes.Length > 0
                     ? monitorPattern.StatusCodes
                     : new[] { 200, 201, 202, 203, 204 },
@@ -516,16 +525,8 @@ namespace Mastersign.DashOps
             return dimensions.Keys.Aggregate(Enumerable.Repeat(new Dictionary<string, string>(), 1), AddDimension);
         }
 
-        private static Dictionary<string, string> ExpandTemplateDictionary(Dictionary<string, string> dict, Dictionary<string, string> variables)
-        {
-            if (dict == null) return new Dictionary<string, string>();
-            var result = new Dictionary<string, string>(dict);
-            foreach (var kvp in result)
-            {
-                result[kvp.Key] = ExpandTemplate(kvp.Value, variables);
-            }
-            return result;
-        }
+        private static Dictionary<string, string> ExpandDictionaryTemplate(Dictionary<string, string> dict, Dictionary<string, string> variables)
+            => MapValues(dict, v => ExpandTemplate(v, variables));
 
         private static string ExpandTemplate(string template, Dictionary<string, string> variables)
         {
@@ -535,6 +536,23 @@ namespace Mastersign.DashOps
             {
                 result = result.Replace("${" + kvp.Key + "}", kvp.Value);
                 result = result.Replace("${" + kvp.Key.ToLowerInvariant() + "}", kvp.Value);
+            }
+            return result;
+        }
+
+        private static string ExpandEnv(string template)
+            => string.IsNullOrWhiteSpace(template)
+                ? template
+                : Environment.ExpandEnvironmentVariables(template);
+
+        private static Dictionary<TKey, TValue> MapValues<TKey, TValue>(
+            Dictionary<TKey, TValue> dict, Func<TValue, TValue> f)
+        {
+            if (dict == null) return new Dictionary<TKey, TValue>();
+            var result = new Dictionary<TKey, TValue>(dict);
+            foreach (var kvp in result)
+            {
+                result[kvp.Key] = f(kvp.Value);
             }
             return result;
         }
