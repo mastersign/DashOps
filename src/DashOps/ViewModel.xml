@@ -69,7 +69,7 @@
       <Property name="ActionViews" isCollection="true" type="ActionView" defaultInitialization="true" immutable="true" />
       <Property name="Perspectives" isCollection="true" type="PerspectiveView" defaultInitialization="true" immutable="true" />
       <Property name="CurrentPerspective" type="PerspectiveView" />
-      <Property name="Monitors" isCollection="true" type="MonitorView" defaultInitialization="true" immutable="true" />
+      <Property name="MonitorViews" isCollection="true" type="MonitorView" defaultInitialization="true" immutable="true" />
       <Property name="DefaultMonitorInterval" type="int" />
     </Class>
 

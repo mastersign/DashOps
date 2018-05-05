@@ -943,14 +943,14 @@ namespace Mastersign.DashOps
         {
             this._actionViews = new global::System.Collections.ObjectModel.ObservableCollection<ActionView>();
             this._perspectives = new global::System.Collections.ObjectModel.ObservableCollection<PerspectiveView>();
-            this._monitors = new global::System.Collections.ObjectModel.ObservableCollection<MonitorView>();
+            this._monitorViews = new global::System.Collections.ObjectModel.ObservableCollection<MonitorView>();
         }
         
-        public ProjectView(global::System.Collections.ObjectModel.ObservableCollection<ActionView> actionViews, global::System.Collections.ObjectModel.ObservableCollection<PerspectiveView> perspectives, global::System.Collections.ObjectModel.ObservableCollection<MonitorView> monitors)
+        public ProjectView(global::System.Collections.ObjectModel.ObservableCollection<ActionView> actionViews, global::System.Collections.ObjectModel.ObservableCollection<PerspectiveView> perspectives, global::System.Collections.ObjectModel.ObservableCollection<MonitorView> monitorViews)
         {
             this._actionViews = actionViews;
             this._perspectives = perspectives;
-            this._monitors = monitors;
+            this._monitorViews = monitorViews;
         }
         
         #region Change Tracking
@@ -1086,13 +1086,13 @@ namespace Mastersign.DashOps
         
         #endregion
         
-        #region Property Monitors
+        #region Property MonitorViews
         
-        private global::System.Collections.ObjectModel.ObservableCollection<MonitorView> _monitors;
+        private global::System.Collections.ObjectModel.ObservableCollection<MonitorView> _monitorViews;
         
-        public virtual global::System.Collections.ObjectModel.ObservableCollection<MonitorView> Monitors
+        public virtual global::System.Collections.ObjectModel.ObservableCollection<MonitorView> MonitorViews
         {
-            get { return _monitors; }
+            get { return _monitorViews; }
         }
         
         #endregion

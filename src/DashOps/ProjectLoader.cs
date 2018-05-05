@@ -188,6 +188,16 @@ namespace Mastersign.DashOps
             ProjectView.AddTagsPerspective();
             ProjectView.AddFacettePerspectives(DEF_PERSPECTIVES);
             ProjectView.AddFacettePerspectives(Project.Perspectives.ToArray());
+
+            void AddMonitorViews(IEnumerable<MonitorView> monitorViews)
+            {
+                foreach (var monitorView in monitorViews) ProjectView.MonitorViews.Add(monitorView);
+            }
+            if (Project.Monitors != null) AddMonitorViews(Project.Monitors.Select(MonitorViewFromCommandMonitor));
+            if (Project.MonitorDiscovery != null) AddMonitorViews(Project.MonitorDiscovery.SelectMany(DiscoverMonitors));
+            if (Project.MonitorPatterns != null) AddMonitorViews(Project.MonitorPatterns.SelectMany(ExpandCommandMonitorPattern));
+            if (Project.WebMonitors != null) AddMonitorViews(Project.WebMonitors.Select(MonitorViewFromWebMonitor));
+            if (Project.WebMonitorPatterns != null) AddMonitorViews(Project.WebMonitorPatterns.SelectMany(ExpandWebMonitorPattern));
         }
 
         private void ApplyAutoAnnotations()
@@ -204,13 +214,7 @@ namespace Mastersign.DashOps
 
         private ActionView ActionViewFromCommandAction(CommandAction action)
         {
-            var wdPath = action.WorkingDirectory?.TrimEnd(
-                Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) ?? string.Empty;
-            wdPath = string.IsNullOrWhiteSpace(wdPath)
-                ? Environment.CurrentDirectory
-                : Path.IsPathRooted(wdPath)
-                    ? wdPath
-                    : Path.Combine(Environment.CurrentDirectory, wdPath);
+            var wdPath = BuildAbsolutePath(action.WorkingDirectory);
 
             var actionView = new ActionView
             {
@@ -242,40 +246,18 @@ namespace Mastersign.DashOps
 
         private IEnumerable<ActionView> DiscoverActions(CommandActionDiscovery actionDiscovery)
         {
-            var basePath = actionDiscovery.BasePath?.TrimEnd(
-                Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) ?? string.Empty;
-            basePath = string.IsNullOrWhiteSpace(basePath)
-                ? Environment.CurrentDirectory
-                : Path.IsPathRooted(basePath)
-                    ? basePath
-                    : Path.Combine(Environment.CurrentDirectory, basePath);
-
+            var basePath = BuildAbsolutePath(actionDiscovery.BasePath);
             if (!Directory.Exists(basePath)) yield break;
-            if (string.IsNullOrWhiteSpace(actionDiscovery.PathPattern)) yield break;
-
-            Regex pathRegex;
-            try
-            {
-                pathRegex = new Regex(actionDiscovery.PathPattern,
-                    RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-            }
-            catch (ArgumentException exc)
-            {
-                MessageBox.Show("Error in regular expression: " + exc.Message,
-                    "Parsing Regular Expression",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
-                yield break;
-            }
-
+            var pathRegex = BuildRegexFromPattern(actionDiscovery.PathPattern,
+                RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            if (pathRegex == null) yield break;
+            
             var groupNames = pathRegex.GetGroupNames();
-
-            foreach (var file in Directory.EnumerateFiles(basePath, "*", SearchOption.AllDirectories))
+            foreach (var discovery in DiscoverFiles(basePath, pathRegex))
             {
-                Debug.Assert(file.StartsWith(basePath, StringComparison.OrdinalIgnoreCase));
-                var relativePath = file.Substring(basePath.Length + 1);
-                var m = pathRegex.Match(relativePath);
-                if (!m.Success) continue;
-                yield return ActionViewFromDiscoveredMatch(actionDiscovery, groupNames, m, file);
+                var file = discovery.Item1;
+                var match = discovery.Item2;
+                yield return ActionViewFromDiscoveredMatch(actionDiscovery, groupNames, match, file);
             }
         }
 
@@ -297,16 +279,8 @@ namespace Mastersign.DashOps
             AddFacetteValues(nameof(CommandAction.Service), actionPattern.Service);
             AddFacetteValues(nameof(CommandAction.Host), actionPattern.Host);
 
-            var facetteKeys = facettes.Keys;
-            var facette = new Dictionary<string, string>();
-
-            IEnumerable<Dictionary<string, string>> AddDimension(IEnumerable<Dictionary<string, string>> values, string key)
-            {
-                return values.SelectMany(d => facettes[key], (d2, v) => new Dictionary<string, string>(d2) { { key, v } });
-            }
-
-            return facetteKeys.Aggregate(Enumerable.Repeat(new Dictionary<string, string>(), 1),
-                AddDimension).Select(d => ActionViewFromPatternVariation(actionPattern, d));
+            return EnumerateVariations(facettes)
+                .Select(d => ActionViewFromPatternVariation(actionPattern, d));
         }
 
         private ActionView ActionViewFromDiscoveredMatch(
@@ -336,15 +310,6 @@ namespace Mastersign.DashOps
             if (service != null) facettes[nameof(CommandAction.Service)] = service;
             if (host != null) facettes[nameof(CommandAction.Host)] = host;
 
-            var wdPath = actionDiscovery.WorkingDirectory?.TrimEnd(
-                Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) ?? string.Empty;
-            wdPath = ExpandTemplate(wdPath, facettes);
-            wdPath = string.IsNullOrWhiteSpace(wdPath)
-                ? Environment.CurrentDirectory
-                : Path.IsPathRooted(wdPath)
-                    ? wdPath
-                    : Path.Combine(Environment.CurrentDirectory, wdPath);
-
             return new ActionView()
             {
                 Description = ExpandTemplate(actionDiscovery.Description, facettes),
@@ -352,35 +317,214 @@ namespace Mastersign.DashOps
                 Logs = ExpandTemplate(actionDiscovery.Logs, facettes),
                 Command = file,
                 Arguments = actionDiscovery.Arguments,
-                WorkingDirectory = wdPath,
+                WorkingDirectory = BuildAbsolutePath(ExpandTemplate(actionDiscovery.WorkingDirectory, facettes)),
                 Facettes = facettes,
                 Tags = actionDiscovery.Tags ?? Array.Empty<string>()
             };
         }
 
-        private static ActionView ActionViewFromPatternVariation(CommandActionPattern actionPattern,
-            Dictionary<string, string> facettes)
-        {
-            var wdPath = actionPattern.WorkingDirectory?.TrimEnd(
-                Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) ?? string.Empty;
-            wdPath = ExpandTemplate(wdPath, facettes);
-            wdPath = string.IsNullOrWhiteSpace(wdPath)
-                ? Environment.CurrentDirectory
-                : Path.IsPathRooted(wdPath)
-                    ? wdPath
-                    : Path.Combine(Environment.CurrentDirectory, wdPath);
-
-            return new ActionView()
+        private static ActionView ActionViewFromPatternVariation(
+            CommandActionPattern actionPattern, Dictionary<string, string> facettes)
+            => new ActionView()
             {
                 Description = ExpandTemplate(actionPattern.Description, facettes),
                 Reassure = actionPattern.Reassure,
                 Logs = ExpandTemplate(actionPattern.Logs, facettes),
                 Command = ExpandTemplate(actionPattern.Command, facettes),
-                Arguments = actionPattern.Arguments.Select(a => ExpandTemplate(a, facettes)).ToArray(),
-                WorkingDirectory = wdPath,
+                Arguments = actionPattern.Arguments?.Select(a => ExpandTemplate(a, facettes)).ToArray() ?? Array.Empty<string>(),
+                WorkingDirectory = BuildAbsolutePath(ExpandTemplate(actionPattern.WorkingDirectory, facettes)),
                 Facettes = facettes,
                 Tags = actionPattern.Tags ?? Array.Empty<string>()
             };
+
+        private static MonitorView MonitorViewFromCommandMonitor(CommandMonitor monitor)
+            => new CommandMonitorView
+            {
+                Title = monitor.Title,
+                Logs = monitor.Logs,
+                Interval = monitor.Interval,
+                Command = monitor.Command,
+                Arguments = monitor.Arguments,
+                WorkingDirectory = BuildAbsolutePath(monitor.WorkingDirectory),
+                RequiredPatterns = BuildPatterns(monitor.RequiredPatterns),
+                ForbiddenPatterns = BuildPatterns(monitor.ForbiddenPatterns)
+            };
+
+        private static IEnumerable<MonitorView> DiscoverMonitors(CommandMonitorDiscovery monitorDiscovery)
+        {
+            var basePath = BuildAbsolutePath(monitorDiscovery.BasePath);
+            if (!Directory.Exists(basePath)) yield break;
+            var pathRegex = BuildRegexFromPattern(monitorDiscovery.PathPattern,
+                RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            if (pathRegex == null) yield break;
+
+            var groupNames = pathRegex.GetGroupNames();
+            foreach (var discovery in DiscoverFiles(basePath, pathRegex))
+            {
+                var file = discovery.Item1;
+                var match = discovery.Item2;
+                yield return MonitorViewFromDiscoveredMatch(monitorDiscovery, groupNames, match, file);
+            }
+        }
+
+        private static IEnumerable<MonitorView> ExpandCommandMonitorPattern(CommandMonitorPattern monitorPattern)
+            => monitorPattern.Variables != null
+                ? EnumerateVariations(monitorPattern.Variables)
+                    .Select(d => MonitorViewFromPatternVariation(monitorPattern, d))
+                : Enumerable.Empty<MonitorView>();
+
+        private static MonitorView MonitorViewFromWebMonitor(WebMonitor monitor)
+            => new WebMonitorView
+            {
+                Title = monitor.Title,
+                Logs = monitor.Logs,
+                Interval = monitor.Interval,
+                Url = monitor.Url,
+                Headers = monitor.Headers,
+                StatusCodes = monitor.StatusCodes != null && monitor.StatusCodes.Length > 0 
+                    ? monitor.StatusCodes 
+                    : new[] { 200, 201, 202, 203, 204 },
+                RequiredPatterns = BuildPatterns(monitor.RequiredPatterns),
+                ForbiddenPatterns = BuildPatterns(monitor.ForbiddenPatterns),
+            };
+
+        private static IEnumerable<MonitorView> ExpandWebMonitorPattern(WebMonitorPattern monitorPattern)
+            => monitorPattern.Variables != null
+                ? EnumerateVariations(monitorPattern.Variables)
+                    .Select(d => MonitorViewFromPatternVariation(monitorPattern, d))
+                : Enumerable.Empty<MonitorView>();
+
+        private static MonitorView MonitorViewFromDiscoveredMatch(CommandMonitorDiscovery monitorDiscovery, 
+            string[] groupNames, Match m, string file)
+        {
+            var variables = new Dictionary<string, string>();
+            foreach (var groupName in groupNames)
+            {
+                if (groupName == "0") continue;
+                var g = m.Groups[groupName];
+                if (!g.Success) continue;
+                variables[groupName] = g.Value;
+            }
+
+            return new CommandMonitorView
+            {
+                Title = ExpandTemplate(monitorDiscovery.Title, variables),
+                Logs = ExpandTemplate(monitorDiscovery.Logs, variables),
+                Interval = monitorDiscovery.Interval,
+                Command = file,
+                Arguments = monitorDiscovery.Arguments?.Select(a => ExpandTemplate(a, variables)).ToArray() ?? Array.Empty<string>(),
+                WorkingDirectory = BuildAbsolutePath(monitorDiscovery.WorkingDirectory),
+                RequiredPatterns = BuildPatterns(monitorDiscovery.RequiredPatterns),
+                ForbiddenPatterns = BuildPatterns(monitorDiscovery.ForbiddenPatterns)
+            };
+        }
+
+        private static MonitorView MonitorViewFromPatternVariation(
+            CommandMonitorPattern monitorPattern, Dictionary<string, string> variables)
+            => new CommandMonitorView
+            {
+                Title = ExpandTemplate(monitorPattern.Title, variables),
+                Logs = ExpandTemplate(monitorPattern.Logs, variables),
+                Interval = monitorPattern.Interval,
+                Command = ExpandTemplate(monitorPattern.Command, variables),
+                Arguments = monitorPattern.Arguments?.Select(a => ExpandTemplate(a, variables)).ToArray() ?? Array.Empty<string>(),
+                WorkingDirectory = BuildAbsolutePath(monitorPattern.WorkingDirectory),
+                RequiredPatterns = BuildPatterns(monitorPattern.RequiredPatterns),
+                ForbiddenPatterns = BuildPatterns(monitorPattern.ForbiddenPatterns)
+            };
+
+        private static MonitorView MonitorViewFromPatternVariation(
+            WebMonitorPattern monitorPattern, Dictionary<string, string> variables)
+            => new WebMonitorView
+            {
+                Title = ExpandTemplate(monitorPattern.Title, variables),
+                Logs = ExpandTemplate(monitorPattern.Logs, variables),
+                Interval = monitorPattern.Interval,
+                Url = ExpandTemplate(monitorPattern.Url, variables),
+                Headers = ExpandTemplateDictionary(monitorPattern.Headers, variables),
+                StatusCodes = monitorPattern.StatusCodes != null && monitorPattern.StatusCodes.Length > 0
+                    ? monitorPattern.StatusCodes
+                    : new[] { 200, 201, 202, 203, 204 },
+                RequiredPatterns = BuildPatterns(monitorPattern.RequiredPatterns),
+                ForbiddenPatterns = BuildPatterns(monitorPattern.ForbiddenPatterns)
+            };
+
+        private static string BuildAbsolutePath(string workingDirectory)
+        {
+            workingDirectory = workingDirectory?.TrimEnd(
+                Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) ?? string.Empty;
+            return string.IsNullOrWhiteSpace(workingDirectory)
+                ? Environment.CurrentDirectory
+                : Path.IsPathRooted(workingDirectory)
+                    ? workingDirectory
+                    : Path.Combine(Environment.CurrentDirectory, workingDirectory);
+        }
+
+        private static Regex BuildRegexFromPattern(string pattern, RegexOptions options)
+        {
+            if (string.IsNullOrWhiteSpace(pattern)) return null;
+            try
+            {
+                return new Regex(pattern,
+                    RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            }
+            catch (ArgumentException exc)
+            {
+                MessageBox.Show("Error in regular expression: " + exc.Message,
+                    "Parsing Regular Expression",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                return null;
+            }
+        }
+
+        private static IEnumerable<Tuple<string, Match>> DiscoverFiles(string basePath, Regex pattern)
+        {
+            foreach (var file in Directory.EnumerateFiles(basePath, "*", SearchOption.AllDirectories))
+            {
+                Debug.Assert(file.StartsWith(basePath, StringComparison.OrdinalIgnoreCase));
+                var relativePath = file.Substring(basePath.Length + 1);
+                var m = pattern.Match(relativePath);
+                if (!m.Success) continue;
+                yield return Tuple.Create(file, m);
+            }
+        }
+
+        private static Regex[] BuildPatterns(string[] patterns)
+        {
+            try
+            {
+                return patterns?.Select(p => new Regex(p,
+                        RegexOptions.Compiled | RegexOptions.CultureInvariant,
+                        TimeSpan.FromMilliseconds(1000))
+                    ).ToArray() ?? Array.Empty<Regex>();
+            }
+            catch (ArgumentException exc)
+            {
+                MessageBox.Show("Error in regular expression: " + exc.Message,
+                    "Parsing Regular Expression",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                return Array.Empty<Regex>();
+            }
+        }
+
+        private static IEnumerable<Dictionary<string, string>> EnumerateVariations(Dictionary<string, string[]> dimensions)
+        {
+            IEnumerable<Dictionary<string, string>> AddDimension(IEnumerable<Dictionary<string, string>> values, string key)
+            {
+                return values.SelectMany(d => dimensions[key], (d2, v) => new Dictionary<string, string>(d2) { { key, v } });
+            }
+            return dimensions.Keys.Aggregate(Enumerable.Repeat(new Dictionary<string, string>(), 1), AddDimension);
+        }
+
+        private static Dictionary<string, string> ExpandTemplateDictionary(Dictionary<string, string> dict, Dictionary<string, string> variables)
+        {
+            if (dict == null) return new Dictionary<string, string>();
+            var result = new Dictionary<string, string>(dict);
+            foreach (var kvp in result)
+            {
+                result[kvp.Key] = ExpandTemplate(kvp.Value, variables);
+            }
+            return result;
         }
 
         private static string ExpandTemplate(string template, Dictionary<string, string> variables)
