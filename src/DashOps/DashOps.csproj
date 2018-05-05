@@ -70,11 +70,13 @@
     <Compile Include="ActionSubset.cs" />
     <Compile Include="AutoAnnotation.cs" />
     <Compile Include="CommandLine.cs" />
+    <Compile Include="CommandMonitorView.cs" />
     <Compile Include="DashOpsCommands.cs" />
     <Compile Include="DesignTimeProjectView.cs" />
     <Compile Include="Executor.cs" />
     <Compile Include="LogFileInfo.cs" />
     <Compile Include="LogFileManager.cs" />
+    <Compile Include="MonitorView.cs" />
     <Compile Include="Perspective.cs" />
     <Compile Include="ActionView.cs" />
     <Compile Include="ProjectLoader.cs" />
@@ -84,6 +86,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ViewModel.xml</DependentUpon>
     </Compile>
+    <Compile Include="WebMonitorView.cs" />
     <Page Include="Icons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
