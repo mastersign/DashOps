@@ -221,6 +221,7 @@ namespace Mastersign.DashOps
                 WorkingDirectory = BuildAbsolutePath(action.WorkingDirectory),
                 Description = action.Description,
                 Reassure = action.Reassure,
+                Visible = !action.Background,
                 Logs = ExpandEnv(action.Logs),
                 Tags = action.Tags ?? Array.Empty<string>(),
                 Facettes = action.Facettes != null
@@ -312,6 +313,7 @@ namespace Mastersign.DashOps
             {
                 Description = ExpandTemplate(actionDiscovery.Description, facettes),
                 Reassure = actionDiscovery.Reassure,
+                Visible = !actionDiscovery.Background,
                 Logs = ExpandEnv(ExpandTemplate(actionDiscovery.Logs, facettes)),
                 Command = file,
                 Arguments = FormatArguments(actionDiscovery.Arguments),
@@ -328,6 +330,7 @@ namespace Mastersign.DashOps
             {
                 Description = ExpandTemplate(actionPattern.Description, facettes),
                 Reassure = actionPattern.Reassure,
+                Visible = !actionPattern.Background,
                 Logs = ExpandEnv(ExpandTemplate(actionPattern.Logs, facettes)),
                 Command = ExpandEnv(ExpandTemplate(actionPattern.Command, facettes)),
                 Arguments = FormatArguments(

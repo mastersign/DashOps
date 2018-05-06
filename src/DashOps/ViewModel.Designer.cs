@@ -317,6 +317,38 @@ namespace Mastersign.DashOps
         }
         
         #endregion
+        
+        #region Property Visible
+        
+        private bool _visible;
+        
+        public event EventHandler VisibleChanged;
+        
+        protected virtual void OnVisibleChanged()
+        {
+            EventHandler handler = VisibleChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Visible");
+        }
+        
+        public virtual bool Visible
+        {
+            get { return _visible; }
+            set
+            {
+                if ((value == _visible))
+                {
+                    return;
+                }
+                _visible = value;
+                this.OnVisibleChanged();
+            }
+        }
+        
+        #endregion
     }
     
     public partial class ActionSubset : INotifyPropertyChanged

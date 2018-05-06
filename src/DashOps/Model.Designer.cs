@@ -36,6 +36,7 @@ namespace Mastersign.DashOps.Model
             return (this.GetType().FullName + @": " + (
                 (Environment.NewLine + @"    Description = " + (!ReferenceEquals(_description, null) ? _description.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Reassure = " + _reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    Background = " + _background.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
@@ -77,6 +78,25 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _reassure = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Background
+        
+        private bool _background;
+        
+        public virtual bool Background
+        {
+            get { return _background; }
+            set
+            {
+                if ((value == _background))
+                {
+                    return;
+                }
+                _background = value;
             }
         }
         
@@ -177,6 +197,7 @@ namespace Mastersign.DashOps.Model
             return (this.GetType().FullName + @": " + (
                 (Environment.NewLine + @"    Description = " + (!ReferenceEquals(Description, null) ? Description.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Reassure = " + Reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
@@ -304,6 +325,7 @@ namespace Mastersign.DashOps.Model
             return (this.GetType().FullName + @": " + (
                 (Environment.NewLine + @"    Description = " + (!ReferenceEquals(Description, null) ? Description.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Reassure = " + Reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
@@ -454,6 +476,7 @@ namespace Mastersign.DashOps.Model
             return (this.GetType().FullName + @": " + (
                 (Environment.NewLine + @"    Description = " + (!ReferenceEquals(Description, null) ? Description.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Reassure = " + Reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 

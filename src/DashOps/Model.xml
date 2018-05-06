@@ -18,6 +18,7 @@
     <Class name="CommandActionBase">
       <Property name="Description" />
       <Property name="Reassure" type="bool" />
+      <Property name="Background" type="bool" />
       <Property name="Logs" />
       <Property name="Arguments" type="string[]" />
       <Property name="WorkingDirectory" />

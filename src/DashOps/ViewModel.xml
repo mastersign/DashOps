@@ -26,6 +26,7 @@
       <Property name="Facettes" type="dict" />
       <Property name="Logs" />
       <Property name="CurrentLogFile" />
+      <Property name="Visible" type="bool" />
     </Class>
 
     <Class name="ActionSubset">

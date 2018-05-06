@@ -21,6 +21,8 @@ actions:
     arguments: ['$env:UserProfile']
     host: Localhost
     service: File System
+    logs: 'test-logs\user-files'
+    background: true
     verb: dir
     facettes:
       Environment: User
