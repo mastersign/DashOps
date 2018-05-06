@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -19,6 +21,8 @@ namespace Mastersign.DashOps
         public ProjectLoader ProjectLoader { get; private set; }
 
         public Executor Executor { get; private set; }
+
+        public MonitorManager MonitorManager { get; private set; }
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
@@ -86,6 +90,7 @@ namespace Mastersign.DashOps
                 return;
             }
             Executor = new Executor();
+            MonitorManager = new MonitorManager();
         }
 
         private void Dispatch(Action action)

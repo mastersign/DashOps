@@ -80,6 +80,7 @@
     <Compile Include="IExecutable.cs" />
     <Compile Include="LogFileInfo.cs" />
     <Compile Include="LogFileManager.cs" />
+    <Compile Include="MonitorManager.cs" />
     <Compile Include="MonitorView.cs" />
     <Compile Include="PerspectiveView.cs" />
     <Compile Include="ActionView.cs" />

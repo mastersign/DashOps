@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,15 +22,25 @@ namespace Mastersign.DashOps
 
         public override string ToString() => $"[{CommandId}] {Title}: {CommandLabel}";
 
-        public override async Task<bool> Check()
+        public override async Task<bool> Check(DateTime startTime)
         {
-            NotifyExecutionBegin();
+            NotifyExecutionBegin(startTime);
             var result = await App.Instance.Executor.ExecuteAsync(this);
             var success = result.StatusCode == 0
                 && RequiredPatterns.All(p => p.IsMatch(result.Output))
                 && !ForbiddenPatterns.Any(p => p.IsMatch(result.Output));
             NotifyExecutionFinished(success);
             return success;
+        }
+
+        protected override void NotifyExecutionFinished(bool success)
+        {
+            base.NotifyExecutionFinished(success);
+            if (!HasExecutionResultChanged)
+            {
+                System.IO.File.Delete(CurrentLogFile);
+                CurrentLogFile = null;
+            }
         }
 
         public IEnumerable<string> LogFiles()
@@ -39,7 +50,6 @@ namespace Mastersign.DashOps
             => LogFileManager.FindLogFiles(this, Logs)
                 .OrderByDescending(f => f)
                 .FirstOrDefault();
-
 
         public LogFileInfo LastLogFileInfo()
         {

@@ -687,7 +687,7 @@ namespace Mastersign.DashOps
         
         #region Property Interval
         
-        private int _interval;
+        private TimeSpan _interval;
         
         public event EventHandler IntervalChanged;
         
@@ -701,7 +701,7 @@ namespace Mastersign.DashOps
             this.OnPropertyChanged(@"Interval");
         }
         
-        public virtual int Interval
+        public virtual TimeSpan Interval
         {
             get { return _interval; }
             set
@@ -1321,7 +1321,7 @@ namespace Mastersign.DashOps
         
         #region Property DefaultMonitorInterval
         
-        private int _defaultMonitorInterval;
+        private TimeSpan _defaultMonitorInterval;
         
         public event EventHandler DefaultMonitorIntervalChanged;
         
@@ -1335,7 +1335,7 @@ namespace Mastersign.DashOps
             this.OnPropertyChanged(@"DefaultMonitorInterval");
         }
         
-        public virtual int DefaultMonitorInterval
+        public virtual TimeSpan DefaultMonitorInterval
         {
             get { return _defaultMonitorInterval; }
             set

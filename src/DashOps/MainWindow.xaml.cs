@@ -88,7 +88,7 @@ namespace Mastersign.DashOps
         {
             var label = sender as Label;
             var monitor = label?.DataContext as CommandMonitorView;
-            var result = await monitor.Check();
+            var result = await monitor.Check(DateTime.Now);
             MessageBox.Show(result.ToString());
         }
     }

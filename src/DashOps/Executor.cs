@@ -111,6 +111,7 @@ namespace Mastersign.DashOps
                         logFile = LogFileManager.FinalizeLogFileName(logFile, p.ExitCode);
                         if (File.Exists(logFile))
                         {
+                            executable.CurrentLogFile = logFile;
                             LogFileManager.PostprocessLogFile(logFile, outputBuffer);
                         }
                         else

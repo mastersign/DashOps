@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,20 +10,24 @@ namespace Mastersign.DashOps
 {
     partial class MonitorView
     {
-        public virtual Task<bool> Check()
+        public virtual Task<bool> Check(DateTime startTime)
         {
             throw new NotImplementedException();
         }
 
-        protected virtual void NotifyExecutionBegin()
+        public TimeSpan GetInterval(TimeSpan defaultInterval)
+            => Interval < TimeSpan.Zero ? defaultInterval : Interval;
+
+        protected virtual void NotifyExecutionBegin(DateTime startTime)
         {
-            LastExecutionTime = DateTime.Now;
+            LastExecutionTime = startTime;
             IsRunning = true;
         }
 
         protected virtual void NotifyExecutionFinished(bool success)
         {
             HasExecutionResultChanged = !HasLastExecutionResult || LastExecutionResult != success;
+            Debug.WriteLine($"{Title}: {LastExecutionResult} -> {success} ({HasExecutionResultChanged})");
             LastExecutionResult = success;
             HasLastExecutionResult = true;
             IsRunning = false;

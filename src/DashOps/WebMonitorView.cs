@@ -8,7 +8,7 @@ namespace Mastersign.DashOps
 {
     partial class WebMonitorView
     {
-        public override Task<bool> Check()
+        public override Task<bool> Check(DateTime startTime)
         {
             throw new NotImplementedException();
         }

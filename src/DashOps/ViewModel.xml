@@ -48,7 +48,7 @@
       <Property name="Title" />
       <Property name="Logs" />
       <Property name="CurrentLogFile" />
-      <Property name="Interval" type="int" />
+      <Property name="Interval" type="TimeSpan" />
       <Property name="RequiredPatterns" type="regexes" />
       <Property name="ForbiddenPatterns" type="regexes" />
       <Property name="IsRunning" type="bool" />
@@ -77,7 +77,7 @@
       <Property name="Perspectives" isCollection="true" type="PerspectiveView" defaultInitialization="true" immutable="true" />
       <Property name="CurrentPerspective" type="PerspectiveView" />
       <Property name="MonitorViews" isCollection="true" type="MonitorView" defaultInitialization="true" immutable="true" />
-      <Property name="DefaultMonitorInterval" type="int" />
+      <Property name="DefaultMonitorInterval" type="TimeSpan" />
     </Class>
 
   </Types>

@@ -149,7 +149,7 @@ namespace Mastersign.DashOps
             ProjectView.ActionViews.Clear();
             ProjectView.Perspectives.Clear();
             ProjectView.Title = Project?.Title ?? "Unknown";
-            ProjectView.Logs = Project?.Logs;
+            ProjectView.Logs = ExpandEnv(Project?.Logs);
             if (Project == null) return;
 
             if (ProjectView.Logs != null)
@@ -191,6 +191,11 @@ namespace Mastersign.DashOps
             if (Project.MonitorPatterns != null) AddMonitorViews(Project.MonitorPatterns.SelectMany(ExpandCommandMonitorPattern));
             if (Project.WebMonitors != null) AddMonitorViews(Project.WebMonitors.Select(MonitorViewFromWebMonitor));
             if (Project.WebMonitorPatterns != null) AddMonitorViews(Project.WebMonitorPatterns.SelectMany(ExpandWebMonitorPattern));
+            foreach (var monitorView in ProjectView.MonitorViews)
+            {
+                if (monitorView.Logs == null) monitorView.Logs = ProjectView.Logs;
+            }
+
         }
 
         private void ApplyAutoAnnotations()
@@ -334,12 +339,12 @@ namespace Mastersign.DashOps
                 Tags = actionPattern.Tags ?? Array.Empty<string>()
             };
 
-        private static MonitorView MonitorViewFromCommandMonitor(CommandMonitor monitor)
+        private MonitorView MonitorViewFromCommandMonitor(CommandMonitor monitor)
             => new CommandMonitorView
             {
                 Title = monitor.Title,
                 Logs = ExpandEnv(monitor.Logs),
-                Interval = monitor.Interval,
+                Interval = new TimeSpan(0, 0, monitor.Interval),
                 Command = ExpandEnv(monitor.Command),
                 Arguments = FormatArguments(monitor.Arguments),
                 WorkingDirectory = BuildAbsolutePath(monitor.WorkingDirectory),
@@ -386,7 +391,7 @@ namespace Mastersign.DashOps
             {
                 Title = ExpandTemplate(monitorDiscovery.Title, variables),
                 Logs = ExpandEnv(ExpandTemplate(monitorDiscovery.Logs, variables)),
-                Interval = monitorDiscovery.Interval,
+                Interval = new TimeSpan(0, 0, monitorDiscovery.Interval),
                 Command = file,
                 Arguments = FormatArguments(
                     monitorDiscovery.Arguments?.Select(a => ExpandTemplate(a, variables))),
@@ -402,7 +407,7 @@ namespace Mastersign.DashOps
             {
                 Title = ExpandTemplate(monitorPattern.Title, variables),
                 Logs = ExpandEnv(ExpandTemplate(monitorPattern.Logs, variables)),
-                Interval = monitorPattern.Interval,
+                Interval = new TimeSpan(0, 0, monitorPattern.Interval),
                 Command = ExpandEnv(ExpandTemplate(monitorPattern.Command, variables)),
                 Arguments = FormatArguments(
                     monitorPattern.Arguments?.Select(a => ExpandTemplate(a, variables))),
@@ -416,7 +421,7 @@ namespace Mastersign.DashOps
             {
                 Title = monitor.Title,
                 Logs = ExpandEnv(monitor.Logs),
-                Interval = monitor.Interval,
+                Interval = new TimeSpan(0, 0, monitor.Interval),
                 Url = monitor.Url,
                 Headers = monitor.Headers,
                 StatusCodes = monitor.StatusCodes != null && monitor.StatusCodes.Length > 0
@@ -438,7 +443,7 @@ namespace Mastersign.DashOps
             {
                 Title = ExpandTemplate(monitorPattern.Title, variables),
                 Logs = ExpandEnv(ExpandTemplate(monitorPattern.Logs, variables)),
-                Interval = monitorPattern.Interval,
+                Interval = new TimeSpan(0, 0, monitorPattern.Interval),
                 Url = ExpandTemplate(monitorPattern.Url, variables),
                 Headers = ExpandDictionaryTemplate(monitorPattern.Headers, variables),
                 StatusCodes = monitorPattern.StatusCodes != null && monitorPattern.StatusCodes.Length > 0
