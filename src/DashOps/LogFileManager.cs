@@ -47,8 +47,8 @@ namespace Mastersign.DashOps
         {
             if (!File.Exists(fileName)) return;
             var tmpName = fileName + ".tmp";
-            using (var sSrc = File.Open(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
-            using (var sTrg = File.Open(tmpName, FileMode.Create, FileAccess.Write, FileShare.None))
+            var sSrc = File.Open(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+            var sTrg = File.Open(tmpName, FileMode.Create, FileAccess.Write, FileShare.None);
             using (var rSrc = new StreamReader(sSrc, Encoding.UTF8))
             using (var wTrg = new StreamWriter(sTrg, Encoding.UTF8))
             {

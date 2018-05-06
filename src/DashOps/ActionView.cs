@@ -60,7 +60,7 @@ namespace Mastersign.DashOps
                             : "IconLog"
                         : "IconLogEmpty";
                 return resourceName != null
-                    ? App.Current.FindResource(resourceName) as ControlTemplate
+                    ? App.Instance.FindResource(resourceName) as ControlTemplate
                     : null;
             }
         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Mastersign.DashOps
 {
-    class DesignTimeProjectView : ProjectView
+    sealed class DesignTimeProjectView : ProjectView
     {
         public DesignTimeProjectView()
         {

@@ -137,17 +137,10 @@ namespace Mastersign.DashOps
             }
             w.Stop();
             if (exc != null) throw exc;
-            try
+            CheckVersionSupport(s, out var version);
+            using (var r = new StreamReader(s, Encoding.UTF8))
             {
-                CheckVersionSupport(s, out var version);
-                using (var r = new StreamReader(s, Encoding.UTF8))
-                {
-                    Project = _deserializer.Deserialize<Project>(r);
-                }
-            }
-            finally
-            {
-                s.Dispose();
+                Project = _deserializer.Deserialize<Project>(r);
             }
         }
 
