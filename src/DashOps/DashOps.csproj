@@ -71,7 +71,9 @@
     <Compile Include="AutoAnnotation.cs" />
     <Compile Include="CommandLine.cs" />
     <Compile Include="CommandMonitorView.cs" />
+    <Compile Include="Core.cs" />
     <Compile Include="DashOpsCommands.cs" />
+    <Compile Include="DelegateCommand.cs" />
     <Compile Include="DesignTimeProjectView.cs" />
     <Compile Include="Executor.cs" />
     <Compile Include="IExecutable.cs" />

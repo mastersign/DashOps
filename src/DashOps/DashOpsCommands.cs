@@ -3,25 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Mastersign.DashOps
 {
     public static class DashOpsCommands
     {
-        public static readonly RoutedUICommand RefreshProject
-            = new RoutedUICommand("Refresh Project", "Refresh Project", typeof(MainWindow));
+        public static readonly DelegateCommand RefreshProject
+            = new DelegateCommand(Core.RefreshProject);
 
-        public static readonly RoutedUICommand ExecuteAction
-            = new RoutedUICommand("Execute Action", "Execute Action", typeof(MainWindow));
+        public static readonly DelegateCommand<ActionView> ExecuteAction
+            = new DelegateCommand<ActionView>(Core.ExecuteAction, action => action.CanExecute);
 
-        public static readonly RoutedUICommand ShowLastActionLog
-            = new RoutedUICommand("Show Last Action Log", "Show Last Action Log", typeof(MainWindow));
+        public static readonly DelegateCommand<ActionView> ShowLastActionLog
+            = new DelegateCommand<ActionView>(Core.ShowLastActionLog, action => action.LastLogFile != null);
 
         public static readonly RoutedUICommand ShowLogHistoryContextMenu
             = new RoutedUICommand("Show Log History Context Menu", "Show Log History Context Menu", typeof(MainWindow));
 
-        public static readonly RoutedUICommand ShowActionInfo
-            = new RoutedUICommand("Show Action Info", "Show Action Info", typeof(MainWindow));
+        public static readonly DelegateCommand<ActionView> ShowActionInfo
+            = new DelegateCommand<ActionView>(Core.ShowActionInfo);
     }
 }

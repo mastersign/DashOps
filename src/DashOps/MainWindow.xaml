@@ -57,21 +57,9 @@
         <CommandBinding Command="NavigationCommands.GoToPage" 
                         CanExecute="GoToPageCommandCheck" 
                         Executed="GoToPageCommandHandler" />
-        <CommandBinding Command="local:DashOpsCommands.RefreshProject"
-                        CanExecute="RefreshProjectCommandCheck"
-                        Executed="RefreshProjectCommandHandler" />
-        <CommandBinding Command="local:DashOpsCommands.ExecuteAction"
-                        CanExecute="ExecuteActionCommandCheck"
-                        Executed="ExecuteActionCommandHandler" />
-        <CommandBinding Command="local:DashOpsCommands.ShowLastActionLog"
-                        CanExecute="HasLogCheck"
-                        Executed="ShowLastActionLogHandler" />
         <CommandBinding Command="local:DashOpsCommands.ShowLogHistoryContextMenu"
                         CanExecute="HasLogCheck"
                         Executed="ShowLogHistoryContextMenuHandler" />
-        <CommandBinding Command="local:DashOpsCommands.ShowActionInfo"
-                        CanExecute="ShowActionInfoCheck"
-                        Executed="ShowActionInfoHandler" />
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
