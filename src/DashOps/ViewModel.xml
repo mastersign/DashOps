@@ -47,6 +47,7 @@
     <Class name="MonitorView">
       <Property name="Title" />
       <Property name="Logs" />
+      <Property name="CurrentLogFile" />
       <Property name="Interval" type="int" />
       <Property name="RequiredPatterns" type="regexes" />
       <Property name="ForbiddenPatterns" type="regexes" />

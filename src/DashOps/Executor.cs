@@ -25,20 +25,6 @@ namespace Mastersign.DashOps
             }
         }
 
-        public class ExecutionResult
-        {
-            public readonly int StatusCode;
-            public readonly string Output;
-            public IExecutable Executable;
-
-            public ExecutionResult(IExecutable executable, int statusCode, string output)
-            {
-                Executable = executable;
-                StatusCode = statusCode;
-                Output = output;
-            }
-        }
-
         private readonly Dictionary<Process, Execution> runningProcesses
             = new Dictionary<Process, Execution>();
 
@@ -132,9 +118,12 @@ namespace Mastersign.DashOps
                             executable.CurrentLogFile = null;
                         }
                     }
-                    executable.NotifyExecutionFinished();
                 }
                 execution.OnExit?.Invoke(new ExecutionResult(executable, p.ExitCode, outputBuffer.ToString()));
+                if (executable != null)
+                {
+                    executable.NotifyExecutionFinished();
+                }
             }
         }
 
@@ -180,5 +169,19 @@ namespace Mastersign.DashOps
 
         private static string EncodePowerShellCommand(string cmd)
                     => Convert.ToBase64String(Encoding.Unicode.GetBytes(cmd));
+    }
+
+    public class ExecutionResult
+    {
+        public readonly int StatusCode;
+        public readonly string Output;
+        public IExecutable Executable;
+
+        public ExecutionResult(IExecutable executable, int statusCode, string output)
+        {
+            Executable = executable;
+            StatusCode = statusCode;
+            Output = output;
+        }
     }
 }

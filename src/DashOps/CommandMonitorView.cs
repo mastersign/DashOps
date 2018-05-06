@@ -9,7 +9,7 @@ namespace Mastersign.DashOps
 {
     partial class CommandMonitorView : IExecutable
     {
-        private static App App => (App)Application.Current;
+        public bool Visible => false;
 
         public string CommandId => IdBuilder.BuildId(Command + " " + Arguments);
 
@@ -20,11 +20,9 @@ namespace Mastersign.DashOps
 
         public override string ToString() => $"[{CommandId}] {Title}: {CommandLabel}";
 
-        public string CurrentLogFile { get; set; }
-
         public override async Task<bool> Check()
         {
-            var result = await App.Executor.ExecuteAsync(this);
+            var result = await App.Instance.Executor.ExecuteAsync(this);
             var success = result.StatusCode == 0
                 && RequiredPatterns.All(p => p.IsMatch(result.Output))
                 && !ForbiddenPatterns.Any(p => p.IsMatch(result.Output));
@@ -39,7 +37,6 @@ namespace Mastersign.DashOps
                 .OrderByDescending(f => f)
                 .FirstOrDefault();
 
-        public bool Visible => false;
 
         public LogFileInfo LastLogFileInfo()
         {

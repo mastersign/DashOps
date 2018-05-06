@@ -653,6 +653,38 @@ namespace Mastersign.DashOps
         
         #endregion
         
+        #region Property CurrentLogFile
+        
+        private string _currentLogFile;
+        
+        public event EventHandler CurrentLogFileChanged;
+        
+        protected virtual void OnCurrentLogFileChanged()
+        {
+            EventHandler handler = CurrentLogFileChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"CurrentLogFile");
+        }
+        
+        public virtual string CurrentLogFile
+        {
+            get { return _currentLogFile; }
+            set
+            {
+                if (string.Equals(value, _currentLogFile))
+                {
+                    return;
+                }
+                _currentLogFile = value;
+                this.OnCurrentLogFileChanged();
+            }
+        }
+        
+        #endregion
+        
         #region Property Interval
         
         private int _interval;
