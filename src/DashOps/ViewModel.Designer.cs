@@ -748,6 +748,134 @@ namespace Mastersign.DashOps
         }
         
         #endregion
+        
+        #region Property IsRunning
+        
+        private bool _isRunning;
+        
+        public event EventHandler IsRunningChanged;
+        
+        protected virtual void OnIsRunningChanged()
+        {
+            EventHandler handler = IsRunningChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"IsRunning");
+        }
+        
+        public virtual bool IsRunning
+        {
+            get { return _isRunning; }
+            set
+            {
+                if ((value == _isRunning))
+                {
+                    return;
+                }
+                _isRunning = value;
+                this.OnIsRunningChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property LastExecutionTime
+        
+        private DateTime _lastExecutionTime;
+        
+        public event EventHandler LastExecutionTimeChanged;
+        
+        protected virtual void OnLastExecutionTimeChanged()
+        {
+            EventHandler handler = LastExecutionTimeChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"LastExecutionTime");
+        }
+        
+        public virtual DateTime LastExecutionTime
+        {
+            get { return _lastExecutionTime; }
+            set
+            {
+                if ((value == _lastExecutionTime))
+                {
+                    return;
+                }
+                _lastExecutionTime = value;
+                this.OnLastExecutionTimeChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property HasLastExecutionResult
+        
+        private bool _hasLastExecutionResult;
+        
+        public event EventHandler HasLastExecutionResultChanged;
+        
+        protected virtual void OnHasLastExecutionResultChanged()
+        {
+            EventHandler handler = HasLastExecutionResultChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"HasLastExecutionResult");
+        }
+        
+        public virtual bool HasLastExecutionResult
+        {
+            get { return _hasLastExecutionResult; }
+            set
+            {
+                if ((value == _hasLastExecutionResult))
+                {
+                    return;
+                }
+                _hasLastExecutionResult = value;
+                this.OnHasLastExecutionResultChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property LastExecutionResult
+        
+        private bool _lastExecutionResult;
+        
+        public event EventHandler LastExecutionResultChanged;
+        
+        protected virtual void OnLastExecutionResultChanged()
+        {
+            EventHandler handler = LastExecutionResultChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"LastExecutionResult");
+        }
+        
+        public virtual bool LastExecutionResult
+        {
+            get { return _lastExecutionResult; }
+            set
+            {
+                if ((value == _lastExecutionResult))
+                {
+                    return;
+                }
+                _lastExecutionResult = value;
+                this.OnLastExecutionResultChanged();
+            }
+        }
+        
+        #endregion
     }
     
     public partial class CommandMonitorView : MonitorView, INotifyPropertyChanged

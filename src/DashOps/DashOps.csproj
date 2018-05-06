@@ -76,6 +76,7 @@
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="DesignTimeProjectView.cs" />
     <Compile Include="Executor.cs" />
+    <Compile Include="IdBuilder.cs" />
     <Compile Include="IExecutable.cs" />
     <Compile Include="LogFileInfo.cs" />
     <Compile Include="LogFileManager.cs" />

@@ -12,5 +12,18 @@ namespace Mastersign.DashOps
         {
             throw new NotImplementedException();
         }
+
+        protected virtual void NotifyExecutionBegin()
+        {
+            LastExecutionTime = DateTime.Now;
+            IsRunning = true;
+        }
+
+        protected virtual void NotifyExecutionFinished(bool success)
+        {
+            LastExecutionResult = success;
+            HasLastExecutionResult = true;
+            IsRunning = false;
+        }
     }
 }

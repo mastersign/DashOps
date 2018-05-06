@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -10,8 +9,6 @@ namespace Mastersign.DashOps
 {
     partial class ActionView : IExecutable
     {
-        private static readonly MD5 Md5 = MD5.Create();
-
         public bool HasFacette(string name)
             => Facettes?.ContainsKey(name) ?? false;
 
@@ -31,18 +28,7 @@ namespace Mastersign.DashOps
                 ? string.Empty
                 : " " + Arguments);
 
-        public bool CanExecute => true;
-
-        public string CommandId
-        {
-            get
-            {
-                var str = Command + " " + CommandLine.FormatArgumentList(Arguments);
-                var data = Encoding.UTF8.GetBytes(str);
-                var hash = Md5.ComputeHash(data);
-                return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
-            }
-        }
+        public string CommandId => IdBuilder.BuildId(Command + " " + Arguments);
 
         public override string ToString() => $"[{CommandId}] {Description}: {CommandLabel}";
 
@@ -87,5 +73,10 @@ namespace Mastersign.DashOps
 
         public event EventHandler LogIconChanged;
 
+        public async Task<bool> ExecuteAsync()
+        {
+            var result = await App.Instance.Executor.ExecuteAsync(this);
+            return result.StatusCode == 0;
+        }
     }
 }

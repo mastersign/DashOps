@@ -43,7 +43,7 @@ namespace Mastersign.DashOps
 
         private static readonly Regex TranscriptBeginPattern = new Regex(@"^(?<pre>#+\s+)BEGIN(?<post>\s+TRANSCRIPT\s+.+?\s+#+)$");
 
-        public static void PostprocessLogFile(string fileName)
+        public static void PostprocessLogFile(string fileName, StringBuilder outputBuffer)
         {
             if (!File.Exists(fileName)) return;
             var tmpName = fileName + ".tmp";
@@ -64,6 +64,7 @@ namespace Mastersign.DashOps
                     else if (separatorCount == 2)
                     {
                         wTrg.WriteLine(line);
+                        if (outputBuffer != null) outputBuffer.AppendLine(line);
                     }
                     line = rSrc.ReadLine();
                 }

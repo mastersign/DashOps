@@ -50,6 +50,10 @@
       <Property name="Interval" type="int" />
       <Property name="RequiredPatterns" type="regexes" />
       <Property name="ForbiddenPatterns" type="regexes" />
+      <Property name="IsRunning" type="bool" />
+      <Property name="LastExecutionTime" type="DateTime" />
+      <Property name="HasLastExecutionResult" type="bool" />
+      <Property name="LastExecutionResult" type="bool" />
     </Class>
 
     <Class name="CommandMonitorView" baseType="MonitorView">

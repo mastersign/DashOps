@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Mastersign.DashOps
@@ -14,20 +15,54 @@ namespace Mastersign.DashOps
         {
             public readonly Process Process;
             public readonly IExecutable Executable;
-            public readonly EventHandler Exited;
+            public readonly Action<ExecutionResult> OnExit;
 
-            public Execution(Process process, IExecutable executable, EventHandler exited)
+            public Execution(Process process, IExecutable executable, Action<ExecutionResult> onExit)
             {
                 Process = process;
                 Executable = executable;
-                Exited = exited;
+                OnExit = onExit;
+            }
+        }
+
+        public class ExecutionResult
+        {
+            public readonly int StatusCode;
+            public readonly string Output;
+            public IExecutable Executable;
+
+            public ExecutionResult(IExecutable executable, int statusCode, string output)
+            {
+                Executable = executable;
+                StatusCode = statusCode;
+                Output = output;
             }
         }
 
         private readonly Dictionary<Process, Execution> runningProcesses
             = new Dictionary<Process, Execution>();
 
-        public void Execute<T>(T executable, EventHandler onExit = null, bool visible = true)
+        public Task<ExecutionResult> ExecuteAsync<T>(T executable)
+            where T : IExecutable
+        {
+            var block = new ManualResetEvent(false);
+            ExecutionResult result = null;
+            void Unblock(ExecutionResult r)
+            {
+                result = r;
+                block.Set();
+            };
+            Execute(executable, onExit: Unblock);
+            var t = new Task<ExecutionResult>(() =>
+            {
+                block.WaitOne();
+                return result;
+            });
+            t.Start();
+            return t;
+        }
+
+        public void Execute<T>(T executable, Action<ExecutionResult> onExit = null)
             where T : IExecutable
         {
             if (executable.Logs != null && !Directory.Exists(executable.Logs))
@@ -43,7 +78,7 @@ namespace Mastersign.DashOps
 
             var psArgs = BuildPowerShellArguments(logfile, timestamp,
                 executable.WorkingDirectory, executable.Command, executable.Arguments,
-                waitForKeyPress: visible);
+                waitForKeyPress: executable.Visible);
 
             var psi = new ProcessStartInfo(CommandLine.PowerShellExe, psArgs)
             {
@@ -51,7 +86,7 @@ namespace Mastersign.DashOps
                 WorkingDirectory = executable.WorkingDirectory,
                 UseShellExecute = false,
             };
-            if (!visible)
+            if (!executable.Visible)
             {
                 psi.CreateNoWindow = true;
             }
@@ -80,6 +115,7 @@ namespace Mastersign.DashOps
             }
             if (execution != null)
             {
+                var outputBuffer = new StringBuilder();
                 var executable = execution.Executable;
                 if (executable != null)
                 {
@@ -89,7 +125,7 @@ namespace Mastersign.DashOps
                         logFile = LogFileManager.FinalizeLogFileName(logFile, p.ExitCode);
                         if (File.Exists(logFile))
                         {
-                            LogFileManager.PostprocessLogFile(logFile);
+                            LogFileManager.PostprocessLogFile(logFile, outputBuffer);
                         }
                         else
                         {
@@ -98,7 +134,7 @@ namespace Mastersign.DashOps
                     }
                     executable.NotifyExecutionFinished();
                 }
-                execution.Exited?.Invoke(this, EventArgs.Empty);
+                execution.OnExit?.Invoke(new ExecutionResult(executable, p.ExitCode, outputBuffer.ToString()));
             }
         }
 

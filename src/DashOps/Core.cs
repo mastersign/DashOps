@@ -10,25 +10,17 @@ namespace Mastersign.DashOps
 {
     public static class Core
     {
-        private static App App => (App)Application.Current;
-
         public static void RefreshProject()
-            => App.ProjectLoader.ReloadProjectAndProjectView();
+            => App.Instance.ProjectLoader.ReloadProjectAndProjectView();
 
-        public static void ExecuteAction(ActionView action)
+        public static async Task ExecuteAction(ActionView action)
         {
             if (!action.Reassure || Reassure(action))
             {
-                App.Executor.Execute(action,
-                    onExit: ExecutionFinishedHandler,
-                    visible: false);
+                await action.ExecuteAsync();
+                DashOpsCommands.ShowLastActionLog.RaiseCanExecuteChanged();
+                CommandManager.InvalidateRequerySuggested();
             }
-        }
-
-        private static void ExecutionFinishedHandler(object sender, EventArgs e)
-        {
-            App.Dispatcher.InvokeAsync(DashOpsCommands.ShowLastActionLog.RaiseCanExecuteChanged);
-            App.Dispatcher.InvokeAsync(CommandManager.InvalidateRequerySuggested);
         }
 
         private static bool Reassure(ActionView action)
