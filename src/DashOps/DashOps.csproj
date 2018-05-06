@@ -81,7 +81,7 @@
     <Compile Include="LogFileInfo.cs" />
     <Compile Include="LogFileManager.cs" />
     <Compile Include="MonitorView.cs" />
-    <Compile Include="Perspective.cs" />
+    <Compile Include="PerspectiveView.cs" />
     <Compile Include="ActionView.cs" />
     <Compile Include="ProjectLoader.cs" />
     <Compile Include="ProjectView.cs" />

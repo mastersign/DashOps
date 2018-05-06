@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Mastersign.DashOps
 {
@@ -22,10 +23,12 @@ namespace Mastersign.DashOps
 
         public override async Task<bool> Check()
         {
+            NotifyExecutionBegin();
             var result = await App.Instance.Executor.ExecuteAsync(this);
             var success = result.StatusCode == 0
                 && RequiredPatterns.All(p => p.IsMatch(result.Output))
                 && !ForbiddenPatterns.Any(p => p.IsMatch(result.Output));
+            NotifyExecutionFinished(success);
             return success;
         }
 

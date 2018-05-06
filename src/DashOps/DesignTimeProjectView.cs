@@ -68,6 +68,35 @@ namespace Mastersign.DashOps
             });
             CurrentPerspective = Perspectives[0];
             CurrentPerspective.CurrentSubset = CurrentPerspective.Subsets[0];
+
+            MonitorViews.Add(new CommandMonitorView
+            {
+                Title = "Monitor A",
+                Command = "xcopy",
+                Arguments = "/?",
+                Interval = 4,
+                HasLastExecutionResult = true,
+                LastExecutionResult = true,
+                LastExecutionTime = DateTime.Now,
+            });
+            MonitorViews.Add(new CommandMonitorView
+            {
+                Title = "Monitor B",
+                Command = "git",
+                Arguments = "--version",
+                Interval = 4,
+                HasLastExecutionResult = true,
+                LastExecutionResult = false,
+                HasExecutionResultChanged = true,
+                LastExecutionTime = DateTime.Now - TimeSpan.FromSeconds(10),
+            });
+            MonitorViews.Add(new CommandMonitorView
+            {
+                Title = "Very long monitor name with a lots of characters",
+                Command = "invalid",
+                HasLastExecutionResult = false,
+                LastExecutionResult = false,
+            });
         }
     }
 }

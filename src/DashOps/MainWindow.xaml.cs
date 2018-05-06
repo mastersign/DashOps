@@ -83,5 +83,13 @@ namespace Mastersign.DashOps
                     ? new BitmapImage(new Uri("pack://application:,,,/images/StatusOK.png"))
                     : new BitmapImage(new Uri("pack://application:,,,/images/StatusError.png"))
             };
+
+        private async void MonitorDoubleClickHandler(object sender, MouseButtonEventArgs e)
+        {
+            var label = sender as Label;
+            var monitor = label?.DataContext as CommandMonitorView;
+            var result = await monitor.Check();
+            MessageBox.Show(result.ToString());
+        }
     }
 }

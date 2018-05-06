@@ -877,6 +877,38 @@ namespace Mastersign.DashOps
         
         #endregion
         
+        #region Property HasExecutionResultChanged
+        
+        private bool _hasExecutionResultChanged;
+        
+        public event EventHandler HasExecutionResultChangedChanged;
+        
+        protected virtual void OnHasExecutionResultChangedChanged()
+        {
+            EventHandler handler = HasExecutionResultChangedChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"HasExecutionResultChanged");
+        }
+        
+        public virtual bool HasExecutionResultChanged
+        {
+            get { return _hasExecutionResultChanged; }
+            set
+            {
+                if ((value == _hasExecutionResultChanged))
+                {
+                    return;
+                }
+                _hasExecutionResultChanged = value;
+                this.OnHasExecutionResultChangedChanged();
+            }
+        }
+        
+        #endregion
+        
         #region Property LastExecutionResult
         
         private bool _lastExecutionResult;

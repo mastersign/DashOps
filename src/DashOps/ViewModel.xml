@@ -54,6 +54,7 @@
       <Property name="IsRunning" type="bool" />
       <Property name="LastExecutionTime" type="DateTime" />
       <Property name="HasLastExecutionResult" type="bool" />
+      <Property name="HasExecutionResultChanged" type="bool" />
       <Property name="LastExecutionResult" type="bool" />
     </Class>
 
