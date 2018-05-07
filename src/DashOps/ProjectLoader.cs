@@ -174,6 +174,7 @@ namespace Mastersign.DashOps
         {
             ProjectView.ActionViews.Clear();
             ProjectView.Perspectives.Clear();
+            ProjectView.MonitorViews.Clear();
             ProjectView.Title = Project?.Title ?? "Unknown";
             ProjectView.Logs = ExpandEnv(Project?.Logs);
             if (Project == null) return;
