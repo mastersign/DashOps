@@ -123,10 +123,13 @@
                             </Grid.ColumnDefinitions>
                             <Button x:Name="ActionButton"
                                 Margin="0,0,0,10" Padding="10,5" Height="34"
-                                Command="local:DashOpsCommands.ExecuteAction"
-                                CommandParameter="{Binding}"
                                 Style="{StaticResource ActionButtonStyle}"
                                 Content="{Binding Description}">
+                                <Button.InputBindings>
+                                    <MouseBinding Gesture="LeftClick"
+                                                  Command="local:DashOpsCommands.ExecuteAction"
+                                                  CommandParameter="{Binding}" />
+                                </Button.InputBindings>
                             </Button>
                             <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,0,10">
                                 <Button Command="local:DashOpsCommands.ShowLastLog"
