@@ -1350,6 +1350,38 @@ namespace Mastersign.DashOps
         }
         
         #endregion
+        
+        #region Property IsMonitoringPaused
+        
+        private bool _isMonitoringPaused;
+        
+        public event EventHandler IsMonitoringPausedChanged;
+        
+        protected virtual void OnIsMonitoringPausedChanged()
+        {
+            EventHandler handler = IsMonitoringPausedChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"IsMonitoringPaused");
+        }
+        
+        public virtual bool IsMonitoringPaused
+        {
+            get { return _isMonitoringPaused; }
+            set
+            {
+                if ((value == _isMonitoringPaused))
+                {
+                    return;
+                }
+                _isMonitoringPaused = value;
+                this.OnIsMonitoringPausedChanged();
+            }
+        }
+        
+        #endregion
     }
     
     #endregion

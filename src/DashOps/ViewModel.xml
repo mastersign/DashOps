@@ -78,6 +78,7 @@
       <Property name="CurrentPerspective" type="PerspectiveView" />
       <Property name="MonitorViews" isCollection="true" type="MonitorView" defaultInitialization="true" immutable="true" />
       <Property name="DefaultMonitorInterval" type="TimeSpan" />
+      <Property name="IsMonitoringPaused" type="bool" />
     </Class>
 
   </Types>

@@ -12,12 +12,6 @@ namespace Mastersign.DashOps
     {
         private DispatcherTimer timer = new DispatcherTimer();
 
-        public bool Paused
-        {
-            get => !timer.IsEnabled;
-            set => timer.IsEnabled = !value;
-        }
-
         public MonitorManager()
         {
             timer.Interval = new TimeSpan(0, 0, 1);
@@ -30,6 +24,7 @@ namespace Mastersign.DashOps
             var projectView = App.Instance?.ProjectLoader?.ProjectView;
             var monitors = projectView?.MonitorViews;
             if (monitors == null) return;
+            if (projectView.IsMonitoringPaused) return;
             var now = DateTime.Now;
             foreach (var monitor in monitors)
             {
