@@ -222,8 +222,13 @@ namespace Mastersign.DashOps
             foreach (var monitorView in ProjectView.MonitorViews)
             {
                 if (monitorView.Logs == null) monitorView.Logs = ProjectView.Logs;
+                var logInfo = monitorView.GetLastLogFileInfo();
+                if (logInfo != null)
+                {
+                    monitorView.LastExecutionResult = logInfo.IsSuccess;
+                    monitorView.HasLastExecutionResult = true;
+                }
             }
-
         }
 
         private void ApplyAutoAnnotations()
