@@ -60,9 +60,7 @@ namespace Mastersign.DashOps
                         executable.PreliminaryLogFileName(timestamp))
                     : null;
 
-            var psArgs = BuildPowerShellArguments(logfile, timestamp,
-                executable.WorkingDirectory, executable.Command, executable.Arguments,
-                executable.Visible);
+            var psArgs = BuildPowerShellArguments(executable, logfile, timestamp);
 
             var psi = new ProcessStartInfo(CommandLine.PowerShellExe, psArgs)
             {
@@ -120,8 +118,7 @@ namespace Mastersign.DashOps
             executable?.NotifyExecutionFinished();
         }
 
-        private static string BuildPowerShellArguments(string logfile, DateTime timestamp,
-            string workingDirectory, string command, string arguments, bool waitForKeyPress)
+        private static string BuildPowerShellArguments(IExecutable executable, string logfile, DateTime timestamp)
         {
             var psLines = new List<string>();
             if (logfile != null)
@@ -130,14 +127,14 @@ namespace Mastersign.DashOps
             }
             psLines.Add($"$t0 = New-Object System.DateTime ({timestamp.Ticks})");
             psLines.Add("$tsf = \"yyyy-MM-dd HH:mm:ss\"");
-            psLines.Add($"echo \"Directory:  {workingDirectory}\"");
-            psLines.Add($"echo \"Command:    {command}\"");
-            if (!string.IsNullOrWhiteSpace(arguments))
-                psLines.Add($"echo \"Arguments:  {arguments.Replace("\"", "`\"")}\"");
+            psLines.Add($"echo \"Directory:  {executable.WorkingDirectory}\"");
+            psLines.Add($"echo \"Command:    {executable.Command}\"");
+            if (!string.IsNullOrWhiteSpace(executable.Arguments))
+                psLines.Add($"echo \"Arguments:  {executable.Arguments.Replace("\"", "`\"")}\"");
             psLines.Add($"echo \"Start:      $($t0.toString($tsf))\"");
             psLines.Add("echo \"--------------------------------------------------------------------------------\"");
             psLines.Add("echo \"\"");
-            psLines.Add($"& \"{command}\" {arguments}");
+            psLines.Add($"& \"{executable.Command}\" {executable.Arguments}");
             psLines.Add("if ($LastExitCode -eq $null) { if ($?) { $ec = 0 } else { $ec = 1; echo \"\"; Write-Warning \"Command failed.\" } } else { $ec = $LastExitCode; if ($ec -ne 0) { echo \"\"; Write-Warning \"Exit Code: $ec\" } }");
             psLines.Add("$t = [DateTime]::Now");
             psLines.Add("echo \"\"");
@@ -148,7 +145,7 @@ namespace Mastersign.DashOps
             {
                 psLines.Add("$_ = Stop-Transcript");
             }
-            if (waitForKeyPress)
+            if (executable.Visible)
             {
                 psLines.Add("echo \"Press any key to continue...\"");
                 psLines.Add("$_ = $Host.UI.RawUI.ReadKey()");
