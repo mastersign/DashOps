@@ -38,6 +38,7 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    Reassure = " + _reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Background = " + _background.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(_tags, null) ? _tags.ToString() : @"null").Replace("\n", "\n    "))));
@@ -121,6 +122,25 @@ namespace Mastersign.DashOps.Model
         
         #endregion
         
+        #region Property NoLogs
+        
+        private bool _noLogs;
+        
+        public virtual bool NoLogs
+        {
+            get { return _noLogs; }
+            set
+            {
+                if ((value == _noLogs))
+                {
+                    return;
+                }
+                _noLogs = value;
+            }
+        }
+        
+        #endregion
+        
         #region Property Arguments
         
         private string[] _arguments;
@@ -199,6 +219,7 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    Reassure = " + Reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -327,6 +348,7 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    Reassure = " + Reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -478,6 +500,7 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    Reassure = " + Reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -856,6 +879,7 @@ namespace Mastersign.DashOps.Model
             return (this.GetType().FullName + @": " + (
                 (Environment.NewLine + @"    Title = " + (!ReferenceEquals(_title, null) ? _title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Interval = " + _interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(_requiredPatterns, null) ? _requiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(_forbiddenPatterns, null) ? _forbiddenPatterns.ToString() : @"null").Replace("\n", "\n    "))));
@@ -896,6 +920,25 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _logs = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property NoLogs
+        
+        private bool _noLogs;
+        
+        public virtual bool NoLogs
+        {
+            get { return _noLogs; }
+            set
+            {
+                if ((value == _noLogs))
+                {
+                    return;
+                }
+                _noLogs = value;
             }
         }
         
@@ -981,6 +1024,7 @@ namespace Mastersign.DashOps.Model
             return (this.GetType().FullName + @": " + (
                 (Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -1047,6 +1091,7 @@ namespace Mastersign.DashOps.Model
             return (this.GetType().FullName + @": " + (
                 (Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -1095,6 +1140,7 @@ namespace Mastersign.DashOps.Model
             return (this.GetType().FullName + @": " + (
                 (Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -1163,6 +1209,7 @@ namespace Mastersign.DashOps.Model
             return (this.GetType().FullName + @": " + (
                 (Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -1213,6 +1260,7 @@ namespace Mastersign.DashOps.Model
             return (this.GetType().FullName + @": " + (
                 (Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -1299,6 +1347,7 @@ namespace Mastersign.DashOps.Model
             return (this.GetType().FullName + @": " + (
                 (Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -1460,6 +1509,7 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    Version = " + (!ReferenceEquals(_version, null) ? _version.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Title = " + (!ReferenceEquals(_title, null) ? _title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Actions = " + (!ReferenceEquals(_actions, null) ? (_actions.Count.ToString() + @" items" + __collection_Actions.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    ActionDiscovery = " + (!ReferenceEquals(_actionDiscovery, null) ? (_actionDiscovery.Count.ToString() + @" items" + __collection_ActionDiscovery.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    ActionPatterns = " + (!ReferenceEquals(_actionPatterns, null) ? (_actionPatterns.Count.ToString() + @" items" + __collection_ActionPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
@@ -1527,6 +1577,25 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _logs = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property NoLogs
+        
+        private bool _noLogs;
+        
+        public virtual bool NoLogs
+        {
+            get { return _noLogs; }
+            set
+            {
+                if ((value == _noLogs))
+                {
+                    return;
+                }
+                _noLogs = value;
             }
         }
         

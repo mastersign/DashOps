@@ -25,6 +25,7 @@
       <Property name="Tags" type="string[]" />
       <Property name="Facettes" type="dict" />
       <Property name="Logs" />
+      <Property name="NoLogs" type="bool" />
       <Property name="CurrentLogFile" />
       <Property name="Visible" type="bool" />
     </Class>
@@ -47,6 +48,7 @@
     <Class name="MonitorView">
       <Property name="Title" />
       <Property name="Logs" />
+      <Property name="NoLogs" type="bool" />
       <Property name="CurrentLogFile" />
       <Property name="Interval" type="TimeSpan" />
       <Property name="RequiredPatterns" type="regexes" />
@@ -73,6 +75,7 @@
     <Class name="ProjectView">
       <Property name="Title" />
       <Property name="Logs" />
+      <Property name="NoLogs" type="bool" />
       <Property name="ActionViews" isCollection="true" type="ActionView" defaultInitialization="true" immutable="true" />
       <Property name="Perspectives" isCollection="true" type="PerspectiveView" defaultInitialization="true" immutable="true" />
       <Property name="CurrentPerspective" type="PerspectiveView" />

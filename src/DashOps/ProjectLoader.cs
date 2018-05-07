@@ -179,6 +179,7 @@ namespace Mastersign.DashOps
             ProjectView.Logs = ExpandEnv(Project?.Logs);
             if (Project == null) return;
 
+            ProjectView.NoLogs = Project.NoLogs;
             if (ProjectView.Logs != null)
             {
                 if (!Path.IsPathRooted(ProjectView.Logs))
@@ -203,6 +204,7 @@ namespace Mastersign.DashOps
             foreach (var actionView in ProjectView.ActionViews)
             {
                 if (actionView.Logs == null) actionView.Logs = ProjectView.Logs;
+                if (ProjectView.NoLogs || actionView.NoLogs) actionView.Logs = null;
             }
 
             ProjectView.AddTagsPerspective();
@@ -222,6 +224,7 @@ namespace Mastersign.DashOps
             foreach (var monitorView in ProjectView.MonitorViews)
             {
                 if (monitorView.Logs == null) monitorView.Logs = ProjectView.Logs;
+                if (ProjectView.NoLogs || monitorView.NoLogs) monitorView.Logs = null;
                 var logInfo = monitorView.GetLastLogFileInfo();
                 if (logInfo != null)
                 {
@@ -254,6 +257,7 @@ namespace Mastersign.DashOps
                 Reassure = action.Reassure,
                 Visible = !action.Background,
                 Logs = ExpandEnv(action.Logs),
+                NoLogs = action.NoLogs,
                 Tags = action.Tags ?? Array.Empty<string>(),
                 Facettes = action.Facettes != null
                     ? new Dictionary<string, string>(action.Facettes)
@@ -346,6 +350,7 @@ namespace Mastersign.DashOps
                 Reassure = actionDiscovery.Reassure,
                 Visible = !actionDiscovery.Background,
                 Logs = ExpandEnv(ExpandTemplate(actionDiscovery.Logs, facettes)),
+                NoLogs = actionDiscovery.NoLogs,
                 Command = file,
                 Arguments = FormatArguments(actionDiscovery.Arguments),
                 WorkingDirectory = BuildAbsolutePath(
@@ -363,6 +368,7 @@ namespace Mastersign.DashOps
                 Reassure = actionPattern.Reassure,
                 Visible = !actionPattern.Background,
                 Logs = ExpandEnv(ExpandTemplate(actionPattern.Logs, facettes)),
+                NoLogs = actionPattern.NoLogs,
                 Command = ExpandEnv(ExpandTemplate(actionPattern.Command, facettes)),
                 Arguments = FormatArguments(
                     actionPattern.Arguments?.Select(a => ExpandTemplate(a, facettes))),
@@ -377,6 +383,7 @@ namespace Mastersign.DashOps
             {
                 Title = monitor.Title,
                 Logs = ExpandEnv(monitor.Logs),
+                NoLogs = monitor.NoLogs,
                 Interval = new TimeSpan(0, 0, monitor.Interval),
                 Command = ExpandEnv(monitor.Command),
                 Arguments = FormatArguments(monitor.Arguments),
@@ -424,6 +431,7 @@ namespace Mastersign.DashOps
             {
                 Title = ExpandTemplate(monitorDiscovery.Title, variables),
                 Logs = ExpandEnv(ExpandTemplate(monitorDiscovery.Logs, variables)),
+                NoLogs = monitorDiscovery.NoLogs,
                 Interval = new TimeSpan(0, 0, monitorDiscovery.Interval),
                 Command = file,
                 Arguments = FormatArguments(
@@ -440,6 +448,7 @@ namespace Mastersign.DashOps
             {
                 Title = ExpandTemplate(monitorPattern.Title, variables),
                 Logs = ExpandEnv(ExpandTemplate(monitorPattern.Logs, variables)),
+                NoLogs = monitorPattern.NoLogs,
                 Interval = new TimeSpan(0, 0, monitorPattern.Interval),
                 Command = ExpandEnv(ExpandTemplate(monitorPattern.Command, variables)),
                 Arguments = FormatArguments(
@@ -454,6 +463,7 @@ namespace Mastersign.DashOps
             {
                 Title = monitor.Title,
                 Logs = ExpandEnv(monitor.Logs),
+                NoLogs = monitor.NoLogs,
                 Interval = new TimeSpan(0, 0, monitor.Interval),
                 Url = monitor.Url,
                 Headers = monitor.Headers,
@@ -476,6 +486,7 @@ namespace Mastersign.DashOps
             {
                 Title = ExpandTemplate(monitorPattern.Title, variables),
                 Logs = ExpandEnv(ExpandTemplate(monitorPattern.Logs, variables)),
+                NoLogs = monitorPattern.NoLogs,
                 Interval = new TimeSpan(0, 0, monitorPattern.Interval),
                 Url = ExpandTemplate(monitorPattern.Url, variables),
                 Headers = ExpandDictionaryTemplate(monitorPattern.Headers, variables),

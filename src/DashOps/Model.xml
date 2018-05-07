@@ -20,6 +20,7 @@
       <Property name="Reassure" type="bool" />
       <Property name="Background" type="bool" />
       <Property name="Logs" />
+      <Property name="NoLogs" type="bool" />
       <Property name="Arguments" type="string[]" />
       <Property name="WorkingDirectory" />
       <Property name="Tags" type="string[]" />
@@ -77,6 +78,7 @@
     <Class name="MonitorBase">
       <Property name="Title" />
       <Property name="Logs" />
+      <Property name="NoLogs" type="bool" />
       <Property name="Interval" type="int" defaultInitialization="true">
         <DefaultValue>-1</DefaultValue>
       </Property>
@@ -116,6 +118,7 @@
       <Property name="Version" />
       <Property name="Title" />
       <Property name="Logs" />
+      <Property name="NoLogs" type="bool" />
       <Property name="Actions" isCollection="true" type="CommandAction" defaultInitialization="true" />
       <Property name="ActionDiscovery" isCollection="true" type="CommandActionDiscovery" defaultInitialization="true" />
       <Property name="ActionPatterns" isCollection="true" type="CommandActionPattern" defaultInitialization="true" />

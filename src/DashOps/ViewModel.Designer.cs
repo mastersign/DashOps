@@ -286,6 +286,38 @@ namespace Mastersign.DashOps
         
         #endregion
         
+        #region Property NoLogs
+        
+        private bool _noLogs;
+        
+        public event EventHandler NoLogsChanged;
+        
+        protected virtual void OnNoLogsChanged()
+        {
+            EventHandler handler = NoLogsChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"NoLogs");
+        }
+        
+        public virtual bool NoLogs
+        {
+            get { return _noLogs; }
+            set
+            {
+                if ((value == _noLogs))
+                {
+                    return;
+                }
+                _noLogs = value;
+                this.OnNoLogsChanged();
+            }
+        }
+        
+        #endregion
+        
         #region Property CurrentLogFile
         
         private string _currentLogFile;
@@ -648,6 +680,38 @@ namespace Mastersign.DashOps
                 }
                 _logs = value;
                 this.OnLogsChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property NoLogs
+        
+        private bool _noLogs;
+        
+        public event EventHandler NoLogsChanged;
+        
+        protected virtual void OnNoLogsChanged()
+        {
+            EventHandler handler = NoLogsChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"NoLogs");
+        }
+        
+        public virtual bool NoLogs
+        {
+            get { return _noLogs; }
+            set
+            {
+                if ((value == _noLogs))
+                {
+                    return;
+                }
+                _noLogs = value;
+                this.OnNoLogsChanged();
             }
         }
         
@@ -1249,6 +1313,38 @@ namespace Mastersign.DashOps
                 }
                 _logs = value;
                 this.OnLogsChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property NoLogs
+        
+        private bool _noLogs;
+        
+        public event EventHandler NoLogsChanged;
+        
+        protected virtual void OnNoLogsChanged()
+        {
+            EventHandler handler = NoLogsChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"NoLogs");
+        }
+        
+        public virtual bool NoLogs
+        {
+            get { return _noLogs; }
+            set
+            {
+                if ((value == _noLogs))
+                {
+                    return;
+                }
+                _noLogs = value;
+                this.OnNoLogsChanged();
             }
         }
         
