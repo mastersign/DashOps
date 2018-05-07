@@ -61,34 +61,7 @@ namespace Mastersign.DashOps
                     return;
                 }
             }
-            try
-            {
-                ProjectLoader = new ProjectLoader(projectFile, Dispatch);
-            }
-            catch (Exception exc)
-            {
-                var msg = string.Empty;
-#if DEBUG
-                msg += exc.ToString();
-#else
-                msg += exc.Message;
-#endif
-                while (exc.InnerException != null)
-                {
-                    exc = exc.InnerException;
-#if DEBUG
-                    msg += Environment.NewLine + exc.ToString();
-#else
-                    msg += Environment.NewLine + exc.Message;
-#endif
-                }
-                MessageBox.Show(msg,
-                    "Loading DashOps Project File",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-                Shutdown(1);
-                return;
-            }
+            ProjectLoader = new ProjectLoader(projectFile, Dispatch);
             Executor = new Executor();
             MonitorManager = new MonitorManager();
         }

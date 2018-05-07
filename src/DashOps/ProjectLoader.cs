@@ -136,11 +136,37 @@ namespace Mastersign.DashOps
                 }
             }
             w.Stop();
-            if (exc != null) throw exc;
-            CheckVersionSupport(s, out var version);
-            using (var r = new StreamReader(s, Encoding.UTF8))
+            string version = null;
+            try
             {
-                Project = _deserializer.Deserialize<Project>(r);
+                if (exc != null) throw exc;
+                CheckVersionSupport(s, out version);
+                using (var r = new StreamReader(s, Encoding.UTF8))
+                {
+                    Project = _deserializer.Deserialize<Project>(r);
+                }
+            }
+            catch (Exception exc2)
+            {
+                var msg = string.Empty;
+#if DEBUG
+                msg += exc2.ToString();
+#else
+                msg += exc2.Message;
+#endif
+                while (exc2.InnerException != null)
+                {
+                    exc2 = exc2.InnerException;
+#if DEBUG
+                    msg += Environment.NewLine + exc2.ToString();
+#else
+                    msg += Environment.NewLine + exc2.Message;
+#endif
+                }
+                MessageBox.Show(msg,
+                    "Loading DashOps Project File" + (version != null ? " v" + version : ""),
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
 
