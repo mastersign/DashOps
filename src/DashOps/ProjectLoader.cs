@@ -208,6 +208,7 @@ namespace Mastersign.DashOps
             ProjectView.AddFacettePerspectives(DEF_PERSPECTIVES);
             ProjectView.AddFacettePerspectives(Project.Perspectives.ToArray());
 
+            ProjectView.DefaultMonitorInterval = new TimeSpan(0, 0, Project.DefaultMonitorInterval);
             void AddMonitorViews(IEnumerable<MonitorView> monitorViews)
             {
                 foreach (var monitorView in monitorViews) ProjectView.MonitorViews.Add(monitorView);
