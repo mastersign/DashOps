@@ -54,7 +54,7 @@ namespace Mastersign.DashOps
         private static string ActionInfo(ActionView action)
         {
             var sb = new StringBuilder();
-            sb.AppendLine(action.Description);
+            sb.AppendLine(action.Title);
             sb.AppendLine();
             sb.Append("ID: ");
             sb.AppendLine(action.CommandId);

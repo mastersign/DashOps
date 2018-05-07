@@ -30,7 +30,7 @@ namespace Mastersign.DashOps
 
         public string CommandId => IdBuilder.BuildId(Command + " " + Arguments);
 
-        public override string ToString() => $"[{CommandId}] {Description}: {CommandLabel}";
+        public override string ToString() => $"[{CommandId}] {Title}: {CommandLabel}";
 
         public ControlTemplate LogIcon
         {

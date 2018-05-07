@@ -20,7 +20,7 @@ namespace Mastersign.DashOps
                 "Role");
             ActionViews.Add(new ActionView
             {
-                Description = "Start X on A",
+                Title = "Start X on A",
                 Command = "start_x",
                 Arguments ="--on a",
                 Facettes = new Dictionary<string, string>
@@ -32,7 +32,7 @@ namespace Mastersign.DashOps
             });
             ActionViews.Add(new ActionView
             {
-                Description = "Stop X on A",
+                Title = "Stop X on A",
                 Command = "stop_x",
                 Arguments = "--on a",
                 Facettes = new Dictionary<string, string>
@@ -44,7 +44,7 @@ namespace Mastersign.DashOps
             });
             ActionViews.Add(new ActionView
             {
-                Description = "Start Y on A",
+                Title = "Start Y on A",
                 Command = "start_y",
                 Arguments = "--on a",
                 Facettes = new Dictionary<string, string>
@@ -56,7 +56,7 @@ namespace Mastersign.DashOps
             });
             ActionViews.Add(new ActionView
             {
-                Description = "Stop Y on A",
+                Title = "Stop Y on A",
                 Command = "stop_y",
                 Arguments = "--on a",
                 Facettes = new Dictionary<string, string>

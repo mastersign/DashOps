@@ -17,7 +17,7 @@
   <Types>
     
     <Class name="ActionView">
-      <Property name="Description" />
+      <Property name="Title" />
       <Property name="Reassure" type="bool" />
       <Property name="Command" />
       <Property name="Arguments" type="string" />

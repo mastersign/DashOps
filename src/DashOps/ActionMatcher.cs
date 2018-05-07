@@ -45,7 +45,7 @@ namespace Mastersign.DashOps.Model
             switch (Mode)
             {
                 case ActionMatchMode.Description:
-                    return MatchString(actionView.Description);
+                    return MatchString(actionView.Title);
                 case ActionMatchMode.Command:
                     return MatchString(actionView.Command);
                 case ActionMatchMode.Facette:

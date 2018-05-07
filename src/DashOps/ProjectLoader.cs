@@ -250,7 +250,7 @@ namespace Mastersign.DashOps
                 Command = ExpandEnv(action.Command),
                 Arguments = FormatArguments(action.Arguments),
                 WorkingDirectory = BuildAbsolutePath(action.WorkingDirectory),
-                Description = action.Description,
+                Title = action.Description,
                 Reassure = action.Reassure,
                 Visible = !action.Background,
                 Logs = ExpandEnv(action.Logs),
@@ -342,7 +342,7 @@ namespace Mastersign.DashOps
 
             return new ActionView()
             {
-                Description = ExpandTemplate(actionDiscovery.Description, facettes),
+                Title = ExpandTemplate(actionDiscovery.Description, facettes),
                 Reassure = actionDiscovery.Reassure,
                 Visible = !actionDiscovery.Background,
                 Logs = ExpandEnv(ExpandTemplate(actionDiscovery.Logs, facettes)),
@@ -359,7 +359,7 @@ namespace Mastersign.DashOps
             CommandActionPattern actionPattern, Dictionary<string, string> facettes)
             => new ActionView()
             {
-                Description = ExpandTemplate(actionPattern.Description, facettes),
+                Title = ExpandTemplate(actionPattern.Description, facettes),
                 Reassure = actionPattern.Reassure,
                 Visible = !actionPattern.Background,
                 Logs = ExpandEnv(ExpandTemplate(actionPattern.Logs, facettes)),

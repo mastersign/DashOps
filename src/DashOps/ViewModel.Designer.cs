@@ -30,33 +30,33 @@ namespace Mastersign.DashOps
         
         #endregion
         
-        #region Property Description
+        #region Property Title
         
-        private string _description;
+        private string _title;
         
-        public event EventHandler DescriptionChanged;
+        public event EventHandler TitleChanged;
         
-        protected virtual void OnDescriptionChanged()
+        protected virtual void OnTitleChanged()
         {
-            EventHandler handler = DescriptionChanged;
+            EventHandler handler = TitleChanged;
             if (!ReferenceEquals(handler, null))
             {
                 handler(this, EventArgs.Empty);
             }
-            this.OnPropertyChanged(@"Description");
+            this.OnPropertyChanged(@"Title");
         }
         
-        public virtual string Description
+        public virtual string Title
         {
-            get { return _description; }
+            get { return _title; }
             set
             {
-                if (string.Equals(value, _description))
+                if (string.Equals(value, _title))
                 {
                     return;
                 }
-                _description = value;
-                this.OnDescriptionChanged();
+                _title = value;
+                this.OnTitleChanged();
             }
         }
         
