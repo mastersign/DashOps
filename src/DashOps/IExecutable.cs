@@ -16,6 +16,8 @@ namespace Mastersign.DashOps
 
         string CurrentLogFile { get; set; }
 
+        string Title { get; }
+
         bool Visible { get; }
 
         void NotifyExecutionFinished();

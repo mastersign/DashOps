@@ -121,6 +121,7 @@ namespace Mastersign.DashOps
         private static string BuildPowerShellArguments(IExecutable executable, string logfile, DateTime timestamp)
         {
             var psLines = new List<string>();
+            psLines.Add($"$Host.UI.RawUI.WindowTitle = \"DashOps - {executable.Title}\"");
             if (logfile != null)
             {
                 psLines.Add($"$_ = Start-Transcript -Path \"{logfile}\"");
