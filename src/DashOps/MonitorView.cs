@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace Mastersign.DashOps
 {
-    partial class MonitorView
+    partial class MonitorView : ILogged
     {
         public virtual Task<bool> Check(DateTime startTime)
         {
@@ -27,11 +27,11 @@ namespace Mastersign.DashOps
         protected virtual void NotifyExecutionFinished(bool success)
         {
             HasExecutionResultChanged = !HasLastExecutionResult || LastExecutionResult != success;
-            Debug.WriteLine($"{Title}: {LastExecutionResult} -> {success} ({HasExecutionResultChanged})");
             LastExecutionResult = success;
             HasLastExecutionResult = true;
             IsRunning = false;
             OnStatusIconChanged();
+            OnLogIconChanged();
         }
 
         public virtual ControlTemplate StatusIcon
@@ -44,9 +44,7 @@ namespace Mastersign.DashOps
                             ? HasExecutionResultChanged ? "IconStatusOKNew" : "IconStatusOK"
                             : HasExecutionResultChanged ? "IconStatusErrorNew" : "IconStatusError"
                         : "IconStatusNotStarted";
-                return resourceName != null
-                    ? App.Instance.FindResource(resourceName) as ControlTemplate
-                    : null;
+                return App.Instance.FindResource(resourceName) as ControlTemplate;
             }
         }
 
@@ -57,5 +55,34 @@ namespace Mastersign.DashOps
             OnPropertyChanged(nameof(StatusIcon));
             StatusIconChanged?.Invoke(this, EventArgs.Empty);
         }
+
+        #region ILogged
+
+        public virtual string CommandId => throw new NotImplementedException();
+
+        public virtual ControlTemplate LogIcon
+        {
+            get
+            {
+                var logInfo = this.GetLastLogFileInfo();
+                var resourceName =
+                    logInfo != null
+                        ? logInfo.HasExitCode
+                            ? logInfo.IsSuccess ? "IconLogOK" : "IconLogError"
+                            : "IconLog"
+                        : "IconLogEmpty";
+                return App.Instance.FindResource(resourceName) as ControlTemplate;
+            }
+        }
+
+        public event EventHandler LogIconChanged;
+
+        protected void OnLogIconChanged()
+        {
+            OnPropertyChanged(nameof(LogIcon));
+            LogIconChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        #endregion
     }
 }

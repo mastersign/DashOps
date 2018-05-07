@@ -10,7 +10,7 @@ namespace Mastersign.DashOps
 {
     public class MonitorManager
     {
-        private DispatcherTimer timer = new DispatcherTimer();
+        private readonly DispatcherTimer timer = new DispatcherTimer();
 
         public MonitorManager()
         {
@@ -19,7 +19,7 @@ namespace Mastersign.DashOps
             timer.IsEnabled = true;
         }
 
-        private void TimerHandler(object sender, EventArgs e)
+        private static void TimerHandler(object sender, EventArgs e)
         {
             var projectView = App.Instance?.ProjectLoader?.ProjectView;
             var monitors = projectView?.MonitorViews;
@@ -32,7 +32,7 @@ namespace Mastersign.DashOps
             }
         }
 
-        private void ProcessMonitor(MonitorView monitor, TimeSpan defaultInterval, DateTime now)
+        private static void ProcessMonitor(MonitorView monitor, TimeSpan defaultInterval, DateTime now)
         {
             if (monitor.IsRunning) return;
             if (monitor.HasLastExecutionResult)
@@ -40,7 +40,9 @@ namespace Mastersign.DashOps
                 var nextExecutionTime = monitor.LastExecutionTime + monitor.GetInterval(defaultInterval);
                 if (nextExecutionTime > now) return;
             }
-            monitor.Check(now);
+#pragma warning disable CS4014
+            Core.ExecuteMonitor(monitor, now);
+#pragma warning restore CS4014
         }
     }
 }

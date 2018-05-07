@@ -17,14 +17,17 @@ namespace Mastersign.DashOps
         public static readonly DelegateCommand<ActionView> ExecuteAction
             = new DelegateCommand<ActionView>(action => Core.ExecuteAction(action));
 
-        public static readonly DelegateCommand<ActionView> ShowLastActionLog
-            = new DelegateCommand<ActionView>(Core.ShowLastActionLog, action => action.LastLogFile != null);
+        public static readonly DelegateCommand<ILogged> ShowLastLog
+            = new DelegateCommand<ILogged>(Core.ShowLastLog, logged => logged.HasLogFile());
 
         public static readonly RoutedUICommand ShowLogHistoryContextMenu
             = new RoutedUICommand("Show Log History Context Menu", "Show Log History Context Menu", typeof(MainWindow));
 
         public static readonly DelegateCommand<ActionView> ShowActionInfo
             = new DelegateCommand<ActionView>(Core.ShowActionInfo);
+
+        public static readonly DelegateCommand<MonitorView> ShowMonitorInfo
+            = new DelegateCommand<MonitorView>(Core.ShowMonitorInfo);
     }
-    #pragma warning restore CS4014
+#pragma warning restore CS4014
 }

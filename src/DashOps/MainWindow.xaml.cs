@@ -42,19 +42,19 @@ namespace Mastersign.DashOps
 
         private void HasLogCheck(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = (e.Parameter as ActionView)?.LastLogFile != null;
+            e.CanExecute = (e.Parameter as ILogged)?.HasLogFile() ?? false;
         }
 
         private void ShowLogHistoryContextMenuHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            if (e.Parameter is ActionView action)
+            if (e.Parameter is ILogged item)
             {
                 var menu = new ContextMenu
                 {
                     PlacementTarget = (UIElement)e.OriginalSource,
                     Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom,
                 };
-                var logs = action.LogFiles().OrderByDescending(n => n).Take(20);
+                var logs = item.FindLogFiles().OrderByDescending(n => n).Take(20);
                 foreach (var log in logs)
                 {
                     menu.Items.Add(CreateActionLogMenuItem(log));
@@ -87,8 +87,8 @@ namespace Mastersign.DashOps
         private async void MonitorDoubleClickHandler(object sender, MouseButtonEventArgs e)
         {
             var label = sender as Label;
-            var monitor = label?.DataContext as CommandMonitorView;
-            var result = await monitor.Check(DateTime.Now);
+            var result = label?.DataContext is CommandMonitorView monitor 
+                         && await monitor.Check(DateTime.Now);
             MessageBox.Show(result.ToString());
         }
     }

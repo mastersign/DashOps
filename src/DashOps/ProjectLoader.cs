@@ -24,13 +24,13 @@ namespace Mastersign.DashOps
             nameof(CommandAction.Host),
         };
 
-        public string ProjectPath { get; private set; }
+        public string ProjectPath { get;  }
 
         public Project Project { get; private set; }
 
-        public ProjectView ProjectView { get; private set; }
+        public ProjectView ProjectView { get;  }
 
-        private Action<Action> Dispatcher { get; set; }
+        private Action<Action> Dispatcher { get; }
 
         public ProjectLoader(string projectPath, Action<Action> dispatcher)
         {

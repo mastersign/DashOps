@@ -18,7 +18,7 @@ namespace Mastersign.DashOps
             if (!action.Reassure || Reassure(action))
             {
                 await action.ExecuteAsync();
-                DashOpsCommands.ShowLastActionLog.RaiseCanExecuteChanged();
+                DashOpsCommands.ShowLastLog.RaiseCanExecuteChanged();
                 CommandManager.InvalidateRequerySuggested();
             }
         }
@@ -26,10 +26,24 @@ namespace Mastersign.DashOps
         private static bool Reassure(ActionView action)
         {
             var result = MessageBox.Show(
-                "Are you sure you want to execute the following action?\n\n" + ActionInfo(action),
+                "Are you sure you want to execute the following logged?\n\n" + ActionInfo(action),
                 "Execute Action", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
             return result == MessageBoxResult.OK;
         }
+
+        public static async Task<bool> ExecuteMonitor(MonitorView monitor, DateTime startTime)
+        {
+            var result = await monitor.Check(startTime);
+            DashOpsCommands.ShowLastLog.RaiseCanExecuteChanged();
+            CommandManager.InvalidateRequerySuggested();
+            return result;
+        }
+
+        public static void ShowLastLog(ILogged logged)
+            => ShowLogFile(logged.FindLastLogFile());
+
+        public static void ShowLogFile(string filepath)
+            => System.Diagnostics.Process.Start(filepath);
 
         public static void ShowActionInfo(ActionView action)
         {
@@ -56,10 +70,35 @@ namespace Mastersign.DashOps
             return sb.ToString();
         }
 
-        public static void ShowLastActionLog(ActionView action)
-            => ShowLogFile(action.LastLogFile);
+        public static void ShowMonitorInfo(MonitorView monitor)
+        {
+            MessageBox.Show(MonitorInfo(monitor), "Monitor Info",
+                MessageBoxButton.OK, MessageBoxImage.Information);
+        }
 
-        public static void ShowLogFile(string filepath)
-            => System.Diagnostics.Process.Start(filepath);
+        private static string MonitorInfo(MonitorView monitor)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine(monitor.Title);
+            sb.AppendLine();
+            sb.Append("ID: ");
+            sb.AppendLine(monitor.CommandId);
+            sb.Append("Interval: ");
+            sb.AppendLine(monitor.Interval.Seconds.ToString());
+            if (monitor is CommandMonitorView cmdMonitor)
+            {
+                sb.Append("Command: ");
+                sb.AppendLine(cmdMonitor.Command);
+                if (!string.IsNullOrWhiteSpace(cmdMonitor.Arguments))
+                {
+                    sb.Append("Arguments: ");
+                    sb.AppendLine(cmdMonitor.Arguments);
+                }
+
+                sb.Append("Working Directory: ");
+                sb.AppendLine(cmdMonitor.WorkingDirectory);
+            }
+            return sb.ToString();
+        }
     }
 }

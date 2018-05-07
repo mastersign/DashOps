@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace Mastersign.DashOps
 {
-    public interface IExecutable
+    public interface IExecutable : ILogged
     {
-        string CommandId { get; }
-
-        string Logs { get; }
-
         string Command { get; }
 
         string Arguments { get; }

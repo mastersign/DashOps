@@ -57,8 +57,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="YamlDotNet, Version=4.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="YamlDotNet">
       <HintPath>..\packages\YamlDotNet.4.3.1\lib\net45\YamlDotNet.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +79,7 @@
     <Compile Include="Executor.cs" />
     <Compile Include="IdBuilder.cs" />
     <Compile Include="IExecutable.cs" />
+    <Compile Include="ILogged.cs" />
     <Compile Include="LogFileInfo.cs" />
     <Compile Include="LogFileManager.cs" />
     <Compile Include="MonitorManager.cs" />

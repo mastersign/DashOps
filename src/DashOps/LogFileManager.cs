@@ -12,24 +12,31 @@ namespace Mastersign.DashOps
     {
         private const string TS_FORMAT = "yyyyMMdd_HHmmss";
 
-        public static string LogNamePattern(IExecutable executable)
-            => $"*_{executable.CommandId}_*.log";
+        public static string LogNamePattern(ILogged logged)
+            => $"*_{logged.CommandId}_*.log";
 
-        public static string PreliminaryLogFileName(IExecutable executable, DateTime timestamp)
+        public static string PreliminaryLogFileName(this ILogged executable, DateTime timestamp)
             => timestamp.ToString(TS_FORMAT, CultureInfo.InvariantCulture) + "_" + executable.CommandId;
 
         public static string FinalizeLogFileName(string preliminaryLogFileName, int exitCode)
             => $"{preliminaryLogFileName}_{exitCode}.log";
 
-        public static IEnumerable<string> FindLogFiles(IExecutable executable, string logDirectory)
-            => logDirectory != null && Directory.Exists(logDirectory)
-                ? System.IO.Directory.EnumerateFiles(logDirectory, LogNamePattern(executable))
+        public static IEnumerable<string> FindLogFiles(this ILogged logged)
+            => logged.Logs != null && Directory.Exists(logged.Logs)
+                ? Directory.EnumerateFiles(logged.Logs, LogNamePattern(logged))
                 : Enumerable.Empty<string>();
 
-        private readonly static Regex NamePattern = new Regex(@"^(?<ts>.{" + TS_FORMAT.Length + @"})_(?<aid>[^_]+)(?:_(?<ec>-?\d+))?\.log$");
+        public static bool HasLogFile(this ILogged logged)
+            => logged.FindLogFiles().Any();
+
+        public static string FindLastLogFile(this ILogged logged)
+            => logged.FindLogFiles().OrderByDescending(f => f).FirstOrDefault();
+
+        private static readonly Regex NamePattern = new Regex(@"^(?<ts>.{" + TS_FORMAT.Length + @"})_(?<aid>[^_]+)(?:_(?<ec>-?\d+))?\.log$");
 
         public static LogFileInfo GetInfo(string logFile)
         {
+            if (string.IsNullOrWhiteSpace(logFile)) return null;
             var fileName = Path.GetFileName(logFile);
             var m = NamePattern.Match(fileName);
             if (!m.Success) return null;
@@ -41,14 +48,13 @@ namespace Mastersign.DashOps
                 m.Groups["ec"].Success ? int.Parse(m.Groups["ec"].Value, CultureInfo.InvariantCulture) : 0);
         }
 
-        private static readonly Regex TranscriptBeginPattern = new Regex(@"^(?<pre>#+\s+)BEGIN(?<post>\s+TRANSCRIPT\s+.+?\s+#+)$");
+        public static LogFileInfo GetLastLogFileInfo(this ILogged logged)
+            => GetInfo(logged.FindLastLogFile());
 
-        public static void PostprocessLogFile(string fileName, StringBuilder outputBuffer)
+        public static void PostprocessLogFile(string srcName, string trgName, StringBuilder outputBuffer)
         {
-            if (!File.Exists(fileName)) return;
-            var tmpName = fileName + ".tmp";
-            var sSrc = File.Open(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-            var sTrg = File.Open(tmpName, FileMode.Create, FileAccess.Write, FileShare.None);
+            var sSrc = File.Open(srcName, FileMode.Open, FileAccess.Read, FileShare.Read);
+            var sTrg = File.Open(trgName, FileMode.Create, FileAccess.Write, FileShare.None);
             using (var rSrc = new StreamReader(sSrc, Encoding.UTF8))
             using (var wTrg = new StreamWriter(sTrg, Encoding.UTF8))
             {
@@ -64,13 +70,11 @@ namespace Mastersign.DashOps
                     else if (separatorCount == 2)
                     {
                         wTrg.WriteLine(line);
-                        if (outputBuffer != null) outputBuffer.AppendLine(line);
+                        outputBuffer?.AppendLine(line);
                     }
                     line = rSrc.ReadLine();
                 }
             }
-            File.Delete(fileName);
-            File.Move(tmpName, fileName);
         }
     }
 }

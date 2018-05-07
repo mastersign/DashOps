@@ -7,7 +7,7 @@ using System.Windows.Controls;
 
 namespace Mastersign.DashOps
 {
-    partial class ActionView : IExecutable
+    partial class ActionView : IExecutable, ILogged
     {
         public bool HasFacette(string name)
             => Facettes?.ContainsKey(name) ?? false;
@@ -32,36 +32,18 @@ namespace Mastersign.DashOps
 
         public override string ToString() => $"[{CommandId}] {Description}: {CommandLabel}";
 
-        public IEnumerable<string> LogFiles()
-            => LogFileManager.FindLogFiles(this, Logs);
-
-        public string LastLogFile
-            => LogFileManager.FindLogFiles(this, Logs)
-                .OrderByDescending(f => f)
-                .FirstOrDefault();
-
-        public LogFileInfo LastLogFileInfo()
-        {
-            var lastLogFile = LastLogFile;
-            return lastLogFile != null
-                ? LogFileManager.GetInfo(lastLogFile)
-                : null;
-        }
-
         public ControlTemplate LogIcon
         {
             get
             {
-                var logInfo = LastLogFileInfo();
+                var logInfo = this.GetLastLogFileInfo();
                 var resourceName =
                     logInfo != null
                         ? logInfo.HasExitCode
                             ? logInfo.IsSuccess ? "IconLogOK" : "IconLogError"
                             : "IconLog"
                         : "IconLogEmpty";
-                return resourceName != null
-                    ? App.Instance.FindResource(resourceName) as ControlTemplate
-                    : null;
+                return App.Instance.FindResource(resourceName) as ControlTemplate;
             }
         }
 

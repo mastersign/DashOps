@@ -13,13 +13,11 @@ namespace Mastersign.DashOps
     {
         private class Execution
         {
-            public readonly Process Process;
             public readonly IExecutable Executable;
             public readonly Action<ExecutionResult> OnExit;
 
-            public Execution(Process process, IExecutable executable, Action<ExecutionResult> onExit)
+            public Execution(IExecutable executable, Action<ExecutionResult> onExit)
             {
-                Process = process;
                 Executable = executable;
                 OnExit = onExit;
             }
@@ -37,8 +35,8 @@ namespace Mastersign.DashOps
             {
                 result = r;
                 block.Set();
-            };
-            Execute(executable, onExit: Unblock);
+            }
+            Execute(executable, Unblock);
             var t = new Task<ExecutionResult>(() =>
             {
                 block.WaitOne();
@@ -59,12 +57,12 @@ namespace Mastersign.DashOps
             var logfile = executable.Logs != null
                     ? Path.Combine(
                         executable.Logs, 
-                        LogFileManager.PreliminaryLogFileName(executable, timestamp))
+                        executable.PreliminaryLogFileName(timestamp))
                     : null;
 
             var psArgs = BuildPowerShellArguments(logfile, timestamp,
                 executable.WorkingDirectory, executable.Command, executable.Arguments,
-                waitForKeyPress: executable.Visible);
+                executable.Visible);
 
             var psi = new ProcessStartInfo(CommandLine.PowerShellExe, psArgs)
             {
@@ -83,7 +81,7 @@ namespace Mastersign.DashOps
                 p.EnableRaisingEvents = true;
                 lock (runningProcesses)
                 {
-                    runningProcesses[p] = new Execution(p, executable, onExit);
+                    runningProcesses[p] = new Execution(executable, onExit);
                     p.Exited += ProcessExitedHandler;
                 }
 
@@ -94,41 +92,35 @@ namespace Mastersign.DashOps
         private void ProcessExitedHandler(object sender, EventArgs e)
         {
             var p = (Process)sender;
-            Execution execution = null;
+            Execution execution;
             lock (runningProcesses)
             {
                 if (runningProcesses.TryGetValue(p, out execution)) runningProcesses.Remove(p);
             }
-            if (execution != null)
+            if (execution == null) return;
+
+            var outputBuffer = new StringBuilder();
+            var executable = execution.Executable;
+            if (executable != null)
             {
-                var outputBuffer = new StringBuilder();
-                var executable = execution.Executable;
-                if (executable != null)
+                var rawLogFile = executable.CurrentLogFile;
+                if (rawLogFile != null && File.Exists(rawLogFile))
                 {
-                    var logFile = executable.CurrentLogFile;
-                    if (logFile != null)
-                    {
-                        logFile = LogFileManager.FinalizeLogFileName(logFile, p.ExitCode);
-                        if (File.Exists(logFile))
-                        {
-                            executable.CurrentLogFile = logFile;
-                            LogFileManager.PostprocessLogFile(logFile, outputBuffer);
-                        }
-                        else
-                        {
-                            executable.CurrentLogFile = null;
-                        }
-                    }
+                    var logFile = LogFileManager.FinalizeLogFileName(rawLogFile, p.ExitCode);
+                    LogFileManager.PostprocessLogFile(rawLogFile, logFile, outputBuffer);
+                    executable.CurrentLogFile = logFile;
+                    File.Delete(rawLogFile);
                 }
-                execution.OnExit?.Invoke(new ExecutionResult(executable, p.ExitCode, outputBuffer.ToString()));
-                if (executable != null)
+                else
                 {
-                    executable.NotifyExecutionFinished();
+                    executable.CurrentLogFile = null;
                 }
             }
+            execution.OnExit?.Invoke(new ExecutionResult(executable, p.ExitCode, outputBuffer.ToString()));
+            executable?.NotifyExecutionFinished();
         }
 
-        private string BuildPowerShellArguments(string logfile, DateTime timestamp,
+        private static string BuildPowerShellArguments(string logfile, DateTime timestamp,
             string workingDirectory, string command, string arguments, bool waitForKeyPress)
         {
             var psLines = new List<string>();
@@ -155,7 +147,6 @@ namespace Mastersign.DashOps
             if (logfile != null)
             {
                 psLines.Add("$_ = Stop-Transcript");
-                psLines.Add($"mv \"{logfile}\" \"{logfile}_$ec.log\"");
             }
             if (waitForKeyPress)
             {

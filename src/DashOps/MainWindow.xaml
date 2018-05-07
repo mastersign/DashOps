@@ -40,7 +40,7 @@
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Reassure}" Value="true">
-                    <Setter Property="Background" Value="Tomato"/>
+                    <Setter Property="Background" Value="#FFFFE8E0"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -129,7 +129,7 @@
                                 Content="{Binding Description}">
                             </Button>
                             <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,0,10">
-                                <Button Command="local:DashOpsCommands.ShowLastActionLog"
+                                <Button Command="local:DashOpsCommands.ShowLastLog"
                                         CommandParameter="{Binding}"
                                         Style="{StaticResource ActionAddButtonStyle}">
                                     <ContentControl Template="{Binding LogIcon}" />
@@ -163,13 +163,32 @@
                           ItemsSource="{Binding MonitorViews}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
+                        <Grid Margin="0,0,0,10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" SharedSizeGroup="MonitorStatusColumn" />
                                 <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="MonitorButtonColumn" />
                             </Grid.ColumnDefinitions>
                             <ContentControl Template="{Binding StatusIcon}" Width="24" Height="24" />
                             <Label Grid.Column="1" Content="{Binding Title}" MouseDoubleClick="MonitorDoubleClickHandler" />
+                            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                <Button Command="local:DashOpsCommands.ShowLastLog"
+                                        CommandParameter="{Binding}"
+                                        Style="{StaticResource ActionAddButtonStyle}">
+                                    <ContentControl Template="{Binding LogIcon}" />
+                                </Button>
+                                <Button Command="local:DashOpsCommands.ShowLogHistoryContextMenu"
+                                        CommandParameter="{Binding}"
+                                        Style="{StaticResource ActionAddButtonStyle}"
+                                        Margin="0" Padding="0" Width="14">
+                                    <ContentControl Template="{StaticResource IconGlyphDown}" />
+                                </Button>
+                                <Button Command="local:DashOpsCommands.ShowMonitorInfo"
+                                        CommandParameter="{Binding}"
+                                        Style="{StaticResource ActionAddButtonStyle}">
+                                    <ContentControl Template="{StaticResource IconInfo}" />
+                                </Button>
+                            </StackPanel>
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

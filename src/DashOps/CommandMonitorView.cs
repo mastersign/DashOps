@@ -13,7 +13,7 @@ namespace Mastersign.DashOps
     {
         public bool Visible => false;
 
-        public string CommandId => IdBuilder.BuildId(Command + " " + Arguments);
+        public override string CommandId => IdBuilder.BuildId(Command + " " + Arguments);
 
         public string CommandLabel => Command
             + (string.IsNullOrWhiteSpace(Arguments)
@@ -30,6 +30,7 @@ namespace Mastersign.DashOps
                 && RequiredPatterns.All(p => p.IsMatch(result.Output))
                 && !ForbiddenPatterns.Any(p => p.IsMatch(result.Output));
             NotifyExecutionFinished(success);
+            OnLogIconChanged();
             return success;
         }
 
@@ -41,22 +42,6 @@ namespace Mastersign.DashOps
                 System.IO.File.Delete(CurrentLogFile);
                 CurrentLogFile = null;
             }
-        }
-
-        public IEnumerable<string> LogFiles()
-            => LogFileManager.FindLogFiles(this, Logs);
-
-        public string LastLogFile
-            => LogFileManager.FindLogFiles(this, Logs)
-                .OrderByDescending(f => f)
-                .FirstOrDefault();
-
-        public LogFileInfo LastLogFileInfo()
-        {
-            var lastLogFile = LastLogFile;
-            return lastLogFile != null
-                ? LogFileManager.GetInfo(lastLogFile)
-                : null;
         }
 
         public void NotifyExecutionFinished()
