@@ -176,19 +176,18 @@ namespace Mastersign.DashOps
             ProjectView.Perspectives.Clear();
             ProjectView.MonitorViews.Clear();
             ProjectView.Title = Project?.Title ?? "Unknown";
-            ProjectView.Logs = ExpandEnv(Project?.Logs);
+            var defaultLogDir = ExpandEnv(Project?.Logs);
             if (Project == null) return;
 
-            ProjectView.NoLogs = Project.NoLogs;
-            if (ProjectView.Logs != null)
+            if (defaultLogDir != null)
             {
-                if (!Path.IsPathRooted(ProjectView.Logs))
+                if (!Path.IsPathRooted(defaultLogDir))
                 {
-                    ProjectView.Logs = Path.Combine(Environment.CurrentDirectory, ProjectView.Logs);
+                    defaultLogDir = Path.Combine(Environment.CurrentDirectory, defaultLogDir);
                 }
-                if (!Directory.Exists(ProjectView.Logs))
+                if (!Directory.Exists(defaultLogDir))
                 {
-                    Directory.CreateDirectory(ProjectView.Logs);
+                    Directory.CreateDirectory(defaultLogDir);
                 }
             }
 
@@ -203,8 +202,8 @@ namespace Mastersign.DashOps
             ApplyAutoAnnotations();
             foreach (var actionView in ProjectView.ActionViews)
             {
-                if (actionView.Logs == null) actionView.Logs = ProjectView.Logs;
-                if (ProjectView.NoLogs || actionView.NoLogs) actionView.Logs = null;
+                if (actionView.Logs == null) actionView.Logs = defaultLogDir;
+                if (Project.NoLogs || actionView.NoLogs) actionView.Logs = null;
             }
 
             ProjectView.AddTagsPerspective();
@@ -223,8 +222,8 @@ namespace Mastersign.DashOps
             if (Project.WebMonitorPatterns != null) AddMonitorViews(Project.WebMonitorPatterns.SelectMany(ExpandWebMonitorPattern));
             foreach (var monitorView in ProjectView.MonitorViews)
             {
-                if (monitorView.Logs == null) monitorView.Logs = ProjectView.Logs;
-                if (ProjectView.NoLogs || monitorView.NoLogs) monitorView.Logs = null;
+                if (monitorView.Logs == null) monitorView.Logs = Project.Logs;
+                if (Project.NoLogs || monitorView.NoLogs) monitorView.Logs = null;
                 var logInfo = monitorView.GetLastLogFileInfo();
                 if (logInfo != null)
                 {

@@ -74,8 +74,6 @@
 
     <Class name="ProjectView">
       <Property name="Title" />
-      <Property name="Logs" />
-      <Property name="NoLogs" type="bool" />
       <Property name="ActionViews" isCollection="true" type="ActionView" defaultInitialization="true" immutable="true" />
       <Property name="Perspectives" isCollection="true" type="PerspectiveView" defaultInitialization="true" immutable="true" />
       <Property name="CurrentPerspective" type="PerspectiveView" />
