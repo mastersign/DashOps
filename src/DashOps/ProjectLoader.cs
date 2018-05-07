@@ -204,6 +204,8 @@ namespace Mastersign.DashOps
             {
                 if (actionView.Logs == null) actionView.Logs = defaultLogDir;
                 if (Project.NoLogs || actionView.NoLogs) actionView.Logs = null;
+                if (Project.KeepActionOpen) actionView.KeepOpen = true;
+                if (Project.AlwaysCloseAction) actionView.AlwaysClose = true;
             }
 
             ProjectView.AddTagsPerspective();
@@ -257,6 +259,8 @@ namespace Mastersign.DashOps
                 Visible = !action.Background,
                 Logs = ExpandEnv(action.Logs),
                 NoLogs = action.NoLogs,
+                KeepOpen = action.KeepOpen,
+                AlwaysClose = action.AlwaysClose,
                 Tags = action.Tags ?? Array.Empty<string>(),
                 Facettes = action.Facettes != null
                     ? new Dictionary<string, string>(action.Facettes)
@@ -350,6 +354,8 @@ namespace Mastersign.DashOps
                 Visible = !actionDiscovery.Background,
                 Logs = ExpandEnv(ExpandTemplate(actionDiscovery.Logs, facettes)),
                 NoLogs = actionDiscovery.NoLogs,
+                KeepOpen = actionDiscovery.KeepOpen,
+                AlwaysClose = actionDiscovery.AlwaysClose,
                 Command = file,
                 Arguments = FormatArguments(actionDiscovery.Arguments),
                 WorkingDirectory = BuildAbsolutePath(
@@ -368,6 +374,8 @@ namespace Mastersign.DashOps
                 Visible = !actionPattern.Background,
                 Logs = ExpandEnv(ExpandTemplate(actionPattern.Logs, facettes)),
                 NoLogs = actionPattern.NoLogs,
+                KeepOpen = actionPattern.KeepOpen,
+                AlwaysClose = actionPattern.AlwaysClose,
                 Command = ExpandEnv(ExpandTemplate(actionPattern.Command, facettes)),
                 Arguments = FormatArguments(
                     actionPattern.Arguments?.Select(a => ExpandTemplate(a, facettes))),

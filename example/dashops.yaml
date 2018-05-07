@@ -8,6 +8,7 @@ actions:
   - description: List content of program files directory
     command: Get-ChildItem
     arguments: ['%ProgramFiles%']
+    keep-open: true
     host: Localhost
     service: File System
     verb: dir
@@ -44,6 +45,7 @@ action-patterns:
   - description: 'Check ${Service} on all hosts ${mode}'
     command: '${service}\check-all.ps1'
     arguments: ['-Mode', '${mode}']
+    always-close: true
     working-directory: test-scripts
     service:
       - service A

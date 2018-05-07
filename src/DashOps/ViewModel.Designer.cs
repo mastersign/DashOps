@@ -318,6 +318,70 @@ namespace Mastersign.DashOps
         
         #endregion
         
+        #region Property KeepOpen
+        
+        private bool _keepOpen;
+        
+        public event EventHandler KeepOpenChanged;
+        
+        protected virtual void OnKeepOpenChanged()
+        {
+            EventHandler handler = KeepOpenChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"KeepOpen");
+        }
+        
+        public virtual bool KeepOpen
+        {
+            get { return _keepOpen; }
+            set
+            {
+                if ((value == _keepOpen))
+                {
+                    return;
+                }
+                _keepOpen = value;
+                this.OnKeepOpenChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property AlwaysClose
+        
+        private bool _alwaysClose;
+        
+        public event EventHandler AlwaysCloseChanged;
+        
+        protected virtual void OnAlwaysCloseChanged()
+        {
+            EventHandler handler = AlwaysCloseChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"AlwaysClose");
+        }
+        
+        public virtual bool AlwaysClose
+        {
+            get { return _alwaysClose; }
+            set
+            {
+                if ((value == _alwaysClose))
+                {
+                    return;
+                }
+                _alwaysClose = value;
+                this.OnAlwaysCloseChanged();
+            }
+        }
+        
+        #endregion
+        
         #region Property CurrentLogFile
         
         private string _currentLogFile;

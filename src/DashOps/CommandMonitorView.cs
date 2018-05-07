@@ -13,6 +13,10 @@ namespace Mastersign.DashOps
     {
         public bool Visible => false;
 
+        public bool KeepOpen => false;
+
+        public bool AlwaysClose => false;
+
         public override string CommandId => IdBuilder.BuildId(Command + " " + Arguments);
 
         public string CommandLabel => Command

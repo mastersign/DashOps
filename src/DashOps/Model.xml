@@ -21,6 +21,8 @@
       <Property name="Background" type="bool" />
       <Property name="Logs" />
       <Property name="NoLogs" type="bool" />
+      <Property name="KeepOpen" type="bool" />
+      <Property name="AlwaysClose" type="bool" />
       <Property name="Arguments" type="string[]" />
       <Property name="WorkingDirectory" />
       <Property name="Tags" type="string[]" />
@@ -119,6 +121,8 @@
       <Property name="Title" />
       <Property name="Logs" />
       <Property name="NoLogs" type="bool" />
+      <Property name="KeepActionOpen" type="bool" />
+      <Property name="AlwaysCloseAction" type="bool" />
       <Property name="Actions" isCollection="true" type="CommandAction" defaultInitialization="true" />
       <Property name="ActionDiscovery" isCollection="true" type="CommandActionDiscovery" defaultInitialization="true" />
       <Property name="ActionPatterns" isCollection="true" type="CommandActionPattern" defaultInitialization="true" />

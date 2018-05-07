@@ -136,7 +136,12 @@ namespace Mastersign.DashOps
             psLines.Add("echo \"--------------------------------------------------------------------------------\"");
             psLines.Add("echo \"\"");
             psLines.Add($"& \"{executable.Command}\" {executable.Arguments}");
-            psLines.Add("if ($LastExitCode -eq $null) { if ($?) { $ec = 0 } else { $ec = 1; echo \"\"; Write-Warning \"Command failed.\" } } else { $ec = $LastExitCode; if ($ec -ne 0) { echo \"\"; Write-Warning \"Exit Code: $ec\" } }");
+            psLines.Add("if ($LastExitCode -eq $null) { ");
+            psLines.Add("  if ($?) { $ec = 0 } else { $ec = 1; echo \"\"; Write-Warning \"Command failed.\" }");
+            psLines.Add("} else {");
+            psLines.Add("  $ec = $LastExitCode");
+            psLines.Add("  if ($ec -ne 0) { echo \"\"; Write-Warning \"Exit Code: $ec\" }");
+            psLines.Add("}");
             psLines.Add("$t = [DateTime]::Now");
             psLines.Add("echo \"\"");
             psLines.Add("echo \"--------------------------------------------------------------------------------\"");
@@ -148,8 +153,18 @@ namespace Mastersign.DashOps
             }
             if (executable.Visible)
             {
-                psLines.Add("echo \"Press any key to continue...\"");
-                psLines.Add("$_ = $Host.UI.RawUI.ReadKey()");
+                if (executable.KeepOpen)
+                {
+                    psLines.Add("echo \"Press any key to continue...\"");
+                    psLines.Add("$_ = $Host.UI.RawUI.ReadKey()");
+                }
+                else if (!executable.AlwaysClose)
+                {
+                    psLines.Add("if ($ec -ne 0) {");
+                    psLines.Add("  echo \"Press any key to continue...\"");
+                    psLines.Add("  $_ = $Host.UI.RawUI.ReadKey()");
+                    psLines.Add("}");
+                }
             }
             psLines.Add("exit $ec");
             var cmd = string.Join(Environment.NewLine, psLines);

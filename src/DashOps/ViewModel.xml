@@ -26,6 +26,8 @@
       <Property name="Facettes" type="dict" />
       <Property name="Logs" />
       <Property name="NoLogs" type="bool" />
+      <Property name="KeepOpen" type="bool" />
+      <Property name="AlwaysClose" type="bool" />
       <Property name="CurrentLogFile" />
       <Property name="Visible" type="bool" />
     </Class>

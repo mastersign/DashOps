@@ -39,6 +39,8 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    Background = " + _background.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    KeepOpen = " + _keepOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    AlwaysClose = " + _alwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(_tags, null) ? _tags.ToString() : @"null").Replace("\n", "\n    "))));
@@ -141,6 +143,44 @@ namespace Mastersign.DashOps.Model
         
         #endregion
         
+        #region Property KeepOpen
+        
+        private bool _keepOpen;
+        
+        public virtual bool KeepOpen
+        {
+            get { return _keepOpen; }
+            set
+            {
+                if ((value == _keepOpen))
+                {
+                    return;
+                }
+                _keepOpen = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property AlwaysClose
+        
+        private bool _alwaysClose;
+        
+        public virtual bool AlwaysClose
+        {
+            get { return _alwaysClose; }
+            set
+            {
+                if ((value == _alwaysClose))
+                {
+                    return;
+                }
+                _alwaysClose = value;
+            }
+        }
+        
+        #endregion
+        
         #region Property Arguments
         
         private string[] _arguments;
@@ -220,6 +260,8 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    KeepOpen = " + KeepOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    AlwaysClose = " + AlwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -349,6 +391,8 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    KeepOpen = " + KeepOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    AlwaysClose = " + AlwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -501,6 +545,8 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    KeepOpen = " + KeepOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    AlwaysClose = " + AlwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -1510,6 +1556,8 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    Title = " + (!ReferenceEquals(_title, null) ? _title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    KeepActionOpen = " + _keepActionOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    AlwaysCloseAction = " + _alwaysCloseAction.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Actions = " + (!ReferenceEquals(_actions, null) ? (_actions.Count.ToString() + @" items" + __collection_Actions.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    ActionDiscovery = " + (!ReferenceEquals(_actionDiscovery, null) ? (_actionDiscovery.Count.ToString() + @" items" + __collection_ActionDiscovery.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    ActionPatterns = " + (!ReferenceEquals(_actionPatterns, null) ? (_actionPatterns.Count.ToString() + @" items" + __collection_ActionPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
@@ -1596,6 +1644,44 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _noLogs = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property KeepActionOpen
+        
+        private bool _keepActionOpen;
+        
+        public virtual bool KeepActionOpen
+        {
+            get { return _keepActionOpen; }
+            set
+            {
+                if ((value == _keepActionOpen))
+                {
+                    return;
+                }
+                _keepActionOpen = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property AlwaysCloseAction
+        
+        private bool _alwaysCloseAction;
+        
+        public virtual bool AlwaysCloseAction
+        {
+            get { return _alwaysCloseAction; }
+            set
+            {
+                if ((value == _alwaysCloseAction))
+                {
+                    return;
+                }
+                _alwaysCloseAction = value;
             }
         }
         

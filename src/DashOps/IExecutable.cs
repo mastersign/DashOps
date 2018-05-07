@@ -20,6 +20,10 @@ namespace Mastersign.DashOps
 
         bool Visible { get; }
 
+        bool KeepOpen { get; }
+
+        bool AlwaysClose { get; }
+
         void NotifyExecutionFinished();
     }
 }
