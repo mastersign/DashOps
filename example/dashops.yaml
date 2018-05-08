@@ -55,8 +55,12 @@ action-patterns:
     tags:
      - expanded
 
-default-monitor-interval: 2
+default-monitor-interval: 5
 monitors:
   - title: Monitor 1
     command: test-scripts\monitor-1.ps1
     arguments: [5]
+web-monitors:
+  - title: Monitor 2
+    url: https://github.com
+    timeout: 5
