@@ -15,9 +15,6 @@ namespace Mastersign.DashOps
             throw new NotImplementedException();
         }
 
-        public TimeSpan GetInterval(TimeSpan defaultInterval)
-            => Interval < TimeSpan.Zero ? defaultInterval : Interval;
-
         protected virtual void NotifyExecutionBegin(DateTime startTime)
         {
             LastExecutionTime = startTime;

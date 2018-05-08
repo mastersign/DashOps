@@ -1291,6 +1291,7 @@ namespace Mastersign.DashOps.Model
     {
         public WebMonitor()
         {
+            this._timeout = DEF_TIMEOUT;
             this._statusCodes = new int[0];
         }
         
@@ -1312,6 +1313,7 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Url = " + (!ReferenceEquals(_url, null) ? _url.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Headers = " + (!ReferenceEquals(_headers, null) ? _headers.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    Timeout = " + _timeout.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    StatusCodes = " + (!ReferenceEquals(_statusCodes, null) ? _statusCodes.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
@@ -1350,6 +1352,28 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _headers = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Timeout
+        
+        private int _timeout;
+        
+        private const int DEF_TIMEOUT = -1;
+        
+        [DefaultValue(DEF_TIMEOUT)]
+        public virtual int Timeout
+        {
+            get { return _timeout; }
+            set
+            {
+                if ((value == _timeout))
+                {
+                    return;
+                }
+                _timeout = value;
             }
         }
         
@@ -1399,6 +1423,7 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Url = " + (!ReferenceEquals(Url, null) ? Url.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Headers = " + (!ReferenceEquals(Headers, null) ? Headers.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    Timeout = " + Timeout.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    StatusCodes = " + (!ReferenceEquals(StatusCodes, null) ? StatusCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Variables = " + (!ReferenceEquals(_variables, null) ? _variables.ToString() : @"null").Replace("\n", "\n    "))));
         }
@@ -1440,6 +1465,7 @@ namespace Mastersign.DashOps.Model
             this._webMonitors = new List<WebMonitor>();
             this._webMonitorPatterns = new List<WebMonitorPattern>();
             this._defaultMonitorInterval = DEF_DEFAULTMONITORINTERVAL;
+            this._defaultWebMonitorTimeout = DEF_DEFAULTWEBMONITORTIMEOUT;
         }
         
         #region String Representation
@@ -1568,7 +1594,8 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    MonitorPatterns = " + (!ReferenceEquals(_monitorPatterns, null) ? (_monitorPatterns.Count.ToString() + @" items" + __collection_MonitorPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WebMonitors = " + (!ReferenceEquals(_webMonitors, null) ? (_webMonitors.Count.ToString() + @" items" + __collection_WebMonitors.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WebMonitorPatterns = " + (!ReferenceEquals(_webMonitorPatterns, null) ? (_webMonitorPatterns.Count.ToString() + @" items" + __collection_WebMonitorPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    DefaultMonitorInterval = " + _defaultMonitorInterval.ToString(formatProvider).Replace("\n", "\n    "))));
+                (Environment.NewLine + @"    DefaultMonitorInterval = " + _defaultMonitorInterval.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    DefaultWebMonitorTimeout = " + _defaultWebMonitorTimeout.ToString(formatProvider).Replace("\n", "\n    "))));
         }
         
         #endregion
@@ -1894,6 +1921,28 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _defaultMonitorInterval = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property DefaultWebMonitorTimeout
+        
+        private int _defaultWebMonitorTimeout;
+        
+        private const int DEF_DEFAULTWEBMONITORTIMEOUT = 20;
+        
+        [DefaultValue(DEF_DEFAULTWEBMONITORTIMEOUT)]
+        public virtual int DefaultWebMonitorTimeout
+        {
+            get { return _defaultWebMonitorTimeout; }
+            set
+            {
+                if ((value == _defaultWebMonitorTimeout))
+                {
+                    return;
+                }
+                _defaultWebMonitorTimeout = value;
             }
         }
         

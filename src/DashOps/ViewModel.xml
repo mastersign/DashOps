@@ -71,6 +71,7 @@
     <Class name="WebMonitorView" baseType="MonitorView">
       <Property name="Url" />
       <Property name="Headers" type="dict" />
+      <Property name="Timeout" type="TimeSpan" />
       <Property name="StatusCodes" type="int[]" />
     </Class>
 
@@ -80,7 +81,6 @@
       <Property name="Perspectives" isCollection="true" type="PerspectiveView" defaultInitialization="true" immutable="true" />
       <Property name="CurrentPerspective" type="PerspectiveView" />
       <Property name="MonitorViews" isCollection="true" type="MonitorView" defaultInitialization="true" immutable="true" />
-      <Property name="DefaultMonitorInterval" type="TimeSpan" />
       <Property name="IsMonitoringPaused" type="bool" />
     </Class>
 

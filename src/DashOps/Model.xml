@@ -109,6 +109,9 @@
     <Class name="WebMonitor" baseType="MonitorBase">
       <Property name="Url" />
       <Property name="Headers" type="dict" />
+      <Property name="Timeout" type="int" defaultInitialization="true">
+        <DefaultValue>-1</DefaultValue>
+      </Property>
       <Property name="StatusCodes" type="int[]" />
     </Class>
 
@@ -135,6 +138,9 @@
       <Property name="WebMonitorPatterns" type="WebMonitorPattern" isCollection="true" defaultInitialization="true" />
       <Property name="DefaultMonitorInterval" type="int" defaultInitialization="true">
         <DefaultValue>60</DefaultValue>
+      </Property>
+      <Property name="DefaultWebMonitorTimeout" type="int" defaultInitialization="true">
+        <DefaultValue>20</DefaultValue>
       </Property>
     </Class>
 

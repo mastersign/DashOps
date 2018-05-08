@@ -1254,6 +1254,38 @@ namespace Mastersign.DashOps
         
         #endregion
         
+        #region Property Timeout
+        
+        private TimeSpan _timeout;
+        
+        public event EventHandler TimeoutChanged;
+        
+        protected virtual void OnTimeoutChanged()
+        {
+            EventHandler handler = TimeoutChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Timeout");
+        }
+        
+        public virtual TimeSpan Timeout
+        {
+            get { return _timeout; }
+            set
+            {
+                if ((value == _timeout))
+                {
+                    return;
+                }
+                _timeout = value;
+                this.OnTimeoutChanged();
+            }
+        }
+        
+        #endregion
+        
         #region Property StatusCodes
         
         private int[] _statusCodes;
@@ -1411,38 +1443,6 @@ namespace Mastersign.DashOps
         public virtual global::System.Collections.ObjectModel.ObservableCollection<MonitorView> MonitorViews
         {
             get { return _monitorViews; }
-        }
-        
-        #endregion
-        
-        #region Property DefaultMonitorInterval
-        
-        private TimeSpan _defaultMonitorInterval;
-        
-        public event EventHandler DefaultMonitorIntervalChanged;
-        
-        protected virtual void OnDefaultMonitorIntervalChanged()
-        {
-            EventHandler handler = DefaultMonitorIntervalChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"DefaultMonitorInterval");
-        }
-        
-        public virtual TimeSpan DefaultMonitorInterval
-        {
-            get { return _defaultMonitorInterval; }
-            set
-            {
-                if ((value == _defaultMonitorInterval))
-                {
-                    return;
-                }
-                _defaultMonitorInterval = value;
-                this.OnDefaultMonitorIntervalChanged();
-            }
         }
         
         #endregion

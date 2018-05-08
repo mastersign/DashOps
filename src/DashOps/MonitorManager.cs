@@ -28,16 +28,16 @@ namespace Mastersign.DashOps
             var now = DateTime.Now;
             foreach (var monitor in monitors)
             {
-                ProcessMonitor(monitor, projectView.DefaultMonitorInterval, now);
+                ProcessMonitor(monitor, now);
             }
         }
 
-        private static void ProcessMonitor(MonitorView monitor, TimeSpan defaultInterval, DateTime now)
+        private static void ProcessMonitor(MonitorView monitor, DateTime now)
         {
             if (monitor.IsRunning) return;
             if (monitor.HasLastExecutionResult)
             {
-                var nextExecutionTime = monitor.LastExecutionTime + monitor.GetInterval(defaultInterval);
+                var nextExecutionTime = monitor.LastExecutionTime + monitor.Interval;
                 if (nextExecutionTime > now) return;
             }
 #pragma warning disable CS4014

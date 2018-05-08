@@ -146,7 +146,7 @@ namespace Mastersign.DashOps
             psLines.Add("echo \"\"");
             psLines.Add("echo \"--------------------------------------------------------------------------------\"");
             psLines.Add($"echo \"End:        $($t::Now.toString($tsf))\"");
-            psLines.Add($"echo \"Duration:   $(($t - $t0).TotalSeconds) sec\"");
+            psLines.Add($"echo \"Duration:   $(($t - $t0).ToString())\"");
             if (logfile != null)
             {
                 psLines.Add("$_ = Stop-Transcript");

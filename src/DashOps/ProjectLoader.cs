@@ -212,7 +212,8 @@ namespace Mastersign.DashOps
             ProjectView.AddFacettePerspectives(DEF_PERSPECTIVES);
             ProjectView.AddFacettePerspectives(Project.Perspectives.ToArray());
 
-            ProjectView.DefaultMonitorInterval = new TimeSpan(0, 0, Project.DefaultMonitorInterval);
+            var defaultMonitorInterval = new TimeSpan(0, 0, Project.DefaultMonitorInterval);
+            var defaultWebMonitorTimeout = new TimeSpan(0, 0, Project.DefaultWebMonitorTimeout);
             void AddMonitorViews(IEnumerable<MonitorView> monitorViews)
             {
                 foreach (var monitorView in monitorViews) ProjectView.MonitorViews.Add(monitorView);
@@ -231,6 +232,12 @@ namespace Mastersign.DashOps
                 {
                     monitorView.LastExecutionResult = logInfo.IsSuccess;
                     monitorView.HasLastExecutionResult = true;
+                }
+
+                if (monitorView.Interval < TimeSpan.Zero) monitorView.Interval = defaultMonitorInterval;
+                if (monitorView is WebMonitorView webMonitorView)
+                {
+                    if (webMonitorView.Timeout < TimeSpan.Zero) webMonitorView.Timeout = defaultWebMonitorTimeout;
                 }
             }
         }
@@ -474,6 +481,7 @@ namespace Mastersign.DashOps
                 Interval = new TimeSpan(0, 0, monitor.Interval),
                 Url = monitor.Url,
                 Headers = monitor.Headers,
+                Timeout = new TimeSpan(0, 0, monitor.Timeout),
                 StatusCodes = monitor.StatusCodes != null && monitor.StatusCodes.Length > 0
                     ? monitor.StatusCodes
                     : new[] { 200, 201, 202, 203, 204 },
@@ -497,6 +505,7 @@ namespace Mastersign.DashOps
                 Interval = new TimeSpan(0, 0, monitorPattern.Interval),
                 Url = ExpandTemplate(monitorPattern.Url, variables),
                 Headers = ExpandDictionaryTemplate(monitorPattern.Headers, variables),
+                Timeout = new TimeSpan(0, 0, monitorPattern.Timeout),
                 StatusCodes = monitorPattern.StatusCodes != null && monitorPattern.StatusCodes.Length > 0
                     ? monitorPattern.StatusCodes
                     : new[] { 200, 201, 202, 203, 204 },
