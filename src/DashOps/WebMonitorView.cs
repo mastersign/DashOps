@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Mastersign.DashOps
@@ -65,23 +66,26 @@ namespace Mastersign.DashOps
                                          + response.ResponseUri);
                     logWriter?.WriteLine("Server:".PadRight(LOG_INDENT) 
                                          + response.Server);
+                    logWriter?.WriteLine("Content Length:".PadRight(LOG_INDENT) 
+                                         + response.ContentLength);
                     if (!string.IsNullOrWhiteSpace(response.ContentEncoding))
-                        logWriter?.WriteLine("Content Type:".PadRight(LOG_INDENT) 
-                                             + response.ContentType);
+                        logWriter?.WriteLine("Content Encoding:".PadRight(LOG_INDENT) 
+                                             + response.ContentEncoding);
+                    logWriter?.WriteLine("Content Type:".PadRight(LOG_INDENT) 
+                                         + response.ContentType);
                     if (response.CharacterSet != null)
                         logWriter?.WriteLine("Charset:".PadRight(LOG_INDENT) 
                                              + response.CharacterSet);
-                    logWriter?.WriteLine("Content Encoding:".PadRight(LOG_INDENT) 
-                                         + response.ContentEncoding);
-                    logWriter?.WriteLine("Content Length:".PadRight(LOG_INDENT) 
-                                         + response.ContentLength);
                     logWriter?.WriteLine(
                         "--------------------------------------------------------------------------------");
                     logWriter?.Flush();
-                    var responseText = ReadResponseAsString(response);
+                    var responseText = ReadResponseAsString(response, out var detectedCharset);
                     logWriter?.WriteLine(responseText);
                     logWriter?.WriteLine(
                         "--------------------------------------------------------------------------------");
+                    if (!string.IsNullOrWhiteSpace(detectedCharset))
+                        logWriter?.WriteLine("Detected Charset:".PadRight(LOG_INDENT)
+                                             + detectedCharset);
                     var endTime = DateTime.Now;
                     logWriter?.WriteLine("End:".PadRight(LOG_INDENT) 
                                          + endTime.ToString(TS_FORMAT));
@@ -134,12 +138,22 @@ namespace Mastersign.DashOps
             return tNotify;
         }
 
-        private static string ReadResponseAsString(HttpWebResponse response)
+        private static string ReadResponseAsString(HttpWebResponse response, out string detectedCharset)
         {
             var ms = new MemoryStream();
             using (var s = response.GetResponseStream()) s.CopyTo(ms);
             ms.Seek(0, SeekOrigin.Begin);
-            var encoding = Encoding.GetEncoding(response.CharacterSet ?? "utf-8");
+            var firstTry = string.IsNullOrWhiteSpace(response.CharacterSet) ? "utf-8" : response.CharacterSet;
+            Encoding encoding;
+            try
+            {
+                encoding = Encoding.GetEncoding(firstTry);
+            }
+            catch (ArgumentException)
+            {
+                encoding = Encoding.UTF8;
+            }
+            detectedCharset = encoding.EncodingName;
             string text;
             using (var r = new StreamReader(ms, encoding,
                 detectEncodingFromByteOrderMarks: true,
@@ -149,14 +163,20 @@ namespace Mastersign.DashOps
                 text = r.ReadToEnd();
             }
             if (response.ContentType != "text/html") return text;
-            var charsetPos = text.IndexOf("charset", StringComparison.Ordinal);
-            if (charsetPos < 0) return text;
-            charsetPos += "charset".Length + 1;
-            var charsetEnd = text.IndexOfAny(new[] { ' ', '\"', ';' }, charsetPos);
-            if (charsetEnd < charsetPos) return text;
-            var charset = text.Substring(charsetPos, charsetEnd - charsetPos);
+            var pattern = new Regex(@"charset=(""?)(?<charset>[^ ;""]+?)\1");
+            var match = pattern.Match(text);
+            if (!match.Success) return text;
+            var charset = match.Groups["charset"].Value;
             if (response.CharacterSet == charset) return text;
-            encoding = Encoding.GetEncoding(charset);
+            try
+            {
+                encoding = Encoding.GetEncoding(charset);
+            }
+            catch (ArgumentException)
+            {
+                return text;
+            }
+            detectedCharset = encoding.EncodingName;
             ms.Seek(0, SeekOrigin.Begin);
             using (var r = new StreamReader(ms, encoding,
                 detectEncodingFromByteOrderMarks: false,
