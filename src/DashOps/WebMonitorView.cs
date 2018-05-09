@@ -119,18 +119,30 @@ namespace Mastersign.DashOps
             ms.Seek(0, SeekOrigin.Begin);
             var encoding = Encoding.GetEncoding(response.CharacterSet ?? "utf-8");
             string text;
-            using (var r = new StreamReader(ms, encoding, true)) text = r.ReadToEnd();
+            using (var r = new StreamReader(ms, encoding,
+                detectEncodingFromByteOrderMarks: true,
+                bufferSize: 1024,
+                leaveOpen: true))
+            {
+                text = r.ReadToEnd();
+            }
             if (response.ContentType != "text/html") return text;
             var charsetPos = text.IndexOf("charset", StringComparison.Ordinal);
             if (charsetPos < 0) return text;
-            charsetPos += "charset".Length;
-            var charsetEnd = text.IndexOfAny(new[] { ' ', '\"', ';' });
-            if (charsetEnd < 0) return text;
+            charsetPos += "charset".Length + 1;
+            var charsetEnd = text.IndexOfAny(new[] { ' ', '\"', ';' }, charsetPos);
+            if (charsetEnd < charsetPos) return text;
             var charset = text.Substring(charsetPos, charsetEnd - charsetPos);
             if (response.CharacterSet == charset) return text;
             encoding = Encoding.GetEncoding(charset);
             ms.Seek(0, SeekOrigin.Begin);
-            using (var r = new StreamReader(ms, encoding, false)) text = r.ReadToEnd();
+            using (var r = new StreamReader(ms, encoding,
+                detectEncodingFromByteOrderMarks: false,
+                bufferSize: 1024,
+                leaveOpen: false))
+            {
+                text = r.ReadToEnd();
+            }
             return text;
         }
 
