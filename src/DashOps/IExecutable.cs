@@ -24,6 +24,8 @@ namespace Mastersign.DashOps
 
         bool AlwaysClose { get; }
 
+        Func<string, int> StatusCodeBuilder { get; }
+
         void NotifyExecutionFinished();
     }
 }

@@ -82,7 +82,6 @@ namespace Mastersign.DashOps
                     runningProcesses[p] = new Execution(executable, onExit);
                     p.Exited += ProcessExitedHandler;
                 }
-
                 if (p.HasExited) ProcessExitedHandler(p, EventArgs.Empty);
             }
         }
@@ -98,14 +97,24 @@ namespace Mastersign.DashOps
             if (execution == null) return;
 
             var outputBuffer = new StringBuilder();
+            string output = null;
+            var exitCode = p.ExitCode;
             var executable = execution.Executable;
             if (executable != null)
             {
                 var rawLogFile = executable.CurrentLogFile;
                 if (rawLogFile != null && LogFileManager.WaitForFileAccess(rawLogFile))
                 {
-                    var logFile = LogFileManager.FinalizeLogFileName(rawLogFile, p.ExitCode);
+                    var logFile = LogFileManager.FinalizeLogFileName(rawLogFile, exitCode);
                     LogFileManager.PostprocessLogFile(rawLogFile, logFile, outputBuffer);
+                    output = outputBuffer.ToString();
+                    if (exitCode == 0 && executable.StatusCodeBuilder != null)
+                    {
+                        var tmpLogFile = logFile;
+                        exitCode = executable.StatusCodeBuilder(output);
+                        logFile = LogFileManager.FinalizeLogFileName(rawLogFile, exitCode);
+                        File.Move(tmpLogFile, logFile);
+                    }
                     executable.CurrentLogFile = logFile;
                     File.Delete(rawLogFile);
                 }
@@ -114,7 +123,7 @@ namespace Mastersign.DashOps
                     executable.CurrentLogFile = null;
                 }
             }
-            execution.OnExit?.Invoke(new ExecutionResult(executable, p.ExitCode, outputBuffer.ToString()));
+            execution.OnExit?.Invoke(new ExecutionResult(executable, exitCode, output));
             executable?.NotifyExecutionFinished();
         }
 

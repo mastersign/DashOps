@@ -31,13 +31,19 @@ namespace Mastersign.DashOps
         {
             NotifyExecutionBegin(startTime);
             var result = await App.Instance.Executor.ExecuteAsync(this);
-            var success = result.StatusCode == 0
-                && RequiredPatterns.All(p => p.IsMatch(result.Output))
-                && !ForbiddenPatterns.Any(p => p.IsMatch(result.Output));
+            var success = result.StatusCode == 0;
             NotifyExecutionFinished(success);
             OnLogIconChanged();
             return success;
         }
+
+        public Func<string, int> StatusCodeBuilder
+            => output =>
+            {
+                if (!RequiredPatterns.All(p => p.IsMatch(output))) return 2;
+                if (ForbiddenPatterns.Any(p => p.IsMatch(output))) return 3;
+                return 0;
+            };
 
         protected override void NotifyExecutionFinished(bool success)
         {
