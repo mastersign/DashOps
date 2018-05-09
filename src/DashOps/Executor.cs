@@ -102,7 +102,7 @@ namespace Mastersign.DashOps
             if (executable != null)
             {
                 var rawLogFile = executable.CurrentLogFile;
-                if (rawLogFile != null && File.Exists(rawLogFile))
+                if (rawLogFile != null && LogFileManager.WaitForFileAccess(rawLogFile))
                 {
                     var logFile = LogFileManager.FinalizeLogFileName(rawLogFile, p.ExitCode);
                     LogFileManager.PostprocessLogFile(rawLogFile, logFile, outputBuffer);

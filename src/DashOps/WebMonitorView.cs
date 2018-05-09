@@ -138,7 +138,7 @@ namespace Mastersign.DashOps
         {
             if (CurrentLogFile == null) return;
             var logFile = BuildLogFileName(LogFileManager.FinalizeLogFileName(CurrentLogFile, exitCode));
-            if (File.Exists(CurrentLogFile))
+            if (LogFileManager.WaitForFileAccess(CurrentLogFile))
             {
                 File.Move(CurrentLogFile, logFile);
                 CurrentLogFile = logFile;

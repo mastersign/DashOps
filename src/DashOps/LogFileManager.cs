@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace Mastersign.DashOps
 {
@@ -53,6 +55,10 @@ namespace Mastersign.DashOps
 
         public static void PostprocessLogFile(string srcName, string trgName, StringBuilder outputBuffer)
         {
+            if (!WaitForFileAccess(srcName, FileAccess.Read))
+            {
+                throw new InvalidOperationException("The source file can not be opened: " + srcName);
+            }
             var sSrc = File.Open(srcName, FileMode.Open, FileAccess.Read, FileShare.Read);
             var sTrg = File.Open(trgName, FileMode.Create, FileAccess.Write, FileShare.None);
             using (var rSrc = new StreamReader(sSrc, Encoding.UTF8))
@@ -74,6 +80,42 @@ namespace Mastersign.DashOps
                     }
                     line = rSrc.ReadLine();
                 }
+            }
+        }
+
+        public static bool WaitForFileAccess(string file, 
+            FileAccess access = FileAccess.ReadWrite, 
+            int timeout = 1000, int checkInterval = 50)
+        {
+            var watch = new Stopwatch();
+            watch.Start();
+            var timeoutSpan = new TimeSpan(0, 0, 0, 0, timeout);
+            bool result;
+            do
+            {
+                result = TryAccessingFile(file, access);
+                Thread.Sleep(checkInterval);
+            } while (!result && watch.Elapsed < timeoutSpan);
+            watch.Stop();
+            return result;
+        }
+
+        private static bool TryAccessingFile(string file, FileAccess access = FileAccess.ReadWrite)
+        {
+            if (!File.Exists(file)) return false;
+            Stream s = null;
+            try
+            {
+                s = File.Open(file, FileMode.Open, access, FileShare.None);
+                return true;
+            }
+            catch (IOException)
+            {
+                return false;
+            }
+            finally
+            {
+                s?.Close();
             }
         }
     }
