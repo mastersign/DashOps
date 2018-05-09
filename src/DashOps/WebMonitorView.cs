@@ -19,6 +19,8 @@ namespace Mastersign.DashOps
         private string BuildLogFileName(string name)
             => Logs != null ? Path.Combine(Logs, name) : null;
 
+        private const int LOG_INDENT = 18;
+
         public override Task<bool> Check(DateTime startTime)
         {
             if (Logs != null && !Directory.Exists(Logs))
@@ -30,9 +32,12 @@ namespace Mastersign.DashOps
             {
                 CurrentLogFile = BuildLogFileName(this.PreliminaryLogFileName(startTime));
                 var logWriter = CurrentLogFile != null ? new StreamWriter(CurrentLogFile, false, Encoding.UTF8) : null;
-                logWriter?.WriteLine("Url:            " + Url);
-                logWriter?.WriteLine("Timeout:        " + Timeout);
-                logWriter?.WriteLine("Start:          " + startTime.ToString(TS_FORMAT));
+                logWriter?.WriteLine("Url:".PadRight(LOG_INDENT) 
+                                     + Url);
+                logWriter?.WriteLine("Timeout:".PadRight(LOG_INDENT) 
+                                     + Timeout);
+                logWriter?.WriteLine("Start:".PadRight(LOG_INDENT) 
+                                     + startTime.ToString(TS_FORMAT));
                 logWriter?.WriteLine("--------------------------------------------------------------------------------");
                 logWriter?.Flush();
                 HttpWebResponse response = null;
@@ -52,12 +57,24 @@ namespace Mastersign.DashOps
                     wr.Timeout = (int)Timeout.TotalMilliseconds;
 
                     response = (HttpWebResponse)wr.GetResponse();
-                    logWriter?.WriteLine("Method:         " + response.Method);
-                    logWriter?.WriteLine("Status Code:    " + (int)response.StatusCode + " - " + response.StatusCode);
-                    logWriter?.WriteLine("Response Url:   " + response.ResponseUri);
-                    logWriter?.WriteLine("Server:         " + response.Server);
-                    logWriter?.WriteLine("Content Type:   " + response.ContentType);
-                    logWriter?.WriteLine("Content Length: " + response.ContentLength);
+                    logWriter?.WriteLine("Method:".PadRight(LOG_INDENT) 
+                                         + response.Method);
+                    logWriter?.WriteLine("Status Code:".PadRight(LOG_INDENT) 
+                                         + (int)response.StatusCode + " - " + response.StatusCode);
+                    logWriter?.WriteLine("Response Url:".PadRight(LOG_INDENT) 
+                                         + response.ResponseUri);
+                    logWriter?.WriteLine("Server:".PadRight(LOG_INDENT) 
+                                         + response.Server);
+                    if (!string.IsNullOrWhiteSpace(response.ContentEncoding))
+                        logWriter?.WriteLine("Content Type:".PadRight(LOG_INDENT) 
+                                             + response.ContentType);
+                    if (response.CharacterSet != null)
+                        logWriter?.WriteLine("Charset:".PadRight(LOG_INDENT) 
+                                             + response.CharacterSet);
+                    logWriter?.WriteLine("Content Encoding:".PadRight(LOG_INDENT) 
+                                         + response.ContentEncoding);
+                    logWriter?.WriteLine("Content Length:".PadRight(LOG_INDENT) 
+                                         + response.ContentLength);
                     logWriter?.WriteLine(
                         "--------------------------------------------------------------------------------");
                     logWriter?.Flush();
@@ -66,22 +83,27 @@ namespace Mastersign.DashOps
                     logWriter?.WriteLine(
                         "--------------------------------------------------------------------------------");
                     var endTime = DateTime.Now;
-                    logWriter?.WriteLine("End:            " + endTime.ToString(TS_FORMAT));
+                    logWriter?.WriteLine("End:".PadRight(LOG_INDENT) 
+                                         + endTime.ToString(TS_FORMAT));
                     var duration = endTime - startTime;
-                    logWriter?.WriteLine("Duration:       " + duration);
+                    logWriter?.WriteLine("Duration:".PadRight(LOG_INDENT) 
+                                         + duration);
                     if (!StatusCodes.Contains((int)response.StatusCode))
                     {
-                        logWriter?.WriteLine("Error:       Status code not allowed: " + string.Join(", ", StatusCodes));
+                        logWriter?.WriteLine("Error:".PadRight(LOG_INDENT) 
+                                             + "Status code not allowed: " + string.Join(", ", StatusCodes));
                         return (int)response.StatusCode;
                     }
                     if (!RequiredPatterns.All(p => p.IsMatch(responseText)))
                     {
-                        logWriter?.WriteLine("Error:       Required pattern did not match");
+                        logWriter?.WriteLine("Error:".PadRight(LOG_INDENT) 
+                                             + "Required pattern did not match");
                         return 2;
                     }
                     if (ForbiddenPatterns.Any(p => p.IsMatch(responseText)))
                     {
-                        logWriter?.WriteLine("Error:       Forbidden pattern did match");
+                        logWriter?.WriteLine("Error:".PadRight(LOG_INDENT) 
+                                             + "Forbidden pattern did match");
                         return 3;
                     }
                     return 0;
