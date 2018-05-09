@@ -19,6 +19,7 @@ namespace Mastersign.DashOps
         {
             LastExecutionTime = startTime;
             IsRunning = true;
+            OnStatusIconChanged();
         }
 
         protected virtual void NotifyExecutionFinished(bool success)
@@ -36,11 +37,13 @@ namespace Mastersign.DashOps
             get
             {
                 var resourceName =
-                    HasLastExecutionResult
-                        ? LastExecutionResult
-                            ? HasExecutionResultChanged ? "IconStatusOKNew" : "IconStatusOK"
-                            : HasExecutionResultChanged ? "IconStatusErrorNew" : "IconStatusError"
-                        : "IconStatusNotStarted";
+                    IsRunning
+                        ? "IconStatusProgress"
+                        : HasLastExecutionResult
+                            ? LastExecutionResult
+                                ? HasExecutionResultChanged ? "IconStatusOKNew" : "IconStatusOK"
+                                : HasExecutionResultChanged ? "IconStatusErrorNew" : "IconStatusError"
+                            : "IconStatusNotStarted";
                 return App.Instance.FindResource(resourceName) as ControlTemplate;
             }
         }

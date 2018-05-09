@@ -194,7 +194,8 @@
                                 <ColumnDefinition Width="Auto" SharedSizeGroup="MonitorButtonColumn" />
                             </Grid.ColumnDefinitions>
                             <ContentControl Template="{Binding StatusIcon}" Width="24" Height="24" />
-                            <Label Grid.Column="1" Content="{Binding Title}" MouseDoubleClick="MonitorDoubleClickHandler" />
+                            <Label Grid.Column="1" Content="{Binding Title}"
+                                   MouseDoubleClick="MonitorDoubleClickHandler" />
                             <StackPanel Grid.Column="2" Orientation="Horizontal">
                                 <Button Command="local:DashOpsCommands.ShowLastLog"
                                         CommandParameter="{Binding}"
