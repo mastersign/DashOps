@@ -55,12 +55,19 @@ action-patterns:
     tags:
      - expanded
 
-default-monitor-interval: 5
+default-monitor-interval: 10
+
 monitors:
   - title: Monitor 1
     command: test-scripts\monitor-1.ps1
     arguments: [5]
+
+default-web-monitor-timeout: 5
+
 web-monitors:
   - title: Monitor 2
     url: https://github.com
-    timeout: 5
+    required-patterns:
+      - '<title>[^<>]*GitHub</title>'
+    forbidden-patterns:
+      - '<title>Google</title>'
