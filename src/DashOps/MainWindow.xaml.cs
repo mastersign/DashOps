@@ -87,9 +87,11 @@ namespace Mastersign.DashOps
         private async void MonitorDoubleClickHandler(object sender, MouseButtonEventArgs e)
         {
             var label = sender as Label;
-            var result = label?.DataContext is CommandMonitorView monitor 
-                         && await monitor.Check(DateTime.Now);
-            MessageBox.Show(result.ToString());
+            if (label?.DataContext is MonitorView monitor)
+            {
+                if (monitor.IsRunning) return;
+                await monitor.Check(DateTime.Now);
+            }
         }
     }
 }
