@@ -202,8 +202,7 @@ namespace Mastersign.DashOps
             ApplyAutoAnnotations();
             foreach (var actionView in ProjectView.ActionViews)
             {
-                if (actionView.Logs == null) actionView.Logs = defaultLogDir;
-                if (Project.NoLogs || actionView.NoLogs) actionView.Logs = null;
+                actionView.Logs = BuildLogDirPath(actionView.Logs, actionView.NoLogs);
                 if (Project.KeepActionOpen) actionView.KeepOpen = true;
                 if (Project.AlwaysCloseAction) actionView.AlwaysClose = true;
             }
@@ -225,8 +224,7 @@ namespace Mastersign.DashOps
             if (Project.WebMonitorPatterns != null) AddMonitorViews(Project.WebMonitorPatterns.SelectMany(ExpandWebMonitorPattern));
             foreach (var monitorView in ProjectView.MonitorViews)
             {
-                if (monitorView.Logs == null) monitorView.Logs = Project.Logs;
-                if (Project.NoLogs || monitorView.NoLogs) monitorView.Logs = null;
+                monitorView.Logs = BuildLogDirPath(monitorView.Logs, monitorView.NoLogs);
                 var logInfo = monitorView.GetLastLogFileInfo();
                 if (logInfo != null)
                 {
@@ -240,6 +238,17 @@ namespace Mastersign.DashOps
                     if (webMonitorView.Timeout < TimeSpan.Zero) webMonitorView.Timeout = defaultWebMonitorTimeout;
                 }
             }
+        }
+
+        private string BuildLogDirPath(string logs, bool noLogs)
+        {
+            if (Project.NoLogs || noLogs) return null;
+            logs = logs ?? Project.Logs;
+            if (logs != null && !Path.IsPathRooted(logs))
+            {
+                logs = Path.Combine(Environment.CurrentDirectory, logs);
+            }
+            return logs;
         }
 
         private void ApplyAutoAnnotations()
