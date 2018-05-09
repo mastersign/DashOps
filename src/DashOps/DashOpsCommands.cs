@@ -14,6 +14,9 @@ namespace Mastersign.DashOps
         public static readonly DelegateCommand RefreshProject
             = new DelegateCommand(Core.RefreshProject);
 
+        public static readonly DelegateCommand ToggleMonitorsPaused
+            = new DelegateCommand(Core.ToggleMonitorsPaused, () => App.Instance?.ProjectLoader?.ProjectView != null);
+
         public static readonly DelegateCommand<ActionView> ExecuteAction
             = new DelegateCommand<ActionView>(action => Core.ExecuteAction(action));
 

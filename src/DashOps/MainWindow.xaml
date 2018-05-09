@@ -91,12 +91,33 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <Button
-                Grid.Row="0" Grid.Column="3" Padding="4" Margin="20,0"
+        <StackPanel Grid.Row="0" Grid.Column="3" Orientation="Horizontal">
+            <Button
+                Padding="4" Margin="20,0,0,0"
+                HorizontalAlignment="Center" VerticalAlignment="Center"
+                Command="local:DashOpsCommands.ToggleMonitorsPaused">
+                <ContentControl Width="20" Height="20">
+                    <ContentControl.Style>
+                        <Style TargetType="ContentControl">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsMonitoringPaused}" Value="true">
+                                    <Setter Property="Template" Value="{StaticResource IconRun}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsMonitoringPaused}" Value="false">
+                                    <Setter Property="Template" Value="{StaticResource IconPause}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContentControl.Style>
+                </ContentControl>
+            </Button>
+            <Button
+                Padding="4" Margin="10,0,20,0"
                 HorizontalAlignment="Center" VerticalAlignment="Center"
                 Command="local:DashOpsCommands.RefreshProject">
-            <ContentControl Template="{StaticResource IconRefresh}" Width="20" Height="20"/>
-        </Button>
+                <ContentControl Template="{StaticResource IconRefresh}" Width="20" Height="20"/>
+            </Button>
+        </StackPanel>
         <ListBox x:Name="ActionSubsets"
                  Grid.Column="0" Grid.Row="1"
                  Margin="20,0,0,20"

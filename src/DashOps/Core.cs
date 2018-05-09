@@ -23,6 +23,13 @@ namespace Mastersign.DashOps
             }
         }
 
+        public static void ToggleMonitorsPaused()
+        {
+            var projectView = App.Instance?.ProjectLoader?.ProjectView;
+            if (projectView == null) return;
+            projectView.IsMonitoringPaused = !projectView.IsMonitoringPaused;
+        }
+
         private static bool Reassure(ActionView action)
         {
             var result = MessageBox.Show(
