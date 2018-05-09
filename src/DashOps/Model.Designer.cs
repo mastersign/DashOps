@@ -803,7 +803,11 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    Exclude = " + (!ReferenceEquals(_exclude, null) ? (_exclude.Count.ToString() + @" items" + __collection_Exclude.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Facettes = " + (!ReferenceEquals(_facettes, null) ? _facettes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(_tags, null) ? _tags.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Reassure = " + _reassure.ToString(formatProvider).Replace("\n", "\n    "))));
+                (Environment.NewLine + @"    Reassure = " + _reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    KeepOpen = " + _keepOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    AlwaysClose = " + _alwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    Background = " + _background.ToString(formatProvider).Replace("\n", "\n    "))));
         }
         
         #endregion
@@ -898,6 +902,82 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _reassure = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property NoLogs
+        
+        private bool _noLogs;
+        
+        public virtual bool NoLogs
+        {
+            get { return _noLogs; }
+            set
+            {
+                if ((value == _noLogs))
+                {
+                    return;
+                }
+                _noLogs = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property KeepOpen
+        
+        private bool _keepOpen;
+        
+        public virtual bool KeepOpen
+        {
+            get { return _keepOpen; }
+            set
+            {
+                if ((value == _keepOpen))
+                {
+                    return;
+                }
+                _keepOpen = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property AlwaysClose
+        
+        private bool _alwaysClose;
+        
+        public virtual bool AlwaysClose
+        {
+            get { return _alwaysClose; }
+            set
+            {
+                if ((value == _alwaysClose))
+                {
+                    return;
+                }
+                _alwaysClose = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Background
+        
+        private bool _background;
+        
+        public virtual bool Background
+        {
+            get { return _background; }
+            set
+            {
+                if ((value == _background))
+                {
+                    return;
+                }
+                _background = value;
             }
         }
         

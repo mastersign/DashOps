@@ -36,6 +36,10 @@ namespace Mastersign.DashOps.Model
             }
 
             action.Reassure = action.Reassure || Reassure;
+            action.NoLogs = action.NoLogs || NoLogs;
+            action.KeepOpen = action.KeepOpen || KeepOpen;
+            action.AlwaysClose = action.AlwaysClose || AlwaysClose;
+            action.Visible = action.Visible && !Background;
         }
     }
 }
