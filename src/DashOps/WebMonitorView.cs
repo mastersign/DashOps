@@ -27,13 +27,12 @@ namespace Mastersign.DashOps
             var tWebRequest = new Task<int>(() =>
             {
                 CurrentLogFile = BuildLogFileName(this.PreliminaryLogFileName(startTime));
-                throw new NotImplementedException("Missing null check");
-                var logWriter = new StreamWriter(CurrentLogFile, false, Encoding.UTF8);
-                logWriter.WriteLine("Url:            " + Url);
-                logWriter.WriteLine("Timeout:        " + Timeout);
-                logWriter.WriteLine("Start:          " + startTime.ToString(TS_FORMAT));
-                logWriter.WriteLine("--------------------------------------------------------------------------------");
-                logWriter.Flush();
+                var logWriter = CurrentLogFile != null ? new StreamWriter(CurrentLogFile, false, Encoding.UTF8) : null;
+                logWriter?.WriteLine("Url:            " + Url);
+                logWriter?.WriteLine("Timeout:        " + Timeout);
+                logWriter?.WriteLine("Start:          " + startTime.ToString(TS_FORMAT));
+                logWriter?.WriteLine("--------------------------------------------------------------------------------");
+                logWriter?.Flush();
                 HttpWebResponse response = null;
                 try
                 {
@@ -51,47 +50,49 @@ namespace Mastersign.DashOps
                     wr.Timeout = (int)Timeout.TotalMilliseconds;
 
                     response = (HttpWebResponse)wr.GetResponse();
-                    logWriter.WriteLine("Method:         " + response.Method);
-                    logWriter.WriteLine("Status Code:    " + (int)response.StatusCode + " - " + response.StatusCode);
-                    logWriter.WriteLine("Response Url:   " + response.ResponseUri);
-                    logWriter.WriteLine("Server:         " + response.Server);
-                    logWriter.WriteLine("Content Type:   " + response.ContentType);
-                    logWriter.WriteLine("Content Length: " + response.ContentLength);
-                    logWriter.WriteLine(
+                    logWriter?.WriteLine("Method:         " + response.Method);
+                    logWriter?.WriteLine("Status Code:    " + (int)response.StatusCode + " - " + response.StatusCode);
+                    logWriter?.WriteLine("Response Url:   " + response.ResponseUri);
+                    logWriter?.WriteLine("Server:         " + response.Server);
+                    logWriter?.WriteLine("Content Type:   " + response.ContentType);
+                    logWriter?.WriteLine("Content Length: " + response.ContentLength);
+                    logWriter?.WriteLine(
                         "--------------------------------------------------------------------------------");
-                    logWriter.Flush();
+                    logWriter?.Flush();
                     var responseText = ReadResponseAsString(response);
-                    logWriter.WriteLine(responseText);
-                    logWriter.WriteLine(
+                    logWriter?.WriteLine(responseText);
+                    logWriter?.WriteLine(
                         "--------------------------------------------------------------------------------");
-                    var duration = DateTime.Now - startTime;
-                    logWriter.WriteLine("Duration:       " + duration);
+                    var endTime = DateTime.Now;
+                    logWriter?.WriteLine("End:            " + endTime.ToString(TS_FORMAT));
+                    var duration = endTime - startTime;
+                    logWriter?.WriteLine("Duration:       " + duration);
                     if (!StatusCodes.Contains((int)response.StatusCode))
                     {
-                        logWriter.WriteLine("Error:       Status code not allowed: " + string.Join(", ", StatusCodes));
+                        logWriter?.WriteLine("Error:       Status code not allowed: " + string.Join(", ", StatusCodes));
                         return (int)response.StatusCode;
                     }
                     if (!RequiredPatterns.All(p => p.IsMatch(responseText)))
                     {
-                        logWriter.WriteLine("Error:       Required pattern did not match");
+                        logWriter?.WriteLine("Error:       Required pattern did not match");
                         return 2;
                     }
                     if (ForbiddenPatterns.Any(p => p.IsMatch(responseText)))
                     {
-                        logWriter.WriteLine("Error:       Forbidden pattern did match");
+                        logWriter?.WriteLine("Error:       Forbidden pattern did match");
                         return 3;
                     }
                     return 0;
                 }
                 catch (Exception e)
                 {
-                    logWriter.WriteLine("Exception:   " + e);
+                    logWriter?.WriteLine("Exception:   " + e);
                     return 1;
                 }
                 finally
                 {
                     response?.Close();
-                    logWriter.Close();
+                    logWriter?.Close();
                 }
             });
             var tFinalizeLog = tWebRequest.ContinueWith(t =>
@@ -135,9 +136,26 @@ namespace Mastersign.DashOps
         {
             if (CurrentLogFile == null) return;
             var logFile = BuildLogFileName(LogFileManager.FinalizeLogFileName(CurrentLogFile, exitCode));
-            File.Move(CurrentLogFile, logFile);
-            CurrentLogFile = logFile;
-            OnLogIconChanged();
+            if (File.Exists(CurrentLogFile))
+            {
+                File.Move(CurrentLogFile, logFile);
+                CurrentLogFile = logFile;
+                OnLogIconChanged();
+            }
+            else
+            {
+                CurrentLogFile = null;
+            }
+        }
+
+        protected override void NotifyExecutionFinished(bool success)
+        {
+            base.NotifyExecutionFinished(success);
+            if (!HasExecutionResultChanged)
+            {
+                File.Delete(CurrentLogFile);
+                CurrentLogFile = null;
+            }
         }
     }
 }
