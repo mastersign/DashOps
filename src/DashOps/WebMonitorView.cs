@@ -12,7 +12,9 @@ namespace Mastersign.DashOps
     {
         private const string TS_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-        public override string CommandId => IdBuilder.BuildId(Url);
+        private string _commandId;
+
+        public override string CommandId => _commandId ?? (_commandId = IdBuilder.BuildId(Url));
 
         private string BuildLogFileName(string name)
             => Logs != null ? Path.Combine(Logs, name) : null;

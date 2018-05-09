@@ -15,7 +15,10 @@ namespace Mastersign.DashOps
 
         public bool AlwaysClose => false;
 
-        public override string CommandId => IdBuilder.BuildId(Command + " " + Arguments);
+        private string _commandId;
+
+        public override string CommandId
+            => _commandId ?? (_commandId = IdBuilder.BuildId(Command + " " + Arguments));
 
         public string CommandLabel => Command
             + (string.IsNullOrWhiteSpace(Arguments)

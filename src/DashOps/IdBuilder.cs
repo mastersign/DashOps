@@ -9,13 +9,14 @@ namespace Mastersign.DashOps
 {
     static class IdBuilder
     {
-        private static readonly MD5 Md5 = MD5.Create();
-
         public static string BuildId(string input)
         {
             var data = Encoding.UTF8.GetBytes(input);
-            var hash = Md5.ComputeHash(data);
-            return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+            using (var md5 = new MD5CryptoServiceProvider())
+            {
+                var hash = md5.ComputeHash(data);
+                return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+            }
         }
     }
 }
