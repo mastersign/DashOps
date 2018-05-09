@@ -207,7 +207,7 @@ namespace Mastersign.DashOps
         protected override void NotifyExecutionFinished(bool success)
         {
             base.NotifyExecutionFinished(success);
-            if (!HasExecutionResultChanged)
+            if (!HasExecutionResultChanged && CurrentLogFile != null && File.Exists(CurrentLogFile))
             {
                 File.Delete(CurrentLogFile);
                 CurrentLogFile = null;
