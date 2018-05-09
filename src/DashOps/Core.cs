@@ -65,6 +65,16 @@ namespace Mastersign.DashOps
             sb.AppendLine();
             sb.Append("ID: ");
             sb.AppendLine(action.CommandId);
+            sb.Append("Reassure Before Execution: ");
+            sb.AppendLine(action.Reassure ? "yes" : "no");
+            sb.Append("Create Log: ");
+            sb.AppendLine(action.Logs != null ? "yes" : "no");
+            sb.Append("Keep Window Open: ");
+            sb.AppendLine(action.KeepOpen ? "yes" : "no");
+            sb.Append("Always Close Window: ");
+            sb.AppendLine(!action.KeepOpen && action.AlwaysClose ? "yes" : "no");
+            sb.Append("Run in Background: ");
+            sb.AppendLine(action.Visible ? "no" : "yes");
             sb.Append("Command: ");
             sb.AppendLine(action.Command);
             if (!string.IsNullOrWhiteSpace(action.Arguments))
@@ -92,6 +102,7 @@ namespace Mastersign.DashOps
             sb.AppendLine(monitor.CommandId);
             sb.Append("Interval: ");
             sb.AppendLine(monitor.Interval.Seconds.ToString());
+
             if (monitor is CommandMonitorView cmdMonitor)
             {
                 sb.Append("Command: ");
@@ -101,10 +112,35 @@ namespace Mastersign.DashOps
                     sb.Append("Arguments: ");
                     sb.AppendLine(cmdMonitor.Arguments);
                 }
-
                 sb.Append("Working Directory: ");
                 sb.AppendLine(cmdMonitor.WorkingDirectory);
             }
+
+            if (monitor is WebMonitorView webMonitor)
+            {
+                sb.Append("Url: ");
+                sb.AppendLine(webMonitor.Url);
+                sb.Append("Timeout: ");
+                sb.AppendLine(webMonitor.Timeout.Seconds.ToString());
+                sb.Append("Allowed Status Codes: ");
+                sb.AppendLine(string.Join(", ", webMonitor.StatusCodes));
+                if (webMonitor.Headers != null)
+                {
+                    sb.AppendLine("Headers:");
+                    foreach (var key in webMonitor.Headers.Keys.OrderBy(k => k))
+                    {
+                        sb.AppendLine($"  - {key} = {webMonitor.Headers[key]}");
+                    }
+                }
+                else
+                {
+                    sb.AppendLine("Headers: none");
+                }
+            }
+            sb.Append("Required Patterns:");
+            sb.AppendLine(monitor.RequiredPatterns?.Length.ToString() ?? "0");
+            sb.Append("Forbidden Patterns:");
+            sb.AppendLine(monitor.ForbiddenPatterns?.Length.ToString() ?? "0");
             return sb.ToString();
         }
     }
