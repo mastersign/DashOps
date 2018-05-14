@@ -24,11 +24,11 @@ namespace Mastersign.DashOps
             nameof(CommandAction.Host),
         };
 
-        public string ProjectPath { get;  }
+        public string ProjectPath { get; }
 
         public Project Project { get; private set; }
 
-        public ProjectView ProjectView { get;  }
+        public ProjectView ProjectView { get; }
 
         private Action<Action> Dispatcher { get; }
 
@@ -173,6 +173,7 @@ namespace Mastersign.DashOps
         private void UpdateProjectView()
         {
             ProjectView.ActionViews.Clear();
+            foreach (var p in ProjectView.Perspectives) { p.Dispose(); }
             ProjectView.Perspectives.Clear();
             ProjectView.MonitorViews.Clear();
             ProjectView.Title = Project?.Title ?? "Unknown";
@@ -207,10 +208,6 @@ namespace Mastersign.DashOps
                 if (Project.AlwaysCloseAction) actionView.AlwaysClose = true;
             }
 
-            ProjectView.AddTagsPerspective();
-            ProjectView.AddFacettePerspectives(DEF_PERSPECTIVES);
-            ProjectView.AddFacettePerspectives(Project.Perspectives.ToArray());
-
             var defaultMonitorInterval = new TimeSpan(0, 0, Project.DefaultMonitorInterval);
             var defaultWebMonitorTimeout = new TimeSpan(0, 0, Project.DefaultWebMonitorTimeout);
             void AddMonitorViews(IEnumerable<MonitorView> monitorViews)
@@ -238,6 +235,10 @@ namespace Mastersign.DashOps
                     if (webMonitorView.Timeout < TimeSpan.Zero) webMonitorView.Timeout = defaultWebMonitorTimeout;
                 }
             }
+
+            ProjectView.AddTagsPerspective();
+            ProjectView.AddFacettePerspectives(DEF_PERSPECTIVES);
+            ProjectView.AddFacettePerspectives(Project.Perspectives.ToArray());
         }
 
         private string BuildLogDirPath(string logs, bool noLogs)

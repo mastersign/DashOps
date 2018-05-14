@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Mastersign.DashOps
 {
-    partial class PerspectiveView
+    partial class PerspectiveView : IDisposable
     {
         private void Initialize()
         {
@@ -18,6 +18,11 @@ namespace Mastersign.DashOps
         private void SourceActionsCollectionChangedHandler(object sender, NotifyCollectionChangedEventArgs e)
         {
             UpdateSubsets();
+        }
+
+        public void Dispose()
+        {
+            this.SourceActions.CollectionChanged -= SourceActionsCollectionChangedHandler;
         }
 
         private void UpdateSubsets()
