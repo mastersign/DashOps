@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
@@ -31,11 +32,11 @@ namespace Mastersign.DashOps
             this.Subsets.Clear();
             foreach (var cls in classes)
             {
-                var subset = new ActionSubset(cls);
-                foreach (var a in this.SourceActions.Where(Filter).Where(a => Classifier(a).Contains(cls)))
-                {
-                    subset.Actions.Add(a);
-                }
+                var actions = new ObservableCollection<ActionView>(
+                    SourceActions.Where(Filter)
+                        .Where(a => Classifier(a).Contains(cls))
+                        .OrderBy(a => a.Title));
+                var subset = new ActionSubset(cls) { Actions = actions };
                 this.Subsets.Add(subset);
             }
         }
