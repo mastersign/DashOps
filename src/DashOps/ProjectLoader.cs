@@ -208,6 +208,7 @@ namespace Mastersign.DashOps
                 if (Project.AlwaysCloseAction) actionView.AlwaysClose = true;
             }
 
+            ProjectView.IsMonitoringPaused = Project.PauseMonitors;
             var defaultMonitorInterval = new TimeSpan(0, 0, Project.DefaultMonitorInterval);
             var defaultWebMonitorTimeout = new TimeSpan(0, 0, Project.DefaultWebMonitorTimeout);
             void AddMonitorViews(IEnumerable<MonitorView> monitorViews)

@@ -142,6 +142,7 @@
       <Property name="MonitorPatterns" type="CommandMonitorPattern" isCollection="true" defaultInitialization="true" />
       <Property name="WebMonitors" type="WebMonitor" isCollection="true" defaultInitialization="true" />
       <Property name="WebMonitorPatterns" type="WebMonitorPattern" isCollection="true" defaultInitialization="true" />
+      <Property name="PauseMonitors" type="bool" />
       <Property name="DefaultMonitorInterval" type="int" defaultInitialization="true">
         <DefaultValue>60</DefaultValue>
       </Property>

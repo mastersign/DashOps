@@ -1722,6 +1722,7 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    MonitorPatterns = " + (!ReferenceEquals(_monitorPatterns, null) ? (_monitorPatterns.Count.ToString() + @" items" + __collection_MonitorPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WebMonitors = " + (!ReferenceEquals(_webMonitors, null) ? (_webMonitors.Count.ToString() + @" items" + __collection_WebMonitors.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WebMonitorPatterns = " + (!ReferenceEquals(_webMonitorPatterns, null) ? (_webMonitorPatterns.Count.ToString() + @" items" + __collection_WebMonitorPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    PauseMonitors = " + _pauseMonitors.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    DefaultMonitorInterval = " + _defaultMonitorInterval.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    DefaultWebMonitorTimeout = " + _defaultWebMonitorTimeout.ToString(formatProvider).Replace("\n", "\n    "))));
         }
@@ -2027,6 +2028,25 @@ namespace Mastersign.DashOps.Model
                     return;
                 }
                 _webMonitorPatterns = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property PauseMonitors
+        
+        private bool _pauseMonitors;
+        
+        public virtual bool PauseMonitors
+        {
+            get { return _pauseMonitors; }
+            set
+            {
+                if ((value == _pauseMonitors))
+                {
+                    return;
+                }
+                _pauseMonitors = value;
             }
         }
         
