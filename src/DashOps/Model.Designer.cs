@@ -21,6 +21,7 @@ namespace Mastersign.DashOps.Model
         public CommandActionBase()
         {
             this._arguments = new string[0];
+            this._exitCodes = new int[0];
             this._tags = new string[0];
         }
         
@@ -43,6 +44,7 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    AlwaysClose = " + _alwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(_exitCodes, null) ? _exitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(_tags, null) ? _tags.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
@@ -219,6 +221,25 @@ namespace Mastersign.DashOps.Model
         
         #endregion
         
+        #region Property ExitCodes
+        
+        private int[] _exitCodes;
+        
+        public virtual int[] ExitCodes
+        {
+            get { return _exitCodes; }
+            set
+            {
+                if ((value == _exitCodes))
+                {
+                    return;
+                }
+                _exitCodes = value;
+            }
+        }
+        
+        #endregion
+        
         #region Property Tags
         
         private string[] _tags;
@@ -264,6 +285,7 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    AlwaysClose = " + AlwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Command = " + (!ReferenceEquals(_command, null) ? _command.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Verb = " + (!ReferenceEquals(_verb, null) ? _verb.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
@@ -395,6 +417,7 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    AlwaysClose = " + AlwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    BasePath = " + (!ReferenceEquals(_basePath, null) ? _basePath.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    PathPattern = " + (!ReferenceEquals(_pathPattern, null) ? _pathPattern.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
@@ -549,6 +572,7 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    AlwaysClose = " + AlwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Command = " + (!ReferenceEquals(_command, null) ? _command.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Verb = " + (!ReferenceEquals(_verb, null) ? _verb.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -1136,6 +1160,7 @@ namespace Mastersign.DashOps.Model
         public CommandMonitorBase()
         {
             this._arguments = new string[0];
+            this._exitCodes = new int[0];
         }
         
         #region String Representation
@@ -1155,7 +1180,8 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    "))));
+                (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(_exitCodes, null) ? _exitCodes.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
         #endregion
@@ -1197,6 +1223,25 @@ namespace Mastersign.DashOps.Model
         }
         
         #endregion
+        
+        #region Property ExitCodes
+        
+        private int[] _exitCodes;
+        
+        public virtual int[] ExitCodes
+        {
+            get { return _exitCodes; }
+            set
+            {
+                if ((value == _exitCodes))
+                {
+                    return;
+                }
+                _exitCodes = value;
+            }
+        }
+        
+        #endregion
     }
     
     public partial class CommandMonitor : CommandMonitorBase
@@ -1223,6 +1268,7 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Command = " + (!ReferenceEquals(_command, null) ? _command.ToString(formatProvider) : @"null").Replace("\n", "\n    "))));
         }
         
@@ -1272,6 +1318,7 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    BasePath = " + (!ReferenceEquals(_basePath, null) ? _basePath.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    PathPattern = " + (!ReferenceEquals(_pathPattern, null) ? _pathPattern.ToString(formatProvider) : @"null").Replace("\n", "\n    "))));
         }
@@ -1341,6 +1388,7 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Command = " + (!ReferenceEquals(Command, null) ? Command.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Variables = " + (!ReferenceEquals(_variables, null) ? _variables.ToString() : @"null").Replace("\n", "\n    "))));
         }

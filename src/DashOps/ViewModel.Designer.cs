@@ -12,6 +12,7 @@ namespace Mastersign.DashOps
     {
         public ActionView()
         {
+            this._exitCodes = new int[0];
             this._tags = new string[0];
         }
         
@@ -185,6 +186,38 @@ namespace Mastersign.DashOps
                 }
                 _workingDirectory = value;
                 this.OnWorkingDirectoryChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property ExitCodes
+        
+        private int[] _exitCodes;
+        
+        public event EventHandler ExitCodesChanged;
+        
+        protected virtual void OnExitCodesChanged()
+        {
+            EventHandler handler = ExitCodesChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"ExitCodes");
+        }
+        
+        public virtual int[] ExitCodes
+        {
+            get { return _exitCodes; }
+            set
+            {
+                if ((value == _exitCodes))
+                {
+                    return;
+                }
+                _exitCodes = value;
+                this.OnExitCodesChanged();
             }
         }
         
@@ -1074,6 +1107,7 @@ namespace Mastersign.DashOps
     {
         public CommandMonitorView()
         {
+            this._exitCodes = new int[0];
         }
         
         #region Change Tracking
@@ -1172,6 +1206,38 @@ namespace Mastersign.DashOps
                 }
                 _workingDirectory = value;
                 this.OnWorkingDirectoryChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property ExitCodes
+        
+        private int[] _exitCodes;
+        
+        public event EventHandler ExitCodesChanged;
+        
+        protected virtual void OnExitCodesChanged()
+        {
+            EventHandler handler = ExitCodesChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"ExitCodes");
+        }
+        
+        public virtual int[] ExitCodes
+        {
+            get { return _exitCodes; }
+            set
+            {
+                if ((value == _exitCodes))
+                {
+                    return;
+                }
+                _exitCodes = value;
+                this.OnExitCodesChanged();
             }
         }
         

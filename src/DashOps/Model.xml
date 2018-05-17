@@ -25,6 +25,7 @@
       <Property name="AlwaysClose" type="bool" />
       <Property name="Arguments" type="string[]" />
       <Property name="WorkingDirectory" />
+      <Property name="ExitCodes" type="int[]" />
       <Property name="Tags" type="string[]" />
     </Class>
     
@@ -95,6 +96,7 @@
     <Class name="CommandMonitorBase" baseType="MonitorBase">
       <Property name="Arguments" type="string[]" />
       <Property name="WorkingDirectory" />
+      <Property name="ExitCodes" type="int[]" />
     </Class>
     
     <Class name="CommandMonitor" baseType="CommandMonitorBase">

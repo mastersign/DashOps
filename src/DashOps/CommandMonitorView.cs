@@ -31,7 +31,7 @@ namespace Mastersign.DashOps
         {
             NotifyExecutionBegin(startTime);
             var result = await App.Instance.Executor.ExecuteAsync(this);
-            var success = result.StatusCode == 0;
+            var success = ExitCodes.Contains(result.ExitCode);
             NotifyExecutionFinished(success);
             OnLogIconChanged();
             return success;

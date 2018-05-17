@@ -103,6 +103,7 @@ namespace Mastersign.DashOps
             var executable = execution.Executable;
             if (executable != null)
             {
+                success = executable.ExitCodes.Contains(exitCode);
                 var rawLogFile = executable.CurrentLogFile;
                 if (rawLogFile != null && LogFileManager.WaitForFileAccess(rawLogFile))
                 {
