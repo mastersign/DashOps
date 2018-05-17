@@ -583,12 +583,12 @@ namespace Mastersign.DashOps
             }
         }
 
-        private static Regex[] BuildPatterns(string[] patterns)
+        private static Regex[] BuildPatterns(IEnumerable<string> patterns)
         {
             try
             {
                 return patterns?.Select(p => new Regex(p,
-                        RegexOptions.Compiled | RegexOptions.CultureInvariant,
+                        RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Multiline,
                         TimeSpan.FromMilliseconds(1000))
                     ).ToArray() ?? Array.Empty<Regex>();
             }
