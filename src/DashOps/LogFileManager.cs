@@ -10,7 +10,7 @@ using System.Threading;
 
 namespace Mastersign.DashOps
 {
-    static class LogFileManager
+    internal static class LogFileManager
     {
         private const string TS_FORMAT = "yyyyMMdd_HHmmss";
 
@@ -20,8 +20,8 @@ namespace Mastersign.DashOps
         public static string PreliminaryLogFileName(this ILogged executable, DateTime timestamp)
             => timestamp.ToString(TS_FORMAT, CultureInfo.InvariantCulture) + "_" + executable.CommandId;
 
-        public static string FinalizeLogFileName(string preliminaryLogFileName, int exitCode)
-            => $"{preliminaryLogFileName}_{exitCode}.log";
+        public static string FinalizeLogFileName(string preliminaryLogFileName, bool success, int exitCode)
+            => $"{preliminaryLogFileName}_{(success ? "OK" : "ERR")}_{exitCode}.log";
 
         public static IEnumerable<string> FindLogFiles(this ILogged logged)
             => logged.Logs != null && Directory.Exists(logged.Logs)
@@ -34,7 +34,7 @@ namespace Mastersign.DashOps
         public static string FindLastLogFile(this ILogged logged)
             => logged.FindLogFiles().OrderByDescending(f => f).FirstOrDefault();
 
-        private static readonly Regex NamePattern = new Regex(@"^(?<ts>.{" + TS_FORMAT.Length + @"})_(?<aid>[^_]+)(?:_(?<ec>-?\d+))?\.log$");
+        private static readonly Regex NamePattern = new Regex(@"^(?<ts>.{" + TS_FORMAT.Length + @"})_(?<aid>[^_]+)(?:_(?<suc>OK|ERR)_(?<ec>-?\d+))?\.log$");
 
         public static LogFileInfo GetInfo(string logFile)
         {
@@ -46,7 +46,8 @@ namespace Mastersign.DashOps
                 logFile,
                 DateTime.ParseExact(m.Groups["ts"].Value, TS_FORMAT, CultureInfo.InvariantCulture),
                 m.Groups["aid"].Value,
-                m.Groups["ec"].Success,
+                m.Groups["suc"].Success,
+                m.Groups["suc"].Value == "OK",
                 m.Groups["ec"].Success ? int.Parse(m.Groups["ec"].Value, CultureInfo.InvariantCulture) : 0);
         }
 

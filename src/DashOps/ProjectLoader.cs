@@ -223,9 +223,9 @@ namespace Mastersign.DashOps
             {
                 monitorView.Logs = BuildLogDirPath(monitorView.Logs, monitorView.NoLogs);
                 var logInfo = monitorView.GetLastLogFileInfo();
-                if (logInfo != null)
+                if (logInfo != null && logInfo.HasResult)
                 {
-                    monitorView.LastExecutionResult = logInfo.IsSuccess;
+                    monitorView.LastExecutionResult =  logInfo.Success;
                     monitorView.HasLastExecutionResult = true;
                 }
 

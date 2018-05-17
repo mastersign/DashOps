@@ -29,7 +29,7 @@ namespace Mastersign.DashOps
                 Directory.CreateDirectory(Logs);
             }
             NotifyExecutionBegin(startTime);
-            var tWebRequest = new Task<int>(() =>
+            var tWebRequest = new Task<Tuple<bool, int>>(() =>
             {
                 CurrentLogFile = BuildLogFileName(this.PreliminaryLogFileName(startTime));
                 var logWriter = CurrentLogFile != null ? new StreamWriter(CurrentLogFile, false, Encoding.UTF8) : null;
@@ -96,26 +96,26 @@ namespace Mastersign.DashOps
                     {
                         logWriter?.WriteLine("Error:".PadRight(LOG_INDENT) 
                                              + "Status code not allowed: " + string.Join(", ", StatusCodes));
-                        return (int)response.StatusCode;
+                        return Tuple.Create(false, (int)response.StatusCode);
                     }
                     if (!RequiredPatterns.All(p => p.IsMatch(responseText)))
                     {
                         logWriter?.WriteLine("Error:".PadRight(LOG_INDENT) 
                                              + "Required pattern did not match");
-                        return 2;
+                        return Tuple.Create(false, (int)response.StatusCode);
                     }
                     if (ForbiddenPatterns.Any(p => p.IsMatch(responseText)))
                     {
                         logWriter?.WriteLine("Error:".PadRight(LOG_INDENT) 
                                              + "Forbidden pattern did match");
-                        return 3;
+                        return Tuple.Create(false, (int)response.StatusCode);
                     }
-                    return 0;
+                    return Tuple.Create(true, (int)response.StatusCode);
                 }
                 catch (Exception e)
                 {
                     logWriter?.WriteLine("Exception:   " + e);
-                    return 1;
+                    return Tuple.Create(false, 0);
                 }
                 finally
                 {
@@ -125,14 +125,13 @@ namespace Mastersign.DashOps
             });
             var tFinalizeLog = tWebRequest.ContinueWith(t =>
             {
-                FinalizeLogFile(t.Result);
+                FinalizeLogFile(t.Result.Item1, t.Result.Item2);
                 return t.Result;
             });
             var tNotify = tFinalizeLog.ContinueWith(t =>
             {
-                var success = t.Result == 0;
-                NotifyExecutionFinished(success);
-                return success;
+                NotifyExecutionFinished(t.Result.Item1);
+                return t.Result.Item1;
             });
             tWebRequest.Start();
             return tNotify;
@@ -188,10 +187,10 @@ namespace Mastersign.DashOps
             return text;
         }
 
-        private void FinalizeLogFile(int exitCode)
+        private void FinalizeLogFile(bool success, int exitCode)
         {
             if (CurrentLogFile == null) return;
-            var logFile = BuildLogFileName(LogFileManager.FinalizeLogFileName(CurrentLogFile, exitCode));
+            var logFile = BuildLogFileName(LogFileManager.FinalizeLogFileName(CurrentLogFile, success, exitCode));
             if (LogFileManager.WaitForFileAccess(CurrentLogFile))
             {
                 File.Move(CurrentLogFile, logFile);

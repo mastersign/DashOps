@@ -99,20 +99,21 @@ namespace Mastersign.DashOps
             var outputBuffer = new StringBuilder();
             string output = null;
             var exitCode = p.ExitCode;
+            var success = exitCode == 0;
             var executable = execution.Executable;
             if (executable != null)
             {
                 var rawLogFile = executable.CurrentLogFile;
                 if (rawLogFile != null && LogFileManager.WaitForFileAccess(rawLogFile))
                 {
-                    var logFile = LogFileManager.FinalizeLogFileName(rawLogFile, exitCode);
+                    var logFile = LogFileManager.FinalizeLogFileName(rawLogFile, success, exitCode);
                     LogFileManager.PostprocessLogFile(rawLogFile, logFile, outputBuffer);
                     output = outputBuffer.ToString();
-                    if (exitCode == 0 && executable.StatusCodeBuilder != null)
+                    if (success && executable.SuccessCheck != null)
                     {
                         var tmpLogFile = logFile;
-                        exitCode = executable.StatusCodeBuilder(output);
-                        logFile = LogFileManager.FinalizeLogFileName(rawLogFile, exitCode);
+                        success = executable.SuccessCheck(output);
+                        logFile = LogFileManager.FinalizeLogFileName(rawLogFile, success, exitCode);
                         File.Move(tmpLogFile, logFile);
                     }
                     executable.CurrentLogFile = logFile;
@@ -123,7 +124,7 @@ namespace Mastersign.DashOps
                     executable.CurrentLogFile = null;
                 }
             }
-            execution.OnExit?.Invoke(new ExecutionResult(executable, exitCode, output));
+            execution.OnExit?.Invoke(new ExecutionResult(executable, success, exitCode, output));
             executable?.NotifyExecutionFinished();
         }
 
@@ -187,14 +188,16 @@ namespace Mastersign.DashOps
 
     public class ExecutionResult
     {
-        public readonly int StatusCode;
-        public readonly string Output;
         public IExecutable Executable;
+        public readonly bool Success;
+        public readonly int ExitCode;
+        public readonly string Output;
 
-        public ExecutionResult(IExecutable executable, int statusCode, string output)
+        public ExecutionResult(IExecutable executable, bool success, int exitCode, string output)
         {
             Executable = executable;
-            StatusCode = statusCode;
+            Success = success;
+            ExitCode = exitCode;
             Output = output;
         }
     }

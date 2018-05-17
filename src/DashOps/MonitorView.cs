@@ -67,8 +67,8 @@ namespace Mastersign.DashOps
                 var logInfo = this.GetLastLogFileInfo();
                 var resourceName =
                     logInfo != null
-                        ? logInfo.HasExitCode
-                            ? logInfo.IsSuccess ? "IconLogOK" : "IconLogError"
+                        ? logInfo.HasResult
+                            ? logInfo.Success ? "IconLogOK" : "IconLogError"
                             : "IconLog"
                         : "IconLogEmpty";
                 return App.Instance.FindResource(resourceName) as ControlTemplate;

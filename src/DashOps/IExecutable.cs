@@ -14,6 +14,8 @@ namespace Mastersign.DashOps
 
         string WorkingDirectory { get; }
 
+        int[] ExitCodes { get; }
+
         string CurrentLogFile { get; set; }
 
         string Title { get; }
@@ -24,7 +26,7 @@ namespace Mastersign.DashOps
 
         bool AlwaysClose { get; }
 
-        Func<string, int> StatusCodeBuilder { get; }
+        Func<string, bool> SuccessCheck { get; }
 
         void NotifyExecutionFinished();
     }

@@ -37,13 +37,9 @@ namespace Mastersign.DashOps
             return success;
         }
 
-        public Func<string, int> StatusCodeBuilder
-            => output =>
-            {
-                if (!RequiredPatterns.All(p => p.IsMatch(output))) return 2;
-                if (ForbiddenPatterns.Any(p => p.IsMatch(output))) return 3;
-                return 0;
-            };
+        public Func<string, bool> SuccessCheck
+            => output => RequiredPatterns.All(p => p.IsMatch(output)) &&
+                         !ForbiddenPatterns.Any(p => p.IsMatch(output));
 
         protected override void NotifyExecutionFinished(bool success)
         {

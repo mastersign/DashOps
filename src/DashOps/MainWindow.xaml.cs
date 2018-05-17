@@ -69,7 +69,7 @@ namespace Mastersign.DashOps
             var item = new MenuItem
             {
                 Header = info.Timestamp.ToString("yyyy-MM-dd HH:mm:ss"),
-                Icon = SuccessStatusIcon(info.IsSuccess),
+                Icon = SuccessStatusIcon(info.HasResult && info.Success),
             };
 
             item.Click += (s, ea) => Core.ShowLogFile(log);
