@@ -147,11 +147,13 @@ namespace Mastersign.DashOps
             psLines.Add("echo \"--------------------------------------------------------------------------------\"");
             psLines.Add("echo \"\"");
             psLines.Add($"& \"{executable.Command}\" {executable.Arguments}");
-            psLines.Add("if ($LastExitCode -eq $null) { ");
+            psLines.Add("if ($LastExitCode -eq $null) {");
             psLines.Add("  if ($?) { $ec = 0 } else { $ec = 1; echo \"\"; Write-Warning \"Command failed.\" }");
+            psLines.Add("  $allowed = @(0)");
             psLines.Add("} else {");
             psLines.Add("  $ec = $LastExitCode");
-            psLines.Add("  if ($ec -ne 0) { echo \"\"; Write-Warning \"Exit Code: $ec\" }");
+            psLines.Add("  $allowed = @(" + string.Join(",", executable.ExitCodes) + ")");
+            psLines.Add("  if (!($ec -in $allowed)) { echo \"\"; Write-Warning \"Exit Code: $ec\" } else { echo \"\"; echo \"Exit Code: $ec\" }");
             psLines.Add("}");
             psLines.Add("$t = [DateTime]::Now");
             psLines.Add("echo \"\"");
@@ -171,7 +173,7 @@ namespace Mastersign.DashOps
                 }
                 else if (!executable.AlwaysClose)
                 {
-                    psLines.Add("if ($ec -ne 0) {");
+                    psLines.Add("if (!($ec -in $allowed)) {");
                     psLines.Add("  echo \"Press any key to continue...\"");
                     psLines.Add("  $_ = $Host.UI.RawUI.ReadKey()");
                     psLines.Add("}");
