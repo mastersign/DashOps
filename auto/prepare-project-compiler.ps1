@@ -5,11 +5,12 @@ param (
   $CompilerPackageVersion = "2.8.0",
   $CompilerPackageFramework = "net47",
   $LangVersion = "7.2",
-  $ToolsVersion = "15.0"
+  $ToolsVersion = "15.0",
+  $SourceDir = "..\src"
 )
 
 $thisDir = Split-Path $MyInvocation.MyCommand.Path -Parent
-$sourceDir = Resolve-Path "$thisDir\..\src"
+$sourceDir = Resolve-Path "$thisDir\$SourceDir"
 
 [string[]]$projects = $Projects
 
