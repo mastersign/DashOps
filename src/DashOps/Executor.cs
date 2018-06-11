@@ -64,14 +64,10 @@ namespace Mastersign.DashOps
 
             var psi = new ProcessStartInfo(CommandLine.PowerShellExe, psArgs)
             {
-                WindowStyle = ProcessWindowStyle.Normal,
+                WindowStyle = executable.Visible ? ProcessWindowStyle.Normal : ProcessWindowStyle.Hidden,
                 WorkingDirectory = executable.WorkingDirectory,
-                UseShellExecute = false,
+                UseShellExecute = true,
             };
-            if (!executable.Visible)
-            {
-                psi.CreateNoWindow = true;
-            }
             var p = Process.Start(psi);
             if (p != null)
             {
