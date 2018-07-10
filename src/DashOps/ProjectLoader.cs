@@ -511,6 +511,8 @@ namespace Mastersign.DashOps
                 Url = monitor.Url,
                 Headers = monitor.Headers,
                 Timeout = new TimeSpan(0, 0, monitor.Timeout),
+                ServerCertificateHash = monitor.ServerCertificateHash,
+                NoTlsVerify = monitor.NoTlsVerify,
                 StatusCodes = monitor.StatusCodes != null && monitor.StatusCodes.Length > 0
                     ? monitor.StatusCodes
                     : new[] { 200, 201, 202, 203, 204 },
@@ -535,6 +537,8 @@ namespace Mastersign.DashOps
                 Url = ExpandTemplate(monitorPattern.Url, variables),
                 Headers = ExpandDictionaryTemplate(monitorPattern.Headers, variables),
                 Timeout = new TimeSpan(0, 0, monitorPattern.Timeout),
+                ServerCertificateHash = monitorPattern.ServerCertificateHash,
+                NoTlsVerify = monitorPattern.NoTlsVerify,
                 StatusCodes = monitorPattern.StatusCodes != null && monitorPattern.StatusCodes.Length > 0
                     ? monitorPattern.StatusCodes
                     : new[] { 200, 201, 202, 203, 204 },

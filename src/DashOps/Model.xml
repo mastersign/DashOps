@@ -118,6 +118,8 @@
       <Property name="Timeout" type="int" defaultInitialization="true">
         <DefaultValue>-1</DefaultValue>
       </Property>
+      <Property name="ServerCertificateHash" />
+      <Property name="NoTlsVerify" type="bool" />
       <Property name="StatusCodes" type="int[]" />
     </Class>
 

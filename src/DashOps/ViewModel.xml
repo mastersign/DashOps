@@ -74,6 +74,8 @@
       <Property name="Url" />
       <Property name="Headers" type="dict" />
       <Property name="Timeout" type="TimeSpan" />
+      <Property name="ServerCertificateHash" />
+      <Property name="NoTlsVerify" type="bool" />
       <Property name="StatusCodes" type="int[]" />
     </Class>
 

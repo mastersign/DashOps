@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -46,6 +48,10 @@ namespace Mastersign.DashOps
                 {
                     var wr = WebRequest.CreateHttp(Url);
                     wr.KeepAlive = false;
+                    if (CustomServerCertificateValidation)
+                    {
+                        wr.ServerCertificateValidationCallback = ServerCertificateValidationHandler;
+                    }
                     if (Headers != null)
                     {
                         foreach (var headerKey in Headers.Keys)
@@ -135,6 +141,21 @@ namespace Mastersign.DashOps
             });
             tWebRequest.Start();
             return tNotify;
+        }
+
+        private bool CustomServerCertificateValidation =>
+            NoTlsVerify || !string.IsNullOrWhiteSpace(ServerCertificateHash);
+
+        private bool ServerCertificateValidationHandler(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslpolicyerrors)
+        {
+            if (NoTlsVerify) return true;
+            if (!string.IsNullOrWhiteSpace(ServerCertificateHash))
+            {
+                var expectedHash = ServerCertificateHash.Replace(":", "").Replace(".", "").Replace("_", "").Replace(" ", "");
+                var hash = certificate.GetCertHashString();
+                if (expectedHash == hash) return true;
+            }
+            return false;
         }
 
         private static string ReadResponseAsString(HttpWebResponse response, out string detectedCharset)

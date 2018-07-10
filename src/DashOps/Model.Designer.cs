@@ -1442,6 +1442,8 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    Url = " + (!ReferenceEquals(_url, null) ? _url.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Headers = " + (!ReferenceEquals(_headers, null) ? _headers.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Timeout = " + _timeout.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    ServerCertificateHash = " + (!ReferenceEquals(_serverCertificateHash, null) ? _serverCertificateHash.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    NoTlsVerify = " + _noTlsVerify.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    StatusCodes = " + (!ReferenceEquals(_statusCodes, null) ? _statusCodes.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
@@ -1507,6 +1509,44 @@ namespace Mastersign.DashOps.Model
         
         #endregion
         
+        #region Property ServerCertificateHash
+        
+        private string _serverCertificateHash;
+        
+        public virtual string ServerCertificateHash
+        {
+            get { return _serverCertificateHash; }
+            set
+            {
+                if (string.Equals(value, _serverCertificateHash))
+                {
+                    return;
+                }
+                _serverCertificateHash = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property NoTlsVerify
+        
+        private bool _noTlsVerify;
+        
+        public virtual bool NoTlsVerify
+        {
+            get { return _noTlsVerify; }
+            set
+            {
+                if ((value == _noTlsVerify))
+                {
+                    return;
+                }
+                _noTlsVerify = value;
+            }
+        }
+        
+        #endregion
+        
         #region Property StatusCodes
         
         private int[] _statusCodes;
@@ -1552,6 +1592,8 @@ namespace Mastersign.DashOps.Model
                 (Environment.NewLine + @"    Url = " + (!ReferenceEquals(Url, null) ? Url.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Headers = " + (!ReferenceEquals(Headers, null) ? Headers.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Timeout = " + Timeout.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    ServerCertificateHash = " + (!ReferenceEquals(ServerCertificateHash, null) ? ServerCertificateHash.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    NoTlsVerify = " + NoTlsVerify.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    StatusCodes = " + (!ReferenceEquals(StatusCodes, null) ? StatusCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Variables = " + (!ReferenceEquals(_variables, null) ? _variables.ToString() : @"null").Replace("\n", "\n    "))));
         }

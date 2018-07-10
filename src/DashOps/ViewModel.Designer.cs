@@ -1352,6 +1352,70 @@ namespace Mastersign.DashOps
         
         #endregion
         
+        #region Property ServerCertificateHash
+        
+        private string _serverCertificateHash;
+        
+        public event EventHandler ServerCertificateHashChanged;
+        
+        protected virtual void OnServerCertificateHashChanged()
+        {
+            EventHandler handler = ServerCertificateHashChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"ServerCertificateHash");
+        }
+        
+        public virtual string ServerCertificateHash
+        {
+            get { return _serverCertificateHash; }
+            set
+            {
+                if (string.Equals(value, _serverCertificateHash))
+                {
+                    return;
+                }
+                _serverCertificateHash = value;
+                this.OnServerCertificateHashChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property NoTlsVerify
+        
+        private bool _noTlsVerify;
+        
+        public event EventHandler NoTlsVerifyChanged;
+        
+        protected virtual void OnNoTlsVerifyChanged()
+        {
+            EventHandler handler = NoTlsVerifyChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"NoTlsVerify");
+        }
+        
+        public virtual bool NoTlsVerify
+        {
+            get { return _noTlsVerify; }
+            set
+            {
+                if ((value == _noTlsVerify))
+                {
+                    return;
+                }
+                _noTlsVerify = value;
+                this.OnNoTlsVerifyChanged();
+            }
+        }
+        
+        #endregion
+        
         #region Property StatusCodes
         
         private int[] _statusCodes;
