@@ -15,7 +15,7 @@ namespace Mastersign.DashOps
 {
     public class ProjectLoader
     {
-        private static readonly string[] SUPPORTED_VERSIONS = new[] { "1", "1.0", "1.1" };
+        private static readonly string[] SUPPORTED_VERSIONS = new[] { "1", "1.0", "1.1", "1.2" };
 
         private readonly string[] DEF_PERSPECTIVES = new[]
         {
