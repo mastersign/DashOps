@@ -384,7 +384,7 @@ namespace Mastersign.DashOps
                 ExitCodes = actionDiscovery.ExitCodes != null && actionDiscovery.ExitCodes.Length > 0
                     ? actionDiscovery.ExitCodes
                     : new[] { 0 },
-                Facettes = facettes,
+                Facettes = ExpandDictionaryTemplate(facettes, facettes),
                 Tags = actionDiscovery.Tags ?? Array.Empty<string>()
             };
         }
@@ -408,7 +408,7 @@ namespace Mastersign.DashOps
                 ExitCodes = actionPattern.ExitCodes != null && actionPattern.ExitCodes.Length > 0
                     ? actionPattern.ExitCodes
                     : new[] { 0 },
-                Facettes = facettes,
+                Facettes = ExpandDictionaryTemplate(facettes, facettes),
                 Tags = actionPattern.Tags ?? Array.Empty<string>()
             };
 
@@ -645,7 +645,7 @@ namespace Mastersign.DashOps
         {
             if (dict == null) return new Dictionary<TKey, TValue>();
             var result = new Dictionary<TKey, TValue>(dict);
-            foreach (var kvp in result)
+            foreach (var kvp in dict)
             {
                 result[kvp.Key] = f(kvp.Value);
             }
