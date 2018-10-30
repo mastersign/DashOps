@@ -83,7 +83,7 @@ namespace Mastersign.DashOps
             }
         }
 
-        private Deserializer _deserializer;
+        private IDeserializer _deserializer;
 
         private void InitializeDeserialization()
         {
