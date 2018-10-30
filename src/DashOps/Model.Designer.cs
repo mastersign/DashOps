@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 
 namespace Mastersign.DashOps.Model
 {
     #region Scaleton Model Designer generated code
     
-    // Scaleton Version: 0.2.5
+    // Scaleton Version: 0.2.7
     
     public enum ActionMatchMode
     {
@@ -29,7 +30,7 @@ namespace Mastersign.DashOps.Model
         
         public override string ToString()
         {
-            return this.ToString(global::System.Globalization.CultureInfo.CurrentUICulture);
+            return this.ToString(CultureInfo.CurrentUICulture);
         }
         
         public virtual string ToString(IFormatProvider formatProvider)
@@ -270,7 +271,7 @@ namespace Mastersign.DashOps.Model
         
         public override string ToString()
         {
-            return this.ToString(global::System.Globalization.CultureInfo.CurrentUICulture);
+            return this.ToString(CultureInfo.CurrentUICulture);
         }
         
         public override string ToString(IFormatProvider formatProvider)
@@ -402,7 +403,7 @@ namespace Mastersign.DashOps.Model
         
         public override string ToString()
         {
-            return this.ToString(global::System.Globalization.CultureInfo.CurrentUICulture);
+            return this.ToString(CultureInfo.CurrentUICulture);
         }
         
         public override string ToString(IFormatProvider formatProvider)
@@ -557,7 +558,7 @@ namespace Mastersign.DashOps.Model
         
         public override string ToString()
         {
-            return this.ToString(global::System.Globalization.CultureInfo.CurrentUICulture);
+            return this.ToString(CultureInfo.CurrentUICulture);
         }
         
         public override string ToString(IFormatProvider formatProvider)
@@ -690,7 +691,7 @@ namespace Mastersign.DashOps.Model
         
         public override string ToString()
         {
-            return this.ToString(global::System.Globalization.CultureInfo.CurrentUICulture);
+            return this.ToString(CultureInfo.CurrentUICulture);
         }
         
         public virtual string ToString(IFormatProvider formatProvider)
@@ -797,7 +798,7 @@ namespace Mastersign.DashOps.Model
         
         public override string ToString()
         {
-            return this.ToString(global::System.Globalization.CultureInfo.CurrentUICulture);
+            return this.ToString(CultureInfo.CurrentUICulture);
         }
         
         public virtual string ToString(IFormatProvider formatProvider)
@@ -1021,7 +1022,7 @@ namespace Mastersign.DashOps.Model
         
         public override string ToString()
         {
-            return this.ToString(global::System.Globalization.CultureInfo.CurrentUICulture);
+            return this.ToString(CultureInfo.CurrentUICulture);
         }
         
         public virtual string ToString(IFormatProvider formatProvider)
@@ -1167,7 +1168,7 @@ namespace Mastersign.DashOps.Model
         
         public override string ToString()
         {
-            return this.ToString(global::System.Globalization.CultureInfo.CurrentUICulture);
+            return this.ToString(CultureInfo.CurrentUICulture);
         }
         
         public override string ToString(IFormatProvider formatProvider)
@@ -1254,7 +1255,7 @@ namespace Mastersign.DashOps.Model
         
         public override string ToString()
         {
-            return this.ToString(global::System.Globalization.CultureInfo.CurrentUICulture);
+            return this.ToString(CultureInfo.CurrentUICulture);
         }
         
         public override string ToString(IFormatProvider formatProvider)
@@ -1304,7 +1305,7 @@ namespace Mastersign.DashOps.Model
         
         public override string ToString()
         {
-            return this.ToString(global::System.Globalization.CultureInfo.CurrentUICulture);
+            return this.ToString(CultureInfo.CurrentUICulture);
         }
         
         public override string ToString(IFormatProvider formatProvider)
@@ -1374,7 +1375,7 @@ namespace Mastersign.DashOps.Model
         
         public override string ToString()
         {
-            return this.ToString(global::System.Globalization.CultureInfo.CurrentUICulture);
+            return this.ToString(CultureInfo.CurrentUICulture);
         }
         
         public override string ToString(IFormatProvider formatProvider)
@@ -1427,7 +1428,7 @@ namespace Mastersign.DashOps.Model
         
         public override string ToString()
         {
-            return this.ToString(global::System.Globalization.CultureInfo.CurrentUICulture);
+            return this.ToString(CultureInfo.CurrentUICulture);
         }
         
         public override string ToString(IFormatProvider formatProvider)
@@ -1577,7 +1578,7 @@ namespace Mastersign.DashOps.Model
         
         public override string ToString()
         {
-            return this.ToString(global::System.Globalization.CultureInfo.CurrentUICulture);
+            return this.ToString(CultureInfo.CurrentUICulture);
         }
         
         public override string ToString(IFormatProvider formatProvider)
@@ -1642,7 +1643,7 @@ namespace Mastersign.DashOps.Model
         
         public override string ToString()
         {
-            return this.ToString(global::System.Globalization.CultureInfo.CurrentUICulture);
+            return this.ToString(CultureInfo.CurrentUICulture);
         }
         
         public virtual string ToString(IFormatProvider formatProvider)

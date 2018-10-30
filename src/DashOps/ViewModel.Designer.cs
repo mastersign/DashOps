@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 
 namespace Mastersign.DashOps
 {
     #region Scaleton Model Designer generated code
     
-    // Scaleton Version: 0.2.5
+    // Scaleton Version: 0.2.7
     
     public partial class ActionView : INotifyPropertyChanged
     {
