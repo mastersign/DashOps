@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Mastersign.DashOps
@@ -46,7 +47,7 @@ namespace Mastersign.DashOps
                             ? logInfo.Success ? "IconLogOK" : "IconLogError"
                             : "IconLog"
                         : "IconLogEmpty";
-                return App.Instance.FindResource(resourceName) as ControlTemplate;
+                return Application.Current.FindResource(resourceName) as ControlTemplate;
             }
         }
 

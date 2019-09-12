@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Mastersign.DashOps
@@ -44,7 +45,7 @@ namespace Mastersign.DashOps
                                 ? HasExecutionResultChanged ? "IconStatusOKNew" : "IconStatusOK"
                                 : HasExecutionResultChanged ? "IconStatusErrorNew" : "IconStatusError"
                             : "IconStatusNotStarted";
-                return App.Instance.FindResource(resourceName) as ControlTemplate;
+                return Application.Current.FindResource(resourceName) as ControlTemplate;
             }
         }
 
@@ -71,7 +72,7 @@ namespace Mastersign.DashOps
                             ? logInfo.Success ? "IconLogOK" : "IconLogError"
                             : "IconLog"
                         : "IconLogEmpty";
-                return App.Instance.FindResource(resourceName) as ControlTemplate;
+                return Application.Current.FindResource(resourceName) as ControlTemplate;
             }
         }
 

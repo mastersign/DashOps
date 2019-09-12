@@ -16,7 +16,7 @@ namespace Mastersign.DashOps
     /// </summary>
     public partial class App : Application
     {
-        public static App Instance => (App)Current;
+        public static App Instance => Current as App;
 
         public ProjectLoader ProjectLoader { get; private set; }
 
