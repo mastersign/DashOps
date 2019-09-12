@@ -126,60 +126,53 @@
                  ItemsSource="{Binding CurrentPerspective.Subsets}"
                  SelectedItem="{Binding CurrentPerspective.CurrentSubset}">
         </ListBox>
-        <ScrollViewer Grid.Row="1" Grid.Column="1" Margin="10,0,0,20">
-            <ItemsControl x:Name="Actions"
-                          Padding="0,0,10,0"
-                          ItemsSource="{Binding CurrentPerspective.CurrentSubset.Actions}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Vertical" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Button x:Name="ActionButton"
-                                Margin="0,0,0,10" Padding="10,5" Height="34"
-                                Style="{StaticResource ActionButtonStyle}"
-                                Content="{Binding Title}">
-                                <Button.InputBindings>
-                                    <MouseBinding Gesture="LeftClick"
-                                                  Command="local:DashOpsCommands.ExecuteAction"
-                                                  CommandParameter="{Binding}" />
-                                </Button.InputBindings>
+        <ItemsControl Grid.Row="1" Grid.Column="1" Margin="10,0,0,20" Padding="0,0,10,0"
+                      Style="{StaticResource ResourceKey=VirtualizedScrollableItemsControl}"
+                      ItemsSource="{Binding CurrentPerspective.CurrentSubset.Actions}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="ActionButton"
+                            Margin="0,0,0,10" Padding="10,5" Height="34"
+                            Style="{StaticResource ActionButtonStyle}"
+                            Content="{Binding Title}">
+                            <Button.InputBindings>
+                                <MouseBinding Gesture="LeftClick"
+                                                Command="local:DashOpsCommands.ExecuteAction"
+                                                CommandParameter="{Binding}" />
+                            </Button.InputBindings>
+                        </Button>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,0,10">
+                            <Button Command="local:DashOpsCommands.ShowLastLog"
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource ActionAddButtonStyle}">
+                                <ContentControl Template="{Binding LogIcon}" />
                             </Button>
-                            <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,0,10">
-                                <Button Command="local:DashOpsCommands.ShowLastLog"
-                                        CommandParameter="{Binding}"
-                                        Style="{StaticResource ActionAddButtonStyle}">
-                                    <ContentControl Template="{Binding LogIcon}" />
-                                </Button>
-                                <Button Command="local:DashOpsCommands.ShowLogHistoryContextMenu"
-                                        CommandParameter="{Binding}"
-                                        Style="{StaticResource ActionAddButtonStyle}"
-                                        Margin="0" Padding="0" Width="14">
-                                    <ContentControl Template="{StaticResource IconGlyphDown}" />
-                                </Button>
-                                <Button Command="local:DashOpsCommands.ShowActionInfo"
-                                        CommandParameter="{Binding}"
-                                        Style="{StaticResource ActionAddButtonStyle}">
-                                    <ContentControl Template="{StaticResource IconInfo}" />
-                                </Button>
-                                <Button Visibility="Collapsed"
-                                        CommandParameter="{Binding}"
-                                        Style="{StaticResource ActionAddButtonStyle}">
-                                    <ContentControl Template="{StaticResource IconEditScript}" />
-                                </Button>
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
+                            <Button Command="local:DashOpsCommands.ShowLogHistoryContextMenu"
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource ActionAddButtonStyle}"
+                                    Margin="0" Padding="0" Width="14">
+                                <ContentControl Template="{StaticResource IconGlyphDown}" />
+                            </Button>
+                            <Button Command="local:DashOpsCommands.ShowActionInfo"
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource ActionAddButtonStyle}">
+                                <ContentControl Template="{StaticResource IconInfo}" />
+                            </Button>
+                            <Button Visibility="Collapsed"
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource ActionAddButtonStyle}">
+                                <ContentControl Template="{StaticResource IconEditScript}" />
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
         <ScrollViewer Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Margin="10,0,20,20">
             <ItemsControl x:Name="Monitors"
                           Padding="0,0,10,0"
