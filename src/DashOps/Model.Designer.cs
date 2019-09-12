@@ -7,7 +7,7 @@ namespace Mastersign.DashOps.Model
 {
     #region Scaleton Model Designer generated code
     
-    // Scaleton Version: 0.2.7
+    // Scaleton Version: 0.2.8
     
     public enum ActionMatchMode
     {
