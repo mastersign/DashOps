@@ -1,4 +1,4 @@
 #include deps
 
-bin\Release\DashOps.exe*
+bin\Release\net481\DashOps.exe*
 README.md

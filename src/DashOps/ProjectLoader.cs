@@ -88,7 +88,7 @@ namespace Mastersign.DashOps
         private void InitializeDeserialization()
         {
             _deserializer = new DeserializerBuilder()
-                .WithNamingConvention(new HyphenatedNamingConvention())
+                .WithNamingConvention(HyphenatedNamingConvention.Instance)
                 .Build();
         }
 

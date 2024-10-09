@@ -1,1 +1,1 @@
-src\packages\YamlDotNet.*\lib\net45\YamlDotNet.dll
+bin\Release\net481\YamlDotNet.dll
