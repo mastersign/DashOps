@@ -11,13 +11,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Mastersign.DashOps</RootNamespace>
 
-    <Version>1.2.3</Version>
+    <Version>2.0.0-dev</Version>
 
     <Company>Tobias Kiertscher</Company>
     <Authors>Tobias Kiertscher</Authors>
     <Product>DashOps</Product>
     <Description>Graphical user interface for scripts and shell commands</Description>
-    <Copyright>Copyright © 2019 Tobias Kiertscher</Copyright>
+    <Copyright>Copyright © 2025 Tobias Kiertscher</Copyright>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
