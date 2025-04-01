@@ -17,6 +17,9 @@
     >
 
     <ui:FluentWindow.CommandBindings>
+        <CommandBinding Command="local:UiCommands.SwitchPerspective" 
+                        CanExecute="SwitchPerspectiveCommandCheck" 
+                        Executed="SwitchPerspectiveCommandHandler" />
         <CommandBinding Command="local:UiCommands.EditProject"
                         CanExecute="CommandEditProjectExecute"
                         Executed="CommandEditProjectExecuted" />
@@ -72,6 +75,12 @@
                                        TargetPageTag="home" TargetPageType="{x:Type pages:HomePage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:SymbolIcon Symbol="Home20" />
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="{x:Static res:Common.Page_Main_Title}"
+                                       TargetPageTag="main" TargetPageType="{x:Type pages:MainPage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="Play20" />
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
             </ui:NavigationView.MenuItems>

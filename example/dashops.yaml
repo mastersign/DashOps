@@ -1,9 +1,18 @@
 version: '1.0'
 title: Test Project
 logs: test-logs
+
 perspectives:
   - Environment
   - Role
+
+auto:
+  - include:
+      - mode: Facette
+        facette: host
+        value: Localhost
+    reassure: true
+
 actions:
   - description: List content of program files directory
     command: Get-ChildItem

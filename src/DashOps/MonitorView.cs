@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Wpf.Ui.Controls;
 
 namespace Mastersign.DashOps
 {
@@ -20,7 +21,7 @@ namespace Mastersign.DashOps
         {
             LastExecutionTime = startTime;
             IsRunning = true;
-            OnStatusIconChanged();
+            OnStatusChanged();
         }
 
         protected virtual void NotifyExecutionFinished(bool success)
@@ -29,32 +30,34 @@ namespace Mastersign.DashOps
             LastExecutionResult = success;
             HasLastExecutionResult = true;
             IsRunning = false;
-            OnStatusIconChanged();
+            OnStatusChanged();
             OnLogIconChanged();
         }
 
-        public virtual ControlTemplate StatusIcon
+        public virtual string Status
         {
             get
             {
-                var resourceName =
-                    IsRunning
-                        ? "IconStatusProgress"
-                        : HasLastExecutionResult
-                            ? LastExecutionResult
-                                ? HasExecutionResultChanged ? "IconStatusOKNew" : "IconStatusOK"
-                                : HasExecutionResultChanged ? "IconStatusErrorNew" : "IconStatusError"
-                            : "IconStatusNotStarted";
-                return Application.Current.FindResource(resourceName) as ControlTemplate;
+                return IsRunning
+                    ? "running"
+                    : HasLastExecutionResult
+                        ? LastExecutionResult
+                            ? HasExecutionResultChanged
+                                ? "recent_success"
+                                : "success"
+                            : HasExecutionResultChanged
+                                ? "recent_error"
+                                : "error"
+                        : "unknown";
             }
         }
 
-        public event EventHandler StatusIconChanged;
+        public event EventHandler StatusChanged;
 
-        protected void OnStatusIconChanged()
+        protected void OnStatusChanged()
         {
-            OnPropertyChanged(nameof(StatusIcon));
-            StatusIconChanged?.Invoke(this, EventArgs.Empty);
+            OnPropertyChanged(nameof(Status));
+            StatusChanged?.Invoke(this, EventArgs.Empty);
         }
 
         #region ILogged

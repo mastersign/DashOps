@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace Mastersign.DashOps
 {
-    #pragma warning disable CS4014
+#pragma warning disable CS4014
     public static class DashOpsCommands
     {
         public static readonly DelegateCommand RefreshProject
@@ -24,7 +24,7 @@ namespace Mastersign.DashOps
             = new DelegateCommand<ILogged>(Core.ShowLastLog, logged => logged.HasLogFile());
 
         public static readonly RoutedUICommand ShowLogHistoryContextMenu
-            = new RoutedUICommand("Show Log History Context Menu", "Show Log History Context Menu", typeof(MainWindow));
+            = new RoutedUICommand("Show Log History Context Menu", nameof(ShowLogHistoryContextMenu), typeof(DashOpsCommands));
 
         public static readonly DelegateCommand<ActionView> ShowActionInfo
             = new DelegateCommand<ActionView>(Core.ShowActionInfo);

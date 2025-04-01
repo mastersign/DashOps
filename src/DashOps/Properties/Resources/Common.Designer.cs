@@ -106,6 +106,15 @@ namespace Mastersign.DashOps.Properties.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Main ähnelt.
+        /// </summary>
+        public static string Page_Main_Title {
+            get {
+                return ResourceManager.GetString("Page_Main_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Settings ähnelt.
         /// </summary>
         public static string Page_Settings_Title {

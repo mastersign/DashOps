@@ -598,6 +598,38 @@ namespace Mastersign.DashOps
         
         #endregion
         
+        #region Property IsSelected
+        
+        private bool _isSelected;
+        
+        public event EventHandler IsSelectedChanged;
+        
+        protected virtual void OnIsSelectedChanged()
+        {
+            EventHandler handler = IsSelectedChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"IsSelected");
+        }
+        
+        public virtual bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                if ((value == _isSelected))
+                {
+                    return;
+                }
+                _isSelected = value;
+                this.OnIsSelectedChanged();
+            }
+        }
+        
+        #endregion
+        
         #region Property SourceActions
         
         private global::System.Collections.ObjectModel.ObservableCollection<ActionView> _sourceActions;

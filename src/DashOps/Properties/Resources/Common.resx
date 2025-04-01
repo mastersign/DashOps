@@ -138,4 +138,7 @@
   <data name="Command_EditProject" xml:space="preserve">
     <value>Edit Project</value>
   </data>
+  <data name="Page_Main_Title" xml:space="preserve">
+    <value>Main</value>
+  </data>
 </root>

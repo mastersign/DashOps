@@ -42,6 +42,7 @@
     <Class name="PerspectiveView">
       <CustomInitializer>Initialize</CustomInitializer>
       <Property name="Title" immutable="true" />
+      <Property name="IsSelected" type="bool" />
       <Property name="SourceActions" isCollection="true" type="ActionView" immutable="true" />
       <Property name="Filter" type="ActionFilter" immutable="true" />
       <Property name="Classifier" type="ActionClassifier" immutable="true" />

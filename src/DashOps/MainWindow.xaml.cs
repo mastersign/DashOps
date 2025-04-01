@@ -56,9 +56,11 @@ namespace Mastersign.DashOps
             ShowInTaskbar = WindowState != WindowState.Minimized;
         }
 
+        private static readonly string[] pagesWithoutHeader = ["home", "main"];
+
         private void Navigation_Navigated(NavigationView sender, NavigatedEventArgs e)
         {
-            gridHeader.Visibility = (e.Page as Page).Name == "home"
+            gridHeader.Visibility = pagesWithoutHeader.Contains((e.Page as Page).Name)
                 ? Visibility.Collapsed
                 : Visibility.Visible;
             labelPageTitle.Text = (e.Page as Page)?.Title;
@@ -72,6 +74,23 @@ namespace Mastersign.DashOps
         private void CommandApplicationCloseCanExecuteHandler(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
+        }
+
+        private ProjectView ProjectView => CurrentApp?.ProjectLoader?.ProjectView;
+
+        private void SwitchPerspectiveCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            ProjectView projectView = ProjectView;
+            projectView.CurrentPerspective = e.Parameter as PerspectiveView ?? projectView.CurrentPerspective;
+            foreach (var p in projectView.Perspectives)
+            {
+                p.IsSelected = p == projectView.CurrentPerspective;
+            }
+        }
+
+        private void SwitchPerspectiveCommandCheck(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = ProjectView != null; // && e.Parameter != ProjectView.CurrentPerspective;
         }
 
         private void CommandEditProjectExecute(object sender, CanExecuteRoutedEventArgs e)
