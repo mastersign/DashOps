@@ -29,6 +29,8 @@
   
   <ItemGroup>
     <Resource Include="icon.ico" />
+    <Resource Include="images\StatusError.png" />
+    <Resource Include="images\StatusOK.png" />
   </ItemGroup>
   
   <ItemGroup>
@@ -37,6 +39,11 @@
       <LastGenOutput>Model.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Resource>
+    <Compile Update="Model.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Model.xml</DependentUpon>
+    </Compile>
   </ItemGroup>
   
   <ItemGroup>
@@ -46,12 +53,6 @@
     </Resource>
   </ItemGroup>
   
-  <ItemGroup>
-    <Resource Include="images\StatusError.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\StatusOK.png" />
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="YamlDotNet" Version="16.3.0" />
   </ItemGroup>
