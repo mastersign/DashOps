@@ -1,23 +1,36 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
   <PropertyGroup>
     <TargetFramework>net481</TargetFramework>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>Mastersign.DashOps</RootNamespace>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <LangVersion>12</LangVersion>
     <UseWPF>true</UseWPF>
-    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <OutputType>WinExe</OutputType>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Mastersign.DashOps</RootNamespace>
+
+    <Version>1.2.3</Version>
+
+    <Company>Tobias Kiertscher</Company>
+    <Authors>Tobias Kiertscher</Authors>
+    <Product>DashOps</Product>
+    <Description>Graphical user interface for scripts and shell commands</Description>
+    <Copyright>Copyright © 2019 Tobias Kiertscher</Copyright>
   </PropertyGroup>
+  
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>..\..\bin\Debug\</OutputPath>
-    <LangVersion>12</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>..\..\bin\Release\</OutputPath>
-    <LangVersion>12</LangVersion>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
-  </PropertyGroup>
+  
+  <ItemGroup>
+    <Resource Include="icon.ico" />
+  </ItemGroup>
+  
   <ItemGroup>
     <Resource Include="Model.xml">
       <Generator>Scaleton Code Generator</Generator>
@@ -25,15 +38,14 @@
       <SubType>Designer</SubType>
     </Resource>
   </ItemGroup>
+  
   <ItemGroup>
     <Resource Include="ViewModel.xml">
       <Generator>Scaleton Code Generator</Generator>
       <LastGenOutput>ViewModel.Designer.cs</LastGenOutput>
     </Resource>
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="icon.ico" />
-  </ItemGroup>
+  
   <ItemGroup>
     <Resource Include="images\StatusError.png" />
   </ItemGroup>
@@ -41,7 +53,7 @@
     <Resource Include="images\StatusOK.png" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
-    <PackageReference Include="YamlDotNet" Version="16.1.3" />
+    <PackageReference Include="YamlDotNet" Version="16.3.0" />
   </ItemGroup>
+  
 </Project>
