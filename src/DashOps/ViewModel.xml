@@ -21,6 +21,7 @@
       <Property name="Reassure" type="bool" />
       <Property name="Command" />
       <Property name="Arguments" type="string" />
+      <!--<Property name="Environment" type="string" />-->
       <Property name="WorkingDirectory" />
       <Property name="ExitCodes" type="int[]" />
       <Property name="Tags" type="string[]" />

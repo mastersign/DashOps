@@ -7,7 +7,7 @@ namespace Mastersign.DashOps
 {
     #region Scaleton Model Designer generated code
     
-    // Scaleton Version: 0.2.7
+    // Scaleton Version: 0.3.0
     
     public partial class ActionView : INotifyPropertyChanged
     {

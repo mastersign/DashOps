@@ -12,86 +12,92 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Mastersign.DashOps.Pages;
+using Wpf.Ui.Appearance;
+using Wpf.Ui.Controls;
 
 namespace Mastersign.DashOps
 {
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : FluentWindow
     {
-        private App App => Application.Current as App;
+        private static App CurrentApp => (App)System.Windows.Application.Current;
 
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = App?.ProjectLoader?.ProjectView;
-        }
 
-        private ProjectView ProjectView => (ProjectView)DataContext;
-
-        private void GoToPageCommandHandler(object sender, ExecutedRoutedEventArgs e)
-        {
-            ProjectView.CurrentPerspective = e.Parameter as PerspectiveView ?? ProjectView.CurrentPerspective;
-        }
-
-        private void GoToPageCommandCheck(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = e.Parameter != ProjectView.CurrentPerspective;
-        }
-
-        private void HasLogCheck(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = (e.Parameter as ILogged)?.HasLogFile() ?? false;
-        }
-
-        private void ShowLogHistoryContextMenuHandler(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (e.Parameter is ILogged item)
+            Loaded += (sender, args) =>
             {
-                var menu = new ContextMenu
-                {
-                    PlacementTarget = (UIElement)e.OriginalSource,
-                    Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom,
-                };
-                var logs = item.FindLogFiles().OrderByDescending(n => n).Take(20);
-                foreach (var log in logs)
-                {
-                    menu.Items.Add(CreateActionLogMenuItem(log));
-                }
-                menu.IsOpen = true;
-            }
-        }
+                WatchSystemTheme();
+                ApplicationThemeManager.ApplySystemTheme();
 
-        private static MenuItem CreateActionLogMenuItem(string log)
-        {
-            var info = LogFileManager.GetInfo(log);
-            var item = new MenuItem
-            {
-                Header = info.Timestamp.ToString("yyyy-MM-dd HH:mm:ss"),
-                Icon = SuccessStatusIcon(info.HasResult && info.Success),
+                DataContext = CurrentApp?.ProjectLoader?.ProjectView;
+
+                navigationViewMain.Navigate(typeof(HomePage));
             };
 
-            item.Click += (s, ea) => Core.ShowLogFile(log);
-            return item;
+            StateChanged += WindowStateChangedHandler;
         }
 
-        private static Image SuccessStatusIcon(bool success)
-            => new Image
-            {
-                Source = success
-                    ? new BitmapImage(new Uri("pack://application:,,,/images/StatusOK.png"))
-                    : new BitmapImage(new Uri("pack://application:,,,/images/StatusError.png"))
-            };
-
-        private async void MonitorDoubleClickHandler(object sender, MouseButtonEventArgs e)
+        private void WatchSystemTheme()
         {
-            var label = sender as Label;
-            if (label?.DataContext is MonitorView monitor)
-            {
-                if (monitor.IsRunning) return;
-                await monitor.Check(DateTime.Now);
-            }
+            SystemThemeWatcher.Watch(
+                this,                                  // Window class
+                WindowBackdropType.Mica,
+                updateAccents: true                    // Whether to change accents automatically
+            );
         }
+
+        private void WindowStateChangedHandler(object sender, EventArgs e)
+        {
+            ShowInTaskbar = WindowState != WindowState.Minimized;
+        }
+
+        private void Navigation_Navigated(NavigationView sender, NavigatedEventArgs e)
+        {
+            gridHeader.Visibility = (e.Page as Page).Name == "home"
+                ? Visibility.Collapsed
+                : Visibility.Visible;
+            labelPageTitle.Text = (e.Page as Page)?.Title;
+        }
+
+        private void CommandApplicationCloseExecutedHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void CommandApplicationCloseCanExecuteHandler(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void CommandEditProjectExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            //e.CanExecute = CurrentApp?.Runtime?.Config != null;
+            e.CanExecute = true;
+        }
+
+        private void CommandEditProjectExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            System.Windows.MessageBox.Show("Not Implemented");
+            //try
+            //{
+            //    CurrentApp.Runtime.Config.EditSetup();
+            //}
+            //catch (DefaultEditorNotFoundException exc)
+            //{
+            //    System.Windows.MessageBox.Show(
+            //        Properties.Resources.Common.EditorNotFound_Message
+            //        + Environment.NewLine + Environment.NewLine
+            //        + exc.EditorExecutable,
+            //        Properties.Resources.CommandsPage.EditCommand_Title,
+            //        System.Windows.MessageBoxButton.OK,
+            //        MessageBoxImage.Error);
+            //}
+        }
+
     }
 }
