@@ -1489,6 +1489,7 @@ namespace Mastersign.DashOps
             this._actionViews = new global::System.Collections.ObjectModel.ObservableCollection<ActionView>();
             this._perspectives = new global::System.Collections.ObjectModel.ObservableCollection<PerspectiveView>();
             this._monitorViews = new global::System.Collections.ObjectModel.ObservableCollection<MonitorView>();
+            this.Initialize();
         }
         
         public ProjectView(global::System.Collections.ObjectModel.ObservableCollection<ActionView> actionViews, global::System.Collections.ObjectModel.ObservableCollection<PerspectiveView> perspectives, global::System.Collections.ObjectModel.ObservableCollection<MonitorView> monitorViews)
@@ -1496,6 +1497,7 @@ namespace Mastersign.DashOps
             this._actionViews = actionViews;
             this._perspectives = perspectives;
             this._monitorViews = monitorViews;
+            this.Initialize();
         }
         
         #region Change Tracking

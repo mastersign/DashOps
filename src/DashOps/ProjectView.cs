@@ -8,6 +8,19 @@ namespace Mastersign.DashOps
 {
     partial class ProjectView
     {
+        private void Initialize()
+        {
+            this.CurrentPerspectiveChanged += CurrentPerspectiveChangedHandler;
+        }
+
+        private void CurrentPerspectiveChangedHandler(object sender, EventArgs e)
+        {
+            foreach (var p in Perspectives)
+            {
+                p.IsSelected = p == CurrentPerspective;
+            }
+        }
+
         private void AddFacettePerspective(string facetteName)
         {
             Perspectives.Add(

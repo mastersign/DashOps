@@ -30,7 +30,7 @@
             <ui:Button
                 x:Name="ButtonEditProject"
                 Margin="0,8,0,0"
-                Command="local:UiCommands.EditProject"
+                Command="local:DashOpsCommands.EditProject"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}">
                 <ui:Button.Icon>
                     <ui:SymbolIcon Symbol="EditSettings20" />

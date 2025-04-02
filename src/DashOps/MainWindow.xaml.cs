@@ -82,10 +82,6 @@ namespace Mastersign.DashOps
         {
             ProjectView projectView = ProjectView;
             projectView.CurrentPerspective = e.Parameter as PerspectiveView ?? projectView.CurrentPerspective;
-            foreach (var p in projectView.Perspectives)
-            {
-                p.IsSelected = p == projectView.CurrentPerspective;
-            }
         }
 
         private void SwitchPerspectiveCommandCheck(object sender, CanExecuteRoutedEventArgs e)

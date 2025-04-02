@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Wpf.Ui.Controls;
 
 namespace Mastersign.DashOps.Pages
 {
@@ -57,23 +58,19 @@ namespace Mastersign.DashOps.Pages
         private static System.Windows.Controls.MenuItem CreateActionLogMenuItem(string log)
         {
             var info = LogFileManager.GetInfo(log);
-            var item = new System.Windows.Controls.MenuItem
+            
+            var item = new Wpf.Ui.Controls.MenuItem
             {
                 Header = info.Timestamp.ToString("yyyy-MM-dd HH:mm:ss"),
-                Icon = SuccessStatusIcon(info.HasResult && info.Success),
+                Icon = new SymbolIcon(
+                    info.HasResult && info.Success
+                        ? SymbolRegular.Checkmark12
+                        : SymbolRegular.ErrorCircle12),
             };
 
             item.Click += (s, ea) => Core.ShowLogFile(log);
             return item;
         }
-
-        private static System.Windows.Controls.Image SuccessStatusIcon(bool success)
-            => new System.Windows.Controls.Image
-            {
-                Source = success
-                    ? new BitmapImage(new Uri("pack://application:,,,/images/StatusOK.png"))
-                    : new BitmapImage(new Uri("pack://application:,,,/images/StatusError.png"))
-            };
 
         private async void MonitorDoubleClickHandler(object sender, MouseButtonEventArgs e)
         {
