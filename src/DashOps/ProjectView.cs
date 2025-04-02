@@ -49,7 +49,7 @@ namespace Mastersign.DashOps
                     classifier: a => a.Tags));
         }
 
-        public string WindowTitle => "DashOps - " + Title;
+        public string WindowTitle => Properties.Resources.Common.WindowTitle + " - " + Title;
 
         public bool HasMonitors => MonitorViews.Count > 0;
     }

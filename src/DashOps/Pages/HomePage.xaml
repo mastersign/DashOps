@@ -7,6 +7,7 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:tools="clr-namespace:Mastersign.WpfTools"
     xmlns:local="clr-namespace:Mastersign.DashOps"
+    xmlns:res="clr-namespace:Mastersign.DashOps.Properties.Resources"
     Name="home"
     Title="DashOps"
     Margin="32,0,0,0"
@@ -19,6 +20,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -27,14 +29,19 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Column="0" VerticalAlignment="Center"
-                   Text="DashOps"
-                   FontSize="40" FontWeight="SemiBold" />
+                   Text="{x:Static res:Common.WindowTitle}"
+                   FontSize="38" FontWeight="SemiBold" />
 
-        <Image Grid.Column="1" Grid.ColumnSpan="1"
+        <Image Grid.Column="1"
                HorizontalAlignment="Right"
                Width="64" Margin="16"
                Source="{DynamicResource LogoImage}" />
 
+        <TextBlock Grid.Row="1" Grid.Column="0"
+                   Margin="0,0,0,12"
+                   VerticalAlignment="Center"
+                   Text="{Binding Title}"
+                   FontSize="24" FontWeight="SemiBold" />
 
         <Grid Grid.Row="3" Grid.ColumnSpan="2">
             <TextBlock>Dashboard mit Statistiken, letzten Aktionen und Monitoring-Übersicht</TextBlock>

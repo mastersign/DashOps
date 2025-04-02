@@ -10,7 +10,7 @@
     xmlns:local="clr-namespace:Mastersign.DashOps"
     xmlns:res="clr-namespace:Mastersign.DashOps.Properties.Resources"
     xmlns:pages="clr-namespace:Mastersign.DashOps.Pages"
-    Title="{x:Static res:Common.WindowTitle}"
+    Title="{Binding WindowTitle}"
     Height="450" Width="800" Icon="/icon.ico"
     ExtendsContentIntoTitleBar="True"
     mc:Ignorable="d"
@@ -32,7 +32,7 @@
         </Grid.RowDefinitions>
 
         <ui:TitleBar Grid.Row="0"
-                Title="{x:Static res:Common.WindowTitle}">
+                Title="{Binding WindowTitle}">
             <ui:TitleBar.Icon>
                 <ui:ImageIcon Source="pack://application:,,,/WpfResources/Logo.png" />
             </ui:TitleBar.Icon>
