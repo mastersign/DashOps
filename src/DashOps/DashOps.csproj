@@ -27,8 +27,6 @@
   
   <ItemGroup>
     <Resource Include="icon.ico" />
-    <Resource Include="images\StatusError.png" />
-    <Resource Include="images\StatusOK.png" />
     <Resource Include="WpfResources\Logo.png" />
     <Resource Include="WpfResources\Segoe Fluent Icons.ttf">
       <Localizable>false</Localizable>

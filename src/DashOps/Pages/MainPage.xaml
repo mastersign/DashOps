@@ -1,5 +1,4 @@
 ﻿<Page
-    x:Class="Mastersign.DashOps.Pages.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,7 +6,9 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:tools="clr-namespace:Mastersign.WpfTools"
     xmlns:local="clr-namespace:Mastersign.DashOps"
-    Name="main"
+    xmlns:local1="clr-namespace:Mastersign.DashOps.Pages"
+    x:Class="Mastersign.DashOps.Pages.MainPage"
+    x:Name="main"
     Title="Main"
     Margin="0,4,0,0"
     mc:Ignorable="d" 
@@ -16,14 +17,19 @@
     >
 
     <Page.Resources>
-        <Style x:Key="PerspectiveButtonStyle" TargetType="ui:Button">
+        <tools:BooleanToVisibilityConverter x:Key="Bool2Visibility" Invisible="Collapsed" />
+
+        <Style x:Key="PerspectiveButtonStyle" TargetType="{x:Type ui:Button}"
+               BasedOn="{StaticResource DefaultUiButtonStyle}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsSelected}" Value="true">
                     <Setter Property="Appearance" Value="Primary" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="PlayPauseButtonStyle" TargetType="ui:Button">
+        
+        <Style x:Key="PlayPauseButtonStyle" TargetType="{x:Type ui:Button}"
+               BasedOn="{StaticResource DefaultUiButtonStyle}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsMonitoringPaused}" Value="true">
                     <Setter Property="Icon" Value="{ui:SymbolIcon FontSize=20, Symbol=Play20}" />
@@ -33,83 +39,88 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="ActionButtonStyle" TargetType="ui:Button">
+        
+        <Style x:Key="ActionButtonStyle" TargetType="{x:Type ui:Button}"
+               BasedOn="{StaticResource DefaultUiButtonStyle}">
             <Setter Property="Margin" Value="0,0,0,8" />
             <Setter Property="Padding" Value="10,5" />
             <Setter Property="Height" Value="36" />
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         </Style>
-        <Style x:Key="ActionAddButtonStyle" TargetType="ui:Button">
+        
+        <Style x:Key="ActionAddButtonStyle" TargetType="{x:Type ui:Button}"
+               BasedOn="{StaticResource DefaultUiButtonStyle}">
             <Setter Property="Margin" Value="4,0,0,0" />
             <Setter Property="Padding" Value="5,0" />
             <Setter Property="Width" Value="36" />
             <Setter Property="Height" Value="36" />
         </Style>
-        <Style x:Key="ActionAddDropDownButtonStyle" TargetType="ui:DropDownButton">
-            <Setter Property="Margin" Value="4,0,0,0" />
-            <Setter Property="Padding" Value="5,0" />
-            <Setter Property="Height" Value="36" />
+        <Style x:Key="ActionAddSplitButtonLeftStyle" TargetType="{x:Type ui:Button}" 
+               BasedOn="{StaticResource ActionAddButtonStyle}">
+            <Setter Property="CornerRadius" Value="4,0,0,4" />
+            <Setter Property="BorderThickness" Value="1,1,0,1" />
         </Style>
-        <Style x:Key="MonitorStatusStyle" TargetType="Border">
-            <Setter Property="Width" Value="24" />
-            <Setter Property="Height" Value="24" />
-            <Setter Property="CornerRadius" Value="12" />
-            <Setter Property="Background" Value="{DynamicResource InfoBadgeInformationalSeverityBackgroundBrush}" />
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Status}" Value="running">
-                    <Setter Property="Background" Value="{DynamicResource InfoBadgeAttentionSeverityBackgroundBrush}" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Status}" Value="success">
-                    <Setter Property="Background" Value="{DynamicResource InfoBadgeSuccessSeverityBackgroundBrush}" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Status}" Value="recent_success">
-                    <Setter Property="Background" Value="{DynamicResource InfoBadgeSuccessSeverityBackgroundBrush}" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Status}" Value="error">
-                    <Setter Property="Background" Value="{DynamicResource InfoBadgeCriticalSeverityBackgroundBrush}" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Status}" Value="recent_error">
-                    <Setter Property="Background" Value="{DynamicResource InfoBadgeCriticalSeverityBackgroundBrush}" />
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="MonitorStatusIconStyle" TargetType="ui:SymbolIcon">
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="FontSize" Value="20" />
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Status}" Value="running">
-                    <Setter Property="Symbol" Value="{x:Static ui:SymbolRegular.ArrowSync20}" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Status}" Value="success">
-                    <Setter Property="Symbol" Value="{x:Static ui:SymbolRegular.Checkmark20}" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Status}" Value="recent_success">
-                    <Setter Property="Symbol" Value="{x:Static ui:SymbolRegular.Checkmark20}" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Status}" Value="error">
-                    <Setter Property="Filled" Value="true" />
-                    <Setter Property="Symbol" Value="{x:Static ui:SymbolRegular.ErrorCircle20}" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Status}" Value="recent_error">
-                    <Setter Property="Filled" Value="true" />
-                    <Setter Property="Symbol" Value="{x:Static ui:SymbolRegular.ErrorCircle20}" />
-                </DataTrigger>
-            </Style.Triggers>
+        <Style x:Key="ActionAddSplitButtonDropDownStyle" TargetType="{x:Type ui:Button}"
+               BasedOn="{StaticResource ActionAddButtonStyle}">
+            <Setter Property="CornerRadius" Value="0,4,4,0" />
+            <Setter Property="BorderThickness" Value="0,1,1,1" />
+            <Setter Property="Margin" Value="0,0,0,0" />
+            <Setter Property="Padding" Value="4,5,6,5" />
+            <Setter Property="Width" Value="Auto" />
         </Style>
         
-        <Style x:Key="MonitorAddButtonStyle" TargetType="ui:Button">
+        <Style x:Key="MonitorStatusIconStyle">
+             <!-- does not use TargetType to suppress alleged binding errors -->
+             <Style.Triggers>
+                <DataTrigger Binding="{Binding Status}" Value="running">
+                    <Setter Property="ui:SymbolIcon.Symbol" Value="{x:Static ui:SymbolRegular.ArrowSync24}" />
+                    <Setter Property="ui:IconElement.Foreground" Value="{StaticResource PaletteBlueBrush}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Status}" Value="success">
+                    <Setter Property="ui:SymbolIcon.Filled" Value="True" />
+                    <Setter Property="ui:SymbolIcon.Symbol" Value="{x:Static ui:SymbolRegular.CheckmarkCircle24}" />
+                    <Setter Property="ui:IconElement.Foreground" Value="{StaticResource PaletteGreenBrush}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Status}" Value="recent_success">
+                    <Setter Property="ui:SymbolIcon.Filled" Value="True" />
+                    <Setter Property="ui:SymbolIcon.Symbol" Value="{x:Static ui:SymbolRegular.CheckmarkCircle24}" />
+                    <Setter Property="ui:IconElement.Foreground" Value="{StaticResource PaletteGreenBrush}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Status}" Value="error">
+                    <Setter Property="ui:SymbolIcon.Filled" Value="true" />
+                    <Setter Property="ui:SymbolIcon.Symbol" Value="{x:Static ui:SymbolRegular.ErrorCircle24}" />
+                    <Setter Property="ui:IconElement.Foreground" Value="{StaticResource PaletteRedBrush}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Status}" Value="recent_error">
+                    <Setter Property="ui:SymbolIcon.Filled" Value="true" />
+                    <Setter Property="ui:SymbolIcon.Symbol" Value="{x:Static ui:SymbolRegular.ErrorCircle24}" />
+                    <Setter Property="ui:IconElement.Foreground" Value="{StaticResource PaletteRedBrush}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="MonitorAddButtonStyle" TargetType="{x:Type ui:Button}"
+               BasedOn="{StaticResource DefaultUiButtonStyle}">
             <Setter Property="Margin" Value="4,0,0,0" />
             <Setter Property="Padding" Value="4" />
             <Setter Property="Width" Value="32" />
             <Setter Property="Height" Value="32" />
         </Style>
-        <Style x:Key="MonitorAddDropDownButtonStyle" TargetType="ui:DropDownButton">
-            <Setter Property="Margin" Value="4,0,0,0" />
-            <Setter Property="Padding" Value="3,0" />
-            <Setter Property="Height" Value="32" />
+        <Style x:Key="MonitorAddSplitButtonLeftStyle" TargetType="{x:Type ui:Button}" 
+               BasedOn="{StaticResource MonitorAddButtonStyle}">
+            <Setter Property="CornerRadius" Value="4,0,0,4" />
+            <Setter Property="BorderThickness" Value="1,1,0,1" />
         </Style>
+        <Style x:Key="MonitorAddSplitButtonDropDownStyle" TargetType="{x:Type ui:Button}"
+               BasedOn="{StaticResource MonitorAddButtonStyle}">
+            <Setter Property="CornerRadius" Value="0,4,4,0" />
+            <Setter Property="BorderThickness" Value="0,1,1,1" />
+            <Setter Property="Margin" Value="0,0,0,0" />
+            <Setter Property="Padding" Value="2,4,4,4" />
+            <Setter Property="Width" Value="Auto" />
+        </Style>
+
     </Page.Resources>
     <Page.CommandBindings>
         <CommandBinding 
@@ -118,7 +129,7 @@
                 Executed="ShowLogHistoryContextMenuHandler" />
     </Page.CommandBindings>
 
-    <Grid>
+    <Grid Margin="0,0,20,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="1*"/>
@@ -126,7 +137,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="5*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*" MaxWidth="250"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
@@ -145,37 +156,64 @@
                             Margin="0,0,4,0" Height="Auto"
                             Command="local:UiCommands.SwitchPerspective"
                             CommandParameter="{Binding}"
-                            Style="{tools:MultiStyle . PerspectiveButtonStyle}"
-                            >
-                    </ui:Button>
+                            Style="{StaticResource PerspectiveButtonStyle}"
+                            />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+        
         <StackPanel x:Name="MonitorControl"
                 Grid.Row="0" Grid.Column="3" Orientation="Horizontal"
-                Margin="20,16,20,20">
+                Margin="20,16,0,20">
             <ui:Button
                     Padding="6,4"
                     Command="local:DashOpsCommands.ToggleMonitorsPaused"
-                    Style="{tools:MultiStyle . PlayPauseButtonStyle}">
-            </ui:Button>
+                    Style="{StaticResource PlayPauseButtonStyle}"
+                    Visibility="{Binding HasMonitors, Converter={StaticResource Bool2Visibility}}"/>
             <ui:Button
                     Padding="6,4" Margin="4,0,0,0"
                     Command="local:DashOpsCommands.RefreshProject"
-                    Icon="{ui:SymbolIcon FontSize=20, Symbol=ArrowClockwise20}">
-            </ui:Button>
+                    Icon="{ui:SymbolIcon FontSize=20, Symbol=ArrowClockwise20}"/>
         </StackPanel>
-        <ListBox x:Name="ActionSubsets"
-                Grid.Column="0" Grid.Row="1"
-                Margin="20,0,0,20"
-                BorderThickness="0"
-                Padding="0"
-                ItemsSource="{Binding CurrentPerspective.Subsets}"
-                SelectedItem="{Binding CurrentPerspective.CurrentSubset}">
-        </ListBox>
-        <ItemsControl Grid.Row="1" Grid.Column="1" Margin="10,0,0,20" Padding="0,0,10,0"
-                Style="{StaticResource ResourceKey=VirtualizedScrollableItemsControl}"
+        
+        <Border x:Name="ActionSubsetBorder" 
+                Grid.Column="0" Grid.Row="1" SnapsToDevicePixels="True"
+                Margin="20,0,0,20" Padding="0" BorderThickness="0" 
+                Background="{DynamicResource ControlFillColorDefaultBrush}"
+                CornerRadius="6">
+            <Border.OpacityMask>
+                <VisualBrush>
+                    <VisualBrush.Visual>
+                        <Border 
+                                Background="Black"
+                                SnapsToDevicePixels="True"
+                                CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
+                                Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
+                                Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"
+                                />
+                    </VisualBrush.Visual>
+                </VisualBrush>
+            </Border.OpacityMask>
+            <ListBox x:Name="ActionSubsets"
+                    BorderThickness="0" Margin="0" Padding="0"
+                    ItemsSource="{Binding CurrentPerspective.Subsets}"
+                    SelectedItem="{Binding CurrentPerspective.CurrentSubset}">
+            </ListBox>
+        </Border>
+        
+        <ItemsControl
+                Grid.Row="1" Grid.Column="1"
+                Margin="10,0,0,20" Padding="0"
                 ItemsSource="{Binding CurrentPerspective.CurrentSubset.Actions}">
+            <ItemsControl.Style>
+                <Style TargetType="ItemsControl" BasedOn="{StaticResource VirtualizedScrollableItemsControl}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding HasMonitors}" Value="false">
+                            <Setter Property="Grid.ColumnSpan" Value="3" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ItemsControl.Style>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -184,128 +222,100 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <ui:Button x:Name="ActionButton"
-                                Style="{tools:MultiStyle . ActionButtonStyle}">
+                                Style="{StaticResource ActionButtonStyle}"
+                                HorizontalContentAlignment="Stretch">
                             <ui:Button.InputBindings>
                                 <MouseBinding Gesture="LeftClick"
                                         Command="local:DashOpsCommands.ExecuteAction"
                                         CommandParameter="{Binding}" />
                             </ui:Button.InputBindings>
-                            <ui:Button.Content>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding Title}"/>
-                                    <ui:SymbolIcon
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
+                                <ui:SymbolIcon
                                             Grid.Column="1" Margin="4,0,0,0"
-                                            FontSize="20" Symbol="Warning20">
-                                        <ui:SymbolIcon.Style>
-                                            <Style TargetType="ui:SymbolIcon">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Reassure}" Value="false">
-                                                        <Setter Property="Visibility" Value="Collapsed" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </ui:SymbolIcon.Style>
-                                    </ui:SymbolIcon>
-                                </Grid>
-                            </ui:Button.Content>
+                                            FontSize="20" Symbol="Warning20"
+                                            Foreground="{StaticResource PaletteOrangeBrush}">
+                                    <ui:SymbolIcon.Style>
+                                        <Style TargetType="FrameworkElement">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Reassure}" Value="false">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ui:SymbolIcon.Style>
+                                </ui:SymbolIcon>
+                            </Grid>
                         </ui:Button>
                         <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,0,8">
-                            <ui:Button Command="local:DashOpsCommands.ShowActionInfo"
-                                    CommandParameter="{Binding}"
-                                    Style="{tools:MultiStyle . ActionAddButtonStyle}"
-                                    Icon="{ui:SymbolIcon FontSize=20, Symbol=Info20}" >
-                            </ui:Button>
                             <ui:Button Command="local:DashOpsCommands.ShowLastLog"
                                     CommandParameter="{Binding}"
-                                    Style="{tools:MultiStyle . ActionAddButtonStyle}"
-                                    Icon="{ui:SymbolIcon FontSize=20, Symbol=DocumentBulletList20}" >
-                            </ui:Button>
-                            <ui:DropDownButton
-                                    Command="local:DashOpsCommands.ShowLogHistoryContextMenu"
+                                    Style="{StaticResource ActionAddSplitButtonLeftStyle}"
+                                    Icon="{ui:SymbolIcon FontSize=20, Symbol=DocumentBulletListClock20}" />
+                            <ui:Button Command="local:DashOpsCommands.ShowLogHistoryContextMenu"
                                     CommandParameter="{Binding}"
-                                    Style="{tools:MultiStyle . ActionAddDropDownButtonStyle}"
-                                    Margin="2,0,0,0"
-                                    Icon="{ui:SymbolIcon FontSize=20, Symbol=DocumentBulletListClock20}" >
-                            </ui:DropDownButton>
+                                    Style="{StaticResource ActionAddSplitButtonDropDownStyle}"
+                                    Icon="{ui:SymbolIcon FontSize=10, Symbol=ChevronDown12}"/>
+                            <ui:Button Command="local:DashOpsCommands.ShowActionInfo"
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource ActionAddButtonStyle}"
+                                    Icon="{ui:SymbolIcon FontSize=20, Symbol=Info20}" />
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <ScrollViewer Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Margin="10,0,20,20">
-            <ItemsControl x:Name="Monitors"
+
+        <Border
+                Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" 
+                Margin="10,0,0,20" Padding="6,10,0,10" 
+                CornerRadius="6"
+                Background="{DynamicResource ControlFillColorDefaultBrush}"
+                Visibility="{Binding HasMonitors, Converter={StaticResource Bool2Visibility}}">
+            <ScrollViewer>
+                <ItemsControl x:Name="Monitors"
                     Padding="0,0,10,0"
                     Grid.IsSharedSizeScope="True"
                     ItemsSource="{Binding MonitorViews}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="0,0,0,6">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="MonitorStatusColumn" />
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="MonitorButtonColumn" />
-                            </Grid.ColumnDefinitions>
-                            <!--<ContentControl Content="{Binding StatusIcon}" Width="24" Height="24" />-->
-                            <Border Style="{StaticResource MonitorStatusStyle}">
-                                <ui:SymbolIcon Style="{StaticResource MonitorStatusIconStyle}" />
-                            </Border>
-                            <Label
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,0,0,6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="MonitorStatusColumn" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="MonitorButtonColumn" />
+                                </Grid.ColumnDefinitions>
+                                <ContentControl Width="32" Height="32">
+                                    <ui:SymbolIcon Style="{StaticResource MonitorStatusIconStyle}" FontSize="24" />
+                                </ContentControl>
+                                <Label
                                     Grid.Column="1" Margin="8,0,8,0"
                                     VerticalContentAlignment="Center"
                                     Content="{Binding Title}"
                                     MouseDoubleClick="MonitorDoubleClickHandler" />
-                            <StackPanel Grid.Column="2" Orientation="Horizontal">
-                                <!--<ui:Button Command="local:DashOpsCommands.ShowLastLog"
-                                        CommandParameter="{Binding}"
-                                        Style="{tools:MultiStyle . MonitorAddButtonStyle}">
-                                    <ContentControl Template="{Binding LogIcon}" />
-                                </ui:Button>
-                                <ui:Button Command="local:DashOpsCommands.ShowLogHistoryContextMenu"
-                                        CommandParameter="{Binding}"
-                                        Style="{tools:MultiStyle . MonitorAddButtonStyle}"
-                                        Margin="0" Padding="0" Width="14">
-                                    <ContentControl Template="{StaticResource IconGlyphDown}" />
-                                </ui:Button>-->
-                                <!--<ui:Button Padding="6,0,4,0" Height="32"
-                                        Command="local:DashOpsCommands.ShowLogHistoryContextMenu"
-                                        CommandParameter="{Binding}">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            --><!--<ColumnDefinition Width="Auto" />--><!--
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <ui:SymbolIcon FontSize="20" Symbol="DocumentBulletListClock20" />
-                                        --><!--<Border Grid.Column="1" Margin="4,0,2,0" BorderThickness="1,0,0,0"
-                                                VerticalAlignment="Stretch"
-                                                BorderBrush="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ui:Button}}}"
-                                                Opacity="0.2">
-                                        </Border>--><!--
-                                        <ui:SymbolIcon Grid.Column="2"
-                                                       FontSize="11" Symbol="ChevronDown12" />
-                                    </Grid>
-                                </ui:Button>-->
-                                <ui:DropDownButton
-                                    Command="local:DashOpsCommands.ShowLogHistoryContextMenu"
+                                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                    <ui:Button Command="local:DashOpsCommands.ShowLastLog"
                                     CommandParameter="{Binding}"
-                                    Style="{tools:MultiStyle . MonitorAddDropDownButtonStyle}"
-                                    Icon="{ui:SymbolIcon FontSize=20, Symbol=DocumentBulletListClock20}" >
-                                </ui:DropDownButton>
-                                <ui:Button Command="local:DashOpsCommands.ShowMonitorInfo"
+                                    Style="{StaticResource MonitorAddSplitButtonLeftStyle}"
+                                    Icon="{ui:SymbolIcon FontSize=20, Symbol=DocumentBulletListClock20}" />
+                                    <ui:Button Command="local:DashOpsCommands.ShowLogHistoryContextMenu"
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource MonitorAddSplitButtonDropDownStyle}"
+                                    Icon="{ui:SymbolIcon FontSize=10, Symbol=ChevronDown12}"/>
+                                    <ui:Button Command="local:DashOpsCommands.ShowMonitorInfo"
                                         CommandParameter="{Binding}"
-                                        Style="{tools:MultiStyle . MonitorAddButtonStyle}"
-                                        Icon="{ui:SymbolIcon FontSize=16, Symbol=Info16}">
-                                </ui:Button>
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-
+                                        Style="{StaticResource MonitorAddButtonStyle}"
+                                        Icon="{ui:SymbolIcon FontSize=16, Symbol=Info16}"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
     </Grid>
 </Page>

@@ -36,7 +36,7 @@ namespace Mastersign.DashOps
 
                 DataContext = CurrentApp?.ProjectLoader?.ProjectView;
 
-                navigationViewMain.Navigate(typeof(HomePage));
+                navigationViewMain.Navigate(typeof(MainPage));
             };
 
             StateChanged += WindowStateChangedHandler;

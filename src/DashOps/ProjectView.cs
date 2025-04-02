@@ -37,5 +37,7 @@ namespace Mastersign.DashOps
         }
 
         public string WindowTitle => "DashOps - " + Title;
+
+        public bool HasMonitors => MonitorViews.Count > 0;
     }
 }
