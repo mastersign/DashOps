@@ -1,21 +1,17 @@
-﻿using Mastersign.DashOps.Model;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
+using Mastersign.DashOps.Model_v2;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
 namespace Mastersign.DashOps
 {
-    public class ProjectLoader
+    public class ProjectLoader_v2 : IProjectLoader
     {
-        private static readonly string[] SUPPORTED_VERSIONS = new[] { "1", "1.0", "1.1", "1.2" };
+        private static readonly string[] SUPPORTED_VERSIONS = new[] { "2.0" };
 
         private readonly string[] DEF_PERSPECTIVES = new[]
         {
@@ -32,15 +28,12 @@ namespace Mastersign.DashOps
 
         private Action<Action> Dispatcher { get; }
 
-        public ProjectLoader(string projectPath, Action<Action> dispatcher)
+        public ProjectLoader_v2(string projectPath, Action<Action> dispatcher)
         {
             if (projectPath == null) throw new ArgumentNullException(nameof(projectPath));
+            if (!Path.IsPathRooted(projectPath)) throw new ArgumentException("Project path is not rooted", nameof(projectPath));
             Dispatcher = dispatcher;
-            if (!File.Exists(projectPath))
-            {
-                throw new FileNotFoundException("Project file not found.", projectPath);
-            }
-            ProjectPath = Path.IsPathRooted(projectPath) ? projectPath : Path.Combine(Environment.CurrentDirectory, projectPath);
+            ProjectPath = projectPath;
 
             var watcher = new FileSystemWatcher(Path.GetDirectoryName(ProjectPath), Path.GetFileName(ProjectPath));
             watcher.Changed += ProjectFileChangedHandler;
@@ -92,30 +85,8 @@ namespace Mastersign.DashOps
                 .Build();
         }
 
-        private static readonly Regex VersionPattern = new Regex(@"^version\:\s+('|"")(?<version>.*?)\1\s*$");
-
-        private static string FindVersionString(TextReader r)
-        {
-            var line = r.ReadLine();
-            while (line != null)
-            {
-                var m = VersionPattern.Match(line);
-                if (m.Success) return m.Groups["version"].Value;
-                line = r.ReadLine();
-            }
-            return null;
-        }
-
-        private static void CheckVersionSupport(Stream s, out string version)
-        {
-            using (var r = new StreamReader(s, Encoding.UTF8, false, 1024, true))
-            {
-                version = FindVersionString(r);
-            }
-            if (version == null) throw new FormatException("No version attribute found.");
-            if (!SUPPORTED_VERSIONS.Contains(version)) throw new FormatException("Version not supported.");
-            s.Seek(0, SeekOrigin.Begin);
-        }
+        public static bool IsCompatible(Stream s, out string version) 
+            => ProjectVersionDetection.IsVersionSupported(s, SUPPORTED_VERSIONS, out version);
 
         private void LoadProject()
         {
@@ -140,7 +111,10 @@ namespace Mastersign.DashOps
             try
             {
                 if (exc != null) throw exc;
-                CheckVersionSupport(s, out version);
+                if (!IsCompatible(s, out version))
+                {
+                    throw new FormatException("Project version is not supported.");
+                }
                 using (var r = new StreamReader(s, Encoding.UTF8))
                 {
                     Project = _deserializer.Deserialize<Project>(r);
@@ -176,6 +150,7 @@ namespace Mastersign.DashOps
             foreach (var p in ProjectView.Perspectives) { p.Dispose(); }
             ProjectView.Perspectives.Clear();
             ProjectView.MonitorViews.Clear();
+            ProjectView.FormatVersion = Project?.Version ?? "0.0";
             ProjectView.Title = Project?.Title ?? "Unknown";
             var defaultLogDir = ExpandEnv(Project?.Logs);
             if (Project == null) return;

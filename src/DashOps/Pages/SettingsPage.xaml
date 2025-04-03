@@ -13,6 +13,7 @@
     Margin="16,0,0,0"
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="600"
+    d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:DesignTimeProjectView}}"
     >
     
     <Page.Resources>
@@ -26,7 +27,24 @@
 
             <TextBlock
                 Style="{StaticResource Headline}"
-                Text="{x:Static res:SettingsPage.Setup_Headline}" />
+                Text="{x:Static res:SettingsPage.Project_Headline}" />
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Grid.Row="0" Grid.Column="0"
+                    Style="{StaticResource Caption}"
+                    Text="{x:Static res:SettingsPage.ProjectFormatVersion_Caption}" />
+                <TextBlock
+                    Grid.Row="0" Grid.Column="1"
+                    Style="{StaticResource ListValue}"
+                    Text="{Binding FormatVersion}" />
+            </Grid>
+            
             <ui:Button
                 x:Name="ButtonEditProject"
                 Margin="0,8,0,0"

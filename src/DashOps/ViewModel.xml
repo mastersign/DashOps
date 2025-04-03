@@ -83,6 +83,7 @@
 
     <Class name="ProjectView">
       <CustomInitializer>Initialize</CustomInitializer>
+      <Property name="FormatVersion" />
       <Property name="Title" />
       <Property name="ActionViews" isCollection="true" type="ActionView" defaultInitialization="true" immutable="true" />
       <Property name="Perspectives" isCollection="true" type="PerspectiveView" defaultInitialization="true" immutable="true" />

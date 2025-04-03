@@ -1515,6 +1515,38 @@ namespace Mastersign.DashOps
         
         #endregion
         
+        #region Property FormatVersion
+        
+        private string _formatVersion;
+        
+        public event EventHandler FormatVersionChanged;
+        
+        protected virtual void OnFormatVersionChanged()
+        {
+            EventHandler handler = FormatVersionChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"FormatVersion");
+        }
+        
+        public virtual string FormatVersion
+        {
+            get { return _formatVersion; }
+            set
+            {
+                if (string.Equals(value, _formatVersion))
+                {
+                    return;
+                }
+                _formatVersion = value;
+                this.OnFormatVersionChanged();
+            }
+        }
+        
+        #endregion
+        
         #region Property Title
         
         private string _title;

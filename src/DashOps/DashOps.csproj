@@ -42,15 +42,26 @@
 
   <ItemGroup>
     
-    <Resource Include="Model.xml">
-      <Generator>Scaleton Code Generator</Generator>
-      <LastGenOutput>Model.Designer.cs</LastGenOutput>
+    <Resource Include="Model_v1\Model_v1.xml">
       <SubType>Designer</SubType>
+      <Generator>Scaleton Code Generator</Generator>
+      <LastGenOutput>Model_v1.Designer.cs</LastGenOutput>
     </Resource>
-    <Compile Update="Model.Designer.cs">
+    <Compile Update="Model_v1\Model_v1.Designer.cs">
+      <DependentUpon>Model_v1.xml</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Model.xml</DependentUpon>
+    </Compile>
+    
+    <Resource Include="Model_v2\Model_v2.xml">
+      <SubType>Designer</SubType>
+      <Generator>Scaleton Code Generator</Generator>
+      <LastGenOutput>Model_v2.Designer.cs</LastGenOutput>
+    </Resource>
+    <Compile Update="Model_v2\Model_v2.Designer.cs">
+      <DependentUpon>Model_v2.xml</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     
     <Resource Include="ViewModel.xml">
@@ -58,9 +69,9 @@
       <LastGenOutput>ViewModel.Designer.cs</LastGenOutput>
     </Resource>
     <Compile Update="ViewModel.Designer.cs">
+      <DependentUpon>ViewModel.xml</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>ViewModel.xml</DependentUpon>
     </Compile>
     
   </ItemGroup>

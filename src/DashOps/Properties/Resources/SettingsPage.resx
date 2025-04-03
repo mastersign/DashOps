@@ -117,10 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Setup_Headline" xml:space="preserve">
-    <value>Setup</value>
+  <data name="Project_Headline" xml:space="preserve">
+    <value>Project</value>
   </data>
   <data name="EditProject_Title" xml:space="preserve">
     <value>Edit Project</value>
+  </data>
+  <data name="ProjectFormatVersion_Caption" xml:space="preserve">
+    <value>Format Version:</value>
   </data>
 </root>

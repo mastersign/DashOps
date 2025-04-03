@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml.Linq;
+using YamlDotNet.Core;
 
 namespace Mastersign.DashOps
 {
@@ -18,7 +23,7 @@ namespace Mastersign.DashOps
     {
         public static App Instance => Current as App;
 
-        public ProjectLoader ProjectLoader { get; private set; }
+        public IProjectLoader ProjectLoader { get; private set; }
 
         public Executor Executor { get; private set; }
 
@@ -29,9 +34,11 @@ namespace Mastersign.DashOps
             string projectFile;
             if (e.Args.Length == 1)
             {
-                if (File.Exists(e.Args[0]))
-                    projectFile = e.Args[0];
-                else
+                projectFile = e.Args[0];
+                projectFile = Path.IsPathRooted(projectFile)
+                    ? projectFile
+                    : Path.Combine(Environment.CurrentDirectory, projectFile);
+                if (!File.Exists(projectFile))
                 {
                     MessageBox.Show(
                         $"The project file '{e.Args[0]}' could not be found.",
@@ -61,9 +68,31 @@ namespace Mastersign.DashOps
                     return;
                 }
             }
-            ProjectLoader = new ProjectLoader(projectFile, Dispatch);
+            ProjectLoader = ProjectLoaderFactory.CreateProjectLoaderFor(projectFile, Dispatch, out string version);
+            if (ProjectLoader is null)
+            {
+                MessageBox.Show(
+                    "The format of the project file is not supported."
+                    + Environment.NewLine
+                    + Environment.NewLine
+                    + $"Application Version: {GetAppVersion()}"
+                    + Environment.NewLine
+                    + $"File Version: {version ?? "unknown"}",
+                    "Loading DashOps Project File",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                Shutdown(1);
+                return;
+            }
             Executor = new Executor();
             MonitorManager = new MonitorManager();
+        }
+
+        private string GetAppVersion()
+        {
+            var a = Assembly.GetExecutingAssembly();
+            var fvi = FileVersionInfo.GetVersionInfo(a.Location);
+            return $"{fvi.ProductMajorPart}.{fvi.ProductMinorPart}.{fvi.ProductBuildPart}";
         }
 
         private void Dispatch(Action action)

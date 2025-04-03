@@ -2,7 +2,7 @@
 <Model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns="http://scaleton.mastersign.de/2014/model">
 
-  <Namespace>Mastersign.DashOps.Model</Namespace>
+  <Namespace>Mastersign.DashOps.Model_v1</Namespace>
 
   <ReferencedTypes>
     <ReferencedType id="dict" name="System.Collections.Generic.Dictionary`2[System.String, System.String]" />
@@ -25,34 +25,32 @@
       <Property name="AlwaysClose" type="bool" />
       <Property name="Arguments" type="string[]" />
       <Property name="WorkingDirectory" />
-      <!--<Property name="Environment" type="dict" />-->
-      <!--<Property name="Terminal" />-->
       <Property name="ExitCodes" type="int[]" />
       <Property name="Tags" type="string[]" />
     </Class>
     
     <Class name="CommandAction" baseType="CommandActionBase">
       <Property name="Command" />
-      <Property name="Verb" /><!-- Remove -->
-      <Property name="Service" /><!-- Remove -->
-      <Property name="Host" /><!-- Remove -->
+      <Property name="Verb" />
+      <Property name="Service" />
+      <Property name="Host" />
       <Property name="Facettes" type="dict" />
     </Class>
 
     <Class name="CommandActionDiscovery" baseType="CommandActionBase">
       <Property name="BasePath" />
       <Property name="PathPattern" />
-      <Property name="Verb" /><!-- Remove -->
-      <Property name="Service" /><!-- Remove -->
-      <Property name="Host" /><!-- Remove -->
+      <Property name="Verb" />
+      <Property name="Service" />
+      <Property name="Host" />
       <Property name="Facettes" type="dict" />
     </Class>
 
     <Class name="CommandActionPattern" baseType="CommandActionBase">
       <Property name="Command" />
-      <Property name="Verb" type="string[]" /><!-- Remove -->
-      <Property name="Service" type="string[]" /><!-- Remove -->
-      <Property name="Host" type="string[]" /><!-- Remove -->
+      <Property name="Verb" type="string[]" />
+      <Property name="Service" type="string[]" />
+      <Property name="Host" type="string[]" />
       <Property name="Facettes" type="mdict" />
     </Class>
     
@@ -98,7 +96,6 @@
     <Class name="CommandMonitorBase" baseType="MonitorBase">
       <Property name="Arguments" type="string[]" />
       <Property name="WorkingDirectory" />
-      <!--<Property name="Environment" type="dict" />-->
       <Property name="ExitCodes" type="int[]" />
     </Class>
     
@@ -130,13 +127,6 @@
       <Property name="Variables" type="mdict" />
     </Class>
 
-    <!--<Class name="Facette">
-      <Property name="Name" />
-      <Property name="Caption" />
-      <Property name="Icon" />
-      <Property name="IsMenu" type="bool" />
-    </Class>-->
-
     <Class name="Project">
       <Property name="Version" />
       <Property name="Title" />
@@ -147,11 +137,7 @@
       <Property name="Actions" isCollection="true" type="CommandAction" defaultInitialization="true" />
       <Property name="ActionDiscovery" isCollection="true" type="CommandActionDiscovery" defaultInitialization="true" />
       <Property name="ActionPatterns" isCollection="true" type="CommandActionPattern" defaultInitialization="true" />
-      <!--<Property name="DefaultWorkingDirectory" />-->
-      <!--<Property name="DefaultEnvironment" type="dict" />-->
-      <!--<Property name="DefaultTerminal" />-->
       <Property name="Perspectives" isCollection="true" defaultInitialization="true" />
-      <!--<Property name="Perspectives" type="Facette" isCollection="true" defaultInitialization="true" />-->
       <Property name="Auto" type="AutoAnnotation" isCollection="true" defaultInitialization="true" />
       <Property name="Monitors" type="CommandMonitor" isCollection="true" defaultInitialization="true" />
       <Property name="MonitorDiscovery" type="CommandMonitorDiscovery" isCollection="true" defaultInitialization="true" />

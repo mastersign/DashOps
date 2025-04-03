@@ -70,11 +70,20 @@ namespace Mastersign.DashOps.Properties.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Application ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Project ähnelt.
         /// </summary>
-        public static string Setup_Headline {
+        public static string Project_Headline {
             get {
-                return ResourceManager.GetString("Setup_Headline", resourceCulture);
+                return ResourceManager.GetString("Project_Headline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Format Version: ähnelt.
+        /// </summary>
+        public static string ProjectFormatVersion_Caption {
+            get {
+                return ResourceManager.GetString("ProjectFormatVersion_Caption", resourceCulture);
             }
         }
     }
