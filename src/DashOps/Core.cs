@@ -30,13 +30,11 @@ namespace Mastersign.DashOps
             projectView.IsMonitoringPaused = !projectView.IsMonitoringPaused;
         }
 
-        private static bool Reassure(ActionView action)
-        {
-            var result = MessageBox.Show(
+        private static bool Reassure(ActionView action) 
+            => UserInteraction.AskYesOrNoQuestion(
+                "Execute Action",
                 "Are you sure you want to execute the following logged?\n\n" + ActionInfo(action),
-                "Execute Action", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-            return result == MessageBoxResult.OK;
-        }
+                symbol: InteractionSymbol.Reassurance);
 
         public static async Task<bool> ExecuteMonitor(MonitorView monitor, DateTime startTime)
         {
@@ -54,8 +52,10 @@ namespace Mastersign.DashOps
 
         public static void ShowActionInfo(ActionView action)
         {
-            MessageBox.Show(ActionInfo(action), "Action Info",
-                MessageBoxButton.OK, MessageBoxImage.Information);
+            UserInteraction.ShowMessage(
+                "Action Info",
+                ActionInfo(action),
+                symbol: InteractionSymbol.Info);
         }
 
         private static string ActionInfo(ActionView action)
@@ -89,8 +89,10 @@ namespace Mastersign.DashOps
 
         public static void ShowMonitorInfo(MonitorView monitor)
         {
-            MessageBox.Show(MonitorInfo(monitor), "Monitor Info",
-                MessageBoxButton.OK, MessageBoxImage.Information);
+            UserInteraction.ShowMessage(
+                "Monitor Info",
+                MonitorInfo(monitor),
+                symbol: InteractionSymbol.Info);
         }
 
         private static string MonitorInfo(MonitorView monitor)

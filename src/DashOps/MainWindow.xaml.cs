@@ -32,7 +32,6 @@ namespace Mastersign.DashOps
             Loaded += (sender, args) =>
             {
                 WatchSystemTheme();
-                ApplicationThemeManager.ApplySystemTheme();
 
                 DataContext = CurrentApp?.ProjectLoader?.ProjectView;
 
@@ -97,7 +96,10 @@ namespace Mastersign.DashOps
 
         private void CommandEditProjectExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            System.Windows.MessageBox.Show("Not Implemented");
+            UserInteraction.ShowMessage(
+                "Edit Project",
+                "Not implemented",
+                symbol: InteractionSymbol.Error);
             //try
             //{
             //    CurrentApp.Runtime.Config.EditSetup();

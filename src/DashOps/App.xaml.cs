@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
-using System.Data;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Security.Policy;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Xml.Linq;
-using YamlDotNet.Core;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using Wpf.Ui.Appearance;
+using static Mastersign.DashOps.UserInteraction;
 
 namespace Mastersign.DashOps
 {
@@ -31,6 +24,8 @@ namespace Mastersign.DashOps
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            ApplicationThemeManager.ApplySystemTheme();
+
             string projectFile;
             if (e.Args.Length == 1)
             {
@@ -40,11 +35,11 @@ namespace Mastersign.DashOps
                     : Path.Combine(Environment.CurrentDirectory, projectFile);
                 if (!File.Exists(projectFile))
                 {
-                    MessageBox.Show(
-                        $"The project file '{e.Args[0]}' could not be found.",
+                    ShowMessage(
                         "Loading DashOps Project File",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
+                        $"The project file '{e.Args[0]}' could not be found.",
+                        symbol: InteractionSymbol.Error,
+                        showInTaskbar: true);
                     Shutdown(1);
                     return;
                 }
@@ -59,11 +54,12 @@ namespace Mastersign.DashOps
                     projectFile = name2;
                 else
                 {
-                    MessageBox.Show(
-                        $"No project file given as command line argument and no default project file in the current working directory: {name1}",
+                    ShowMessage(
                         "Loading DashOps Project File",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
+                        "No project file given as command line argument and no default project file " +
+                        $"in the current working directory: {name1}",
+                        symbol: InteractionSymbol.Error,
+                        showInTaskbar: true);
                     Shutdown(1);
                     return;
                 }
@@ -71,16 +67,16 @@ namespace Mastersign.DashOps
             ProjectLoader = ProjectLoaderFactory.CreateProjectLoaderFor(projectFile, Dispatch, out string version);
             if (ProjectLoader is null)
             {
-                MessageBox.Show(
+                ShowMessage(
+                    "Loading DashOps Project File",
                     "The format of the project file is not supported."
                     + Environment.NewLine
                     + Environment.NewLine
                     + $"Application Version: {GetAppVersion()}"
                     + Environment.NewLine
                     + $"File Version: {version ?? "unknown"}",
-                    "Loading DashOps Project File",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                    symbol: InteractionSymbol.Error,
+                    showInTaskbar: true);
                 Shutdown(1);
                 return;
             }

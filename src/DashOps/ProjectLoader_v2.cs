@@ -137,10 +137,13 @@ namespace Mastersign.DashOps
                     msg += Environment.NewLine + exc2.Message;
 #endif
                 }
-                MessageBox.Show(msg,
-                    "Loading DashOps Project File" + (version != null ? " v" + version : ""),
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                UserInteraction.ShowMessage(
+                    "Loading DashOps Project File" + (version != null ? " - Format " + version : ""),
+                    "An error occurred while loading the project file:"
+                    + Environment.NewLine
+                    + Environment.NewLine
+                    + msg,
+                    symbol: InteractionSymbol.Error);
             }
         }
 
@@ -543,9 +546,10 @@ namespace Mastersign.DashOps
             }
             catch (ArgumentException exc)
             {
-                MessageBox.Show("Error in regular expression: " + exc.Message,
+                UserInteraction.ShowMessage(
                     "Parsing Regular Expression",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                    "Error in regular expression: " + exc.Message,
+                    symbol: InteractionSymbol.Warning);
                 return null;
             }
         }
@@ -573,9 +577,10 @@ namespace Mastersign.DashOps
             }
             catch (ArgumentException exc)
             {
-                MessageBox.Show("Error in regular expression: " + exc.Message,
+                UserInteraction.ShowMessage(
                     "Parsing Regular Expression",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                    "Error in regular expression: " + exc.Message,
+                    symbol: InteractionSymbol.Error);
                 return Array.Empty<Regex>();
             }
         }

@@ -17,14 +17,13 @@ public static class ProjectLoaderFactory
         catch (FormatException e)
         {
 #if DEBUG
-            MessageBox.Show(
+            UserInteraction.ShowMessage(
+                "Create Project Loader",
                 "Failed to determine project file version:"
                 + Environment.NewLine
                 + Environment.NewLine
                 + e,
-                "Create Project Loader",
-                MessageBoxButton.OK,
-                MessageBoxImage.Error);
+                symbol: InteractionSymbol.Error);
 #endif
             version = null;
         }
