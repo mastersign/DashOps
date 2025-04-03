@@ -1,0 +1,90 @@
+version: '2.0'
+title: Test Project v2
+logs: test-logs
+
+# demo exec-paths
+# demo environment variables
+
+perspectives:
+  - facette: host
+    caption: Hosts
+  - facette: service
+    caption: Services
+  - facette: verb
+    caption: Verbs
+  - facette: env
+    caption: Environments
+
+auto:
+  - include:
+      - mode: Facette
+        facette: host
+        value: Localhost
+    reassure: true
+
+actions:
+  - description: List content of program files directory
+    command: Get-ChildItem
+    arguments: ['%ProgramFiles%']
+    keep-open: true
+    facettes:
+      host: Localhost
+      service: File System
+      verb: dir
+      env: System
+    tags:
+      - Y
+      - X
+  - description: List content of user directory
+    command: Get-ChildItem
+    arguments: ['$env:UserProfile']
+    logs: 'test-logs\user-files'
+    background: true
+    facettes:
+      host: Localhost
+      service: File System
+      verb: dir
+      env: User
+    tags:
+      - Z
+      - Y
+action-discovery:
+  - description: '${verb} ${service} on ${host}'
+    base-path: "test-scripts\\"
+    path-pattern: '(?<service>.+?)\\(?<verb>[^_]+)_(?<host>[^\.]+)\.ps1'
+    arguments: ['a', 'b', 123]
+    facettes:
+      host: incorrect
+      env: Test
+    tags:
+      - discovered
+action-patterns:
+  - description: 'Check ${Service} on all hosts ${mode}'
+    command: '${service}\check-all.ps1'
+    arguments: ['-Mode', '${mode}']
+    always-close: true
+    working-directory: test-scripts
+    facettes:
+      service:
+        - service A
+        - service B
+      mode: ['interactively', 'automatically', 'silently']
+    tags:
+     - expanded
+
+default-monitor-interval: 10
+
+monitors:
+  - title: Monitor 1
+    command: test-scripts\monitor-1.ps1
+    arguments: [5]
+
+default-web-monitor-timeout: 5
+
+web-monitors:
+  - title: Monitor 2
+    url: https://github.com
+    required-patterns:
+      - '<title>[^<>]*GitHub</title>'
+    forbidden-patterns:
+      - '<title>Google</title>'
