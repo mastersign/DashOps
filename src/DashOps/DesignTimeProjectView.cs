@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mastersign.DashOps
+﻿namespace Mastersign.DashOps
 {
     sealed class DesignTimeProjectView : ProjectView
     {
@@ -12,12 +6,11 @@ namespace Mastersign.DashOps
         {
             FormatVersion = "2.0";
             Title = "Design Time Project View";
-            AddFacettePerspectives(
-                "Host",
-                "Service",
-                "Verb",
-                "Environment",
-                "Role");
+            AddFacettePerspective("host", "Hosts");
+            AddFacettePerspective("service", "Services");
+            AddFacettePerspective("verb", "Verbs");
+            AddFacettePerspective("env", "Environments");
+            AddFacettePerspective("role", "Roles");
             ActionViews.Add(new ActionView
             {
                 Title = "Start X on A",
@@ -25,9 +18,9 @@ namespace Mastersign.DashOps
                 Arguments ="--on a",
                 Facettes = new Dictionary<string, string>
                 {
-                    {"Verb", "start"},
-                    {"Service", "x"},
-                    {"Host", "a"},
+                    {"verb", "start"},
+                    {"service", "x"},
+                    {"host", "a"},
                 }
             });
             ActionViews.Add(new ActionView
@@ -37,9 +30,9 @@ namespace Mastersign.DashOps
                 Arguments = "--on a",
                 Facettes = new Dictionary<string, string>
                 {
-                    {"Verb", "stop"},
-                    {"Service", "x"},
-                    {"Host", "a"},
+                    {"verb", "stop"},
+                    {"service", "x"},
+                    {"host", "a"},
                 }
             });
             ActionViews.Add(new ActionView
@@ -49,9 +42,9 @@ namespace Mastersign.DashOps
                 Arguments = "--on a",
                 Facettes = new Dictionary<string, string>
                 {
-                    {"Verb", "start"},
-                    {"Service", "y"},
-                    {"Host", "a"},
+                    {"verb", "start"},
+                    {"service", "y"},
+                    {"host", "a"},
                 }
             });
             ActionViews.Add(new ActionView
@@ -61,9 +54,9 @@ namespace Mastersign.DashOps
                 Arguments = "--on a",
                 Facettes = new Dictionary<string, string>
                 {
-                    {"Verb", "stop"},
-                    {"Service", "y"},
-                    {"Host", "a"},
+                    {"verb", "stop"},
+                    {"service", "y"},
+                    {"host", "a"},
                 }
             });
             CurrentPerspective = Perspectives[0];

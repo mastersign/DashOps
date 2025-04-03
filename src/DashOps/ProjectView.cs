@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mastersign.DashOps
+﻿namespace Mastersign.DashOps
 {
     partial class ProjectView
     {
@@ -21,22 +15,14 @@ namespace Mastersign.DashOps
             }
         }
 
-        private void AddFacettePerspective(string facetteName)
+        public void AddFacettePerspective(string facetteName, string caption = null)
         {
             Perspectives.Add(
                 new PerspectiveView(
-                    title: facetteName + "s",
+                    title: caption ?? facetteName + "s",
                     sourceActions: ActionViews,
                     filter: a => a.HasFacette(facetteName),
-                    classifier: a => new[] { a.GetFacetteValue(facetteName) }));
-        }
-
-        public void AddFacettePerspectives(params string[] facetteNames)
-        {
-            foreach (var facetteName in facetteNames)
-            {
-                AddFacettePerspective(facetteName);
-            }
+                    classifier: a => [a.GetFacetteValue(facetteName)]));
         }
 
         public void AddTagsPerspective()

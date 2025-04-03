@@ -216,8 +216,14 @@ namespace Mastersign.DashOps
             }
 
             ProjectView.AddTagsPerspective();
-            ProjectView.AddFacettePerspectives(DEF_PERSPECTIVES);
-            ProjectView.AddFacettePerspectives(Project.Perspectives.ToArray());
+            foreach (var facette in DEF_PERSPECTIVES)
+            {
+                ProjectView.AddFacettePerspective(facette);
+            }
+            foreach (var facette in Project.Perspectives)
+            {
+                ProjectView.AddFacettePerspective(facette);
+            }
         }
 
         private string BuildLogDirPath(string logs, bool noLogs)

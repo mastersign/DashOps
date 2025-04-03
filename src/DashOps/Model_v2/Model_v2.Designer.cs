@@ -289,9 +289,6 @@ namespace Mastersign.DashOps.Model_v2
                 (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Command = " + (!ReferenceEquals(_command, null) ? _command.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Verb = " + (!ReferenceEquals(_verb, null) ? _verb.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Service = " + (!ReferenceEquals(_service, null) ? _service.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Host = " + (!ReferenceEquals(_host, null) ? _host.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Facettes = " + (!ReferenceEquals(_facettes, null) ? _facettes.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
@@ -311,63 +308,6 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _command = value;
-            }
-        }
-        
-        #endregion
-        
-        #region Property Verb
-        
-        private string _verb;
-        
-        public virtual string Verb
-        {
-            get { return _verb; }
-            set
-            {
-                if (string.Equals(value, _verb))
-                {
-                    return;
-                }
-                _verb = value;
-            }
-        }
-        
-        #endregion
-        
-        #region Property Service
-        
-        private string _service;
-        
-        public virtual string Service
-        {
-            get { return _service; }
-            set
-            {
-                if (string.Equals(value, _service))
-                {
-                    return;
-                }
-                _service = value;
-            }
-        }
-        
-        #endregion
-        
-        #region Property Host
-        
-        private string _host;
-        
-        public virtual string Host
-        {
-            get { return _host; }
-            set
-            {
-                if (string.Equals(value, _host))
-                {
-                    return;
-                }
-                _host = value;
             }
         }
         
@@ -422,9 +362,6 @@ namespace Mastersign.DashOps.Model_v2
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    BasePath = " + (!ReferenceEquals(_basePath, null) ? _basePath.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    PathPattern = " + (!ReferenceEquals(_pathPattern, null) ? _pathPattern.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Verb = " + (!ReferenceEquals(_verb, null) ? _verb.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Service = " + (!ReferenceEquals(_service, null) ? _service.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Host = " + (!ReferenceEquals(_host, null) ? _host.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Facettes = " + (!ReferenceEquals(_facettes, null) ? _facettes.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
@@ -468,63 +405,6 @@ namespace Mastersign.DashOps.Model_v2
         
         #endregion
         
-        #region Property Verb
-        
-        private string _verb;
-        
-        public virtual string Verb
-        {
-            get { return _verb; }
-            set
-            {
-                if (string.Equals(value, _verb))
-                {
-                    return;
-                }
-                _verb = value;
-            }
-        }
-        
-        #endregion
-        
-        #region Property Service
-        
-        private string _service;
-        
-        public virtual string Service
-        {
-            get { return _service; }
-            set
-            {
-                if (string.Equals(value, _service))
-                {
-                    return;
-                }
-                _service = value;
-            }
-        }
-        
-        #endregion
-        
-        #region Property Host
-        
-        private string _host;
-        
-        public virtual string Host
-        {
-            get { return _host; }
-            set
-            {
-                if (string.Equals(value, _host))
-                {
-                    return;
-                }
-                _host = value;
-            }
-        }
-        
-        #endregion
-        
         #region Property Facettes
         
         private Dictionary<string, string> _facettes;
@@ -549,9 +429,6 @@ namespace Mastersign.DashOps.Model_v2
     {
         public CommandActionPattern()
         {
-            this._verb = new string[0];
-            this._service = new string[0];
-            this._host = new string[0];
         }
         
         #region String Representation
@@ -576,9 +453,6 @@ namespace Mastersign.DashOps.Model_v2
                 (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Command = " + (!ReferenceEquals(_command, null) ? _command.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Verb = " + (!ReferenceEquals(_verb, null) ? _verb.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Service = " + (!ReferenceEquals(_service, null) ? _service.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Host = " + (!ReferenceEquals(_host, null) ? _host.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Facettes = " + (!ReferenceEquals(_facettes, null) ? _facettes.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
@@ -598,63 +472,6 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _command = value;
-            }
-        }
-        
-        #endregion
-        
-        #region Property Verb
-        
-        private string[] _verb;
-        
-        public virtual string[] Verb
-        {
-            get { return _verb; }
-            set
-            {
-                if ((value == _verb))
-                {
-                    return;
-                }
-                _verb = value;
-            }
-        }
-        
-        #endregion
-        
-        #region Property Service
-        
-        private string[] _service;
-        
-        public virtual string[] Service
-        {
-            get { return _service; }
-            set
-            {
-                if ((value == _service))
-                {
-                    return;
-                }
-                _service = value;
-            }
-        }
-        
-        #endregion
-        
-        #region Property Host
-        
-        private string[] _host;
-        
-        public virtual string[] Host
-        {
-            get { return _host; }
-            set
-            {
-                if ((value == _host))
-                {
-                    return;
-                }
-                _host = value;
             }
         }
         
@@ -1621,6 +1438,67 @@ namespace Mastersign.DashOps.Model_v2
         #endregion
     }
     
+    public partial class FacettePerspective
+    {
+        public FacettePerspective()
+        {
+        }
+        
+        #region String Representation
+        
+        public override string ToString()
+        {
+            return this.ToString(CultureInfo.CurrentUICulture);
+        }
+        
+        public virtual string ToString(IFormatProvider formatProvider)
+        {
+            return (this.GetType().FullName + @": " + (
+                (Environment.NewLine + @"    Caption = " + (!ReferenceEquals(_caption, null) ? _caption.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    Facette = " + (!ReferenceEquals(_facette, null) ? _facette.ToString(formatProvider) : @"null").Replace("\n", "\n    "))));
+        }
+        
+        #endregion
+        
+        #region Property Caption
+        
+        private string _caption;
+        
+        public virtual string Caption
+        {
+            get { return _caption; }
+            set
+            {
+                if (string.Equals(value, _caption))
+                {
+                    return;
+                }
+                _caption = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Facette
+        
+        private string _facette;
+        
+        public virtual string Facette
+        {
+            get { return _facette; }
+            set
+            {
+                if (string.Equals(value, _facette))
+                {
+                    return;
+                }
+                _facette = value;
+            }
+        }
+        
+        #endregion
+    }
+    
     public partial class Project
     {
         public Project()
@@ -1628,7 +1506,7 @@ namespace Mastersign.DashOps.Model_v2
             this._actions = new List<CommandAction>();
             this._actionDiscovery = new List<CommandActionDiscovery>();
             this._actionPatterns = new List<CommandActionPattern>();
-            this._perspectives = new List<string>();
+            this._perspectives = new List<FacettePerspective>();
             this._auto = new List<AutoAnnotation>();
             this._monitors = new List<CommandMonitor>();
             this._monitorDiscovery = new List<CommandMonitorDiscovery>();
@@ -1683,9 +1561,9 @@ namespace Mastersign.DashOps.Model_v2
             {
                 for (int __index = 0; __index < Math.Min(_perspectives.Count, 10); __index++)
                 {
-                    string __item = _perspectives[__index];
+                    FacettePerspective __item = _perspectives[__index];
                     __collection_Perspectives.AppendLine();
-                    __collection_Perspectives.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString(formatProvider) : @"null")));
+                    __collection_Perspectives.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
                 }
             }
             global::System.Text.StringBuilder __collection_Auto = new global::System.Text.StringBuilder();
@@ -1943,11 +1821,49 @@ namespace Mastersign.DashOps.Model_v2
         
         #endregion
         
+        #region Property DefaultWorkingDirectory
+        
+        private string _defaultWorkingDirectory;
+        
+        public virtual string DefaultWorkingDirectory
+        {
+            get { return _defaultWorkingDirectory; }
+            set
+            {
+                if (string.Equals(value, _defaultWorkingDirectory))
+                {
+                    return;
+                }
+                _defaultWorkingDirectory = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property DefaultEnvironment
+        
+        private Dictionary<string, string> _defaultEnvironment;
+        
+        public virtual Dictionary<string, string> DefaultEnvironment
+        {
+            get { return _defaultEnvironment; }
+            set
+            {
+                if ((value == _defaultEnvironment))
+                {
+                    return;
+                }
+                _defaultEnvironment = value;
+            }
+        }
+        
+        #endregion
+        
         #region Property Perspectives
         
-        private List<string> _perspectives;
+        private List<FacettePerspective> _perspectives;
         
-        public virtual List<string> Perspectives
+        public virtual List<FacettePerspective> Perspectives
         {
             get { return _perspectives; }
             set

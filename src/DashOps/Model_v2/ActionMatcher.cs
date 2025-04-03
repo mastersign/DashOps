@@ -12,24 +12,7 @@ partial class ActionMatcher
     {
         get
         {
-            if (string.Equals(
-                Facette, nameof(CommandAction.Verb),
-                StringComparison.InvariantCultureIgnoreCase))
-            {
-                return nameof(CommandAction.Verb);
-            }
-            if (string.Equals(
-                Facette, nameof(CommandAction.Service),
-                StringComparison.InvariantCultureIgnoreCase))
-            {
-                return nameof(CommandAction.Service);
-            }
-            if (string.Equals(
-                Facette, nameof(CommandAction.Host),
-                StringComparison.InvariantCultureIgnoreCase))
-            {
-                return nameof(CommandAction.Host);
-            }
+            // no normalization since v2
             return Facette;
         }
     }

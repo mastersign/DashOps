@@ -33,26 +33,17 @@
     
     <Class name="CommandAction" baseType="CommandActionBase">
       <Property name="Command" />
-      <Property name="Verb" /><!-- Remove -->
-      <Property name="Service" /><!-- Remove -->
-      <Property name="Host" /><!-- Remove -->
       <Property name="Facettes" type="dict" />
     </Class>
 
     <Class name="CommandActionDiscovery" baseType="CommandActionBase">
       <Property name="BasePath" />
       <Property name="PathPattern" />
-      <Property name="Verb" /><!-- Remove -->
-      <Property name="Service" /><!-- Remove -->
-      <Property name="Host" /><!-- Remove -->
       <Property name="Facettes" type="dict" />
     </Class>
 
     <Class name="CommandActionPattern" baseType="CommandActionBase">
       <Property name="Command" />
-      <Property name="Verb" type="string[]" /><!-- Remove -->
-      <Property name="Service" type="string[]" /><!-- Remove -->
-      <Property name="Host" type="string[]" /><!-- Remove -->
       <Property name="Facettes" type="mdict" />
     </Class>
     
@@ -130,12 +121,11 @@
       <Property name="Variables" type="mdict" />
     </Class>
 
-    <!--<Class name="Facette">
-      <Property name="Name" />
+    <Class name="FacettePerspective">
       <Property name="Caption" />
-      <Property name="Icon" />
-      <Property name="IsMenu" type="bool" />
-    </Class>-->
+      <Property name="Facette" />
+      <!--<Property name="Icon" />-->
+    </Class>
 
     <Class name="Project">
       <Property name="Version" />
@@ -150,8 +140,7 @@
       <!--<Property name="DefaultWorkingDirectory" />-->
       <!--<Property name="DefaultEnvironment" type="dict" />-->
       <!--<Property name="DefaultTerminal" />-->
-      <Property name="Perspectives" isCollection="true" defaultInitialization="true" />
-      <!--<Property name="Perspectives" type="Facette" isCollection="true" defaultInitialization="true" />-->
+      <Property name="Perspectives" type="FacettePerspective" isCollection="true" defaultInitialization="true" />
       <Property name="Auto" type="AutoAnnotation" isCollection="true" defaultInitialization="true" />
       <Property name="Monitors" type="CommandMonitor" isCollection="true" defaultInitialization="true" />
       <Property name="MonitorDiscovery" type="CommandMonitorDiscovery" isCollection="true" defaultInitialization="true" />

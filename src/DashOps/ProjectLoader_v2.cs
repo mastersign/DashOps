@@ -13,13 +13,6 @@ namespace Mastersign.DashOps
     {
         private static readonly string[] SUPPORTED_VERSIONS = new[] { "2.0" };
 
-        private readonly string[] DEF_PERSPECTIVES = new[]
-        {
-            nameof(CommandAction.Verb),
-            nameof(CommandAction.Service),
-            nameof(CommandAction.Host),
-        };
-
         public string ProjectPath { get; }
 
         public Project Project { get; private set; }
@@ -216,8 +209,10 @@ namespace Mastersign.DashOps
             }
 
             ProjectView.AddTagsPerspective();
-            ProjectView.AddFacettePerspectives(DEF_PERSPECTIVES);
-            ProjectView.AddFacettePerspectives(Project.Perspectives.ToArray());
+            foreach (var perspective in Project.Perspectives)
+            {
+                ProjectView.AddFacettePerspective(perspective.Facette, perspective.Caption);
+            }
         }
 
         private string BuildLogDirPath(string logs, bool noLogs)
@@ -265,18 +260,6 @@ namespace Mastersign.DashOps
                     ? new Dictionary<string, string>(action.Facettes)
                     : new Dictionary<string, string>(),
             };
-            if (!string.IsNullOrWhiteSpace(action.Verb))
-            {
-                actionView.Facettes[nameof(CommandAction.Verb)] = action.Verb;
-            }
-            if (!string.IsNullOrWhiteSpace(action.Service))
-            {
-                actionView.Facettes[nameof(CommandAction.Service)] = action.Service;
-            }
-            if (!string.IsNullOrWhiteSpace(action.Host))
-            {
-                actionView.Facettes[nameof(CommandAction.Host)] = action.Host;
-            }
             return actionView;
         }
 
@@ -301,19 +284,7 @@ namespace Mastersign.DashOps
         {
             var facettes = actionPattern.Facettes != null
                 ? new Dictionary<string, string[]>(actionPattern.Facettes)
-                : new Dictionary<string, string[]>();
-
-            void AddFacetteValues(string key, string[] values)
-            {
-                if (values == null || values.Length == 0) return;
-                if (facettes.TryGetValue(key, out string[] oldValues))
-                    facettes[key] = oldValues.Concat(values).Distinct().ToArray();
-                else
-                    facettes[key] = values;
-            }
-            AddFacetteValues(nameof(CommandAction.Verb), actionPattern.Verb);
-            AddFacetteValues(nameof(CommandAction.Service), actionPattern.Service);
-            AddFacetteValues(nameof(CommandAction.Host), actionPattern.Host);
+                : [];
 
             return EnumerateVariations(facettes)
                 .Select(d => ActionViewFromPatternVariation(actionPattern, d));
@@ -325,26 +296,14 @@ namespace Mastersign.DashOps
         {
             var facettes = actionDiscovery.Facettes != null
                 ? new Dictionary<string, string>(actionDiscovery.Facettes)
-                : new Dictionary<string, string>();
-            var verb = GetGroupValue(groupNames, m, nameof(CommandAction.Verb), actionDiscovery.Verb);
-            var service = GetGroupValue(groupNames, m, nameof(CommandAction.Service), actionDiscovery.Service);
-            var host = GetGroupValue(groupNames, m, nameof(CommandAction.Host), actionDiscovery.Host);
+                : [];
             foreach (var groupName in groupNames)
             {
                 if (groupName == "0") continue;
-                if (groupName == LowerCase(nameof(CommandAction.Verb)) ||
-                    groupName == UpperCase(nameof(CommandAction.Verb)) ||
-                    groupName == LowerCase(nameof(CommandAction.Service)) ||
-                    groupName == UpperCase(nameof(CommandAction.Service)) ||
-                    groupName == LowerCase(nameof(CommandAction.Host)) ||
-                    groupName == UpperCase(nameof(CommandAction.Host))) continue;
                 var g = m.Groups[groupName];
                 if (!g.Success) continue;
                 facettes[groupName] = g.Value;
             }
-            if (verb != null) facettes[nameof(CommandAction.Verb)] = verb;
-            if (service != null) facettes[nameof(CommandAction.Service)] = service;
-            if (host != null) facettes[nameof(CommandAction.Host)] = host;
 
             return new ActionView()
             {
