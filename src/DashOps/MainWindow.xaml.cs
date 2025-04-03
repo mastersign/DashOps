@@ -32,6 +32,7 @@ namespace Mastersign.DashOps
             Loaded += (sender, args) =>
             {
                 WatchSystemTheme();
+                ApplicationThemeManager.ApplySystemTheme();
 
                 DataContext = CurrentApp?.ProjectLoader?.ProjectView;
 
