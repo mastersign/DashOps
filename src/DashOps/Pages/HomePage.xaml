@@ -43,9 +43,39 @@
                    Text="{Binding Title}"
                    FontSize="24" FontWeight="SemiBold" />
 
-        <Grid Grid.Row="3" Grid.ColumnSpan="2">
-            <TextBlock>Dashboard mit Statistiken, letzten Aktionen und Monitoring-Übersicht</TextBlock>
-        </Grid>
+        <StackPanel Grid.Row="3" Grid.ColumnSpan="2">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Grid.Row="0" Grid.Column="0"
+                    Style="{StaticResource Caption}"
+                    Text="{x:Static res:SettingsPage.ProjectFormatVersion_Caption}" />
+                <TextBlock
+                    Grid.Row="0" Grid.Column="1"
+                    Style="{StaticResource ListValue}"
+                    Text="{Binding FormatVersion}" />
+            </Grid>
+
+            <ui:Button
+                x:Name="ButtonEditProject"
+                Margin="0,8,0,0"
+                Command="local:DashOpsCommands.EditProject"
+                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}">
+                <ui:Button.Icon>
+                    <ui:SymbolIcon Symbol="EditSettings20" />
+                </ui:Button.Icon>
+            </ui:Button>
+
+            <TextBlock Margin="0,20">
+                <Run FontStyle="Italic">Dashboard mit Statistiken, letzten Aktionen und Monitoring-Übersicht</Run>
+            </TextBlock>
+            
+        </StackPanel>
 
     </Grid>
 </Page>

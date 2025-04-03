@@ -85,12 +85,14 @@
                 </ui:NavigationViewItem>
             </ui:NavigationView.MenuItems>
             <ui:NavigationView.FooterMenuItems>
+                <!--
                 <ui:NavigationViewItem Content="{x:Static res:Common.Page_Settings_Title}"
                                        TargetPageTag="settings" TargetPageType="{x:Type pages:SettingsPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:SymbolIcon Symbol="Settings20" />
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
+                -->
                 <ui:NavigationViewItem Content="{x:Static res:Common.Page_About_Title}"
                                        TargetPageTag="about" TargetPageType="{x:Type pages:AboutPage}">
                     <ui:NavigationViewItem.Icon>
