@@ -45,6 +45,7 @@ namespace Mastersign.DashOps.Model_v2
                 (Environment.NewLine + @"    AlwaysClose = " + _alwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    EnvironmentX = " + (!ReferenceEquals(_environmentX, null) ? _environmentX.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(_exitCodes, null) ? _exitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(_tags, null) ? _tags.ToString() : @"null").Replace("\n", "\n    "))));
         }
@@ -222,6 +223,25 @@ namespace Mastersign.DashOps.Model_v2
         
         #endregion
         
+        #region Property EnvironmentX
+        
+        private Dictionary<string, string> _environmentX;
+        
+        public virtual Dictionary<string, string> EnvironmentX
+        {
+            get { return _environmentX; }
+            set
+            {
+                if ((value == _environmentX))
+                {
+                    return;
+                }
+                _environmentX = value;
+            }
+        }
+        
+        #endregion
+        
         #region Property ExitCodes
         
         private int[] _exitCodes;
@@ -286,6 +306,7 @@ namespace Mastersign.DashOps.Model_v2
                 (Environment.NewLine + @"    AlwaysClose = " + AlwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    EnvironmentX = " + (!ReferenceEquals(EnvironmentX, null) ? EnvironmentX.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Command = " + (!ReferenceEquals(_command, null) ? _command.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
@@ -358,6 +379,7 @@ namespace Mastersign.DashOps.Model_v2
                 (Environment.NewLine + @"    AlwaysClose = " + AlwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    EnvironmentX = " + (!ReferenceEquals(EnvironmentX, null) ? EnvironmentX.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    BasePath = " + (!ReferenceEquals(_basePath, null) ? _basePath.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
@@ -450,6 +472,7 @@ namespace Mastersign.DashOps.Model_v2
                 (Environment.NewLine + @"    AlwaysClose = " + AlwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    EnvironmentX = " + (!ReferenceEquals(EnvironmentX, null) ? EnvironmentX.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Command = " + (!ReferenceEquals(_command, null) ? _command.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
@@ -999,6 +1022,7 @@ namespace Mastersign.DashOps.Model_v2
                 (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    EnvironmentX = " + (!ReferenceEquals(_environmentX, null) ? _environmentX.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(_exitCodes, null) ? _exitCodes.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
@@ -1037,6 +1061,25 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _workingDirectory = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property EnvironmentX
+        
+        private Dictionary<string, string> _environmentX;
+        
+        public virtual Dictionary<string, string> EnvironmentX
+        {
+            get { return _environmentX; }
+            set
+            {
+                if ((value == _environmentX))
+                {
+                    return;
+                }
+                _environmentX = value;
             }
         }
         
@@ -1086,6 +1129,7 @@ namespace Mastersign.DashOps.Model_v2
                 (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    EnvironmentX = " + (!ReferenceEquals(EnvironmentX, null) ? EnvironmentX.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Command = " + (!ReferenceEquals(_command, null) ? _command.ToString(formatProvider) : @"null").Replace("\n", "\n    "))));
         }
@@ -1136,6 +1180,7 @@ namespace Mastersign.DashOps.Model_v2
                 (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    EnvironmentX = " + (!ReferenceEquals(EnvironmentX, null) ? EnvironmentX.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    BasePath = " + (!ReferenceEquals(_basePath, null) ? _basePath.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    PathPattern = " + (!ReferenceEquals(_pathPattern, null) ? _pathPattern.ToString(formatProvider) : @"null").Replace("\n", "\n    "))));
@@ -1206,6 +1251,7 @@ namespace Mastersign.DashOps.Model_v2
                 (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    EnvironmentX = " + (!ReferenceEquals(EnvironmentX, null) ? EnvironmentX.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Command = " + (!ReferenceEquals(Command, null) ? Command.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Variables = " + (!ReferenceEquals(_variables, null) ? _variables.ToString() : @"null").Replace("\n", "\n    "))));
@@ -1636,6 +1682,8 @@ namespace Mastersign.DashOps.Model_v2
                 (Environment.NewLine + @"    Actions = " + (!ReferenceEquals(_actions, null) ? (_actions.Count.ToString() + @" items" + __collection_Actions.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    ActionDiscovery = " + (!ReferenceEquals(_actionDiscovery, null) ? (_actionDiscovery.Count.ToString() + @" items" + __collection_ActionDiscovery.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    ActionPatterns = " + (!ReferenceEquals(_actionPatterns, null) ? (_actionPatterns.Count.ToString() + @" items" + __collection_ActionPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    DefaultWorkingDirectory = " + (!ReferenceEquals(_defaultWorkingDirectory, null) ? _defaultWorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    DefaultEnvironment = " + (!ReferenceEquals(_defaultEnvironment, null) ? _defaultEnvironment.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Perspectives = " + (!ReferenceEquals(_perspectives, null) ? (_perspectives.Count.ToString() + @" items" + __collection_Perspectives.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Auto = " + (!ReferenceEquals(_auto, null) ? (_auto.Count.ToString() + @" items" + __collection_Auto.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Monitors = " + (!ReferenceEquals(_monitors, null) ? (_monitors.Count.ToString() + @" items" + __collection_Monitors.ToString()) : @"null").Replace("\n", "\n    ")) + 

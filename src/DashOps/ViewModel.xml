@@ -21,8 +21,9 @@
       <Property name="Reassure" type="bool" />
       <Property name="Command" />
       <Property name="Arguments" type="string" />
-      <!--<Property name="Environment" type="string" />-->
       <Property name="WorkingDirectory" />
+      <Property name="Environment" type="dict" />
+      <!--<Property name="ExecPaths" type="string[]" />-->
       <Property name="ExitCodes" type="int[]" />
       <Property name="Tags" type="string[]" />
       <Property name="Facettes" type="dict" />
@@ -69,6 +70,8 @@
       <Property name="Command" />
       <Property name="Arguments" type="string" />
       <Property name="WorkingDirectory" />
+      <Property name="Environment" type="dict" />
+      <!--<Property name="ExecPaths" type="string[]" />-->
       <Property name="ExitCodes" type="int[]" />
     </Class>
 

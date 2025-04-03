@@ -25,7 +25,8 @@
       <Property name="AlwaysClose" type="bool" />
       <Property name="Arguments" type="string[]" />
       <Property name="WorkingDirectory" />
-      <!--<Property name="Environment" type="dict" />-->
+      <Property name="EnvironmentX" type="dict" /><!-- Scaleton needs to use absolute name of Environment.NewLine to solve collision -->
+      <!--<Property name="ExecPaths" type="string[]" />-->
       <!--<Property name="Terminal" />-->
       <Property name="ExitCodes" type="int[]" />
       <Property name="Tags" type="string[]" />
@@ -89,7 +90,8 @@
     <Class name="CommandMonitorBase" baseType="MonitorBase">
       <Property name="Arguments" type="string[]" />
       <Property name="WorkingDirectory" />
-      <!--<Property name="Environment" type="dict" />-->
+      <Property name="EnvironmentX" type="dict" /><!-- Scaleton needs to use absolute name of Environment.NewLine to solve collision -->
+      <!--<Property name="ExecPaths" type="string[]" />-->
       <Property name="ExitCodes" type="int[]" />
     </Class>
     
@@ -137,8 +139,9 @@
       <Property name="Actions" isCollection="true" type="CommandAction" defaultInitialization="true" />
       <Property name="ActionDiscovery" isCollection="true" type="CommandActionDiscovery" defaultInitialization="true" />
       <Property name="ActionPatterns" isCollection="true" type="CommandActionPattern" defaultInitialization="true" />
-      <!--<Property name="DefaultWorkingDirectory" />-->
-      <!--<Property name="DefaultEnvironment" type="dict" />-->
+      <Property name="DefaultWorkingDirectory" />
+      <Property name="DefaultEnvironment" type="dict" />
+      <!--<Property name="DefaultExecPaths" type="string[]" />-->
       <!--<Property name="DefaultTerminal" />-->
       <Property name="Perspectives" type="FacettePerspective" isCollection="true" defaultInitialization="true" />
       <Property name="Auto" type="AutoAnnotation" isCollection="true" defaultInitialization="true" />

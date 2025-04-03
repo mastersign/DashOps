@@ -192,6 +192,38 @@ namespace Mastersign.DashOps
         
         #endregion
         
+        #region Property Environment
+        
+        private Dictionary<string, string> _environment;
+        
+        public event EventHandler EnvironmentChanged;
+        
+        protected virtual void OnEnvironmentChanged()
+        {
+            EventHandler handler = EnvironmentChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Environment");
+        }
+        
+        public virtual Dictionary<string, string> Environment
+        {
+            get { return _environment; }
+            set
+            {
+                if ((value == _environment))
+                {
+                    return;
+                }
+                _environment = value;
+                this.OnEnvironmentChanged();
+            }
+        }
+        
+        #endregion
+        
         #region Property ExitCodes
         
         private int[] _exitCodes;
@@ -1239,6 +1271,38 @@ namespace Mastersign.DashOps
                 }
                 _workingDirectory = value;
                 this.OnWorkingDirectoryChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property Environment
+        
+        private Dictionary<string, string> _environment;
+        
+        public event EventHandler EnvironmentChanged;
+        
+        protected virtual void OnEnvironmentChanged()
+        {
+            EventHandler handler = EnvironmentChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Environment");
+        }
+        
+        public virtual Dictionary<string, string> Environment
+        {
+            get { return _environment; }
+            set
+            {
+                if ((value == _environment))
+                {
+                    return;
+                }
+                _environment = value;
+                this.OnEnvironmentChanged();
             }
         }
         
