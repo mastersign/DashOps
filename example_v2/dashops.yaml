@@ -59,7 +59,7 @@ action-discovery:
     tags:
       - discovered
 action-patterns:
-  - description: 'Check ${Service} on all hosts ${mode}'
+  - description: 'Check ${service} on all hosts ${mode}'
     command: '${service}\check-all.ps1'
     arguments: ['-Mode', '${mode}']
     always-close: true
