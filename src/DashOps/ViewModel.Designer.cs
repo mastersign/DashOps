@@ -15,6 +15,7 @@ namespace Mastersign.DashOps
         {
             this._exitCodes = new int[0];
             this._tags = new string[0];
+            this._facetteViews = new global::System.Collections.ObjectModel.ObservableCollection<FacetteView>();
         }
         
         #region Change Tracking
@@ -320,6 +321,38 @@ namespace Mastersign.DashOps
         
         #endregion
         
+        #region Property FacetteViews
+        
+        private global::System.Collections.ObjectModel.ObservableCollection<FacetteView> _facetteViews;
+        
+        public event EventHandler FacetteViewsChanged;
+        
+        protected virtual void OnFacetteViewsChanged()
+        {
+            EventHandler handler = FacetteViewsChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"FacetteViews");
+        }
+        
+        public virtual global::System.Collections.ObjectModel.ObservableCollection<FacetteView> FacetteViews
+        {
+            get { return _facetteViews; }
+            set
+            {
+                if ((value == _facetteViews))
+                {
+                    return;
+                }
+                _facetteViews = value;
+                this.OnFacetteViewsChanged();
+            }
+        }
+        
+        #endregion
+        
         #region Property Logs
         
         private string _logs;
@@ -594,9 +627,10 @@ namespace Mastersign.DashOps
             this.Initialize();
         }
         
-        public PerspectiveView(string title, global::System.Collections.ObjectModel.ObservableCollection<ActionView> sourceActions, Func<ActionView, bool> filter, Func<ActionView, String[]> classifier)
+        public PerspectiveView(string title, string facette, global::System.Collections.ObjectModel.ObservableCollection<ActionView> sourceActions, Func<ActionView, bool> filter, Func<ActionView, String[]> classifier)
         {
             this._title = title;
+            this._facette = facette;
             this._sourceActions = sourceActions;
             this._filter = filter;
             this._classifier = classifier;
@@ -626,6 +660,17 @@ namespace Mastersign.DashOps
         public virtual string Title
         {
             get { return _title; }
+        }
+        
+        #endregion
+        
+        #region Property Facette
+        
+        private string _facette;
+        
+        public virtual string Facette
+        {
+            get { return _facette; }
         }
         
         #endregion
@@ -1541,6 +1586,68 @@ namespace Mastersign.DashOps
                 _statusCodes = value;
                 this.OnStatusCodesChanged();
             }
+        }
+        
+        #endregion
+    }
+    
+    public partial class FacetteView : INotifyPropertyChanged
+    {
+        public FacetteView()
+        {
+        }
+        
+        public FacetteView(string facette, string title, string value)
+        {
+            this._facette = facette;
+            this._title = title;
+            this._value = value;
+        }
+        
+        #region Change Tracking
+        
+        public event PropertyChangedEventHandler PropertyChanged;
+        
+        protected virtual void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
+        
+        #endregion
+        
+        #region Property Facette
+        
+        private string _facette;
+        
+        public virtual string Facette
+        {
+            get { return _facette; }
+        }
+        
+        #endregion
+        
+        #region Property Title
+        
+        private string _title;
+        
+        public virtual string Title
+        {
+            get { return _title; }
+        }
+        
+        #endregion
+        
+        #region Property Value
+        
+        private string _value;
+        
+        public virtual string Value
+        {
+            get { return _value; }
         }
         
         #endregion

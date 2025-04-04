@@ -47,6 +47,18 @@
       <Generator>Scaleton Code Generator</Generator>
       <LastGenOutput>Model_v1.Designer.cs</LastGenOutput>
     </Resource>
+    
+    <Compile Update="WebMonitorInfoControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    
+    <Compile Update="CommandMonitorInfoControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    
+    <Compile Update="CompactActionInfoControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Model_v1\Model_v1.Designer.cs">
       <DependentUpon>Model_v1.xml</DependentUpon>
       <DesignTime>True</DesignTime>

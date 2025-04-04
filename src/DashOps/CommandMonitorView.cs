@@ -54,5 +54,7 @@ namespace Mastersign.DashOps
         {
             // nothing
         }
+
+        public string ExitCodesFormatted => string.Join(", ", ExitCodes ?? []);
     }
 }

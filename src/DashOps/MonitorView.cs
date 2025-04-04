@@ -60,6 +60,10 @@ namespace Mastersign.DashOps
             StatusChanged?.Invoke(this, EventArgs.Empty);
         }
 
+        public int RequiredPatternCount => RequiredPatterns?.Length ?? 0;
+
+        public int ForbiddenPatternCount => ForbiddenPatterns?.Length ?? 0;
+
         #region ILogged
 
         public virtual string CommandId => throw new NotImplementedException();

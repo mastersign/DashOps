@@ -20,6 +20,7 @@
             Perspectives.Add(
                 new PerspectiveView(
                     title: caption ?? facetteName + "s",
+                    facette: facetteName,
                     sourceActions: ActionViews,
                     filter: a => a.HasFacette(facetteName),
                     classifier: a => [a.GetFacetteValue(facetteName)]));
@@ -30,6 +31,7 @@
             Perspectives.Add(
                 new PerspectiveView(
                     title: "Tags",
+                    facette: null,
                     sourceActions: ActionViews,
                     filter: a => (a.Tags?.Length ?? 0) > 0,
                     classifier: a => a.Tags));

@@ -213,6 +213,8 @@ namespace Mastersign.DashOps
             {
                 ProjectView.AddFacettePerspective(perspective.Facette, perspective.Caption);
             }
+
+            CreateFacetteViews();
         }
 
         private string BuildLogDirPath(string logs, bool noLogs)
@@ -234,6 +236,25 @@ namespace Mastersign.DashOps
                 foreach (var annotation in Project.Auto.Where(a => a.Match(actionView)))
                 {
                     annotation.Apply(actionView);
+                }
+            }
+        }
+
+        private void CreateFacetteViews()
+        {
+            foreach (var actionView in ProjectView.ActionViews)
+            {
+                actionView.FacetteViews.Clear();
+                foreach (var kvp in actionView.Facettes)
+                {
+                    actionView.FacetteViews.Add(new FacetteView(
+                        facette: kvp.Key,
+                        title: ProjectView.Perspectives
+                            .Where(p => p.Facette == kvp.Key)
+                            .Select(p => p.Title)
+                            .FirstOrDefault() ?? kvp.Key,
+                        value: kvp.Value
+                    ));
                 }
             }
         }

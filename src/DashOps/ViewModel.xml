@@ -24,9 +24,11 @@
       <Property name="WorkingDirectory" />
       <Property name="Environment" type="dict" />
       <!--<Property name="ExecPaths" type="string[]" />-->
+      <!--<Property name="Terminal" />-->
       <Property name="ExitCodes" type="int[]" />
       <Property name="Tags" type="string[]" />
       <Property name="Facettes" type="dict" />
+      <Property name="FacetteViews" isCollection="true" type="FacetteView" />
       <Property name="Logs" />
       <Property name="NoLogs" type="bool" />
       <Property name="KeepOpen" type="bool" />
@@ -43,6 +45,7 @@
     <Class name="PerspectiveView">
       <CustomInitializer>Initialize</CustomInitializer>
       <Property name="Title" immutable="true" />
+      <Property name="Facette" immutable="true" />
       <Property name="IsSelected" type="bool" />
       <Property name="SourceActions" isCollection="true" type="ActionView" immutable="true" />
       <Property name="Filter" type="ActionFilter" immutable="true" />
@@ -82,6 +85,12 @@
       <Property name="ServerCertificateHash" />
       <Property name="NoTlsVerify" type="bool" />
       <Property name="StatusCodes" type="int[]" />
+    </Class>
+
+    <Class name="FacetteView">
+      <Property name="Facette" immutable="true" />
+      <Property name="Title" immutable="true" />
+      <Property name="Value" immutable="true" />
     </Class>
 
     <Class name="ProjectView">

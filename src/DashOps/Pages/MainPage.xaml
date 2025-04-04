@@ -60,7 +60,7 @@
         <Style x:Key="ActionAddButtonStyle" TargetType="{x:Type ui:Button}"
                BasedOn="{StaticResource DefaultUiButtonStyle}">
             <Setter Property="Margin" Value="4,0,0,0" />
-            <Setter Property="Padding" Value="5,0" />
+            <Setter Property="Padding" Value="4,0" />
             <Setter Property="Width" Value="38" />
             <Setter Property="Height" Value="38" />
         </Style>
@@ -77,41 +77,11 @@
             <Setter Property="Padding" Value="4,5,6,5" />
             <Setter Property="Width" Value="Auto" />
         </Style>
-        
-        <Style x:Key="MonitorStatusIconStyle">
-             <!-- does not use TargetType to suppress alleged binding errors -->
-             <Style.Triggers>
-                <DataTrigger Binding="{Binding Status}" Value="running">
-                    <Setter Property="ui:SymbolIcon.Symbol" Value="{x:Static ui:SymbolRegular.ArrowSync24}" />
-                    <Setter Property="ui:IconElement.Foreground" Value="{StaticResource PaletteBlueBrush}" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Status}" Value="success">
-                    <Setter Property="ui:SymbolIcon.Filled" Value="True" />
-                    <Setter Property="ui:SymbolIcon.Symbol" Value="{x:Static ui:SymbolRegular.CheckmarkCircle24}" />
-                    <Setter Property="ui:IconElement.Foreground" Value="{StaticResource PaletteGreenBrush}" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Status}" Value="recent_success">
-                    <Setter Property="ui:SymbolIcon.Filled" Value="True" />
-                    <Setter Property="ui:SymbolIcon.Symbol" Value="{x:Static ui:SymbolRegular.CheckmarkCircle24}" />
-                    <Setter Property="ui:IconElement.Foreground" Value="{StaticResource PaletteGreenBrush}" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Status}" Value="error">
-                    <Setter Property="ui:SymbolIcon.Filled" Value="true" />
-                    <Setter Property="ui:SymbolIcon.Symbol" Value="{x:Static ui:SymbolRegular.ErrorCircle24}" />
-                    <Setter Property="ui:IconElement.Foreground" Value="{StaticResource PaletteRedBrush}" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Status}" Value="recent_error">
-                    <Setter Property="ui:SymbolIcon.Filled" Value="true" />
-                    <Setter Property="ui:SymbolIcon.Symbol" Value="{x:Static ui:SymbolRegular.ErrorCircle24}" />
-                    <Setter Property="ui:IconElement.Foreground" Value="{StaticResource PaletteRedBrush}" />
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
 
         <Style x:Key="MonitorAddButtonStyle" TargetType="{x:Type ui:Button}"
                BasedOn="{StaticResource DefaultUiButtonStyle}">
             <Setter Property="Margin" Value="4,0,0,0" />
-            <Setter Property="Padding" Value="4" />
+            <Setter Property="Padding" Value="4,0" />
             <Setter Property="Width" Value="32" />
             <Setter Property="Height" Value="32" />
         </Style>
@@ -245,9 +215,10 @@
                                 <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
                                 <ui:SymbolIcon
                                             Grid.Column="1" Margin="4,0,0,0"
-                                            FontSize="20" Symbol="Warning20"
-                                            Foreground="{StaticResource PaletteOrangeBrush}">
-                                    <ui:SymbolIcon.Style>
+                                            FontSize="20" Symbol="Shield20"
+                                            Foreground="{StaticResource PaletteOrangeBrush}"
+                                            Visibility="{Binding Reassure, Converter={StaticResource Bool2Visibility}}">
+                                    <!--<ui:SymbolIcon.Style>
                                         <Style TargetType="FrameworkElement">
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding Reassure}" Value="false">
@@ -255,7 +226,7 @@
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </ui:SymbolIcon.Style>
+                                    </ui:SymbolIcon.Style>-->
                                 </ui:SymbolIcon>
                             </Grid>
                         </ui:Button>

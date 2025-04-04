@@ -62,5 +62,7 @@ namespace Mastersign.DashOps
         public Task ExecuteAsync() => App.Instance.Executor.ExecuteAsync(this);
 
         public Func<string, bool> SuccessCheck => null;
+
+        public string ExitCodesFormatted => string.Join(", ", ExitCodes);
     }
 }

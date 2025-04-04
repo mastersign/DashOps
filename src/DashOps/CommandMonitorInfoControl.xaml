@@ -1,0 +1,126 @@
+﻿<UserControl x:Class="Mastersign.DashOps.CommandMonitorInfoControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:local="clr-namespace:Mastersign.DashOps"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="720"
+             d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:DesignTimeCommandMonitorView}}">
+
+    <ScrollViewer 
+            HorizontalScrollBarVisibility="Disabled"
+            VerticalScrollBarVisibility="Auto"
+            CanContentScroll="False">
+
+        <StackPanel
+                Margin="0,0,16,0"
+                Orientation="Vertical" Grid.IsSharedSizeScope="True">
+
+            <TextBlock Style="{StaticResource Headline}">Command Monitor</TextBlock>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Caption" />
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="CopyButtons" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Style="{StaticResource Caption}">
+                    Title:</TextBlock>
+                <TextBlock Grid.Row="0" Style="{StaticResource ListValue}"
+                    FontWeight="DemiBold"
+                    Text="{Binding Title}" />
+                <ui:SymbolIcon
+                    Grid.Row="0" Grid.Column="2"
+                    FontSize="20"
+                    Style="{StaticResource MonitorStatusIconStyle}"/>
+
+                <TextBlock Grid.Row="1" Style="{StaticResource Caption}">
+                    ID:</TextBlock>
+                <TextBlock Grid.Row="1" Style="{StaticResource ListValueCode}"
+                    Text="{Binding CommandId}" />
+                <local:CopyButton Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" Margin="0,0,0,0"
+                    CopyText="{Binding CommandId}" />
+
+                <TextBlock Grid.Row="2" Style="{StaticResource Caption}">
+                    Interval:</TextBlock>
+                <TextBlock Grid.Row="2" Style="{StaticResource ListValue}"
+                    Text="{Binding Interval}" />
+
+                <TextBlock Grid.Row="3" Style="{StaticResource Caption}">
+                    Command:</TextBlock>
+                <TextBlock Grid.Row="3" Style="{StaticResource ListValueCode}"
+                    Text="{Binding Command}" />
+                <local:CopyButton Grid.Row="3" Grid.Column="2" VerticalAlignment="Top" Margin="0,0,0,0"
+                    CopyText="{Binding Command}" />
+
+                <TextBlock Grid.Row="4" Style="{StaticResource Caption}">
+                    Arguments:</TextBlock>
+                <TextBlock Grid.Row="4" Style="{StaticResource ListValueCode}"
+                    Text="{Binding Arguments}" />
+                <local:CopyButton Grid.Row="4" Grid.Column="2" VerticalAlignment="Top" Margin="0,0,0,0"
+                    CopyText="{Binding Arguments}" />
+
+                <TextBlock Grid.Row="5" Style="{StaticResource Caption}">
+                    Working Dir:</TextBlock>
+                <TextBlock Grid.Row="5" Style="{StaticResource ListValueCode}"
+                    Text="{Binding WorkingDirectory}" />
+                <local:CopyButton Grid.Row="5" Grid.Column="2" VerticalAlignment="Top" Margin="0,0,0,0"
+                    CopyText="{Binding WorkingDirectory}" />
+
+                <TextBlock Grid.Row="6" Style="{StaticResource Caption}">
+                    Success Exit Codes:</TextBlock>
+                <TextBlock Grid.Row="6" Style="{StaticResource ListValue}"
+                    Text="{Binding ExitCodesFormatted}" />
+
+                <TextBlock Grid.Row="7" Style="{StaticResource Caption}">
+                    Patterns:</TextBlock>
+                <TextBlock Grid.Row="7" Style="{StaticResource ListValue}">
+                    <Run Text="{Binding RequiredPatternCount, Mode=OneTime}" /><Run>&#x00A0;Required,</Run>
+                    <Run Text="{Binding ForbiddenPatternCount, Mode=OneTime}" /><Run>&#x00A0;Forbidden</Run>
+                </TextBlock>
+
+                <TextBlock Grid.Row="8" Style="{StaticResource Caption}">
+                    Logging:</TextBlock>
+                <ui:SymbolIcon
+                        Grid.Row="8" Grid.Column="1" Margin="16,8,0,4"
+                        HorizontalAlignment="Left"
+                        FontSize="20">
+                    <ui:SymbolIcon.Style>
+                        <Style>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding NoLogs}" Value="False">
+                                    <DataTrigger.Setters>
+                                        <Setter Property="ui:SymbolIcon.Symbol" Value="Checkmark24" />
+                                        <Setter Property="ui:SymbolIcon.Foreground" Value="{StaticResource PaletteGreenBrush}" />
+                                    </DataTrigger.Setters>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding NoLogs}" Value="True">
+                                    <DataTrigger.Setters>
+                                        <Setter Property="ui:SymbolIcon.Symbol" Value="Dismiss24" />
+                                        <Setter Property="ui:SymbolIcon.Foreground" Value="{StaticResource PaletteRedBrush}" />
+                                    </DataTrigger.Setters>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ui:SymbolIcon.Style>
+                </ui:SymbolIcon>
+
+            </Grid>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

@@ -233,5 +233,9 @@ namespace Mastersign.DashOps
                 CurrentLogFile = null;
             }
         }
+
+        public string StatusCodesFormatted => string.Join(", ", StatusCodes ?? []);
+
+        public List<KeyValuePair<string, string>> HeaderKeyValuePairs => [.. Headers];
     }
 }

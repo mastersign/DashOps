@@ -12,37 +12,47 @@ internal static class UserInteraction
         string title,
         object message,
         InteractionSymbol symbol = InteractionSymbol.None,
-        bool showInTaskbar = false
-    ) {
+        bool showInTaskbar = false,
+        int maxWidth = 1024,
+        int maxHeight = 768,
+        Window owner = null)
+    {
         new UI.MessageBox
         {
-            MaxWidth = 1024,
+            MaxWidth = maxWidth,
+            MaxHeight = maxHeight,
             Title = title,
             Content = BuildContent(message, symbol),
             CloseButtonText = "OK",
             Icon = new BitmapImage(new Uri("pack://application:,,,/DashOps;component/icon.ico")),
-            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner,
             ShowInTaskbar = showInTaskbar,
+            Owner = owner,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
         }.ShowDialogAsync().Wait();
     }
-    
+
     public static bool AskYesOrNoQuestion(
         string title,
         object question,
         InteractionSymbol symbol = InteractionSymbol.Question,
-        bool showInTaskbar = false)
+        bool showInTaskbar = false,
+        int maxWidth = 1024,
+        int maxHeight = 768,
+        Window owner = null)
     {
         var msgBox = new UI.MessageBox
         {
-            MaxWidth = 1024,
+            MaxWidth = maxWidth,
+            MaxHeight = maxHeight,
             Title = title,
             Content = BuildContent(question, symbol),
             PrimaryButtonText = "Yes",
             IsPrimaryButtonEnabled = true,
             CloseButtonText = "No",
             Icon = new BitmapImage(new Uri("pack://application:,,,/DashOps;component/icon.ico")),
-            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner,
             ShowInTaskbar = showInTaskbar,
+            Owner = owner,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
         };
         return msgBox.ShowDialogAsync().Result == UI.MessageBoxResult.Primary;
     }
@@ -64,12 +74,12 @@ internal static class UserInteraction
         {
             Width = 64,
             Height = 64,
-            Margin= new Thickness(0, 0, 20, 0),
+            Margin = new Thickness(0, 0, 20, 0),
             VerticalAlignment = VerticalAlignment.Top,
             Content = new UI.SymbolIcon()
             {
                 FontSize = 48,
-                Filled = true,
+                Filled = MapFilled(symbol),
                 Symbol = MapSymbol(symbol),
                 Foreground = MapColor(symbol),
             },
@@ -101,6 +111,26 @@ internal static class UserInteraction
             InteractionSymbol.Success => UI.SymbolRegular.CheckmarkCircle24,
             InteractionSymbol.Question => UI.SymbolRegular.QuestionCircle24,
             InteractionSymbol.Reassurance => UI.SymbolRegular.ShieldQuestion24,
+
+            InteractionSymbol.CommandAction => UI.SymbolRegular.Play24,
+            InteractionSymbol.CommandMonitor => UI.SymbolRegular.Play24,
+            InteractionSymbol.WebMonitor => UI.SymbolRegular.Globe24,
+            _ => throw new NotSupportedException(),
+        };
+
+    private static bool MapFilled(InteractionSymbol symbol)
+        => symbol switch
+        {
+            InteractionSymbol.Info => true,
+            InteractionSymbol.Warning => true,
+            InteractionSymbol.Error => true,
+            InteractionSymbol.Success => true,
+            InteractionSymbol.Question => true,
+            InteractionSymbol.Reassurance => true,
+
+            InteractionSymbol.CommandAction => false,
+            InteractionSymbol.CommandMonitor => false,
+            InteractionSymbol.WebMonitor => false,
             _ => throw new NotSupportedException(),
         };
 
@@ -113,6 +143,11 @@ internal static class UserInteraction
             InteractionSymbol.Success => Res<Brush>("PaletteGreenBrush"),
             InteractionSymbol.Question => Res<Brush>("PaletteLightBlueBrush"),
             InteractionSymbol.Reassurance => Res<Brush>("PaletteOrangeBrush"),
+
+            InteractionSymbol.CommandAction => Res<Brush>("PaletteGreenBrush"),
+            InteractionSymbol.CommandMonitor => Res<Brush>("PaletteLightBlueBrush"),
+            InteractionSymbol.WebMonitor => Res<Brush>("PaletteLightBlueBrush"),
+
             _ => throw new NotSupportedException(),
         };
 
@@ -130,4 +165,7 @@ internal enum InteractionSymbol
     Success,
     Question,
     Reassurance,
+    CommandAction,
+    CommandMonitor,
+    WebMonitor,
 }

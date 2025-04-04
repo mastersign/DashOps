@@ -40,10 +40,16 @@
         <Setter Property="Margin" Value="0,8,0,4" />
     </Style>
 
+    <Style x:Key="CaptionCode" TargetType="TextBlock"
+           BasedOn="{StaticResource Caption}">
+        <Setter Property="FontFamily" Value="Consolas" />
+        <Setter Property="Margin" Value="0,9.5,0,0" />
+    </Style>
+
     <Style x:Key="ListValue" TargetType="TextBlock"
            BasedOn="{StaticResource TextBlockDefaultFontSize}">
 
-        <Setter Property="Margin" Value="8,8,0,4" />
+        <Setter Property="Margin" Value="16,8,0,4" />
         <Setter Property="Grid.Column" Value="1" />
     </Style>
     <Style x:Key="ListValueInline" TargetType="TextBlock"
@@ -55,6 +61,14 @@
 
         <Setter Property="FontWeight" Value="Bold" />
     </Style>
+
+    <Style x:Key="ListValueCode" TargetType="TextBlock"
+           BasedOn="{StaticResource ListValue}">
+        <Setter Property="FontFamily" Value="Consolas" />
+        <Setter Property="Margin" Value="16,9.5,0,0" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+    
     <Style x:Key="ListHyperlink" TargetType="ui:HyperlinkButton"
            BasedOn="{StaticResource HyperlinkButtonDefaultFontSize}">
 
