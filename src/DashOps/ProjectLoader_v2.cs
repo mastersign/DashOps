@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -261,10 +262,13 @@ namespace Mastersign.DashOps
 
         private ActionView ActionViewFromCommandAction(CommandAction action)
         {
+            var facets = new Dictionary<string, string>(action.Facets ?? []);
             var actionView = new ActionView
             {
-                Command = ExpandEnv(action.Command),
-                Arguments = FormatArguments(action.Arguments),
+                Command = ExpandEnv(
+                    ExpandTemplate(action.Command, facets)),
+                Arguments = FormatArguments(
+                    action.Arguments?.Select(a => ExpandTemplate(a, facets))),
                 WorkingDirectory = BuildAbsolutePath(action.WorkingDirectory),
                 Environment = Merge(Project.Environment, action.Environment),
                 ExitCodes = action.ExitCodes != null && action.ExitCodes.Length > 0
