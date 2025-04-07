@@ -1,30 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Mastersign.DashOps
 {
     public class Executor
     {
-        private class Execution
+        private class Execution(IExecutable executable, Action<ExecutionResult> onExit)
         {
-            public readonly IExecutable Executable;
-            public readonly Action<ExecutionResult> OnExit;
-
-            public Execution(IExecutable executable, Action<ExecutionResult> onExit)
-            {
-                Executable = executable;
-                OnExit = onExit;
-            }
+            public readonly IExecutable Executable = executable;
+            public readonly Action<ExecutionResult> OnExit = onExit;
         }
 
-        private readonly Dictionary<Process, Execution> runningProcesses
-            = new Dictionary<Process, Execution>();
+        private readonly Dictionary<Process, Execution> runningProcesses = [];
 
         public Task<ExecutionResult> ExecuteAsync<T>(T executable)
             where T : IExecutable
@@ -68,7 +56,20 @@ namespace Mastersign.DashOps
                 WorkingDirectory = executable.WorkingDirectory,
                 UseShellExecute = true,
             };
-            var p = Process.Start(psi);
+            Process p;
+            try
+            {
+                p = Process.Start(psi);
+            }
+            catch (Exception e)
+            {
+                p = null;
+                onExit(new ExecutionResult(executable,
+                    startFailed: true,
+                    success: false,
+                    exitCode: 0,
+                    output: e.GetType().Name + Environment.NewLine + e.Message));
+            }
             if (p != null)
             {
                 executable.CurrentLogFile = logfile;
@@ -121,7 +122,10 @@ namespace Mastersign.DashOps
                     executable.CurrentLogFile = null;
                 }
             }
-            execution.OnExit?.Invoke(new ExecutionResult(executable, success, exitCode, output));
+            execution.OnExit?.Invoke(new ExecutionResult(
+                executable, 
+                startFailed: false,
+                success, exitCode, output));
             executable?.NotifyExecutionFinished();
         }
 
@@ -185,19 +189,12 @@ namespace Mastersign.DashOps
                     => Convert.ToBase64String(Encoding.Unicode.GetBytes(cmd));
     }
 
-    public class ExecutionResult
+    public class ExecutionResult(IExecutable executable, bool startFailed, bool success, int exitCode, string output)
     {
-        public IExecutable Executable;
-        public readonly bool Success;
-        public readonly int ExitCode;
-        public readonly string Output;
-
-        public ExecutionResult(IExecutable executable, bool success, int exitCode, string output)
-        {
-            Executable = executable;
-            Success = success;
-            ExitCode = exitCode;
-            Output = output;
-        }
+        public IExecutable Executable = executable;
+        public readonly bool StartFailed = startFailed;
+        public readonly bool Success = success;
+        public readonly int ExitCode = exitCode;
+        public readonly string Output = output;
     }
 }

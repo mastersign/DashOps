@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.IO;
 using System.Text.RegularExpressions;
 
 namespace Mastersign.DashOps
@@ -14,7 +12,9 @@ namespace Mastersign.DashOps
         /// An absolute path to the PowerShell executable.
         /// </summary>
         public static string PowerShellExe =>
-            Environment.ExpandEnvironmentVariables(@"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe");
+            Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.Windows),
+                @"System32\WindowsPowerShell\v1.0\powershell.exe");
 
         /// <summary>
         /// Given an array of strings, containing batch style placeholders for

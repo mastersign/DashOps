@@ -1,5 +1,4 @@
-﻿using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -16,9 +15,19 @@ namespace Mastersign.DashOps
         {
             if (!action.Reassure || Reassure(action))
             {
-                await action.ExecuteAsync();
+                var result = await action.ExecuteAsync();
                 DashOpsCommands.ShowLastLog.RaiseCanExecuteChanged();
                 CommandManager.InvalidateRequerySuggested();
+                if (result.StartFailed)
+                {
+                    UserInteraction.ShowMessage(
+                        "Execute Action",
+                        "Starting action failed with:"
+                        + Environment.NewLine
+                        + Environment.NewLine
+                        + result.Output,
+                        symbol: InteractionSymbol.Error);
+                }
             }
         }
 

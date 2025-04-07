@@ -59,7 +59,7 @@ namespace Mastersign.DashOps
 
         public event EventHandler LogIconChanged;
 
-        public Task ExecuteAsync() => App.Instance.Executor.ExecuteAsync(this);
+        public Task<ExecutionResult> ExecuteAsync() => App.Instance.Executor.ExecuteAsync(this);
 
         public Func<string, bool> SuccessCheck => null;
 
