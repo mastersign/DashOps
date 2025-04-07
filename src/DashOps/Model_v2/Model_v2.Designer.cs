@@ -7,7 +7,7 @@ namespace Mastersign.DashOps.Model_v2
 {
     #region Scaleton Model Designer generated code
     
-    // Scaleton Version: 0.3.0
+    // Scaleton Version: 0.3.2
     
     public enum ActionMatchMode
     {
@@ -36,18 +36,18 @@ namespace Mastersign.DashOps.Model_v2
         public virtual string ToString(IFormatProvider formatProvider)
         {
             return (this.GetType().FullName + @": " + (
-                (Environment.NewLine + @"    Description = " + (!ReferenceEquals(_description, null) ? _description.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Reassure = " + _reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Background = " + _background.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    KeepOpen = " + _keepOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    AlwaysClose = " + _alwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    EnvironmentX = " + (!ReferenceEquals(_environmentX, null) ? _environmentX.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(_exitCodes, null) ? _exitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(_tags, null) ? _tags.ToString() : @"null").Replace("\n", "\n    "))));
+                (global::System.Environment.NewLine + @"    Description = " + (!ReferenceEquals(_description, null) ? _description.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Reassure = " + _reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Background = " + _background.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    KeepOpen = " + _keepOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    AlwaysClose = " + _alwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(_environment, null) ? _environment.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(_exitCodes, null) ? _exitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Tags = " + (!ReferenceEquals(_tags, null) ? _tags.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
         #endregion
@@ -223,20 +223,20 @@ namespace Mastersign.DashOps.Model_v2
         
         #endregion
         
-        #region Property EnvironmentX
+        #region Property Environment
         
-        private Dictionary<string, string> _environmentX;
+        private Dictionary<string, string> _environment;
         
-        public virtual Dictionary<string, string> EnvironmentX
+        public virtual Dictionary<string, string> Environment
         {
-            get { return _environmentX; }
+            get { return _environment; }
             set
             {
-                if ((value == _environmentX))
+                if ((value == _environment))
                 {
                     return;
                 }
-                _environmentX = value;
+                _environment = value;
             }
         }
         
@@ -297,20 +297,20 @@ namespace Mastersign.DashOps.Model_v2
         public override string ToString(IFormatProvider formatProvider)
         {
             return (this.GetType().FullName + @": " + (
-                (Environment.NewLine + @"    Description = " + (!ReferenceEquals(Description, null) ? Description.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Reassure = " + Reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    KeepOpen = " + KeepOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    AlwaysClose = " + AlwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    EnvironmentX = " + (!ReferenceEquals(EnvironmentX, null) ? EnvironmentX.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Command = " + (!ReferenceEquals(_command, null) ? _command.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Facets = " + (!ReferenceEquals(_facets, null) ? _facets.ToString() : @"null").Replace("\n", "\n    "))));
+                (global::System.Environment.NewLine + @"    Description = " + (!ReferenceEquals(Description, null) ? Description.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Reassure = " + Reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    KeepOpen = " + KeepOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    AlwaysClose = " + AlwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(Environment, null) ? Environment.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Command = " + (!ReferenceEquals(_command, null) ? _command.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Facets = " + (!ReferenceEquals(_facets, null) ? _facets.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
         #endregion
@@ -370,21 +370,21 @@ namespace Mastersign.DashOps.Model_v2
         public override string ToString(IFormatProvider formatProvider)
         {
             return (this.GetType().FullName + @": " + (
-                (Environment.NewLine + @"    Description = " + (!ReferenceEquals(Description, null) ? Description.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Reassure = " + Reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    KeepOpen = " + KeepOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    AlwaysClose = " + AlwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    EnvironmentX = " + (!ReferenceEquals(EnvironmentX, null) ? EnvironmentX.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    BasePath = " + (!ReferenceEquals(_basePath, null) ? _basePath.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    PathPattern = " + (!ReferenceEquals(_pathPattern, null) ? _pathPattern.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Facets = " + (!ReferenceEquals(_facets, null) ? _facets.ToString() : @"null").Replace("\n", "\n    "))));
+                (global::System.Environment.NewLine + @"    Description = " + (!ReferenceEquals(Description, null) ? Description.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Reassure = " + Reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    KeepOpen = " + KeepOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    AlwaysClose = " + AlwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(Environment, null) ? Environment.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    BasePath = " + (!ReferenceEquals(_basePath, null) ? _basePath.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PathPattern = " + (!ReferenceEquals(_pathPattern, null) ? _pathPattern.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Facets = " + (!ReferenceEquals(_facets, null) ? _facets.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
         #endregion
@@ -463,20 +463,20 @@ namespace Mastersign.DashOps.Model_v2
         public override string ToString(IFormatProvider formatProvider)
         {
             return (this.GetType().FullName + @": " + (
-                (Environment.NewLine + @"    Description = " + (!ReferenceEquals(Description, null) ? Description.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Reassure = " + Reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    KeepOpen = " + KeepOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    AlwaysClose = " + AlwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    EnvironmentX = " + (!ReferenceEquals(EnvironmentX, null) ? EnvironmentX.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Command = " + (!ReferenceEquals(_command, null) ? _command.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Facets = " + (!ReferenceEquals(_facets, null) ? _facets.ToString() : @"null").Replace("\n", "\n    "))));
+                (global::System.Environment.NewLine + @"    Description = " + (!ReferenceEquals(Description, null) ? Description.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Reassure = " + Reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    KeepOpen = " + KeepOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    AlwaysClose = " + AlwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(Environment, null) ? Environment.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Command = " + (!ReferenceEquals(_command, null) ? _command.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Facets = " + (!ReferenceEquals(_facets, null) ? _facets.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
         #endregion
@@ -502,9 +502,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property Facets
         
-        private Dictionary<string, String[]> _facets;
+        private Dictionary<string, string[]> _facets;
         
-        public virtual Dictionary<string, String[]> Facets
+        public virtual Dictionary<string, string[]> Facets
         {
             get { return _facets; }
             set
@@ -537,10 +537,10 @@ namespace Mastersign.DashOps.Model_v2
         public virtual string ToString(IFormatProvider formatProvider)
         {
             return (this.GetType().FullName + @": " + (
-                (Environment.NewLine + @"    Mode = " + _mode.ToString().Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Facet = " + (!ReferenceEquals(_facet, null) ? _facet.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Pattern = " + (!ReferenceEquals(_pattern, null) ? _pattern.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Value = " + (!ReferenceEquals(_value, null) ? _value.ToString(formatProvider) : @"null").Replace("\n", "\n    "))));
+                (global::System.Environment.NewLine + @"    Mode = " + _mode.ToString().Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Facet = " + (!ReferenceEquals(_facet, null) ? _facet.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Pattern = " + (!ReferenceEquals(_pattern, null) ? _pattern.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Value = " + (!ReferenceEquals(_value, null) ? _value.ToString(formatProvider) : @"null").Replace("\n", "\n    "))));
         }
         
         #endregion
@@ -664,15 +664,15 @@ namespace Mastersign.DashOps.Model_v2
                 }
             }
             return (this.GetType().FullName + @": " + (
-                (Environment.NewLine + @"    Include = " + (!ReferenceEquals(_include, null) ? (_include.Count.ToString() + @" items" + __collection_Include.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Exclude = " + (!ReferenceEquals(_exclude, null) ? (_exclude.Count.ToString() + @" items" + __collection_Exclude.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Facets = " + (!ReferenceEquals(_facets, null) ? _facets.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(_tags, null) ? _tags.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Reassure = " + _reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    KeepOpen = " + _keepOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    AlwaysClose = " + _alwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Background = " + _background.ToString(formatProvider).Replace("\n", "\n    "))));
+                (global::System.Environment.NewLine + @"    Include = " + (!ReferenceEquals(_include, null) ? (_include.Count.ToString() + @" items" + __collection_Include.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Exclude = " + (!ReferenceEquals(_exclude, null) ? (_exclude.Count.ToString() + @" items" + __collection_Exclude.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Facets = " + (!ReferenceEquals(_facets, null) ? _facets.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Tags = " + (!ReferenceEquals(_tags, null) ? _tags.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Reassure = " + _reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    KeepOpen = " + _keepOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    AlwaysClose = " + _alwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Background = " + _background.ToString(formatProvider).Replace("\n", "\n    "))));
         }
         
         #endregion
@@ -868,12 +868,12 @@ namespace Mastersign.DashOps.Model_v2
         public virtual string ToString(IFormatProvider formatProvider)
         {
             return (this.GetType().FullName + @": " + (
-                (Environment.NewLine + @"    Title = " + (!ReferenceEquals(_title, null) ? _title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Interval = " + _interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(_requiredPatterns, null) ? _requiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(_forbiddenPatterns, null) ? _forbiddenPatterns.ToString() : @"null").Replace("\n", "\n    "))));
+                (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(_title, null) ? _title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Interval = " + _interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(_requiredPatterns, null) ? _requiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(_forbiddenPatterns, null) ? _forbiddenPatterns.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
         #endregion
@@ -1014,16 +1014,16 @@ namespace Mastersign.DashOps.Model_v2
         public override string ToString(IFormatProvider formatProvider)
         {
             return (this.GetType().FullName + @": " + (
-                (Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    EnvironmentX = " + (!ReferenceEquals(_environmentX, null) ? _environmentX.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(_exitCodes, null) ? _exitCodes.ToString() : @"null").Replace("\n", "\n    "))));
+                (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(_environment, null) ? _environment.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(_exitCodes, null) ? _exitCodes.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
         #endregion
@@ -1066,20 +1066,20 @@ namespace Mastersign.DashOps.Model_v2
         
         #endregion
         
-        #region Property EnvironmentX
+        #region Property Environment
         
-        private Dictionary<string, string> _environmentX;
+        private Dictionary<string, string> _environment;
         
-        public virtual Dictionary<string, string> EnvironmentX
+        public virtual Dictionary<string, string> Environment
         {
-            get { return _environmentX; }
+            get { return _environment; }
             set
             {
-                if ((value == _environmentX))
+                if ((value == _environment))
                 {
                     return;
                 }
-                _environmentX = value;
+                _environment = value;
             }
         }
         
@@ -1121,17 +1121,17 @@ namespace Mastersign.DashOps.Model_v2
         public override string ToString(IFormatProvider formatProvider)
         {
             return (this.GetType().FullName + @": " + (
-                (Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    EnvironmentX = " + (!ReferenceEquals(EnvironmentX, null) ? EnvironmentX.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Command = " + (!ReferenceEquals(_command, null) ? _command.ToString(formatProvider) : @"null").Replace("\n", "\n    "))));
+                (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(Environment, null) ? Environment.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Command = " + (!ReferenceEquals(_command, null) ? _command.ToString(formatProvider) : @"null").Replace("\n", "\n    "))));
         }
         
         #endregion
@@ -1172,18 +1172,18 @@ namespace Mastersign.DashOps.Model_v2
         public override string ToString(IFormatProvider formatProvider)
         {
             return (this.GetType().FullName + @": " + (
-                (Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    EnvironmentX = " + (!ReferenceEquals(EnvironmentX, null) ? EnvironmentX.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    BasePath = " + (!ReferenceEquals(_basePath, null) ? _basePath.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    PathPattern = " + (!ReferenceEquals(_pathPattern, null) ? _pathPattern.ToString(formatProvider) : @"null").Replace("\n", "\n    "))));
+                (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(Environment, null) ? Environment.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    BasePath = " + (!ReferenceEquals(_basePath, null) ? _basePath.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PathPattern = " + (!ReferenceEquals(_pathPattern, null) ? _pathPattern.ToString(formatProvider) : @"null").Replace("\n", "\n    "))));
         }
         
         #endregion
@@ -1243,27 +1243,27 @@ namespace Mastersign.DashOps.Model_v2
         public override string ToString(IFormatProvider formatProvider)
         {
             return (this.GetType().FullName + @": " + (
-                (Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    EnvironmentX = " + (!ReferenceEquals(EnvironmentX, null) ? EnvironmentX.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Command = " + (!ReferenceEquals(Command, null) ? Command.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Variables = " + (!ReferenceEquals(_variables, null) ? _variables.ToString() : @"null").Replace("\n", "\n    "))));
+                (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(Environment, null) ? Environment.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Command = " + (!ReferenceEquals(Command, null) ? Command.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Variables = " + (!ReferenceEquals(_variables, null) ? _variables.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
         #endregion
         
         #region Property Variables
         
-        private Dictionary<string, String[]> _variables;
+        private Dictionary<string, string[]> _variables;
         
-        public virtual Dictionary<string, String[]> Variables
+        public virtual Dictionary<string, string[]> Variables
         {
             get { return _variables; }
             set
@@ -1297,18 +1297,18 @@ namespace Mastersign.DashOps.Model_v2
         public override string ToString(IFormatProvider formatProvider)
         {
             return (this.GetType().FullName + @": " + (
-                (Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Url = " + (!ReferenceEquals(_url, null) ? _url.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Headers = " + (!ReferenceEquals(_headers, null) ? _headers.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Timeout = " + _timeout.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    ServerCertificateHash = " + (!ReferenceEquals(_serverCertificateHash, null) ? _serverCertificateHash.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    NoTlsVerify = " + _noTlsVerify.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    StatusCodes = " + (!ReferenceEquals(_statusCodes, null) ? _statusCodes.ToString() : @"null").Replace("\n", "\n    "))));
+                (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Url = " + (!ReferenceEquals(_url, null) ? _url.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Headers = " + (!ReferenceEquals(_headers, null) ? _headers.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Timeout = " + _timeout.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ServerCertificateHash = " + (!ReferenceEquals(_serverCertificateHash, null) ? _serverCertificateHash.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoTlsVerify = " + _noTlsVerify.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    StatusCodes = " + (!ReferenceEquals(_statusCodes, null) ? _statusCodes.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
         #endregion
@@ -1447,28 +1447,28 @@ namespace Mastersign.DashOps.Model_v2
         public override string ToString(IFormatProvider formatProvider)
         {
             return (this.GetType().FullName + @": " + (
-                (Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Url = " + (!ReferenceEquals(Url, null) ? Url.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Headers = " + (!ReferenceEquals(Headers, null) ? Headers.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Timeout = " + Timeout.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    ServerCertificateHash = " + (!ReferenceEquals(ServerCertificateHash, null) ? ServerCertificateHash.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    NoTlsVerify = " + NoTlsVerify.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    StatusCodes = " + (!ReferenceEquals(StatusCodes, null) ? StatusCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Variables = " + (!ReferenceEquals(_variables, null) ? _variables.ToString() : @"null").Replace("\n", "\n    "))));
+                (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Url = " + (!ReferenceEquals(Url, null) ? Url.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Headers = " + (!ReferenceEquals(Headers, null) ? Headers.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Timeout = " + Timeout.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ServerCertificateHash = " + (!ReferenceEquals(ServerCertificateHash, null) ? ServerCertificateHash.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoTlsVerify = " + NoTlsVerify.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    StatusCodes = " + (!ReferenceEquals(StatusCodes, null) ? StatusCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Variables = " + (!ReferenceEquals(_variables, null) ? _variables.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
         #endregion
         
         #region Property Variables
         
-        private Dictionary<string, String[]> _variables;
+        private Dictionary<string, string[]> _variables;
         
-        public virtual Dictionary<string, String[]> Variables
+        public virtual Dictionary<string, string[]> Variables
         {
             get { return _variables; }
             set
@@ -1500,8 +1500,8 @@ namespace Mastersign.DashOps.Model_v2
         public virtual string ToString(IFormatProvider formatProvider)
         {
             return (this.GetType().FullName + @": " + (
-                (Environment.NewLine + @"    Caption = " + (!ReferenceEquals(_caption, null) ? _caption.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Facet = " + (!ReferenceEquals(_facet, null) ? _facet.ToString(formatProvider) : @"null").Replace("\n", "\n    "))));
+                (global::System.Environment.NewLine + @"    Caption = " + (!ReferenceEquals(_caption, null) ? _caption.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Facet = " + (!ReferenceEquals(_facet, null) ? _facet.ToString(formatProvider) : @"null").Replace("\n", "\n    "))));
         }
         
         #endregion
@@ -1673,27 +1673,27 @@ namespace Mastersign.DashOps.Model_v2
                 }
             }
             return (this.GetType().FullName + @": " + (
-                (Environment.NewLine + @"    Version = " + (!ReferenceEquals(_version, null) ? _version.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Title = " + (!ReferenceEquals(_title, null) ? _title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    KeepActionOpen = " + _keepActionOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    AlwaysCloseAction = " + _alwaysCloseAction.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Actions = " + (!ReferenceEquals(_actions, null) ? (_actions.Count.ToString() + @" items" + __collection_Actions.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    ActionDiscovery = " + (!ReferenceEquals(_actionDiscovery, null) ? (_actionDiscovery.Count.ToString() + @" items" + __collection_ActionDiscovery.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    ActionPatterns = " + (!ReferenceEquals(_actionPatterns, null) ? (_actionPatterns.Count.ToString() + @" items" + __collection_ActionPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    DefaultWorkingDirectory = " + (!ReferenceEquals(_defaultWorkingDirectory, null) ? _defaultWorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    DefaultEnvironment = " + (!ReferenceEquals(_defaultEnvironment, null) ? _defaultEnvironment.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Perspectives = " + (!ReferenceEquals(_perspectives, null) ? (_perspectives.Count.ToString() + @" items" + __collection_Perspectives.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Auto = " + (!ReferenceEquals(_auto, null) ? (_auto.Count.ToString() + @" items" + __collection_Auto.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Monitors = " + (!ReferenceEquals(_monitors, null) ? (_monitors.Count.ToString() + @" items" + __collection_Monitors.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    MonitorDiscovery = " + (!ReferenceEquals(_monitorDiscovery, null) ? (_monitorDiscovery.Count.ToString() + @" items" + __collection_MonitorDiscovery.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    MonitorPatterns = " + (!ReferenceEquals(_monitorPatterns, null) ? (_monitorPatterns.Count.ToString() + @" items" + __collection_MonitorPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    WebMonitors = " + (!ReferenceEquals(_webMonitors, null) ? (_webMonitors.Count.ToString() + @" items" + __collection_WebMonitors.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    WebMonitorPatterns = " + (!ReferenceEquals(_webMonitorPatterns, null) ? (_webMonitorPatterns.Count.ToString() + @" items" + __collection_WebMonitorPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    PauseMonitors = " + _pauseMonitors.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    DefaultMonitorInterval = " + _defaultMonitorInterval.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    DefaultWebMonitorTimeout = " + _defaultWebMonitorTimeout.ToString(formatProvider).Replace("\n", "\n    "))));
+                (global::System.Environment.NewLine + @"    Version = " + (!ReferenceEquals(_version, null) ? _version.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(_title, null) ? _title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    KeepActionOpen = " + _keepActionOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    AlwaysCloseAction = " + _alwaysCloseAction.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Actions = " + (!ReferenceEquals(_actions, null) ? (_actions.Count.ToString() + @" items" + __collection_Actions.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ActionDiscovery = " + (!ReferenceEquals(_actionDiscovery, null) ? (_actionDiscovery.Count.ToString() + @" items" + __collection_ActionDiscovery.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ActionPatterns = " + (!ReferenceEquals(_actionPatterns, null) ? (_actionPatterns.Count.ToString() + @" items" + __collection_ActionPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    DefaultWorkingDirectory = " + (!ReferenceEquals(_defaultWorkingDirectory, null) ? _defaultWorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    DefaultEnvironment = " + (!ReferenceEquals(_defaultEnvironment, null) ? _defaultEnvironment.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Perspectives = " + (!ReferenceEquals(_perspectives, null) ? (_perspectives.Count.ToString() + @" items" + __collection_Perspectives.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Auto = " + (!ReferenceEquals(_auto, null) ? (_auto.Count.ToString() + @" items" + __collection_Auto.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Monitors = " + (!ReferenceEquals(_monitors, null) ? (_monitors.Count.ToString() + @" items" + __collection_Monitors.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    MonitorDiscovery = " + (!ReferenceEquals(_monitorDiscovery, null) ? (_monitorDiscovery.Count.ToString() + @" items" + __collection_MonitorDiscovery.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    MonitorPatterns = " + (!ReferenceEquals(_monitorPatterns, null) ? (_monitorPatterns.Count.ToString() + @" items" + __collection_MonitorPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    WebMonitors = " + (!ReferenceEquals(_webMonitors, null) ? (_webMonitors.Count.ToString() + @" items" + __collection_WebMonitors.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    WebMonitorPatterns = " + (!ReferenceEquals(_webMonitorPatterns, null) ? (_webMonitorPatterns.Count.ToString() + @" items" + __collection_WebMonitorPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PauseMonitors = " + _pauseMonitors.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    DefaultMonitorInterval = " + _defaultMonitorInterval.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    DefaultWebMonitorTimeout = " + _defaultWebMonitorTimeout.ToString(formatProvider).Replace("\n", "\n    "))));
         }
         
         #endregion

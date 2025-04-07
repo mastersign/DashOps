@@ -27,7 +27,7 @@
       <Property name="AlwaysClose" type="bool" />
       <Property name="Arguments" type="string[]" />
       <Property name="WorkingDirectory" />
-      <Property name="EnvironmentX" type="dict" /><!-- Scaleton needs to use absolute name of Environment.NewLine to solve collision -->
+      <Property name="Environment" type="dict" />
       <!--<Property name="ExecPaths" type="string[]" />-->
       <!--<Property name="Terminal" />-->
       <Property name="ExitCodes" type="int[]" />
@@ -92,7 +92,7 @@
     <Class name="CommandMonitorBase" baseType="MonitorBase">
       <Property name="Arguments" type="string[]" />
       <Property name="WorkingDirectory" />
-      <Property name="EnvironmentX" type="dict" /><!-- Scaleton needs to use absolute name of Environment.NewLine to solve collision -->
+      <Property name="Environment" type="dict" />
       <!--<Property name="ExecPaths" type="string[]" />-->
       <Property name="ExitCodes" type="int[]" />
     </Class>
