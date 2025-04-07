@@ -1,8 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Windows;
 using Mastersign.DashOps.Model_v1;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -11,14 +11,14 @@ namespace Mastersign.DashOps
 {
     public class ProjectLoader_v1 : IProjectLoader
     {
-        private static readonly string[] SUPPORTED_VERSIONS = new[] { "1", "1.0", "1.1", "1.2" };
+        private static readonly string[] SUPPORTED_VERSIONS = ["1", "1.0", "1.1", "1.2", "1.3"];
 
-        private readonly string[] DEF_PERSPECTIVES = new[]
-        {
+        private readonly string[] DEF_PERSPECTIVES =
+        [
             nameof(CommandAction.Verb),
             nameof(CommandAction.Service),
             nameof(CommandAction.Host),
-        };
+        ];
 
         public string ProjectPath { get; }
 
@@ -276,7 +276,7 @@ namespace Mastersign.DashOps
                 NoLogs = action.NoLogs,
                 KeepOpen = action.KeepOpen,
                 AlwaysClose = action.AlwaysClose,
-                Tags = action.Tags ?? Array.Empty<string>(),
+                Tags = action.Tags ?? [],
                 Facets = facets,
             };
             if (!string.IsNullOrWhiteSpace(action.Verb))
@@ -389,9 +389,9 @@ namespace Mastersign.DashOps
                 Environment = [],
                 ExitCodes = actionDiscovery.ExitCodes != null && actionDiscovery.ExitCodes.Length > 0
                     ? actionDiscovery.ExitCodes
-                    : new[] { 0 },
-                Tags = actionDiscovery.Tags ?? Array.Empty<string>()
+                    : [0],
                 Facets = ExpandDictionaryTemplate(facets, facets),
+                Tags = actionDiscovery.Tags ?? []
             };
         }
 
@@ -414,9 +414,9 @@ namespace Mastersign.DashOps
                 Environment = [],
                 ExitCodes = actionPattern.ExitCodes != null && actionPattern.ExitCodes.Length > 0
                     ? actionPattern.ExitCodes
-                    : new[] { 0 },
-                Tags = actionPattern.Tags ?? Array.Empty<string>()
+                    : [0],
                 Facets = ExpandDictionaryTemplate(facets, facets),
+                Tags = actionPattern.Tags ?? []
             };
 
         private MonitorView MonitorViewFromCommandMonitor(CommandMonitor monitor)
@@ -431,7 +431,7 @@ namespace Mastersign.DashOps
                 WorkingDirectory = BuildAbsolutePath(monitor.WorkingDirectory),
                 ExitCodes = monitor.ExitCodes != null && monitor.ExitCodes.Length > 0
                     ? monitor.ExitCodes
-                    : new[] { 0 },
+                    : [0],
                 RequiredPatterns = BuildPatterns(monitor.RequiredPatterns),
                 ForbiddenPatterns = BuildPatterns(monitor.ForbiddenPatterns)
             };
@@ -457,7 +457,7 @@ namespace Mastersign.DashOps
             => monitorPattern.Variables != null
                 ? EnumerateVariations(monitorPattern.Variables)
                     .Select(d => MonitorViewFromPatternVariation(monitorPattern, d))
-                : Enumerable.Empty<MonitorView>();
+                : [];
 
         private static MonitorView MonitorViewFromDiscoveredMatch(CommandMonitorDiscovery monitorDiscovery,
             string[] groupNames, Match m, string file)
@@ -483,7 +483,7 @@ namespace Mastersign.DashOps
                 WorkingDirectory = BuildAbsolutePath(monitorDiscovery.WorkingDirectory),
                 ExitCodes = monitorDiscovery.ExitCodes != null && monitorDiscovery.ExitCodes.Length > 0
                     ? monitorDiscovery.ExitCodes
-                    : new[] { 0 },
+                    : [0],
                 RequiredPatterns = BuildPatterns(monitorDiscovery.RequiredPatterns),
                 ForbiddenPatterns = BuildPatterns(monitorDiscovery.ForbiddenPatterns)
             };
@@ -503,7 +503,7 @@ namespace Mastersign.DashOps
                 WorkingDirectory = BuildAbsolutePath(monitorPattern.WorkingDirectory),
                 ExitCodes = monitorPattern.ExitCodes != null && monitorPattern.ExitCodes.Length > 0
                     ? monitorPattern.ExitCodes
-                    : new[] { 0 },
+                    : [0],
                 RequiredPatterns = BuildPatterns(monitorPattern.RequiredPatterns),
                 ForbiddenPatterns = BuildPatterns(monitorPattern.ForbiddenPatterns)
             };
@@ -522,7 +522,7 @@ namespace Mastersign.DashOps
                 NoTlsVerify = monitor.NoTlsVerify,
                 StatusCodes = monitor.StatusCodes != null && monitor.StatusCodes.Length > 0
                     ? monitor.StatusCodes
-                    : new[] { 200, 201, 202, 203, 204 },
+                    : [200, 201, 202, 203, 204],
                 RequiredPatterns = BuildPatterns(monitor.RequiredPatterns),
                 ForbiddenPatterns = BuildPatterns(monitor.ForbiddenPatterns),
             };
@@ -531,7 +531,7 @@ namespace Mastersign.DashOps
             => monitorPattern.Variables != null
                 ? EnumerateVariations(monitorPattern.Variables)
                     .Select(d => MonitorViewFromPatternVariation(monitorPattern, d))
-                : Enumerable.Empty<MonitorView>();
+                : [];
 
         private static MonitorView MonitorViewFromPatternVariation(
             WebMonitorPattern monitorPattern, Dictionary<string, string> variables)
@@ -548,7 +548,7 @@ namespace Mastersign.DashOps
                 NoTlsVerify = monitorPattern.NoTlsVerify,
                 StatusCodes = monitorPattern.StatusCodes != null && monitorPattern.StatusCodes.Length > 0
                     ? monitorPattern.StatusCodes
-                    : new[] { 200, 201, 202, 203, 204 },
+                    : [200, 201, 202, 203, 204],
                 RequiredPatterns = BuildPatterns(monitorPattern.RequiredPatterns),
                 ForbiddenPatterns = BuildPatterns(monitorPattern.ForbiddenPatterns)
             };
@@ -602,7 +602,7 @@ namespace Mastersign.DashOps
                 return patterns?.Select(p => new Regex(p,
                         RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Multiline,
                         TimeSpan.FromMilliseconds(1000))
-                    ).ToArray() ?? Array.Empty<Regex>();
+                    ).ToArray() ?? [];
             }
             catch (ArgumentException exc)
             {
@@ -610,7 +610,7 @@ namespace Mastersign.DashOps
                     "Parsing Regular Expression",
                     "Error in regular expression: " + exc.Message,
                     symbol: InteractionSymbol.Error);
-                return Array.Empty<Regex>();
+                return [];
             }
         }
 
@@ -652,7 +652,7 @@ namespace Mastersign.DashOps
         private static Dictionary<TKey, TValue> MapValues<TKey, TValue>(
             Dictionary<TKey, TValue> dict, Func<TValue, TValue> f)
         {
-            if (dict == null) return new Dictionary<TKey, TValue>();
+            if (dict == null) return [];
             var result = new Dictionary<TKey, TValue>(dict);
             foreach (var kvp in dict)
             {

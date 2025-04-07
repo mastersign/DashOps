@@ -32,7 +32,7 @@ namespace Mastersign.DashOps
         private string _commandId;
 
         public string CommandId 
-            => _commandId ?? (_commandId = IdBuilder.BuildId(Command + " " + Arguments));
+            => _commandId ??= IdBuilder.BuildId(Command + " " + Arguments);
 
         public override string ToString() => $"[{CommandId}] {Title}: {CommandLabel}";
 

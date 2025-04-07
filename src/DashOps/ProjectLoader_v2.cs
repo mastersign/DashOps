@@ -11,7 +11,7 @@ namespace Mastersign.DashOps
 {
     public class ProjectLoader_v2 : IProjectLoader
     {
-        private static readonly string[] SUPPORTED_VERSIONS = new[] { "2.0" };
+        private static readonly string[] SUPPORTED_VERSIONS = ["2.0"];
 
         public string ProjectPath { get; }
 
@@ -268,7 +268,7 @@ namespace Mastersign.DashOps
                 WorkingDirectory = BuildAbsolutePath(action.WorkingDirectory),
                 ExitCodes = action.ExitCodes != null && action.ExitCodes.Length > 0
                     ? action.ExitCodes
-                    : new[] { 0 },
+                    : [0],
                 Title = action.Description,
                 Reassure = action.Reassure,
                 Visible = !action.Background,
@@ -276,7 +276,7 @@ namespace Mastersign.DashOps
                 NoLogs = action.NoLogs,
                 KeepOpen = action.KeepOpen,
                 AlwaysClose = action.AlwaysClose,
-                Tags = action.Tags ?? Array.Empty<string>(),
+                Tags = action.Tags ?? [],
                 Facets = action.Facets != null
                     ? new Dictionary<string, string>(action.Facets)
                     : [],
@@ -382,9 +382,9 @@ namespace Mastersign.DashOps
                 WorkingDirectory = BuildAbsolutePath(monitor.WorkingDirectory),
                 ExitCodes = monitor.ExitCodes != null && monitor.ExitCodes.Length > 0
                     ? monitor.ExitCodes
-                    : new[] { 0 },
+                    : [0],
                 RequiredPatterns = BuildPatterns(monitor.RequiredPatterns),
-                ForbiddenPatterns = BuildPatterns(monitor.ForbiddenPatterns)
+                ForbiddenPatterns = BuildPatterns(monitor.ForbiddenPatterns),
             };
 
         private static IEnumerable<MonitorView> DiscoverMonitors(CommandMonitorDiscovery monitorDiscovery)
@@ -408,7 +408,7 @@ namespace Mastersign.DashOps
             => monitorPattern.Variables != null
                 ? EnumerateVariations(monitorPattern.Variables)
                     .Select(d => MonitorViewFromPatternVariation(monitorPattern, d))
-                : Enumerable.Empty<MonitorView>();
+                : [];
 
         private static MonitorView MonitorViewFromDiscoveredMatch(CommandMonitorDiscovery monitorDiscovery,
             string[] groupNames, Match m, string file)
@@ -434,7 +434,7 @@ namespace Mastersign.DashOps
                 WorkingDirectory = BuildAbsolutePath(monitorDiscovery.WorkingDirectory),
                 ExitCodes = monitorDiscovery.ExitCodes != null && monitorDiscovery.ExitCodes.Length > 0
                     ? monitorDiscovery.ExitCodes
-                    : new[] { 0 },
+                    : [0],
                 RequiredPatterns = BuildPatterns(monitorDiscovery.RequiredPatterns),
                 ForbiddenPatterns = BuildPatterns(monitorDiscovery.ForbiddenPatterns)
             };
@@ -454,7 +454,7 @@ namespace Mastersign.DashOps
                 WorkingDirectory = BuildAbsolutePath(monitorPattern.WorkingDirectory),
                 ExitCodes = monitorPattern.ExitCodes != null && monitorPattern.ExitCodes.Length > 0
                     ? monitorPattern.ExitCodes
-                    : new[] { 0 },
+                    : [0],
                 RequiredPatterns = BuildPatterns(monitorPattern.RequiredPatterns),
                 ForbiddenPatterns = BuildPatterns(monitorPattern.ForbiddenPatterns)
             };
@@ -473,7 +473,7 @@ namespace Mastersign.DashOps
                 NoTlsVerify = monitor.NoTlsVerify,
                 StatusCodes = monitor.StatusCodes != null && monitor.StatusCodes.Length > 0
                     ? monitor.StatusCodes
-                    : new[] { 200, 201, 202, 203, 204 },
+                    : [200, 201, 202, 203, 204],
                 RequiredPatterns = BuildPatterns(monitor.RequiredPatterns),
                 ForbiddenPatterns = BuildPatterns(monitor.ForbiddenPatterns),
             };
@@ -482,7 +482,7 @@ namespace Mastersign.DashOps
             => monitorPattern.Variables != null
                 ? EnumerateVariations(monitorPattern.Variables)
                     .Select(d => MonitorViewFromPatternVariation(monitorPattern, d))
-                : Enumerable.Empty<MonitorView>();
+                : [];
 
         private static MonitorView MonitorViewFromPatternVariation(
             WebMonitorPattern monitorPattern, Dictionary<string, string> variables)
@@ -499,7 +499,7 @@ namespace Mastersign.DashOps
                 NoTlsVerify = monitorPattern.NoTlsVerify,
                 StatusCodes = monitorPattern.StatusCodes != null && monitorPattern.StatusCodes.Length > 0
                     ? monitorPattern.StatusCodes
-                    : new[] { 200, 201, 202, 203, 204 },
+                    : [200, 201, 202, 203, 204],
                 RequiredPatterns = BuildPatterns(monitorPattern.RequiredPatterns),
                 ForbiddenPatterns = BuildPatterns(monitorPattern.ForbiddenPatterns)
             };
@@ -553,7 +553,7 @@ namespace Mastersign.DashOps
                 return patterns?.Select(p => new Regex(p,
                         RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Multiline,
                         TimeSpan.FromMilliseconds(1000))
-                    ).ToArray() ?? Array.Empty<Regex>();
+                    ).ToArray() ?? [];
             }
             catch (ArgumentException exc)
             {
@@ -561,7 +561,7 @@ namespace Mastersign.DashOps
                     "Parsing Regular Expression",
                     "Error in regular expression: " + exc.Message,
                     symbol: InteractionSymbol.Error);
-                return Array.Empty<Regex>();
+                return [];
             }
         }
 
@@ -603,7 +603,7 @@ namespace Mastersign.DashOps
         private static Dictionary<TKey, TValue> MapValues<TKey, TValue>(
             Dictionary<TKey, TValue> dict, Func<TValue, TValue> f)
         {
-            if (dict == null) return new Dictionary<TKey, TValue>();
+            if (dict == null) return [];
             var result = new Dictionary<TKey, TValue>(dict);
             foreach (var kvp in dict)
             {
