@@ -72,11 +72,11 @@
       <Property name="Exclude" type="ActionMatcher" isCollection="true" />
       <Property name="Facets" type="dict" />
       <Property name="Tags" type="string[]" />
-      <Property name="Reassure" type="bool" />
-      <Property name="NoLogs" type="bool" />
-      <Property name="KeepOpen" type="bool" />
-      <Property name="AlwaysClose" type="bool" />
-      <Property name="Background" type="bool" />
+      <Property name="Reassure" type="bool?" />
+      <Property name="NoLogs" type="bool?" />
+      <Property name="KeepOpen" type="bool?" />
+      <Property name="AlwaysClose" type="bool?" />
+      <Property name="Background" type="bool?" />
     </Class>
 
     <Class name="MonitorBase">

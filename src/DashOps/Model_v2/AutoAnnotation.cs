@@ -20,17 +20,14 @@ partial class AutoAnnotation
         {
             foreach (var facetName in Facets.Keys)
             {
-                if (!action.Facets.ContainsKey(facetName))
-                {
-                    action.Facets[facetName] = Facets[facetName];
-                }
+                action.Facets[facetName] = Facets[facetName];
             }
         }
 
-        action.Reassure = action.Reassure || Reassure;
-        action.NoLogs = action.NoLogs || NoLogs;
-        action.KeepOpen = action.KeepOpen || KeepOpen;
-        action.AlwaysClose = action.AlwaysClose || AlwaysClose;
-        action.Visible = action.Visible && !Background;
+        action.Reassure = Reassure ?? action.Reassure;
+        action.NoLogs = NoLogs ?? action.NoLogs;
+        action.KeepOpen = KeepOpen ?? action.KeepOpen;
+        action.AlwaysClose = AlwaysClose ?? action.AlwaysClose;
+        action.Visible = !(Background ?? !action.Visible);
     }
 }

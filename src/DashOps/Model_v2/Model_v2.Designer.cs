@@ -668,11 +668,11 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Exclude = " + (!ReferenceEquals(_exclude, null) ? (_exclude.Count.ToString() + @" items" + __collection_Exclude.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Facets = " + (!ReferenceEquals(_facets, null) ? _facets.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Tags = " + (!ReferenceEquals(_tags, null) ? _tags.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Reassure = " + _reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    KeepOpen = " + _keepOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    AlwaysClose = " + _alwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Background = " + _background.ToString(formatProvider).Replace("\n", "\n    "))));
+                (global::System.Environment.NewLine + @"    Reassure = " + (!ReferenceEquals(_reassure, null) ? _reassure.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(_noLogs, null) ? _noLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    KeepOpen = " + (!ReferenceEquals(_keepOpen, null) ? _keepOpen.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    AlwaysClose = " + (!ReferenceEquals(_alwaysClose, null) ? _alwaysClose.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Background = " + (!ReferenceEquals(_background, null) ? _background.ToString() : @"null").Replace("\n", "\n    ")) + 
         }
         
         #endregion
@@ -755,9 +755,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property Reassure
         
-        private bool _reassure;
+        private bool? _reassure;
         
-        public virtual bool Reassure
+        public virtual bool? Reassure
         {
             get { return _reassure; }
             set
@@ -774,9 +774,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property NoLogs
         
-        private bool _noLogs;
+        private bool? _noLogs;
         
-        public virtual bool NoLogs
+        public virtual bool? NoLogs
         {
             get { return _noLogs; }
             set
@@ -793,9 +793,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property KeepOpen
         
-        private bool _keepOpen;
+        private bool? _keepOpen;
         
-        public virtual bool KeepOpen
+        public virtual bool? KeepOpen
         {
             get { return _keepOpen; }
             set
@@ -812,9 +812,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property AlwaysClose
         
-        private bool _alwaysClose;
+        private bool? _alwaysClose;
         
-        public virtual bool AlwaysClose
+        public virtual bool? AlwaysClose
         {
             get { return _alwaysClose; }
             set
@@ -831,9 +831,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property Background
         
-        private bool _background;
+        private bool? _background;
         
-        public virtual bool Background
+        public virtual bool? Background
         {
             get { return _background; }
             set
