@@ -3,6 +3,7 @@ title: Test Project v2
 logs: test-logs
 
 pause-monitors: true
+use-windows-terminal: true
 
 # demo exec-paths
 
@@ -22,6 +23,7 @@ auto:
         facet: host
         value: Localhost
     reassure: true
+    use-windows-terminal: false
 
 environment:
   ENV_A: Default Value A
@@ -73,6 +75,7 @@ action-patterns:
     environment:
       ENV_B: value b
     always-close: true
+    windows-terminal-args: 'nt --tabColor #C81 --title "Check ${service}"'
     facets:
       service:
         - service A

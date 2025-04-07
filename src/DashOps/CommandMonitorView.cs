@@ -50,5 +50,9 @@ namespace Mastersign.DashOps
         }
 
         public string ExitCodesFormatted => string.Join(", ", ExitCodes ?? []);
+
+        public bool UseWindowsTerminal => false;
+
+        public string WindowsTerminalArguments => null;
     }
 }

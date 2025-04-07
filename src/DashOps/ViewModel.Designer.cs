@@ -225,6 +225,70 @@ namespace Mastersign.DashOps
         
         #endregion
         
+        #region Property UseWindowsTerminal
+        
+        private bool _useWindowsTerminal;
+        
+        public event EventHandler UseWindowsTerminalChanged;
+        
+        protected virtual void OnUseWindowsTerminalChanged()
+        {
+            EventHandler handler = UseWindowsTerminalChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"UseWindowsTerminal");
+        }
+        
+        public virtual bool UseWindowsTerminal
+        {
+            get { return _useWindowsTerminal; }
+            set
+            {
+                if ((value == _useWindowsTerminal))
+                {
+                    return;
+                }
+                _useWindowsTerminal = value;
+                this.OnUseWindowsTerminalChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property WindowsTerminalArguments
+        
+        private string _windowsTerminalArguments;
+        
+        public event EventHandler WindowsTerminalArgumentsChanged;
+        
+        protected virtual void OnWindowsTerminalArgumentsChanged()
+        {
+            EventHandler handler = WindowsTerminalArgumentsChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"WindowsTerminalArguments");
+        }
+        
+        public virtual string WindowsTerminalArguments
+        {
+            get { return _windowsTerminalArguments; }
+            set
+            {
+                if (string.Equals(value, _windowsTerminalArguments))
+                {
+                    return;
+                }
+                _windowsTerminalArguments = value;
+                this.OnWindowsTerminalArgumentsChanged();
+            }
+        }
+        
+        #endregion
+        
         #region Property ExitCodes
         
         private int[] _exitCodes;

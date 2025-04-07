@@ -17,6 +17,14 @@ namespace Mastersign.DashOps
                 @"System32\WindowsPowerShell\v1.0\powershell.exe");
 
         /// <summary>
+        /// An absolute path to the Windows Terminal executable.
+        /// </summary>
+        public static string WindowsTerminalExe =>
+            Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                @"Microsoft\WindowsApps\wt.exe");
+
+        /// <summary>
         /// Given an array of strings, containing batch style placeholders for
         /// environment variables and numbered parameters, the placeholders are 
         /// replaced by the referred parameter values.

@@ -50,9 +50,29 @@ namespace Mastersign.DashOps
 
             var psArgs = BuildPowerShellArguments(executable, logfile, timestamp);
 
-            var psi = new ProcessStartInfo(CommandLine.PowerShellExe, psArgs)
+            string cmd;
+            var cmdArgs = new StringBuilder();
+            if (executable.UseWindowsTerminal)
             {
-                WindowStyle = executable.Visible ? ProcessWindowStyle.Normal : ProcessWindowStyle.Hidden,
+                cmd = CommandLine.WindowsTerminalExe;
+                if (!string.IsNullOrWhiteSpace(executable.WindowsTerminalArguments))
+                {
+                    cmdArgs.Append(executable.WindowsTerminalArguments);
+                    cmdArgs.Append(" ");
+                }
+                cmdArgs.Append('"');
+                cmdArgs.Append(CommandLine.PowerShellExe);
+                cmdArgs.Append("\" ");
+                cmdArgs.Append(psArgs);
+            }
+            else
+            {
+                cmd = CommandLine.PowerShellExe;
+                cmdArgs.Append(psArgs);
+            }
+            var psi = new ProcessStartInfo(cmd, cmdArgs.ToString())
+            {
+                CreateNoWindow = !executable.Visible,
                 WorkingDirectory = executable.WorkingDirectory,
                 UseShellExecute = false,
             };

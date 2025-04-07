@@ -271,6 +271,10 @@ namespace Mastersign.DashOps
                     action.Arguments?.Select(a => ExpandTemplate(a, facets))),
                 WorkingDirectory = BuildAbsolutePath(action.WorkingDirectory),
                 Environment = Merge(Project.Environment, action.Environment),
+                UseWindowsTerminal = action.UseWindowsTerminal ?? Project.UseWindowsTerminal ?? false,
+                WindowsTerminalArguments =
+                    ExpandTemplate(action.WindowsTerminalArgs, facets)
+                    ?? Project.WindowsTerminalArgs,
                 ExitCodes = action.ExitCodes != null && action.ExitCodes.Length > 0
                     ? action.ExitCodes
                     : [0],
@@ -282,9 +286,7 @@ namespace Mastersign.DashOps
                 KeepOpen = action.KeepOpen,
                 AlwaysClose = action.AlwaysClose,
                 Tags = action.Tags ?? [],
-                Facets = action.Facets != null
-                    ? new Dictionary<string, string>(action.Facets)
-                    : [],
+                Facets = facets,
             };
             return actionView;
         }
@@ -345,6 +347,10 @@ namespace Mastersign.DashOps
                 WorkingDirectory = BuildAbsolutePath(
                     ExpandTemplate(actionDiscovery.WorkingDirectory, facets)),
                 Environment = Merge(Project.Environment, actionDiscovery.Environment),
+                UseWindowsTerminal = actionDiscovery.UseWindowsTerminal ?? Project.UseWindowsTerminal ?? false,
+                WindowsTerminalArguments = 
+                    ExpandTemplate(actionDiscovery.WindowsTerminalArgs, facets)
+                    ?? Project.WindowsTerminalArgs,
                 ExitCodes = actionDiscovery.ExitCodes != null && actionDiscovery.ExitCodes.Length > 0
                     ? actionDiscovery.ExitCodes
                     : [0],
@@ -370,6 +376,10 @@ namespace Mastersign.DashOps
                 WorkingDirectory = BuildAbsolutePath(
                     ExpandTemplate(actionPattern.WorkingDirectory, facets)),
                 Environment = Merge(Project.Environment, actionPattern.Environment),
+                UseWindowsTerminal = actionPattern.UseWindowsTerminal ?? Project.UseWindowsTerminal ?? false,
+                WindowsTerminalArguments =
+                    ExpandTemplate(actionPattern.WindowsTerminalArgs, facets)
+                    ?? Project.WindowsTerminalArgs,
                 ExitCodes = actionPattern.ExitCodes != null && actionPattern.ExitCodes.Length > 0
                     ? actionPattern.ExitCodes
                     : [0],

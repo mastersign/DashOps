@@ -37,5 +37,7 @@ partial class AutoAnnotation
                 action.Environment[kvp.Key] = kvp.Value;
             }
         }
+        action.UseWindowsTerminal = UseWindowsTerminal ?? action.UseWindowsTerminal;
+        action.WindowsTerminalArguments = WindowsTerminalArgs ?? action.WindowsTerminalArguments;
     }
 }

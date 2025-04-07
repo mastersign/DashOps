@@ -10,6 +10,10 @@
 
         Dictionary<string, string> Environment { get; }
 
+        bool UseWindowsTerminal { get; }
+
+        string WindowsTerminalArguments { get; }
+
         int[] ExitCodes { get; }
 
         string CurrentLogFile { get; set; }

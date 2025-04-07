@@ -15,6 +15,16 @@
   </Configuration>
 
   <Types>
+
+    <!--<Enum name="ActionStatus">
+      <Member name="Unknown" />
+      <Member name="StartError" />
+      <Member name="Running" />
+      <Member name="Success" />
+      <Member name="SuccessWithoutLogFile" />
+      <Member name="Failed" />
+      <Member name="FailedWithoutLogFile" />
+    </Enum>-->
     
     <Class name="ActionView">
       <Property name="Title" />
@@ -24,7 +34,8 @@
       <Property name="WorkingDirectory" />
       <Property name="Environment" type="dict" />
       <!--<Property name="ExecPaths" type="string[]" />-->
-      <!--<Property name="Terminal" />-->
+      <Property name="UseWindowsTerminal" type="bool" />
+      <Property name="WindowsTerminalArguments" />
       <Property name="ExitCodes" type="int[]" />
       <Property name="Tags" type="string[]" />
       <Property name="Facets" type="dict" />
@@ -35,6 +46,7 @@
       <Property name="AlwaysClose" type="bool" />
       <Property name="Visible" type="bool" />
       <Property name="CurrentLogFile" />
+      <!--<Property name="Status" type="ActionStatus" />-->
     </Class>
 
     <Class name="ActionSubset">
