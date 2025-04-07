@@ -45,44 +45,9 @@ namespace Mastersign.DashOps.Pages
             e.CanExecute = (e.Parameter as ILogged)?.HasLogFile() ?? false;
         }
 
-        private void ShowLogHistoryContextMenuHandler(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (e.Parameter is ILogged item)
-            {
-                var menu = new ContextMenu
-                {
-                    PlacementTarget = (UIElement)e.OriginalSource,
-                    Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom,
-                };
-                var logs = item.FindLogFiles().OrderByDescending(n => n).Take(20);
-                foreach (var log in logs)
-                {
-                    menu.Items.Add(CreateActionLogMenuItem(log));
-                }
-                menu.IsOpen = true;
-            }
-        }
 
-        private static System.Windows.Controls.MenuItem CreateActionLogMenuItem(string log)
-        {
-            var info = LogFileManager.GetInfo(log);
-            var item = new System.Windows.Controls.MenuItem
-            {
-                Header = info.Timestamp.ToString("yyyy-MM-dd HH:mm:ss"),
-                Icon = SuccessStatusIcon(info.HasResult && info.Success),
-            };
 
-            item.Click += (s, ea) => Core.ShowLogFile(log);
-            return item;
-        }
 
-        private static System.Windows.Controls.Image SuccessStatusIcon(bool success)
-            => new System.Windows.Controls.Image
-            {
-                Source = success
-                    ? new BitmapImage(new Uri("pack://application:,,,/images/StatusOK.png"))
-                    : new BitmapImage(new Uri("pack://application:,,,/images/StatusError.png"))
-            };
 
         private async void MonitorDoubleClickHandler(object sender, MouseButtonEventArgs e)
         {

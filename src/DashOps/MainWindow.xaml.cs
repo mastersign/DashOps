@@ -78,13 +78,13 @@ namespace Mastersign.DashOps
 
         private ProjectView ProjectView => CurrentApp?.ProjectLoader?.ProjectView;
 
-        private void SwitchPerspectiveCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        private void CommandSwitchPerspectiveHandler(object sender, ExecutedRoutedEventArgs e)
         {
             ProjectView projectView = ProjectView;
             projectView.CurrentPerspective = e.Parameter as PerspectiveView ?? projectView.CurrentPerspective;
         }
 
-        private void SwitchPerspectiveCommandCheck(object sender, CanExecuteRoutedEventArgs e)
+        private void CommandSwitchPerspectiveCheck(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = ProjectView != null; // && e.Parameter != ProjectView.CurrentPerspective;
         }
@@ -116,6 +116,5 @@ namespace Mastersign.DashOps
             //        MessageBoxImage.Error);
             //}
         }
-
     }
 }

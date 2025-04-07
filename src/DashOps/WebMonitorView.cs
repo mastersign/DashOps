@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Mastersign.DashOps
 {
@@ -30,7 +26,7 @@ namespace Mastersign.DashOps
             {
                 Directory.CreateDirectory(Logs);
             }
-            NotifyExecutionBegin(startTime);
+            NotifyMonitorBegin(startTime);
             var tWebRequest = new Task<Tuple<bool, int>>(() =>
             {
                 CurrentLogFile = BuildLogFileName(this.PreliminaryLogFileName(startTime));
@@ -136,7 +132,7 @@ namespace Mastersign.DashOps
             });
             var tNotify = tFinalizeLog.ContinueWith(t =>
             {
-                NotifyExecutionFinished(t.Result.Item1);
+                NotifyMonitorFinished(t.Result.Item1);
                 return t.Result.Item1;
             });
             tWebRequest.Start();
@@ -216,7 +212,6 @@ namespace Mastersign.DashOps
             {
                 File.Move(CurrentLogFile, logFile);
                 CurrentLogFile = logFile;
-                OnLogIconChanged();
             }
             else
             {
@@ -224,9 +219,9 @@ namespace Mastersign.DashOps
             }
         }
 
-        protected override void NotifyExecutionFinished(bool success)
+        protected override void NotifyMonitorFinished(bool success)
         {
-            base.NotifyExecutionFinished(success);
+            base.NotifyMonitorFinished(success);
             if (!HasExecutionResultChanged && CurrentLogFile != null && File.Exists(CurrentLogFile))
             {
                 File.Delete(CurrentLogFile);

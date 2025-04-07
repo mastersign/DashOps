@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
-using System.Windows.Threading;
+﻿using System.Windows.Threading;
 
 namespace Mastersign.DashOps
 {
@@ -41,7 +35,7 @@ namespace Mastersign.DashOps
                 if (nextExecutionTime > now) return;
             }
 #pragma warning disable CS4014
-            Core.ExecuteMonitor(monitor, now);
+            Core.CheckMonitor(monitor, now);
 #pragma warning restore CS4014
         }
     }

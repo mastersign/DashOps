@@ -33,8 +33,8 @@
       <Property name="NoLogs" type="bool" />
       <Property name="KeepOpen" type="bool" />
       <Property name="AlwaysClose" type="bool" />
-      <Property name="CurrentLogFile" />
       <Property name="Visible" type="bool" />
+      <Property name="CurrentLogFile" />
     </Class>
 
     <Class name="ActionSubset">

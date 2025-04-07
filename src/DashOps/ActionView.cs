@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-
-namespace Mastersign.DashOps
+﻿namespace Mastersign.DashOps
 {
     partial class ActionView : IExecutable, ILogged
     {
@@ -36,28 +28,10 @@ namespace Mastersign.DashOps
 
         public override string ToString() => $"[{CommandId}] {Title}: {CommandLabel}";
 
-        public ControlTemplate LogIcon
-        {
-            get
-            {
-                var logInfo = this.GetLastLogFileInfo();
-                var resourceName =
-                    logInfo != null
-                        ? logInfo.HasResult
-                            ? logInfo.Success ? "IconLogOK" : "IconLogError"
-                            : "IconLog"
-                        : "IconLogEmpty";
-                return Application.Current.FindResource(resourceName) as ControlTemplate;
-            }
-        }
-
         public void NotifyExecutionFinished()
         {
-            OnPropertyChanged(nameof(LogIcon));
-            LogIconChanged?.Invoke(this, EventArgs.Empty);
+            // nothing for now
         }
-
-        public event EventHandler LogIconChanged;
 
         public Task<ExecutionResult> ExecuteAsync() => App.Instance.Executor.ExecuteAsync(this);
 

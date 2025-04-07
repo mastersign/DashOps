@@ -79,6 +79,15 @@ namespace Mastersign.DashOps.Properties.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Switch Perspective ähnelt.
+        /// </summary>
+        public static string Command_SwitchPerspective {
+            get {
+                return ResourceManager.GetString("Command_SwitchPerspective", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Could not find the executable of the default editor. ähnelt.
         /// </summary>
         public static string EditorNotFound_Message {

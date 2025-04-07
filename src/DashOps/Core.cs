@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using UI = Wpf.Ui.Controls;
 
 namespace Mastersign.DashOps
 {
@@ -17,7 +18,8 @@ namespace Mastersign.DashOps
             {
                 var result = await action.ExecuteAsync();
                 DashOpsCommands.ShowLastLog.RaiseCanExecuteChanged();
-                CommandManager.InvalidateRequerySuggested();
+                DashOpsCommands.ShowLogHistoryContextMenu.RaiseCanExecuteChanged();
+                //CommandManager.InvalidateRequerySuggested();
                 if (result.StartFailed)
                 {
                     UserInteraction.ShowMessage(
@@ -54,16 +56,46 @@ namespace Mastersign.DashOps
                 owner: MainWindow);
         }
 
-        public static async Task<bool> ExecuteMonitor(MonitorView monitor, DateTime startTime)
+        public static async Task<bool> CheckMonitor(MonitorView monitor, DateTime startTime)
         {
-            var result = await monitor.Check(startTime);
-            DashOpsCommands.ShowLastLog.RaiseCanExecuteChanged();
-            CommandManager.InvalidateRequerySuggested();
-            return result;
+            return await monitor.Check(startTime);
         }
 
         public static void ShowLastLog(ILogged logged)
             => ShowLogFile(logged.FindLastLogFile());
+
+        public static void ShowHistoryContextMenu(FrameworkElement source)
+        {
+            var logged = source.Tag as ILogged;
+            var menu = new ContextMenu
+            {
+                PlacementTarget = source,
+                Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom,
+            };
+            var logs = logged.FindLogFiles().OrderByDescending(n => n).Take(20);
+            foreach (var log in logs)
+            {
+                menu.Items.Add(CreateActionLogMenuItem(log));
+            }
+            menu.IsOpen = true;
+        }
+
+        private static MenuItem CreateActionLogMenuItem(string log)
+        {
+            var info = LogFileManager.GetInfo(log);
+
+            var item = new UI.MenuItem
+            {
+                Header = info.Timestamp.ToString("yyyy-MM-dd HH:mm:ss"),
+                Icon = new UI.SymbolIcon(
+                    info.HasResult && info.Success
+                        ? UI.SymbolRegular.Checkmark12
+                        : UI.SymbolRegular.ErrorCircle12),
+            };
+
+            item.Click += (s, ea) => Core.ShowLogFile(log);
+            return item;
+        }
 
         public static void ShowLogFile(string filepath)
             => System.Diagnostics.Process.Start(filepath);

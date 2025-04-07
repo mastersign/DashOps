@@ -7,7 +7,7 @@ namespace Mastersign.DashOps
 {
     #region Scaleton Model Designer generated code
     
-    // Scaleton Version: 0.3.0
+    // Scaleton Version: 0.3.2
     
     public partial class ActionView : INotifyPropertyChanged
     {
@@ -481,38 +481,6 @@ namespace Mastersign.DashOps
         
         #endregion
         
-        #region Property CurrentLogFile
-        
-        private string _currentLogFile;
-        
-        public event EventHandler CurrentLogFileChanged;
-        
-        protected virtual void OnCurrentLogFileChanged()
-        {
-            EventHandler handler = CurrentLogFileChanged;
-            if (!ReferenceEquals(handler, null))
-            {
-                handler(this, EventArgs.Empty);
-            }
-            this.OnPropertyChanged(@"CurrentLogFile");
-        }
-        
-        public virtual string CurrentLogFile
-        {
-            get { return _currentLogFile; }
-            set
-            {
-                if (string.Equals(value, _currentLogFile))
-                {
-                    return;
-                }
-                _currentLogFile = value;
-                this.OnCurrentLogFileChanged();
-            }
-        }
-        
-        #endregion
-        
         #region Property Visible
         
         private bool _visible;
@@ -540,6 +508,38 @@ namespace Mastersign.DashOps
                 }
                 _visible = value;
                 this.OnVisibleChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property CurrentLogFile
+        
+        private string _currentLogFile;
+        
+        public event EventHandler CurrentLogFileChanged;
+        
+        protected virtual void OnCurrentLogFileChanged()
+        {
+            EventHandler handler = CurrentLogFileChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"CurrentLogFile");
+        }
+        
+        public virtual string CurrentLogFile
+        {
+            get { return _currentLogFile; }
+            set
+            {
+                if (string.Equals(value, _currentLogFile))
+                {
+                    return;
+                }
+                _currentLogFile = value;
+                this.OnCurrentLogFileChanged();
             }
         }
         
@@ -627,7 +627,7 @@ namespace Mastersign.DashOps
             this.Initialize();
         }
         
-        public PerspectiveView(string title, string facet, global::System.Collections.ObjectModel.ObservableCollection<ActionView> sourceActions, Func<ActionView, bool> filter, Func<ActionView, String[]> classifier)
+        public PerspectiveView(string title, string facet, global::System.Collections.ObjectModel.ObservableCollection<ActionView> sourceActions, Func<ActionView, bool> filter, Func<ActionView, string[]> classifier)
         {
             this._title = title;
             this._facet = facet;
@@ -731,9 +731,9 @@ namespace Mastersign.DashOps
         
         #region Property Classifier
         
-        private Func<ActionView, String[]> _classifier;
+        private Func<ActionView, string[]> _classifier;
         
-        public virtual Func<ActionView, String[]> Classifier
+        public virtual Func<ActionView, string[]> Classifier
         {
             get { return _classifier; }
         }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace Mastersign.DashOps
 {
@@ -18,7 +13,7 @@ namespace Mastersign.DashOps
         private string _commandId;
 
         public override string CommandId
-            => _commandId ?? (_commandId = IdBuilder.BuildId(Command + " " + Arguments));
+            => _commandId ??= IdBuilder.BuildId(Command + " " + Arguments);
 
         public string CommandLabel => Command
             + (string.IsNullOrWhiteSpace(Arguments)
@@ -29,10 +24,9 @@ namespace Mastersign.DashOps
 
         public override async Task<bool> Check(DateTime startTime)
         {
-            NotifyExecutionBegin(startTime);
+            NotifyMonitorBegin(startTime);
             var result = await App.Instance.Executor.ExecuteAsync(this);
-            NotifyExecutionFinished(result.Success);
-            OnLogIconChanged();
+            NotifyMonitorFinished(result.Success);
             return result.Success;
         }
 
@@ -40,12 +34,12 @@ namespace Mastersign.DashOps
             => output => RequiredPatterns.All(p => p.IsMatch(output)) &&
                          !ForbiddenPatterns.Any(p => p.IsMatch(output));
 
-        protected override void NotifyExecutionFinished(bool success)
+        protected override void NotifyMonitorFinished(bool success)
         {
-            base.NotifyExecutionFinished(success);
-            if (!HasExecutionResultChanged)
+            base.NotifyMonitorFinished(success);
+            if (!HasExecutionResultChanged && CurrentLogFile != null && File.Exists(CurrentLogFile))
             {
-                System.IO.File.Delete(CurrentLogFile);
+                File.Delete(CurrentLogFile);
                 CurrentLogFile = null;
             }
         }

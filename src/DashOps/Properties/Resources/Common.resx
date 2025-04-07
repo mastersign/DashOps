@@ -141,4 +141,7 @@
   <data name="Page_Main_Title" xml:space="preserve">
     <value>Main</value>
   </data>
+  <data name="Command_SwitchPerspective" xml:space="preserve">
+    <value>Switch Perspective</value>
+  </data>
 </root>

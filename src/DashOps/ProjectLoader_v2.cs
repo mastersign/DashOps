@@ -266,6 +266,7 @@ namespace Mastersign.DashOps
                 Command = ExpandEnv(action.Command),
                 Arguments = FormatArguments(action.Arguments),
                 WorkingDirectory = BuildAbsolutePath(action.WorkingDirectory),
+                Environment = new Dictionary<string, string>(action.Environment ?? []),
                 ExitCodes = action.ExitCodes != null && action.ExitCodes.Length > 0
                     ? action.ExitCodes
                     : [0],
@@ -339,6 +340,7 @@ namespace Mastersign.DashOps
                 Arguments = FormatArguments(actionDiscovery.Arguments),
                 WorkingDirectory = BuildAbsolutePath(
                     ExpandTemplate(actionDiscovery.WorkingDirectory, facets)),
+                Environment = new Dictionary<string, string>(actionDiscovery.Environment ?? []),
                 ExitCodes = actionDiscovery.ExitCodes != null && actionDiscovery.ExitCodes.Length > 0
                     ? actionDiscovery.ExitCodes
                     : [0],
@@ -363,6 +365,7 @@ namespace Mastersign.DashOps
                     actionPattern.Arguments?.Select(a => ExpandTemplate(a, facets))),
                 WorkingDirectory = BuildAbsolutePath(
                     ExpandTemplate(actionPattern.WorkingDirectory, facets)),
+                Environment = new Dictionary<string, string>(actionPattern.Environment ?? []),
                 ExitCodes = actionPattern.ExitCodes != null && actionPattern.ExitCodes.Length > 0
                     ? actionPattern.ExitCodes
                     : [0],

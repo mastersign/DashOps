@@ -100,11 +100,8 @@
         </Style>
 
     </Page.Resources>
+    
     <Page.CommandBindings>
-        <CommandBinding 
-                Command="local:DashOpsCommands.ShowLogHistoryContextMenu"
-                CanExecute="HasLogCheck"
-                Executed="ShowLogHistoryContextMenuHandler" />
     </Page.CommandBindings>
 
     <Grid Margin="0,0,20,0">
@@ -218,28 +215,23 @@
                                             FontSize="20" Symbol="Shield20"
                                             Foreground="{StaticResource PaletteOrangeBrush}"
                                             Visibility="{Binding Reassure, Converter={StaticResource Bool2Visibility}}">
-                                    <!--<ui:SymbolIcon.Style>
-                                        <Style TargetType="FrameworkElement">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Reassure}" Value="false">
-                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </ui:SymbolIcon.Style>-->
                                 </ui:SymbolIcon>
                             </Grid>
                         </ui:Button>
                         <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,0,8">
-                            <ui:Button Command="local:DashOpsCommands.ShowLastLog"
+                            <ui:Button
+                                    Command="local:DashOpsCommands.ShowLastLog"
                                     CommandParameter="{Binding}"
                                     Style="{StaticResource ActionAddSplitButtonLeftStyle}"
                                     Icon="{ui:SymbolIcon FontSize=20, Symbol=DocumentBulletListClock20}" />
-                            <ui:Button Command="local:DashOpsCommands.ShowLogHistoryContextMenu"
-                                    CommandParameter="{Binding}"
+                            <ui:Button
+                                    Tag="{Binding}"
+                                    Command="local:DashOpsCommands.ShowLogHistoryContextMenu"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"
                                     Style="{StaticResource ActionAddSplitButtonDropDownStyle}"
                                     Icon="{ui:SymbolIcon FontSize=10, Symbol=ChevronDown12}"/>
-                            <ui:Button Command="local:DashOpsCommands.ShowActionInfo"
+                            <ui:Button
+                                    Command="local:DashOpsCommands.ShowActionInfo"
                                     CommandParameter="{Binding}"
                                     Style="{StaticResource ActionAddButtonStyle}"
                                     Icon="{ui:SymbolIcon FontSize=20, Symbol=Info20}" />
@@ -256,9 +248,9 @@
                 Visibility="{Binding HasMonitors, Converter={StaticResource Bool2Visibility}}">
             <ScrollViewer>
                 <ItemsControl x:Name="Monitors"
-                    Padding="0,0,10,0"
-                    Grid.IsSharedSizeScope="True"
-                    ItemsSource="{Binding MonitorViews}">
+                        Padding="0,0,10,0"
+                        Grid.IsSharedSizeScope="True"
+                        ItemsSource="{Binding MonitorViews}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="0,0,0,6">
@@ -271,23 +263,27 @@
                                     <ui:SymbolIcon Style="{StaticResource MonitorStatusIconStyle}" FontSize="24" />
                                 </ContentControl>
                                 <Label
-                                    Grid.Column="1" Margin="8,0,8,0"
-                                    VerticalContentAlignment="Center"
-                                    Content="{Binding Title}"
-                                    MouseDoubleClick="MonitorDoubleClickHandler" />
+                                        Grid.Column="1" Margin="8,0,8,0"
+                                        VerticalContentAlignment="Center"
+                                        Content="{Binding Title}"
+                                        MouseDoubleClick="MonitorDoubleClickHandler" />
                                 <StackPanel Grid.Column="2" Orientation="Horizontal">
-                                    <ui:Button Command="local:DashOpsCommands.ShowLastLog"
-                                    CommandParameter="{Binding}"
-                                    Style="{StaticResource MonitorAddSplitButtonLeftStyle}"
-                                    Icon="{ui:SymbolIcon FontSize=20, Symbol=DocumentBulletListClock20}" />
-                                    <ui:Button Command="local:DashOpsCommands.ShowLogHistoryContextMenu"
-                                    CommandParameter="{Binding}"
-                                    Style="{StaticResource MonitorAddSplitButtonDropDownStyle}"
-                                    Icon="{ui:SymbolIcon FontSize=10, Symbol=ChevronDown12}"/>
-                                    <ui:Button Command="local:DashOpsCommands.ShowMonitorInfo"
-                                        CommandParameter="{Binding}"
-                                        Style="{StaticResource MonitorAddButtonStyle}"
-                                        Icon="{ui:SymbolIcon FontSize=16, Symbol=Info16}"/>
+                                    <ui:Button
+                                            Command="local:DashOpsCommands.ShowLastLog"
+                                            CommandParameter="{Binding}"
+                                            Style="{StaticResource MonitorAddSplitButtonLeftStyle}"
+                                            Icon="{ui:SymbolIcon FontSize=20, Symbol=DocumentBulletListClock20}" />
+                                    <ui:Button
+                                            Tag="{Binding}"
+                                            Command="local:DashOpsCommands.ShowLogHistoryContextMenu"
+                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"
+                                            Style="{StaticResource MonitorAddSplitButtonDropDownStyle}"
+                                            Icon="{ui:SymbolIcon FontSize=10, Symbol=ChevronDown12}"/>
+                                    <ui:Button
+                                            Command="local:DashOpsCommands.ShowMonitorInfo"
+                                            CommandParameter="{Binding}"
+                                            Style="{StaticResource MonitorAddButtonStyle}"
+                                            Icon="{ui:SymbolIcon FontSize=16, Symbol=Info16}"/>
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>

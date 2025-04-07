@@ -18,8 +18,8 @@
 
     <ui:FluentWindow.CommandBindings>
         <CommandBinding Command="local:DashOpsCommands.SwitchPerspective" 
-                        CanExecute="SwitchPerspectiveCommandCheck" 
-                        Executed="SwitchPerspectiveCommandHandler" />
+                        CanExecute="CommandSwitchPerspectiveCheck" 
+                        Executed="CommandSwitchPerspectiveHandler" />
         <CommandBinding Command="local:DashOpsCommands.EditProject"
                         CanExecute="CommandEditProjectExecute"
                         Executed="CommandEditProjectExecuted" />

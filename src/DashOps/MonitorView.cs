@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using Wpf.Ui.Controls;
 
 namespace Mastersign.DashOps
 {
@@ -17,21 +10,20 @@ namespace Mastersign.DashOps
             throw new NotImplementedException();
         }
 
-        protected virtual void NotifyExecutionBegin(DateTime startTime)
+        protected virtual void NotifyMonitorBegin(DateTime startTime)
         {
             LastExecutionTime = startTime;
             IsRunning = true;
             OnStatusChanged();
         }
 
-        protected virtual void NotifyExecutionFinished(bool success)
+        protected virtual void NotifyMonitorFinished(bool success)
         {
             HasExecutionResultChanged = !HasLastExecutionResult || LastExecutionResult != success;
             LastExecutionResult = success;
             HasLastExecutionResult = true;
             IsRunning = false;
             OnStatusChanged();
-            OnLogIconChanged();
         }
 
         public virtual string Status
@@ -56,8 +48,12 @@ namespace Mastersign.DashOps
 
         protected void OnStatusChanged()
         {
-            OnPropertyChanged(nameof(Status));
-            StatusChanged?.Invoke(this, EventArgs.Empty);
+            App.Current.Dispatcher.Invoke(() => {
+                OnPropertyChanged(nameof(Status));
+                StatusChanged?.Invoke(this, EventArgs.Empty);
+                DashOpsCommands.ShowLastLog.RaiseCanExecuteChanged();
+                DashOpsCommands.ShowLogHistoryContextMenu.RaiseCanExecuteChanged();
+            });
         }
 
         public int RequiredPatternCount => RequiredPatterns?.Length ?? 0;
@@ -67,29 +63,6 @@ namespace Mastersign.DashOps
         #region ILogged
 
         public virtual string CommandId => throw new NotImplementedException();
-
-        public virtual ControlTemplate LogIcon
-        {
-            get
-            {
-                var logInfo = this.GetLastLogFileInfo();
-                var resourceName =
-                    logInfo != null
-                        ? logInfo.HasResult
-                            ? logInfo.Success ? "IconLogOK" : "IconLogError"
-                            : "IconLog"
-                        : "IconLogEmpty";
-                return Application.Current.FindResource(resourceName) as ControlTemplate;
-            }
-        }
-
-        public event EventHandler LogIconChanged;
-
-        protected void OnLogIconChanged()
-        {
-            OnPropertyChanged(nameof(LogIcon));
-            LogIconChanged?.Invoke(this, EventArgs.Empty);
-        }
 
         #endregion
     }
