@@ -6,17 +6,17 @@
         {
             FormatVersion = "2.0";
             Title = "Design Time Project View";
-            AddFacettePerspective("host", "Hosts");
-            AddFacettePerspective("service", "Services");
-            AddFacettePerspective("verb", "Verbs");
-            AddFacettePerspective("env", "Environments");
-            AddFacettePerspective("role", "Roles");
+            AddFacetPerspective("host", "Hosts");
+            AddFacetPerspective("service", "Services");
+            AddFacetPerspective("verb", "Verbs");
+            AddFacetPerspective("env", "Environments");
+            AddFacetPerspective("role", "Roles");
             ActionViews.Add(new ActionView
             {
                 Title = "Start X on A",
                 Command = "start_x",
                 Arguments ="--on a",
-                Facettes = new Dictionary<string, string>
+                Facets = new Dictionary<string, string>
                 {
                     {"verb", "start"},
                     {"service", "x"},
@@ -28,7 +28,7 @@
                 Title = "Stop X on A",
                 Command = "stop_x",
                 Arguments = "--on a",
-                Facettes = new Dictionary<string, string>
+                Facets = new Dictionary<string, string>
                 {
                     {"verb", "stop"},
                     {"service", "x"},
@@ -40,7 +40,7 @@
                 Title = "Start Y on A",
                 Command = "start_y",
                 Arguments = "--on a",
-                Facettes = new Dictionary<string, string>
+                Facets = new Dictionary<string, string>
                 {
                     {"verb", "start"},
                     {"service", "y"},
@@ -52,7 +52,7 @@
                 Title = "Stop Y on A",
                 Command = "stop_y",
                 Arguments = "--on a",
-                Facettes = new Dictionary<string, string>
+                Facets = new Dictionary<string, string>
                 {
                     {"verb", "stop"},
                     {"service", "y"},

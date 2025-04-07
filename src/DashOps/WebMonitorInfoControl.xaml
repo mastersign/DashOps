@@ -78,7 +78,7 @@
                         <DataTemplate>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" SharedSizeGroup="FacetteName" />
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="HeaderName" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock

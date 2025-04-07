@@ -6,19 +6,19 @@ logs: test-logs
 # demo environment variables
 
 perspectives:
-  - facette: host
+  - facet: host
     caption: Hosts
-  - facette: service
+  - facet: service
     caption: Services
-  - facette: verb
+  - facet: verb
     caption: Verbs
-  - facette: env
+  - facet: env
     caption: Environments
 
 auto:
   - include:
-      - mode: Facette
-        facette: host
+      - mode: facet
+        facet: host
         value: Localhost
     reassure: true
 
@@ -27,7 +27,7 @@ actions:
     command: Get-ChildItem
     arguments: ['%ProgramFiles%']
     keep-open: true
-    facettes:
+    facets:
       host: Localhost
       service: File System
       verb: dir
@@ -40,7 +40,7 @@ actions:
     arguments: ['$env:UserProfile']
     logs: 'test-logs\user-files'
     background: true
-    facettes:
+    facets:
       host: Localhost
       service: File System
       verb: dir
@@ -53,7 +53,7 @@ action-discovery:
     base-path: "test-scripts\\"
     path-pattern: '(?<service>.+?)\\(?<verb>[^_]+)_(?<host>[^\.]+)\.ps1'
     arguments: ['a', 'b', 123]
-    facettes:
+    facets:
       host: incorrect
       env: Test
     tags:
@@ -64,7 +64,7 @@ action-patterns:
     arguments: ['-Mode', '${mode}']
     always-close: true
     working-directory: test-scripts
-    facettes:
+    facets:
       service:
         - service A
         - service B

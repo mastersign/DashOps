@@ -3,6 +3,8 @@
        xmlns="http://scaleton.mastersign.de/2014/model">
 
   <Namespace>Mastersign.DashOps.Model_v2</Namespace>
+  
+  <!-- Format 2.0 -->
 
   <ReferencedTypes>
     <ReferencedType id="dict" name="System.Collections.Generic.Dictionary`2[System.String, System.String]" />
@@ -34,32 +36,32 @@
     
     <Class name="CommandAction" baseType="CommandActionBase">
       <Property name="Command" />
-      <Property name="Facettes" type="dict" />
+      <Property name="Facets" type="dict" />
     </Class>
 
     <Class name="CommandActionDiscovery" baseType="CommandActionBase">
       <Property name="BasePath" />
       <Property name="PathPattern" />
-      <Property name="Facettes" type="dict" />
+      <Property name="Facets" type="dict" />
     </Class>
 
     <Class name="CommandActionPattern" baseType="CommandActionBase">
       <Property name="Command" />
-      <Property name="Facettes" type="mdict" />
+      <Property name="Facets" type="mdict" />
     </Class>
     
     <Enum name="ActionMatchMode">
       <Member name="Description" />
       <Member name="Command" />
-      <Member name="Facette" />
+      <Member name="Facet" />
       <Member name="Tag" />
     </Enum>
     
     <Class name="ActionMatcher">
       <Property name="Mode" type="ActionMatchMode" defaultInitialization="true">
-        <DefaultValue>Facette</DefaultValue>
+        <DefaultValue>Facet</DefaultValue>
       </Property>
-      <Property name="Facette" />
+      <Property name="Facet" />
       <Property name="Pattern" />
       <Property name="Value" />
     </Class>
@@ -67,7 +69,7 @@
     <Class name="AutoAnnotation">
       <Property name="Include" type="ActionMatcher" isCollection="true" />
       <Property name="Exclude" type="ActionMatcher" isCollection="true" />
-      <Property name="Facettes" type="dict" />
+      <Property name="Facets" type="dict" />
       <Property name="Tags" type="string[]" />
       <Property name="Reassure" type="bool" />
       <Property name="NoLogs" type="bool" />
@@ -123,9 +125,9 @@
       <Property name="Variables" type="mdict" />
     </Class>
 
-    <Class name="FacettePerspective">
+    <Class name="FacetPerspective">
       <Property name="Caption" />
-      <Property name="Facette" />
+      <Property name="Facet" />
       <!--<Property name="Icon" />-->
     </Class>
 
@@ -143,7 +145,7 @@
       <Property name="DefaultEnvironment" type="dict" />
       <!--<Property name="DefaultExecPaths" type="string[]" />-->
       <!--<Property name="DefaultTerminal" />-->
-      <Property name="Perspectives" type="FacettePerspective" isCollection="true" defaultInitialization="true" />
+      <Property name="Perspectives" type="FacetPerspective" isCollection="true" defaultInitialization="true" />
       <Property name="Auto" type="AutoAnnotation" isCollection="true" defaultInitialization="true" />
       <Property name="Monitors" type="CommandMonitor" isCollection="true" defaultInitialization="true" />
       <Property name="MonitorDiscovery" type="CommandMonitorDiscovery" isCollection="true" defaultInitialization="true" />

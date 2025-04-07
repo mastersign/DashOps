@@ -13,7 +13,7 @@ namespace Mastersign.DashOps.Model_v2
     {
         Description,
         Command,
-        Facette,
+        Facet,
         Tag,
     }
     
@@ -310,7 +310,7 @@ namespace Mastersign.DashOps.Model_v2
                 (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Command = " + (!ReferenceEquals(_command, null) ? _command.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Facettes = " + (!ReferenceEquals(_facettes, null) ? _facettes.ToString() : @"null").Replace("\n", "\n    "))));
+                (Environment.NewLine + @"    Facets = " + (!ReferenceEquals(_facets, null) ? _facets.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
         #endregion
@@ -334,20 +334,20 @@ namespace Mastersign.DashOps.Model_v2
         
         #endregion
         
-        #region Property Facettes
+        #region Property Facets
         
-        private Dictionary<string, string> _facettes;
+        private Dictionary<string, string> _facets;
         
-        public virtual Dictionary<string, string> Facettes
+        public virtual Dictionary<string, string> Facets
         {
-            get { return _facettes; }
+            get { return _facets; }
             set
             {
-                if ((value == _facettes))
+                if ((value == _facets))
                 {
                     return;
                 }
-                _facettes = value;
+                _facets = value;
             }
         }
         
@@ -384,7 +384,7 @@ namespace Mastersign.DashOps.Model_v2
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    BasePath = " + (!ReferenceEquals(_basePath, null) ? _basePath.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    PathPattern = " + (!ReferenceEquals(_pathPattern, null) ? _pathPattern.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Facettes = " + (!ReferenceEquals(_facettes, null) ? _facettes.ToString() : @"null").Replace("\n", "\n    "))));
+                (Environment.NewLine + @"    Facets = " + (!ReferenceEquals(_facets, null) ? _facets.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
         #endregion
@@ -427,20 +427,20 @@ namespace Mastersign.DashOps.Model_v2
         
         #endregion
         
-        #region Property Facettes
+        #region Property Facets
         
-        private Dictionary<string, string> _facettes;
+        private Dictionary<string, string> _facets;
         
-        public virtual Dictionary<string, string> Facettes
+        public virtual Dictionary<string, string> Facets
         {
-            get { return _facettes; }
+            get { return _facets; }
             set
             {
-                if ((value == _facettes))
+                if ((value == _facets))
                 {
                     return;
                 }
-                _facettes = value;
+                _facets = value;
             }
         }
         
@@ -476,7 +476,7 @@ namespace Mastersign.DashOps.Model_v2
                 (Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Command = " + (!ReferenceEquals(_command, null) ? _command.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Facettes = " + (!ReferenceEquals(_facettes, null) ? _facettes.ToString() : @"null").Replace("\n", "\n    "))));
+                (Environment.NewLine + @"    Facets = " + (!ReferenceEquals(_facets, null) ? _facets.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
         #endregion
@@ -500,20 +500,20 @@ namespace Mastersign.DashOps.Model_v2
         
         #endregion
         
-        #region Property Facettes
+        #region Property Facets
         
-        private Dictionary<string, String[]> _facettes;
+        private Dictionary<string, String[]> _facets;
         
-        public virtual Dictionary<string, String[]> Facettes
+        public virtual Dictionary<string, String[]> Facets
         {
-            get { return _facettes; }
+            get { return _facets; }
             set
             {
-                if ((value == _facettes))
+                if ((value == _facets))
                 {
                     return;
                 }
-                _facettes = value;
+                _facets = value;
             }
         }
         
@@ -538,7 +538,7 @@ namespace Mastersign.DashOps.Model_v2
         {
             return (this.GetType().FullName + @": " + (
                 (Environment.NewLine + @"    Mode = " + _mode.ToString().Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Facette = " + (!ReferenceEquals(_facette, null) ? _facette.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    Facet = " + (!ReferenceEquals(_facet, null) ? _facet.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Pattern = " + (!ReferenceEquals(_pattern, null) ? _pattern.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Value = " + (!ReferenceEquals(_value, null) ? _value.ToString(formatProvider) : @"null").Replace("\n", "\n    "))));
         }
@@ -549,7 +549,7 @@ namespace Mastersign.DashOps.Model_v2
         
         private ActionMatchMode _mode;
         
-        private const ActionMatchMode DEF_MODE = ActionMatchMode.Facette;
+        private const ActionMatchMode DEF_MODE = ActionMatchMode.Facet;
         
         [DefaultValue(DEF_MODE)]
         public virtual ActionMatchMode Mode
@@ -567,20 +567,20 @@ namespace Mastersign.DashOps.Model_v2
         
         #endregion
         
-        #region Property Facette
+        #region Property Facet
         
-        private string _facette;
+        private string _facet;
         
-        public virtual string Facette
+        public virtual string Facet
         {
-            get { return _facette; }
+            get { return _facet; }
             set
             {
-                if (string.Equals(value, _facette))
+                if (string.Equals(value, _facet))
                 {
                     return;
                 }
-                _facette = value;
+                _facet = value;
             }
         }
         
@@ -666,7 +666,7 @@ namespace Mastersign.DashOps.Model_v2
             return (this.GetType().FullName + @": " + (
                 (Environment.NewLine + @"    Include = " + (!ReferenceEquals(_include, null) ? (_include.Count.ToString() + @" items" + __collection_Include.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Exclude = " + (!ReferenceEquals(_exclude, null) ? (_exclude.Count.ToString() + @" items" + __collection_Exclude.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Facettes = " + (!ReferenceEquals(_facettes, null) ? _facettes.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (Environment.NewLine + @"    Facets = " + (!ReferenceEquals(_facets, null) ? _facets.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Tags = " + (!ReferenceEquals(_tags, null) ? _tags.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    Reassure = " + _reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
@@ -715,20 +715,20 @@ namespace Mastersign.DashOps.Model_v2
         
         #endregion
         
-        #region Property Facettes
+        #region Property Facets
         
-        private Dictionary<string, string> _facettes;
+        private Dictionary<string, string> _facets;
         
-        public virtual Dictionary<string, string> Facettes
+        public virtual Dictionary<string, string> Facets
         {
-            get { return _facettes; }
+            get { return _facets; }
             set
             {
-                if ((value == _facettes))
+                if ((value == _facets))
                 {
                     return;
                 }
-                _facettes = value;
+                _facets = value;
             }
         }
         
@@ -1484,9 +1484,9 @@ namespace Mastersign.DashOps.Model_v2
         #endregion
     }
     
-    public partial class FacettePerspective
+    public partial class FacetPerspective
     {
-        public FacettePerspective()
+        public FacetPerspective()
         {
         }
         
@@ -1501,7 +1501,7 @@ namespace Mastersign.DashOps.Model_v2
         {
             return (this.GetType().FullName + @": " + (
                 (Environment.NewLine + @"    Caption = " + (!ReferenceEquals(_caption, null) ? _caption.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (Environment.NewLine + @"    Facette = " + (!ReferenceEquals(_facette, null) ? _facette.ToString(formatProvider) : @"null").Replace("\n", "\n    "))));
+                (Environment.NewLine + @"    Facet = " + (!ReferenceEquals(_facet, null) ? _facet.ToString(formatProvider) : @"null").Replace("\n", "\n    "))));
         }
         
         #endregion
@@ -1525,20 +1525,20 @@ namespace Mastersign.DashOps.Model_v2
         
         #endregion
         
-        #region Property Facette
+        #region Property Facet
         
-        private string _facette;
+        private string _facet;
         
-        public virtual string Facette
+        public virtual string Facet
         {
-            get { return _facette; }
+            get { return _facet; }
             set
             {
-                if (string.Equals(value, _facette))
+                if (string.Equals(value, _facet))
                 {
                     return;
                 }
-                _facette = value;
+                _facet = value;
             }
         }
         
@@ -1552,7 +1552,7 @@ namespace Mastersign.DashOps.Model_v2
             this._actions = new List<CommandAction>();
             this._actionDiscovery = new List<CommandActionDiscovery>();
             this._actionPatterns = new List<CommandActionPattern>();
-            this._perspectives = new List<FacettePerspective>();
+            this._perspectives = new List<FacetPerspective>();
             this._auto = new List<AutoAnnotation>();
             this._monitors = new List<CommandMonitor>();
             this._monitorDiscovery = new List<CommandMonitorDiscovery>();
@@ -1607,7 +1607,7 @@ namespace Mastersign.DashOps.Model_v2
             {
                 for (int __index = 0; __index < Math.Min(_perspectives.Count, 10); __index++)
                 {
-                    FacettePerspective __item = _perspectives[__index];
+                    FacetPerspective __item = _perspectives[__index];
                     __collection_Perspectives.AppendLine();
                     __collection_Perspectives.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
                 }
@@ -1909,9 +1909,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property Perspectives
         
-        private List<FacettePerspective> _perspectives;
+        private List<FacetPerspective> _perspectives;
         
-        public virtual List<FacettePerspective> Perspectives
+        public virtual List<FacetPerspective> Perspectives
         {
             get { return _perspectives; }
             set

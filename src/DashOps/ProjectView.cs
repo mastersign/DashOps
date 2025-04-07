@@ -15,15 +15,15 @@
             }
         }
 
-        public void AddFacettePerspective(string facetteName, string caption = null)
+        public void AddFacetPerspective(string facetName, string caption = null)
         {
             Perspectives.Add(
                 new PerspectiveView(
-                    title: caption ?? facetteName + "s",
-                    facette: facetteName,
+                    title: caption ?? facetName + "s",
+                    facet: facetName,
                     sourceActions: ActionViews,
-                    filter: a => a.HasFacette(facetteName),
-                    classifier: a => [a.GetFacetteValue(facetteName)]));
+                    filter: a => a.HasFacet(facetName),
+                    classifier: a => [a.GetFacetValue(facetName)]));
         }
 
         public void AddTagsPerspective()
@@ -31,7 +31,7 @@
             Perspectives.Add(
                 new PerspectiveView(
                     title: "Tags",
-                    facette: null,
+                    facet: null,
                     sourceActions: ActionViews,
                     filter: a => (a.Tags?.Length ?? 0) > 0,
                     classifier: a => a.Tags));

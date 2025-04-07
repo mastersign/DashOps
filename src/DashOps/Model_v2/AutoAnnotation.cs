@@ -13,18 +13,16 @@ partial class AutoAnnotation
     {
         if (Tags != null)
         {
-            action.Tags = action.Tags
-                .Union(Tags)
-                .ToArray();
+            action.Tags = [.. action.Tags.Union(Tags)];
         }
 
-        if (Facettes != null)
+        if (Facets != null)
         {
-            foreach (var facetteName in Facettes.Keys)
+            foreach (var facetName in Facets.Keys)
             {
-                if (!action.Facettes.ContainsKey(facetteName))
+                if (!action.Facets.ContainsKey(facetName))
                 {
-                    action.Facettes[facetteName] = Facettes[facetteName];
+                    action.Facets[facetName] = Facets[facetName];
                 }
             }
         }

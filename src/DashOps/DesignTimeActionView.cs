@@ -6,15 +6,15 @@ internal class DesignTimeActionView : ActionView
     {
         Title = "Demo action with a rather long title";
         Tags = ["demo", "Some Longer Tag", "important"];
-        Facettes = new Dictionary<string, string>
+        Facets = new Dictionary<string, string>
         {
             { "host", "localhost" },
             { "verb", "demonstrating" },
             { "service", "Design Time" },
         };
-        FacetteViews.Add(new FacetteView("host", "Hosts", "localhost"));
-        FacetteViews.Add(new FacetteView("verb", "Verbs", "demonstrating"));
-        FacetteViews.Add(new FacetteView("service", "Services", "localhost"));
+        FacetViews.Add(new FacetView("host", "Hosts", "localhost"));
+        FacetViews.Add(new FacetView("verb", "Verbs", "demonstrating"));
+        FacetViews.Add(new FacetView("service", "Services", "localhost"));
         Visible = true;
 
         Command = @"C:\Program Files (x86)\Some Vendor\My Application\bin\MyApplication.exe";

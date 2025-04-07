@@ -211,10 +211,10 @@ namespace Mastersign.DashOps
             ProjectView.AddTagsPerspective();
             foreach (var perspective in Project.Perspectives)
             {
-                ProjectView.AddFacettePerspective(perspective.Facette, perspective.Caption);
+                ProjectView.AddFacetPerspective(perspective.Facet, perspective.Caption);
             }
 
-            CreateFacetteViews();
+            CreateFacetViews();
         }
 
         private string BuildLogDirPath(string logs, bool noLogs)
@@ -240,17 +240,17 @@ namespace Mastersign.DashOps
             }
         }
 
-        private void CreateFacetteViews()
+        private void CreateFacetViews()
         {
             foreach (var actionView in ProjectView.ActionViews)
             {
-                actionView.FacetteViews.Clear();
-                foreach (var kvp in actionView.Facettes)
+                actionView.FacetViews.Clear();
+                foreach (var kvp in actionView.Facets)
                 {
-                    actionView.FacetteViews.Add(new FacetteView(
-                        facette: kvp.Key,
+                    actionView.FacetViews.Add(new FacetView(
+                        facet: kvp.Key,
                         title: ProjectView.Perspectives
-                            .Where(p => p.Facette == kvp.Key)
+                            .Where(p => p.Facet == kvp.Key)
                             .Select(p => p.Title)
                             .FirstOrDefault() ?? kvp.Key,
                         value: kvp.Value
@@ -277,9 +277,9 @@ namespace Mastersign.DashOps
                 KeepOpen = action.KeepOpen,
                 AlwaysClose = action.AlwaysClose,
                 Tags = action.Tags ?? Array.Empty<string>(),
-                Facettes = action.Facettes != null
-                    ? new Dictionary<string, string>(action.Facettes)
-                    : new Dictionary<string, string>(),
+                Facets = action.Facets != null
+                    ? new Dictionary<string, string>(action.Facets)
+                    : [],
             };
             return actionView;
         }
@@ -303,11 +303,11 @@ namespace Mastersign.DashOps
 
         private IEnumerable<ActionView> ExpandActionPattern(CommandActionPattern actionPattern)
         {
-            var facettes = actionPattern.Facettes != null
-                ? new Dictionary<string, string[]>(actionPattern.Facettes)
+            var facets = actionPattern.Facets != null
+                ? new Dictionary<string, string[]>(actionPattern.Facets)
                 : [];
 
-            return EnumerateVariations(facettes)
+            return EnumerateVariations(facets)
                 .Select(d => ActionViewFromPatternVariation(actionPattern, d));
         }
 
@@ -315,59 +315,59 @@ namespace Mastersign.DashOps
             CommandActionDiscovery actionDiscovery,
             string[] groupNames, Match m, string file)
         {
-            var facettes = actionDiscovery.Facettes != null
-                ? new Dictionary<string, string>(actionDiscovery.Facettes)
+            var facets = actionDiscovery.Facets != null
+                ? new Dictionary<string, string>(actionDiscovery.Facets)
                 : [];
             foreach (var groupName in groupNames)
             {
                 if (groupName == "0") continue;
                 var g = m.Groups[groupName];
                 if (!g.Success) continue;
-                facettes[groupName] = g.Value;
+                facets[groupName] = g.Value;
             }
 
             return new ActionView()
             {
-                Title = ExpandTemplate(actionDiscovery.Description, facettes),
+                Title = ExpandTemplate(actionDiscovery.Description, facets),
                 Reassure = actionDiscovery.Reassure,
                 Visible = !actionDiscovery.Background,
-                Logs = ExpandEnv(ExpandTemplate(actionDiscovery.Logs, facettes)),
+                Logs = ExpandEnv(ExpandTemplate(actionDiscovery.Logs, facets)),
                 NoLogs = actionDiscovery.NoLogs,
                 KeepOpen = actionDiscovery.KeepOpen,
                 AlwaysClose = actionDiscovery.AlwaysClose,
                 Command = file,
                 Arguments = FormatArguments(actionDiscovery.Arguments),
                 WorkingDirectory = BuildAbsolutePath(
-                    ExpandTemplate(actionDiscovery.WorkingDirectory, facettes)),
+                    ExpandTemplate(actionDiscovery.WorkingDirectory, facets)),
                 ExitCodes = actionDiscovery.ExitCodes != null && actionDiscovery.ExitCodes.Length > 0
                     ? actionDiscovery.ExitCodes
-                    : new[] { 0 },
-                Facettes = ExpandDictionaryTemplate(facettes, facettes),
-                Tags = actionDiscovery.Tags ?? Array.Empty<string>()
+                    : [0],
+                Facets = ExpandDictionaryTemplate(facets, facets),
+                Tags = actionDiscovery.Tags ?? [],
             };
         }
 
         private static ActionView ActionViewFromPatternVariation(
-            CommandActionPattern actionPattern, Dictionary<string, string> facettes)
-            => new ActionView()
+            CommandActionPattern actionPattern, Dictionary<string, string> facets)
+            => new()
             {
-                Title = ExpandTemplate(actionPattern.Description, facettes),
+                Title = ExpandTemplate(actionPattern.Description, facets),
                 Reassure = actionPattern.Reassure,
                 Visible = !actionPattern.Background,
-                Logs = ExpandEnv(ExpandTemplate(actionPattern.Logs, facettes)),
+                Logs = ExpandEnv(ExpandTemplate(actionPattern.Logs, facets)),
                 NoLogs = actionPattern.NoLogs,
                 KeepOpen = actionPattern.KeepOpen,
                 AlwaysClose = actionPattern.AlwaysClose,
-                Command = ExpandEnv(ExpandTemplate(actionPattern.Command, facettes)),
+                Command = ExpandEnv(ExpandTemplate(actionPattern.Command, facets)),
                 Arguments = FormatArguments(
-                    actionPattern.Arguments?.Select(a => ExpandTemplate(a, facettes))),
+                    actionPattern.Arguments?.Select(a => ExpandTemplate(a, facets))),
                 WorkingDirectory = BuildAbsolutePath(
-                    ExpandTemplate(actionPattern.WorkingDirectory, facettes)),
+                    ExpandTemplate(actionPattern.WorkingDirectory, facets)),
                 ExitCodes = actionPattern.ExitCodes != null && actionPattern.ExitCodes.Length > 0
                     ? actionPattern.ExitCodes
-                    : new[] { 0 },
-                Facettes = ExpandDictionaryTemplate(facettes, facettes),
-                Tags = actionPattern.Tags ?? Array.Empty<string>()
+                    : [0],
+                Facets = ExpandDictionaryTemplate(facets, facets),
+                Tags = actionPattern.Tags ?? [],
             };
 
         private MonitorView MonitorViewFromCommandMonitor(CommandMonitor monitor)
@@ -611,25 +611,5 @@ namespace Mastersign.DashOps
             }
             return result;
         }
-
-        private static string GetGroupValue(string[] groupNames, Match m, string name, string def)
-        {
-            if (string.IsNullOrWhiteSpace(name)) return null;
-            var name1 = LowerCase(name);
-            if (groupNames.Contains(name1) && m.Groups[name1].Success)
-            {
-                return m.Groups[name1].Value;
-            }
-            var name2 = UpperCase(name);
-            if (groupNames.Contains(name2) && m.Groups[name2].Success)
-            {
-                return m.Groups[name2].Value;
-            }
-            return def;
-        }
-
-        private static string LowerCase(string s) => char.ToLowerInvariant(s[0]) + s.Substring(1);
-
-        private static string UpperCase(string s) => char.ToUpperInvariant(s[0]) + s.Substring(1);
     }
 }

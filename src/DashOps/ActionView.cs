@@ -10,18 +10,18 @@ namespace Mastersign.DashOps
 {
     partial class ActionView : IExecutable, ILogged
     {
-        public bool HasFacette(string name)
-            => Facettes?.ContainsKey(name) ?? false;
+        public bool HasFacet(string name)
+            => Facets?.ContainsKey(name) ?? false;
 
-        public string[] GetFacettes()
-            => Facettes?.Keys.ToArray() ?? Array.Empty<string>();
+        public string[] GetFacets()
+            => Facets?.Keys.ToArray() ?? Array.Empty<string>();
 
-        public bool HasFacetteValue(string name, string value)
-            => string.Equals(GetFacetteValue(name), value);
+        public bool HasFacetValue(string name, string value)
+            => string.Equals(GetFacetValue(name), value);
 
-        public string GetFacetteValue(string name)
-            => Facettes != null
-                ? Facettes.TryGetValue(name, out var value) ? value : null
+        public string GetFacetValue(string name)
+            => Facets != null
+                ? Facets.TryGetValue(name, out var value) ? value : null
                 : null;
 
         public string CommandLabel => Command

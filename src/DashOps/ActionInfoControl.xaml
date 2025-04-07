@@ -145,7 +145,7 @@
                 </ItemsControl>
             </Grid>
 
-            <TextBlock Style="{StaticResource Headline}">Facettes</TextBlock>
+            <TextBlock Style="{StaticResource Headline}">Facets</TextBlock>
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -159,12 +159,12 @@
                 
                 <ItemsControl
                         Grid.Column="1" Margin="16,8,0,4"
-                        ItemsSource="{Binding FacetteViews}">
+                        ItemsSource="{Binding FacetViews}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" SharedSizeGroup="FacetteName" />
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="FacetName" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock

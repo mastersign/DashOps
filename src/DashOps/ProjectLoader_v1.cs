@@ -216,13 +216,13 @@ namespace Mastersign.DashOps
             }
 
             ProjectView.AddTagsPerspective();
-            foreach (var facette in DEF_PERSPECTIVES)
+            foreach (var facet in DEF_PERSPECTIVES)
             {
-                ProjectView.AddFacettePerspective(facette);
+                ProjectView.AddFacetPerspective(facet);
             }
-            foreach (var facette in Project.Perspectives)
+            foreach (var facet in Project.Perspectives)
             {
-                ProjectView.AddFacettePerspective(facette);
+                ProjectView.AddFacetPerspective(facet);
             }
         }
 
@@ -251,6 +251,15 @@ namespace Mastersign.DashOps
 
         private ActionView ActionViewFromCommandAction(CommandAction action)
         {
+            var facets = new Dictionary<string, string>();
+            if (action.Facettes is not null)
+            {
+                foreach (var kvp in action.Facettes) facets.Add(kvp.Key, kvp.Value);
+            }
+            if (action.Facets is not null)
+            {
+                foreach (var kvp in action.Facets) facets.Add(kvp.Key, kvp.Value);
+            }
             var actionView = new ActionView
             {
                 Command = ExpandEnv(action.Command),
@@ -268,21 +277,19 @@ namespace Mastersign.DashOps
                 KeepOpen = action.KeepOpen,
                 AlwaysClose = action.AlwaysClose,
                 Tags = action.Tags ?? Array.Empty<string>(),
-                Facettes = action.Facettes != null
-                    ? new Dictionary<string, string>(action.Facettes)
-                    : new Dictionary<string, string>(),
+                Facets = facets,
             };
             if (!string.IsNullOrWhiteSpace(action.Verb))
             {
-                actionView.Facettes[nameof(CommandAction.Verb)] = action.Verb;
+                actionView.Facets[nameof(CommandAction.Verb)] = action.Verb;
             }
             if (!string.IsNullOrWhiteSpace(action.Service))
             {
-                actionView.Facettes[nameof(CommandAction.Service)] = action.Service;
+                actionView.Facets[nameof(CommandAction.Service)] = action.Service;
             }
             if (!string.IsNullOrWhiteSpace(action.Host))
             {
-                actionView.Facettes[nameof(CommandAction.Host)] = action.Host;
+                actionView.Facets[nameof(CommandAction.Host)] = action.Host;
             }
             return actionView;
         }
@@ -306,23 +313,29 @@ namespace Mastersign.DashOps
 
         private IEnumerable<ActionView> ExpandActionPattern(CommandActionPattern actionPattern)
         {
-            var facettes = actionPattern.Facettes != null
-                ? new Dictionary<string, string[]>(actionPattern.Facettes)
-                : new Dictionary<string, string[]>();
+            var facets = new Dictionary<string, string[]>();
+            if (actionPattern.Facettes is not null)
+            {
+                foreach (var kvp in actionPattern.Facettes) facets.Add(kvp.Key, kvp.Value);
+            }
+            if (actionPattern.Facets is not null)
+            {
+                foreach (var kvp in actionPattern.Facets) facets.Add(kvp.Key, kvp.Value);
+            }
 
-            void AddFacetteValues(string key, string[] values)
+            void AddFacetValues(string key, string[] values)
             {
                 if (values == null || values.Length == 0) return;
-                if (facettes.TryGetValue(key, out string[] oldValues))
-                    facettes[key] = oldValues.Concat(values).Distinct().ToArray();
+                if (facets.TryGetValue(key, out string[] oldValues))
+                    facets[key] = oldValues.Concat(values).Distinct().ToArray();
                 else
-                    facettes[key] = values;
+                    facets[key] = values;
             }
-            AddFacetteValues(nameof(CommandAction.Verb), actionPattern.Verb);
-            AddFacetteValues(nameof(CommandAction.Service), actionPattern.Service);
-            AddFacetteValues(nameof(CommandAction.Host), actionPattern.Host);
+            AddFacetValues(nameof(CommandAction.Verb), actionPattern.Verb);
+            AddFacetValues(nameof(CommandAction.Service), actionPattern.Service);
+            AddFacetValues(nameof(CommandAction.Host), actionPattern.Host);
 
-            return EnumerateVariations(facettes)
+            return EnumerateVariations(facets)
                 .Select(d => ActionViewFromPatternVariation(actionPattern, d));
         }
 
@@ -330,9 +343,16 @@ namespace Mastersign.DashOps
             CommandActionDiscovery actionDiscovery,
             string[] groupNames, Match m, string file)
         {
-            var facettes = actionDiscovery.Facettes != null
-                ? new Dictionary<string, string>(actionDiscovery.Facettes)
-                : new Dictionary<string, string>();
+            var facets = new Dictionary<string, string>();
+            if (actionDiscovery.Facettes is not null)
+            {
+                foreach (var kvp in actionDiscovery.Facettes) facets.Add(kvp.Key, kvp.Value);
+            }
+            if (actionDiscovery.Facets is not null)
+            {
+                foreach (var kvp in actionDiscovery.Facets) facets.Add(kvp.Key, kvp.Value);
+            }
+
             var verb = GetGroupValue(groupNames, m, nameof(CommandAction.Verb), actionDiscovery.Verb);
             var service = GetGroupValue(groupNames, m, nameof(CommandAction.Service), actionDiscovery.Service);
             var host = GetGroupValue(groupNames, m, nameof(CommandAction.Host), actionDiscovery.Host);
@@ -347,56 +367,56 @@ namespace Mastersign.DashOps
                     groupName == UpperCase(nameof(CommandAction.Host))) continue;
                 var g = m.Groups[groupName];
                 if (!g.Success) continue;
-                facettes[groupName] = g.Value;
+                facets[groupName] = g.Value;
             }
-            if (verb != null) facettes[nameof(CommandAction.Verb)] = verb;
-            if (service != null) facettes[nameof(CommandAction.Service)] = service;
-            if (host != null) facettes[nameof(CommandAction.Host)] = host;
+            if (verb != null) facets[nameof(CommandAction.Verb)] = verb;
+            if (service != null) facets[nameof(CommandAction.Service)] = service;
+            if (host != null) facets[nameof(CommandAction.Host)] = host;
 
-            return new ActionView()
+            return new()
             {
-                Title = ExpandTemplate(actionDiscovery.Description, facettes),
+                Title = ExpandTemplate(actionDiscovery.Description, facets),
                 Reassure = actionDiscovery.Reassure,
                 Visible = !actionDiscovery.Background,
-                Logs = ExpandEnv(ExpandTemplate(actionDiscovery.Logs, facettes)),
+                Logs = ExpandEnv(ExpandTemplate(actionDiscovery.Logs, facets)),
                 NoLogs = actionDiscovery.NoLogs,
                 KeepOpen = actionDiscovery.KeepOpen,
                 AlwaysClose = actionDiscovery.AlwaysClose,
                 Command = file,
                 Arguments = FormatArguments(actionDiscovery.Arguments),
                 WorkingDirectory = BuildAbsolutePath(
-                    ExpandTemplate(actionDiscovery.WorkingDirectory, facettes)),
+                    ExpandTemplate(actionDiscovery.WorkingDirectory, facets)),
                 Environment = [],
                 ExitCodes = actionDiscovery.ExitCodes != null && actionDiscovery.ExitCodes.Length > 0
                     ? actionDiscovery.ExitCodes
                     : new[] { 0 },
-                Facettes = ExpandDictionaryTemplate(facettes, facettes),
                 Tags = actionDiscovery.Tags ?? Array.Empty<string>()
+                Facets = ExpandDictionaryTemplate(facets, facets),
             };
         }
 
         private static ActionView ActionViewFromPatternVariation(
-            CommandActionPattern actionPattern, Dictionary<string, string> facettes)
-            => new ActionView()
+            CommandActionPattern actionPattern, Dictionary<string, string> facets)
+            => new()
             {
-                Title = ExpandTemplate(actionPattern.Description, facettes),
+                Title = ExpandTemplate(actionPattern.Description, facets),
                 Reassure = actionPattern.Reassure,
                 Visible = !actionPattern.Background,
-                Logs = ExpandEnv(ExpandTemplate(actionPattern.Logs, facettes)),
+                Logs = ExpandEnv(ExpandTemplate(actionPattern.Logs, facets)),
                 NoLogs = actionPattern.NoLogs,
                 KeepOpen = actionPattern.KeepOpen,
                 AlwaysClose = actionPattern.AlwaysClose,
-                Command = ExpandEnv(ExpandTemplate(actionPattern.Command, facettes)),
+                Command = ExpandEnv(ExpandTemplate(actionPattern.Command, facets)),
                 Arguments = FormatArguments(
-                    actionPattern.Arguments?.Select(a => ExpandTemplate(a, facettes))),
+                    actionPattern.Arguments?.Select(a => ExpandTemplate(a, facets))),
                 WorkingDirectory = BuildAbsolutePath(
-                    ExpandTemplate(actionPattern.WorkingDirectory, facettes)),
+                    ExpandTemplate(actionPattern.WorkingDirectory, facets)),
                 Environment = [],
                 ExitCodes = actionPattern.ExitCodes != null && actionPattern.ExitCodes.Length > 0
                     ? actionPattern.ExitCodes
                     : new[] { 0 },
-                Facettes = ExpandDictionaryTemplate(facettes, facettes),
                 Tags = actionPattern.Tags ?? Array.Empty<string>()
+                Facets = ExpandDictionaryTemplate(facets, facets),
             };
 
         private MonitorView MonitorViewFromCommandMonitor(CommandMonitor monitor)

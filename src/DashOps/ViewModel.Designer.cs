@@ -15,7 +15,7 @@ namespace Mastersign.DashOps
         {
             this._exitCodes = new int[0];
             this._tags = new string[0];
-            this._facetteViews = new global::System.Collections.ObjectModel.ObservableCollection<FacetteView>();
+            this._facetViews = new global::System.Collections.ObjectModel.ObservableCollection<FacetView>();
         }
         
         #region Change Tracking
@@ -289,65 +289,65 @@ namespace Mastersign.DashOps
         
         #endregion
         
-        #region Property Facettes
+        #region Property Facets
         
-        private Dictionary<string, string> _facettes;
+        private Dictionary<string, string> _facets;
         
-        public event EventHandler FacettesChanged;
+        public event EventHandler FacetsChanged;
         
-        protected virtual void OnFacettesChanged()
+        protected virtual void OnFacetsChanged()
         {
-            EventHandler handler = FacettesChanged;
+            EventHandler handler = FacetsChanged;
             if (!ReferenceEquals(handler, null))
             {
                 handler(this, EventArgs.Empty);
             }
-            this.OnPropertyChanged(@"Facettes");
+            this.OnPropertyChanged(@"Facets");
         }
         
-        public virtual Dictionary<string, string> Facettes
+        public virtual Dictionary<string, string> Facets
         {
-            get { return _facettes; }
+            get { return _facets; }
             set
             {
-                if ((value == _facettes))
+                if ((value == _facets))
                 {
                     return;
                 }
-                _facettes = value;
-                this.OnFacettesChanged();
+                _facets = value;
+                this.OnFacetsChanged();
             }
         }
         
         #endregion
         
-        #region Property FacetteViews
+        #region Property FacetViews
         
-        private global::System.Collections.ObjectModel.ObservableCollection<FacetteView> _facetteViews;
+        private global::System.Collections.ObjectModel.ObservableCollection<FacetView> _facetViews;
         
-        public event EventHandler FacetteViewsChanged;
+        public event EventHandler FacetViewsChanged;
         
-        protected virtual void OnFacetteViewsChanged()
+        protected virtual void OnFacetViewsChanged()
         {
-            EventHandler handler = FacetteViewsChanged;
+            EventHandler handler = FacetViewsChanged;
             if (!ReferenceEquals(handler, null))
             {
                 handler(this, EventArgs.Empty);
             }
-            this.OnPropertyChanged(@"FacetteViews");
+            this.OnPropertyChanged(@"FacetViews");
         }
         
-        public virtual global::System.Collections.ObjectModel.ObservableCollection<FacetteView> FacetteViews
+        public virtual global::System.Collections.ObjectModel.ObservableCollection<FacetView> FacetViews
         {
-            get { return _facetteViews; }
+            get { return _facetViews; }
             set
             {
-                if ((value == _facetteViews))
+                if ((value == _facetViews))
                 {
                     return;
                 }
-                _facetteViews = value;
-                this.OnFacetteViewsChanged();
+                _facetViews = value;
+                this.OnFacetViewsChanged();
             }
         }
         
@@ -627,10 +627,10 @@ namespace Mastersign.DashOps
             this.Initialize();
         }
         
-        public PerspectiveView(string title, string facette, global::System.Collections.ObjectModel.ObservableCollection<ActionView> sourceActions, Func<ActionView, bool> filter, Func<ActionView, String[]> classifier)
+        public PerspectiveView(string title, string facet, global::System.Collections.ObjectModel.ObservableCollection<ActionView> sourceActions, Func<ActionView, bool> filter, Func<ActionView, String[]> classifier)
         {
             this._title = title;
-            this._facette = facette;
+            this._facet = facet;
             this._sourceActions = sourceActions;
             this._filter = filter;
             this._classifier = classifier;
@@ -664,13 +664,13 @@ namespace Mastersign.DashOps
         
         #endregion
         
-        #region Property Facette
+        #region Property Facet
         
-        private string _facette;
+        private string _facet;
         
-        public virtual string Facette
+        public virtual string Facet
         {
-            get { return _facette; }
+            get { return _facet; }
         }
         
         #endregion
@@ -1591,15 +1591,15 @@ namespace Mastersign.DashOps
         #endregion
     }
     
-    public partial class FacetteView : INotifyPropertyChanged
+    public partial class FacetView : INotifyPropertyChanged
     {
-        public FacetteView()
+        public FacetView()
         {
         }
         
-        public FacetteView(string facette, string title, string value)
+        public FacetView(string facet, string title, string value)
         {
-            this._facette = facette;
+            this._facet = facet;
             this._title = title;
             this._value = value;
         }
@@ -1619,13 +1619,13 @@ namespace Mastersign.DashOps
         
         #endregion
         
-        #region Property Facette
+        #region Property Facet
         
-        private string _facette;
+        private string _facet;
         
-        public virtual string Facette
+        public virtual string Facet
         {
-            get { return _facette; }
+            get { return _facet; }
         }
         
         #endregion

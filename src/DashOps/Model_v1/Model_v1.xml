@@ -3,6 +3,8 @@
        xmlns="http://scaleton.mastersign.de/2014/model">
 
   <Namespace>Mastersign.DashOps.Model_v1</Namespace>
+  
+  <!-- Format v1.3 -->
 
   <ReferencedTypes>
     <ReferencedType id="dict" name="System.Collections.Generic.Dictionary`2[System.String, System.String]" />
@@ -35,6 +37,7 @@
       <Property name="Service" />
       <Property name="Host" />
       <Property name="Facettes" type="dict" />
+      <Property name="Facets" type="dict" />
     </Class>
 
     <Class name="CommandActionDiscovery" baseType="CommandActionBase">
@@ -44,6 +47,7 @@
       <Property name="Service" />
       <Property name="Host" />
       <Property name="Facettes" type="dict" />
+      <Property name="Facets" type="dict" />
     </Class>
 
     <Class name="CommandActionPattern" baseType="CommandActionBase">
@@ -52,20 +56,23 @@
       <Property name="Service" type="string[]" />
       <Property name="Host" type="string[]" />
       <Property name="Facettes" type="mdict" />
+      <Property name="Facets" type="mdict" />
     </Class>
     
     <Enum name="ActionMatchMode">
       <Member name="Description" />
       <Member name="Command" />
       <Member name="Facette" />
+      <Member name="Facet" />
       <Member name="Tag" />
     </Enum>
     
     <Class name="ActionMatcher">
       <Property name="Mode" type="ActionMatchMode" defaultInitialization="true">
-        <DefaultValue>Facette</DefaultValue>
+        <DefaultValue>Facet</DefaultValue>
       </Property>
       <Property name="Facette" />
+      <Property name="Facet" />
       <Property name="Pattern" />
       <Property name="Value" />
     </Class>
@@ -74,6 +81,7 @@
       <Property name="Include" type="ActionMatcher" isCollection="true" />
       <Property name="Exclude" type="ActionMatcher" isCollection="true" />
       <Property name="Facettes" type="dict" />
+      <Property name="Facets" type="dict" />
       <Property name="Tags" type="string[]" />
       <Property name="Reassure" type="bool" />
       <Property name="NoLogs" type="bool" />
