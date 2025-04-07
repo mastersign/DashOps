@@ -77,6 +77,7 @@
       <Property name="KeepOpen" type="bool?" />
       <Property name="AlwaysClose" type="bool?" />
       <Property name="Background" type="bool?" />
+      <Property name="Environment" type="dict" />
     </Class>
 
     <Class name="MonitorBase">

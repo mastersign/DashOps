@@ -673,6 +673,7 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    KeepOpen = " + (!ReferenceEquals(_keepOpen, null) ? _keepOpen.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    AlwaysClose = " + (!ReferenceEquals(_alwaysClose, null) ? _alwaysClose.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Background = " + (!ReferenceEquals(_background, null) ? _background.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(_environment, null) ? _environment.ToString() : @"null").Replace("\n", "\n    ")) + 
         }
         
         #endregion
@@ -843,6 +844,25 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _background = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Environment
+        
+        private Dictionary<string, string> _environment;
+        
+        public virtual Dictionary<string, string> Environment
+        {
+            get { return _environment; }
+            set
+            {
+                if ((value == _environment))
+                {
+                    return;
+                }
+                _environment = value;
             }
         }
         

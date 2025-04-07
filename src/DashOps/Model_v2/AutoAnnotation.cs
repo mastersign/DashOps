@@ -29,5 +29,13 @@ partial class AutoAnnotation
         action.KeepOpen = KeepOpen ?? action.KeepOpen;
         action.AlwaysClose = AlwaysClose ?? action.AlwaysClose;
         action.Visible = !(Background ?? !action.Visible);
+
+        if (Environment != null)
+        {
+            foreach (var kvp in Environment)
+            {
+                action.Environment[kvp.Key] = kvp.Value;
+            }
+        }
     }
 }
