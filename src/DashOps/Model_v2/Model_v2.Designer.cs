@@ -1682,8 +1682,8 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Actions = " + (!ReferenceEquals(_actions, null) ? (_actions.Count.ToString() + @" items" + __collection_Actions.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ActionDiscovery = " + (!ReferenceEquals(_actionDiscovery, null) ? (_actionDiscovery.Count.ToString() + @" items" + __collection_ActionDiscovery.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ActionPatterns = " + (!ReferenceEquals(_actionPatterns, null) ? (_actionPatterns.Count.ToString() + @" items" + __collection_ActionPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    DefaultWorkingDirectory = " + (!ReferenceEquals(_defaultWorkingDirectory, null) ? _defaultWorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    DefaultEnvironment = " + (!ReferenceEquals(_defaultEnvironment, null) ? _defaultEnvironment.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(_environment, null) ? _environment.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Perspectives = " + (!ReferenceEquals(_perspectives, null) ? (_perspectives.Count.ToString() + @" items" + __collection_Perspectives.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Auto = " + (!ReferenceEquals(_auto, null) ? (_auto.Count.ToString() + @" items" + __collection_Auto.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Monitors = " + (!ReferenceEquals(_monitors, null) ? (_monitors.Count.ToString() + @" items" + __collection_Monitors.ToString()) : @"null").Replace("\n", "\n    ")) + 
@@ -1869,39 +1869,39 @@ namespace Mastersign.DashOps.Model_v2
         
         #endregion
         
-        #region Property DefaultWorkingDirectory
+        #region Property WorkingDirectory
         
-        private string _defaultWorkingDirectory;
+        private string _workingDirectory;
         
-        public virtual string DefaultWorkingDirectory
+        public virtual string WorkingDirectory
         {
-            get { return _defaultWorkingDirectory; }
+            get { return _workingDirectory; }
             set
             {
-                if (string.Equals(value, _defaultWorkingDirectory))
+                if (string.Equals(value, _workingDirectory))
                 {
                     return;
                 }
-                _defaultWorkingDirectory = value;
+                _workingDirectory = value;
             }
         }
         
         #endregion
         
-        #region Property DefaultEnvironment
+        #region Property Environment
         
-        private Dictionary<string, string> _defaultEnvironment;
+        private Dictionary<string, string> _environment;
         
-        public virtual Dictionary<string, string> DefaultEnvironment
+        public virtual Dictionary<string, string> Environment
         {
-            get { return _defaultEnvironment; }
+            get { return _environment; }
             set
             {
-                if ((value == _defaultEnvironment))
+                if ((value == _environment))
                 {
                     return;
                 }
-                _defaultEnvironment = value;
+                _environment = value;
             }
         }
         

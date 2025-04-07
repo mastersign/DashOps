@@ -29,7 +29,8 @@
       <Property name="WorkingDirectory" />
       <Property name="Environment" type="dict" />
       <!--<Property name="ExecPaths" type="string[]" />-->
-      <!--<Property name="Terminal" />-->
+      <!--<Property name="UseWindowsTerminal" type="bool" />-->
+      <!--<Property name="WindowsTerminalArgs" />-->
       <Property name="ExitCodes" type="int[]" />
       <Property name="Tags" type="string[]" />
     </Class>
@@ -141,10 +142,11 @@
       <Property name="Actions" isCollection="true" type="CommandAction" defaultInitialization="true" />
       <Property name="ActionDiscovery" isCollection="true" type="CommandActionDiscovery" defaultInitialization="true" />
       <Property name="ActionPatterns" isCollection="true" type="CommandActionPattern" defaultInitialization="true" />
-      <Property name="DefaultWorkingDirectory" />
-      <Property name="DefaultEnvironment" type="dict" />
-      <!--<Property name="DefaultExecPaths" type="string[]" />-->
-      <!--<Property name="DefaultTerminal" />-->
+      <Property name="WorkingDirectory" />
+      <Property name="Environment" type="dict" />
+      <!--<Property name="ExecPaths" type="string[]" />-->
+      <!--<Property name="UseWindowsTerminal" type="bool" />-->
+      <!--<Property name="WindowsTerminalArgs" />-->
       <Property name="Perspectives" type="FacetPerspective" isCollection="true" defaultInitialization="true" />
       <Property name="Auto" type="AutoAnnotation" isCollection="true" defaultInitialization="true" />
       <Property name="Monitors" type="CommandMonitor" isCollection="true" defaultInitialization="true" />

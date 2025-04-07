@@ -266,7 +266,7 @@ namespace Mastersign.DashOps
                 Command = ExpandEnv(action.Command),
                 Arguments = FormatArguments(action.Arguments),
                 WorkingDirectory = BuildAbsolutePath(action.WorkingDirectory),
-                Environment = Merge(Project.DefaultEnvironment, action.Environment),
+                Environment = Merge(Project.Environment, action.Environment),
                 ExitCodes = action.ExitCodes != null && action.ExitCodes.Length > 0
                     ? action.ExitCodes
                     : [0],
@@ -340,7 +340,7 @@ namespace Mastersign.DashOps
                 Arguments = FormatArguments(actionDiscovery.Arguments),
                 WorkingDirectory = BuildAbsolutePath(
                     ExpandTemplate(actionDiscovery.WorkingDirectory, facets)),
-                Environment = Merge(Project.DefaultEnvironment, actionDiscovery.Environment),
+                Environment = Merge(Project.Environment, actionDiscovery.Environment),
                 ExitCodes = actionDiscovery.ExitCodes != null && actionDiscovery.ExitCodes.Length > 0
                     ? actionDiscovery.ExitCodes
                     : [0],
@@ -365,7 +365,7 @@ namespace Mastersign.DashOps
                     actionPattern.Arguments?.Select(a => ExpandTemplate(a, facets))),
                 WorkingDirectory = BuildAbsolutePath(
                     ExpandTemplate(actionPattern.WorkingDirectory, facets)),
-                Environment = Merge(Project.DefaultEnvironment, actionPattern.Environment),
+                Environment = Merge(Project.Environment, actionPattern.Environment),
                 ExitCodes = actionPattern.ExitCodes != null && actionPattern.ExitCodes.Length > 0
                     ? actionPattern.ExitCodes
                     : [0],
@@ -383,7 +383,7 @@ namespace Mastersign.DashOps
                 Command = ExpandEnv(monitor.Command),
                 Arguments = FormatArguments(monitor.Arguments),
                 WorkingDirectory = BuildAbsolutePath(monitor.WorkingDirectory),
-                Environment = Merge(Project.DefaultEnvironment, monitor.Environment),
+                Environment = Merge(Project.Environment, monitor.Environment),
                 ExitCodes = monitor.ExitCodes != null && monitor.ExitCodes.Length > 0
                     ? monitor.ExitCodes
                     : [0],
@@ -436,7 +436,7 @@ namespace Mastersign.DashOps
                 Arguments = FormatArguments(
                     monitorDiscovery.Arguments?.Select(a => ExpandTemplate(a, variables))),
                 WorkingDirectory = BuildAbsolutePath(monitorDiscovery.WorkingDirectory),
-                Environment = Merge(Project.DefaultEnvironment, monitorDiscovery.Environment ?? []),
+                Environment = Merge(Project.Environment, monitorDiscovery.Environment ?? []),
                 ExitCodes = monitorDiscovery.ExitCodes != null && monitorDiscovery.ExitCodes.Length > 0
                     ? monitorDiscovery.ExitCodes
                     : [0],
@@ -457,7 +457,7 @@ namespace Mastersign.DashOps
                 Arguments = FormatArguments(
                     monitorPattern.Arguments?.Select(a => ExpandTemplate(a, variables))),
                 WorkingDirectory = BuildAbsolutePath(monitorPattern.WorkingDirectory),
-                Environment = Merge(Project.DefaultEnvironment, monitorPattern.Environment),
+                Environment = Merge(Project.Environment, monitorPattern.Environment),
                 ExitCodes = monitorPattern.ExitCodes != null && monitorPattern.ExitCodes.Length > 0
                     ? monitorPattern.ExitCodes
                     : [0],

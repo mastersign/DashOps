@@ -23,7 +23,7 @@ auto:
         value: Localhost
     reassure: true
 
-default-environment:
+environment:
   ENV_A: Default Value A
 
 actions:
