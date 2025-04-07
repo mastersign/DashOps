@@ -46,10 +46,13 @@ namespace Mastersign.DashOps
             {
                 var name1 = Path.Combine(Environment.CurrentDirectory, "dashops.yaml");
                 var name2 = Path.Combine(Environment.CurrentDirectory, "dashops.yml");
+                var name3 = Path.Combine(Environment.CurrentDirectory, "dashops.json");
                 if (File.Exists(name1))
                     projectFile = name1;
                 else if (File.Exists(name2))
                     projectFile = name2;
+                else if (File.Exists(name3))
+                    projectFile = name3;
                 else
                 {
                     ShowMessage(

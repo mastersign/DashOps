@@ -7,6 +7,11 @@
     "DashOps Format v2": {
       "commandName": "Project",
       "workingDirectory": "..\\..\\example_v2"
+    },
+    "DashOps Format v2 JSON": {
+      "commandName": "Project",
+      "commandLineArgs": "dashops.json",
+      "workingDirectory": "..\\..\\example_v2"
     }
   }
 }

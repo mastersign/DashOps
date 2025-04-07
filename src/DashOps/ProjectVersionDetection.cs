@@ -6,15 +6,19 @@ namespace Mastersign.DashOps;
 
 internal static class ProjectVersionDetection
 {
-    private static readonly Regex VersionPattern = new Regex(@"^version\:\s+('|"")(?<version>.*?)\1\s*$");
+    private static readonly Regex YamlVersionPattern = new Regex(@"^version\s*:\s+('|"")(?<version>.*?)\1\s*$");
+
+    private static readonly Regex JsonVersionPattern = new Regex(@"[^\\]""version""\s*:\s*""(?<version>.*?)""");
 
     public static string FindVersionString(TextReader r)
     {
         var line = r.ReadLine();
         while (line != null)
         {
-            var m = VersionPattern.Match(line);
-            if (m.Success) return m.Groups["version"].Value;
+            var yamlMatch = YamlVersionPattern.Match(line);
+            if (yamlMatch.Success) return yamlMatch.Groups["version"].Value;
+            var jsonMatch = JsonVersionPattern.Match(line);
+            if (jsonMatch.Success) return jsonMatch.Groups["version"].Value;
             line = r.ReadLine();
         }
         return null;
