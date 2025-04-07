@@ -2,8 +2,9 @@ version: '2.0'
 title: Test Project v2
 logs: test-logs
 
+pause-monitors: true
+
 # demo exec-paths
-# demo environment variables
 
 perspectives:
   - facet: host
@@ -21,6 +22,9 @@ auto:
         facet: host
         value: Localhost
     reassure: true
+
+default-environment:
+  ENV_A: Default Value A
 
 actions:
   - description: List content of program files directory
@@ -53,6 +57,9 @@ action-discovery:
     base-path: "test-scripts\\"
     path-pattern: '(?<service>.+?)\\(?<verb>[^_]+)_(?<host>[^\.]+)\.ps1'
     arguments: ['a', 'b', 123]
+    environment:
+      ENV_A: Value A
+      ENV_B: Value B
     facets:
       host: incorrect
       env: Test
@@ -62,8 +69,10 @@ action-patterns:
   - description: 'Check ${service} on all hosts ${mode}'
     command: '${service}\check-all.ps1'
     arguments: ['-Mode', '${mode}']
-    always-close: true
     working-directory: test-scripts
+    environment:
+      ENV_B: value b
+    always-close: true
     facets:
       service:
         - service A
@@ -78,6 +87,8 @@ monitors:
   - title: Monitor 1
     command: test-scripts\monitor-1.ps1
     arguments: [5]
+    environment:
+      ENV_MONITOR: Monitor 1
 
 default-web-monitor-timeout: 5
 

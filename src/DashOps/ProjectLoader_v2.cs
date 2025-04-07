@@ -266,7 +266,7 @@ namespace Mastersign.DashOps
                 Command = ExpandEnv(action.Command),
                 Arguments = FormatArguments(action.Arguments),
                 WorkingDirectory = BuildAbsolutePath(action.WorkingDirectory),
-                Environment = new Dictionary<string, string>(action.Environment ?? []),
+                Environment = Merge(Project.DefaultEnvironment, action.Environment),
                 ExitCodes = action.ExitCodes != null && action.ExitCodes.Length > 0
                     ? action.ExitCodes
                     : [0],
@@ -340,7 +340,7 @@ namespace Mastersign.DashOps
                 Arguments = FormatArguments(actionDiscovery.Arguments),
                 WorkingDirectory = BuildAbsolutePath(
                     ExpandTemplate(actionDiscovery.WorkingDirectory, facets)),
-                Environment = new Dictionary<string, string>(actionDiscovery.Environment ?? []),
+                Environment = Merge(Project.DefaultEnvironment, actionDiscovery.Environment),
                 ExitCodes = actionDiscovery.ExitCodes != null && actionDiscovery.ExitCodes.Length > 0
                     ? actionDiscovery.ExitCodes
                     : [0],
@@ -349,7 +349,7 @@ namespace Mastersign.DashOps
             };
         }
 
-        private static ActionView ActionViewFromPatternVariation(
+        private ActionView ActionViewFromPatternVariation(
             CommandActionPattern actionPattern, Dictionary<string, string> facets)
             => new()
             {
@@ -365,7 +365,7 @@ namespace Mastersign.DashOps
                     actionPattern.Arguments?.Select(a => ExpandTemplate(a, facets))),
                 WorkingDirectory = BuildAbsolutePath(
                     ExpandTemplate(actionPattern.WorkingDirectory, facets)),
-                Environment = new Dictionary<string, string>(actionPattern.Environment ?? []),
+                Environment = Merge(Project.DefaultEnvironment, actionPattern.Environment),
                 ExitCodes = actionPattern.ExitCodes != null && actionPattern.ExitCodes.Length > 0
                     ? actionPattern.ExitCodes
                     : [0],
@@ -383,6 +383,7 @@ namespace Mastersign.DashOps
                 Command = ExpandEnv(monitor.Command),
                 Arguments = FormatArguments(monitor.Arguments),
                 WorkingDirectory = BuildAbsolutePath(monitor.WorkingDirectory),
+                Environment = Merge(Project.DefaultEnvironment, monitor.Environment),
                 ExitCodes = monitor.ExitCodes != null && monitor.ExitCodes.Length > 0
                     ? monitor.ExitCodes
                     : [0],
@@ -390,7 +391,7 @@ namespace Mastersign.DashOps
                 ForbiddenPatterns = BuildPatterns(monitor.ForbiddenPatterns),
             };
 
-        private static IEnumerable<MonitorView> DiscoverMonitors(CommandMonitorDiscovery monitorDiscovery)
+        private IEnumerable<MonitorView> DiscoverMonitors(CommandMonitorDiscovery monitorDiscovery)
         {
             var basePath = BuildAbsolutePath(monitorDiscovery.BasePath);
             if (!Directory.Exists(basePath)) yield break;
@@ -407,13 +408,13 @@ namespace Mastersign.DashOps
             }
         }
 
-        private static IEnumerable<MonitorView> ExpandCommandMonitorPattern(CommandMonitorPattern monitorPattern)
+        private IEnumerable<MonitorView> ExpandCommandMonitorPattern(CommandMonitorPattern monitorPattern)
             => monitorPattern.Variables != null
                 ? EnumerateVariations(monitorPattern.Variables)
                     .Select(d => MonitorViewFromPatternVariation(monitorPattern, d))
                 : [];
 
-        private static MonitorView MonitorViewFromDiscoveredMatch(CommandMonitorDiscovery monitorDiscovery,
+        private MonitorView MonitorViewFromDiscoveredMatch(CommandMonitorDiscovery monitorDiscovery,
             string[] groupNames, Match m, string file)
         {
             var variables = new Dictionary<string, string>();
@@ -435,6 +436,7 @@ namespace Mastersign.DashOps
                 Arguments = FormatArguments(
                     monitorDiscovery.Arguments?.Select(a => ExpandTemplate(a, variables))),
                 WorkingDirectory = BuildAbsolutePath(monitorDiscovery.WorkingDirectory),
+                Environment = Merge(Project.DefaultEnvironment, monitorDiscovery.Environment ?? []),
                 ExitCodes = monitorDiscovery.ExitCodes != null && monitorDiscovery.ExitCodes.Length > 0
                     ? monitorDiscovery.ExitCodes
                     : [0],
@@ -443,7 +445,7 @@ namespace Mastersign.DashOps
             };
         }
 
-        private static MonitorView MonitorViewFromPatternVariation(
+        private MonitorView MonitorViewFromPatternVariation(
             CommandMonitorPattern monitorPattern, Dictionary<string, string> variables)
             => new CommandMonitorView
             {
@@ -455,6 +457,7 @@ namespace Mastersign.DashOps
                 Arguments = FormatArguments(
                     monitorPattern.Arguments?.Select(a => ExpandTemplate(a, variables))),
                 WorkingDirectory = BuildAbsolutePath(monitorPattern.WorkingDirectory),
+                Environment = Merge(Project.DefaultEnvironment, monitorPattern.Environment),
                 ExitCodes = monitorPattern.ExitCodes != null && monitorPattern.ExitCodes.Length > 0
                     ? monitorPattern.ExitCodes
                     : [0],
@@ -470,7 +473,7 @@ namespace Mastersign.DashOps
                 NoLogs = monitor.NoLogs,
                 Interval = new TimeSpan(0, 0, monitor.Interval),
                 Url = monitor.Url,
-                Headers = monitor.Headers,
+                Headers = new Dictionary<string, string>(monitor.Headers ?? []),
                 Timeout = new TimeSpan(0, 0, monitor.Timeout),
                 ServerCertificateHash = monitor.ServerCertificateHash,
                 NoTlsVerify = monitor.NoTlsVerify,
@@ -611,6 +614,20 @@ namespace Mastersign.DashOps
             foreach (var kvp in dict)
             {
                 result[kvp.Key] = f(kvp.Value);
+            }
+            return result;
+        }
+
+        private static Dictionary<TKey, TValue> Merge<TKey, TValue>(params IDictionary<TKey, TValue>[] dicts)
+        {
+            var result = new Dictionary<TKey, TValue>();
+            foreach (var d in dicts)
+            {
+                if (d is null) continue;
+                foreach (var kvp in d)
+                {
+                    result[kvp.Key] = kvp.Value;
+                }
             }
             return result;
         }

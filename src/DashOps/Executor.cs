@@ -54,8 +54,15 @@ namespace Mastersign.DashOps
             {
                 WindowStyle = executable.Visible ? ProcessWindowStyle.Normal : ProcessWindowStyle.Hidden,
                 WorkingDirectory = executable.WorkingDirectory,
-                UseShellExecute = true,
+                UseShellExecute = false,
             };
+            if (executable.Environment is not null)
+            {
+                foreach (var kvp in executable.Environment)
+                {
+                    psi.Environment[kvp.Key] = kvp.Value;
+                }
+            }
             Process p;
             try
             {

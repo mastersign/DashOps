@@ -1,13 +1,14 @@
 param ([int]$chance)
+Write-Output "Hi, it's me. ${env:ENV_MONITOR}."
 
 $rand = New-Object System.Random
 if ($rand.Next($chance) -eq 0)
 {
-    echo "I failed!"
+    Write-Output "I failed!"
     exit 1
 }
 else
 {
-    echo "I succeeded."
+    Write-Output "I succeeded."
     exit 0
 }

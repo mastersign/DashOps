@@ -1,2 +1,2 @@
-echo "Script File: $($MyInvocation.MyCommand.Path)"
-echo "Script Args: $args"
+Write-Output "Script File: $($MyInvocation.MyCommand.Path)"
+Write-Output "Script Args: $args"

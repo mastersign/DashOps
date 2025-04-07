@@ -1,8 +1,8 @@
-echo "Script File: $($MyInvocation.MyCommand.Path)"
-echo "Script Args: $args"
+Write-Output "Script File: $($MyInvocation.MyCommand.Path)"
+Write-Output "Script Args: $args"
 
 $rand = New-Object System.Random
 if ($rand.Next(2) -eq 1) {
-    echo "Random Error!"
+    Write-Output "Random Error!"
     exit 1
 }

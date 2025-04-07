@@ -1,7 +1,8 @@
 {
   "version": "2.0",
-  "title": "Test Project v2 JSON",
+  "title": "Test Project v2",
   "logs": "test-logs",
+  "pause-monitors": true,
   "perspectives": [
     {
       "facet": "host",
@@ -32,6 +33,9 @@
       "reassure": true
     }
   ],
+  "default-environment": {
+    "ENV_A": "Default Value A"
+  },
   "actions": [
     {
       "description": "List content of program files directory",
@@ -81,6 +85,10 @@
         "b",
         123
       ],
+      "environment": {
+        "ENV_A": "Value A",
+        "ENV_B": "Value B"
+      },
       "facets": {
         "host": "incorrect",
         "env": "Test"
@@ -98,8 +106,11 @@
         "-Mode",
         "${mode}"
       ],
-      "always-close": true,
       "working-directory": "test-scripts",
+      "environment": {
+        "ENV_B": "value b"
+      },
+      "always-close": true,
       "facets": {
         "service": [
           "service A",
@@ -123,7 +134,10 @@
       "command": "test-scripts\\monitor-1.ps1",
       "arguments": [
         5
-      ]
+      ],
+      "environment": {
+        "ENV_MONITOR": "Monitor 1"
+      }
     }
   ],
   "default-web-monitor-timeout": 5,
