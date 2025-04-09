@@ -268,6 +268,15 @@ namespace Mastersign.DashOps
                     action.Environment[kvp.Key] = kvp.Value;
                 }
             }
+            if (annotation.ExePaths != null)
+            {
+                action.ExePaths = annotation.ExePaths
+                    // expand facets
+                    .Select(p => ExpandTemplate(p, action.Facets))
+                    // expand CMD-style environment variables
+                    .Select(ExpandEnv)
+                    .ToArray();
+            }
 
             action.UsePowerShellCore = annotation.UsePowerShellCore ?? action.UsePowerShellCore;
             if (annotation.PowerShellExe != null)
@@ -325,6 +334,10 @@ namespace Mastersign.DashOps
                     action.Arguments?.Select(a => ExpandEnv(ExpandTemplate(a, facets)))),
                 WorkingDirectory = BuildAbsolutePath(action.WorkingDirectory),
                 Environment = Merge(Project.Environment, action.Environment),
+                ExePaths = (action.ExePaths ?? Project.ExePaths ?? [])
+                    .Select(p => ExpandTemplate(p, facets))
+                    .Select(ExpandEnv)
+                    .ToArray(),
                 UseWindowsTerminal = action.UseWindowsTerminal ?? Project.UseWindowsTerminal,
                 WindowsTerminalArguments = FormatArguments(
                     (action.WindowsTerminalArgs ?? Project.WindowsTerminalArgs)
@@ -446,6 +459,10 @@ namespace Mastersign.DashOps
                 WorkingDirectory = BuildAbsolutePath(
                             ExpandTemplate(actionDiscovery.WorkingDirectory, facets)),
                 Environment = Merge(Project.Environment, actionDiscovery.Environment),
+                ExePaths = (actionDiscovery.ExePaths ?? Project.ExePaths ?? [])
+                    .Select(p => ExpandTemplate(p, facets))
+                    .Select(ExpandEnv)
+                    .ToArray(),
                 UseWindowsTerminal = actionDiscovery.UseWindowsTerminal ?? Project.UseWindowsTerminal,
                 WindowsTerminalArguments = FormatArguments(
                     (actionDiscovery.WindowsTerminalArgs ?? Project.WindowsTerminalArgs)
@@ -484,6 +501,10 @@ namespace Mastersign.DashOps
                 WorkingDirectory = BuildAbsolutePath(
                     ExpandTemplate(actionPattern.WorkingDirectory, facets)),
                 Environment = Merge(Project.Environment, actionPattern.Environment),
+                ExePaths = (actionPattern.ExePaths ?? Project.ExePaths ?? [])
+                    .Select(p => ExpandTemplate(p, facets))
+                    .Select(ExpandEnv)
+                    .ToArray(),
                 UseWindowsTerminal = actionPattern.UseWindowsTerminal ?? Project.UseWindowsTerminal,
                 WindowsTerminalArguments = FormatArguments(
                     (actionPattern.WindowsTerminalArgs ?? Project.WindowsTerminalArgs)
@@ -512,6 +533,9 @@ namespace Mastersign.DashOps
                 Arguments = FormatArguments(monitor.Arguments?.Select(ExpandEnv)),
                 WorkingDirectory = BuildAbsolutePath(monitor.WorkingDirectory),
                 Environment = Merge(Project.Environment, monitor.Environment),
+                ExePaths = (monitor.ExePaths ?? Project.ExePaths ?? [])
+                    .Select(ExpandEnv)
+                    .ToArray(),
                 ExitCodes = monitor.ExitCodes != null && monitor.ExitCodes.Length > 0
                     ? monitor.ExitCodes
                     : [0],
@@ -607,6 +631,9 @@ namespace Mastersign.DashOps
                 Arguments = cmdArgs,
                 WorkingDirectory = BuildAbsolutePath(monitorDiscovery.WorkingDirectory),
                 Environment = Merge(Project.Environment, monitorDiscovery.Environment ?? []),
+                ExePaths = (monitorDiscovery.ExePaths ?? Project.ExePaths ?? [])
+                    .Select(ExpandEnv)
+                    .ToArray(),
                 ExitCodes = monitorDiscovery.ExitCodes != null && monitorDiscovery.ExitCodes.Length > 0
                     ? monitorDiscovery.ExitCodes
                     : [0],
@@ -636,6 +663,9 @@ namespace Mastersign.DashOps
                     monitorPattern.Arguments?.Select(a => ExpandEnv(ExpandTemplate(a, variables)))),
                 WorkingDirectory = BuildAbsolutePath(monitorPattern.WorkingDirectory),
                 Environment = Merge(Project.Environment, monitorPattern.Environment),
+                ExePaths = (monitorPattern.ExePaths ?? Project.ExePaths ?? [])
+                    .Select(ExpandEnv)
+                    .ToArray(),
                 ExitCodes = monitorPattern.ExitCodes != null && monitorPattern.ExitCodes.Length > 0
                     ? monitorPattern.ExitCodes
                     : [0],

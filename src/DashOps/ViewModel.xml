@@ -38,7 +38,7 @@
       <Property name="Arguments" type="string" />
       <Property name="WorkingDirectory" />
       <Property name="Environment" type="dict" />
-      <!--<Property name="ExecPaths" type="string[]" />-->
+      <Property name="ExePaths" type="string[]" />
       <Property name="UseWindowsTerminal" type="bool" />
       <Property name="WindowsTerminalArguments" type="string" />
       <Property name="ExitCodes" type="int[]" />
@@ -96,7 +96,7 @@
       <Property name="Arguments" type="string" />
       <Property name="WorkingDirectory" />
       <Property name="Environment" type="dict" />
-      <!--<Property name="ExecPaths" type="string[]" />-->
+      <Property name="ExePaths" type="string[]" />
       <Property name="ExitCodes" type="int[]" />
     </Class>
 

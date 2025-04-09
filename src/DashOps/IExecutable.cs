@@ -18,6 +18,8 @@
 
         Dictionary<string, string> Environment { get; }
 
+        string[] ExePaths { get; }
+
         bool UseWindowsTerminal { get; }
 
         string WindowsTerminalArguments { get; }

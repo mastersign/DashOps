@@ -13,6 +13,7 @@ namespace Mastersign.DashOps
     {
         public ActionView()
         {
+            this._exePaths = new string[0];
             this._exitCodes = new int[0];
             this._tags = new string[0];
             this._facetViews = new global::System.Collections.ObjectModel.ObservableCollection<FacetView>();
@@ -348,6 +349,38 @@ namespace Mastersign.DashOps
                 }
                 _environment = value;
                 this.OnEnvironmentChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property ExePaths
+        
+        private string[] _exePaths;
+        
+        public event EventHandler ExePathsChanged;
+        
+        protected virtual void OnExePathsChanged()
+        {
+            EventHandler handler = ExePathsChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"ExePaths");
+        }
+        
+        public virtual string[] ExePaths
+        {
+            get { return _exePaths; }
+            set
+            {
+                if ((value == _exePaths))
+                {
+                    return;
+                }
+                _exePaths = value;
+                this.OnExePathsChanged();
             }
         }
         
@@ -1441,6 +1474,7 @@ namespace Mastersign.DashOps
     {
         public CommandMonitorView()
         {
+            this._exePaths = new string[0];
             this._exitCodes = new int[0];
         }
         
@@ -1700,6 +1734,38 @@ namespace Mastersign.DashOps
                 }
                 _environment = value;
                 this.OnEnvironmentChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property ExePaths
+        
+        private string[] _exePaths;
+        
+        public event EventHandler ExePathsChanged;
+        
+        protected virtual void OnExePathsChanged()
+        {
+            EventHandler handler = ExePathsChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"ExePaths");
+        }
+        
+        public virtual string[] ExePaths
+        {
+            get { return _exePaths; }
+            set
+            {
+                if ((value == _exePaths))
+                {
+                    return;
+                }
+                _exePaths = value;
+                this.OnExePathsChanged();
             }
         }
         

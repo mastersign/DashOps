@@ -34,7 +34,7 @@
       <Property name="Arguments" type="string[]" defaultInitialization="false" />
       <Property name="WorkingDirectory" />
       <Property name="Environment" type="dict" />
-      <!--<Property name="ExecPaths" type="string[]" />-->
+      <Property name="ExePaths" type="string[]" defaultInitialization="false" />
       <Property name="UseWindowsTerminal" type="bool?" />
       <Property name="WindowsTerminalArgs" type="string[]" defaultInitialization="false" />
       <Property name="ExitCodes" type="int[]" defaultInitialization="false" />
@@ -86,6 +86,7 @@
       <Property name="AlwaysClose" type="bool?" />
       <Property name="Background" type="bool?" />
       <Property name="Environment" type="dict" />
+      <Property name="ExePaths" type="string[]" defaultInitialization="false" />
       <Property name="UsePowerShellCore" type="bool?" />
       <Property name="PowerShellExe" />
       <Property name="UsePowerShellProfile" type="bool?" />
@@ -113,7 +114,7 @@
       <Property name="Arguments" type="string[]" defaultInitialization="false" />
       <Property name="WorkingDirectory" />
       <Property name="Environment" type="dict" />
-      <!--<Property name="ExecPaths" type="string[]" />-->
+      <Property name="ExePaths" type="string[]" defaultInitialization="false" />
       <Property name="ExitCodes" type="int[]" defaultInitialization="false" />
     </Class>
     
@@ -165,7 +166,7 @@
       <Property name="ActionPatterns" isCollection="true" type="CommandActionPattern" defaultInitialization="true" />
       <Property name="WorkingDirectory" />
       <Property name="Environment" type="dict" />
-      <!--<Property name="ExecPaths" type="string[]" />-->
+      <Property name="ExePaths" type="string[]" defaultInitialization="true" />
       <Property name="UsePowerShellCore" type="bool" />
       <Property name="PowerShellExe" />
       <Property name="UsePowerShellProfile" type="bool" />

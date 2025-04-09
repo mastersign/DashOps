@@ -63,6 +63,8 @@ action-discovery:
     environment:
       ENV_A: Value A
       ENV_B: Value B
+    exe-paths:
+      - test-scripts\bin
     facets:
       host: incorrect
       env: Test

@@ -71,7 +71,7 @@ namespace Mastersign.DashOps
                     ? executable.PowerShellExe
                     : executable.UsePowerShellCore
                         ? CommandLine.PowerShellCoreExe
-                        : CommandLine.WindowsPowerShellExe)
+                        : CommandLine.WindowsPowerShellExe;
             var cmdArgs = BuildPowerShellArguments(executable, logfile, timestamp);
             var psi = BuildProcessStartInfo(executable, cmd, cmdArgs);
             Process p;
@@ -188,6 +188,14 @@ namespace Mastersign.DashOps
                 {
                     psi.Environment[kvp.Key] = kvp.Value;
                 }
+            }
+            if (executable.ExePaths != null && executable.ExePaths.Length > 0)
+            {
+                var oldPaths = psi.Environment.TryGetValue("PATH", out var oldPath)
+                    ? oldPath.Split(Path.PathSeparator)
+                    : [];
+                psi.Environment["PATH"] = string.Join(new string(Path.PathSeparator, 1), 
+                    executable.ExePaths.Concat(oldPaths));
             }
             return psi;
         }

@@ -25,9 +25,16 @@ internal class DesignTimeActionView : ActionView
             { "SOME_IMPORTANT_VARIABLE", "And a rather lengthy value for demonstartive purposes" },
             { "EDITOR", "notepad.exe" },
         };
-      // <!--<Property name="ExecPaths" type="string[]" />-->
-      // <!--<Property name="Terminal" />-->
+        ExePaths = [];
         ExitCodes = [0, 4, 8, 12, 999_999_999];
+
+        UsePowerShellCore = true;
+        PowerShellExe = null;
+        UsePowerShellProfile = true;
+        PowerShellExecutionPolicy = "ByPass";
+
+        UseWindowsTerminal = true;
+        WindowsTerminalArguments = "-w DashOps nt --tabColor #2A6 --pos 20,10 --size 120,60";
 
         Reassure = true;
         KeepOpen = true;

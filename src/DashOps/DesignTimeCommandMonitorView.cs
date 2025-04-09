@@ -23,8 +23,15 @@ internal class DesignTimeCommandMonitorView : CommandMonitorView
             { "SOME_IMPORTANT_VARIABLE", "And a rather lengthy value for demonstartive purposes" },
             { "EDITOR", "notepad.exe" },
         };
-        // <!--<Property name="ExecPaths" type="string[]" />-->
+
+        ExePaths = [];
         ExitCodes = [0];
+
+        UsePowerShellCore = false;
+        PowerShellExe = @"C:\Program Files\PowerShell\7\pwsh.exe";
+        UsePowerShellProfile = false;
+        PowerShellExecutionPolicy = "RemoteSigned";
+
         RequiredPatterns = [];
         ForbiddenPatterns = [new Regex("err(or)?", RegexOptions.IgnoreCase)];
 
