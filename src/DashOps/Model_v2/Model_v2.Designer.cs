@@ -21,10 +21,6 @@ namespace Mastersign.DashOps.Model_v2
     {
         public CommandActionBase()
         {
-            this._arguments = new string[0];
-            this._windowsTerminalArgs = new string[0];
-            this._exitCodes = new int[0];
-            this._tags = new string[0];
         }
         
         #region String Representation
@@ -813,8 +809,6 @@ namespace Mastersign.DashOps.Model_v2
         {
             this._include = new List<ActionMatcher>();
             this._exclude = new List<ActionMatcher>();
-            this._tags = new string[0];
-            this._windowsTerminalArgs = new string[0];
         }
         
         #region String Representation
@@ -1343,8 +1337,6 @@ namespace Mastersign.DashOps.Model_v2
     {
         public CommandMonitorBase()
         {
-            this._arguments = new string[0];
-            this._exitCodes = new int[0];
         }
         
         #region String Representation
@@ -1739,7 +1731,6 @@ namespace Mastersign.DashOps.Model_v2
         public WebMonitor()
         {
             this._timeout = DEF_TIMEOUT;
-            this._statusCodes = new int[0];
         }
         
         #region String Representation

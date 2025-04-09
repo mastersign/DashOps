@@ -31,14 +31,14 @@
       <Property name="PowerShellExe" />
       <Property name="UsePowerShellProfile" type="bool?" />
       <Property name="PowerShellExecutionPolicy" />
-      <Property name="Arguments" type="string[]" />
+      <Property name="Arguments" type="string[]" defaultInitialization="false" />
       <Property name="WorkingDirectory" />
       <Property name="Environment" type="dict" />
       <!--<Property name="ExecPaths" type="string[]" />-->
       <Property name="UseWindowsTerminal" type="bool?" />
-      <Property name="WindowsTerminalArgs" type="string[]" />
-      <Property name="ExitCodes" type="int[]" />
-      <Property name="Tags" type="string[]" />
+      <Property name="WindowsTerminalArgs" type="string[]" defaultInitialization="false" />
+      <Property name="ExitCodes" type="int[]" defaultInitialization="false" />
+      <Property name="Tags" type="string[]" defaultInitialization="false" />
     </Class>
     
     <Class name="CommandAction" baseType="CommandActionBase">
@@ -78,7 +78,7 @@
       <Property name="Include" type="ActionMatcher" isCollection="true" />
       <Property name="Exclude" type="ActionMatcher" isCollection="true" />
       <Property name="Facets" type="dict" />
-      <Property name="Tags" type="string[]" />
+      <Property name="Tags" type="string[]" defaultInitialization="false" />
       <Property name="Reassure" type="bool?" />
       <Property name="NoLogs" type="bool?" />
       <Property name="NoExecutionInfo" type="bool?" />
@@ -91,7 +91,7 @@
       <Property name="UsePowerShellProfile" type="bool?" />
       <Property name="PowerShellExecutionPolicy" />
       <Property name="UseWindowsTerminal" type="bool?" />
-      <Property name="WindowsTerminalArgs" type="string[]" />
+      <Property name="WindowsTerminalArgs" type="string[]" defaultInitialization="false" />
     </Class>
 
     <Class name="MonitorBase">
@@ -110,11 +110,11 @@
       <Property name="PowerShellExe" />
       <Property name="UsePowerShellProfile" type="bool?" />
       <Property name="PowerShellExecutionPolicy" />
-      <Property name="Arguments" type="string[]" />
+      <Property name="Arguments" type="string[]" defaultInitialization="false" />
       <Property name="WorkingDirectory" />
       <Property name="Environment" type="dict" />
       <!--<Property name="ExecPaths" type="string[]" />-->
-      <Property name="ExitCodes" type="int[]" />
+      <Property name="ExitCodes" type="int[]" defaultInitialization="false" />
     </Class>
     
     <Class name="CommandMonitor" baseType="CommandMonitorBase">
@@ -139,7 +139,7 @@
       </Property>
       <Property name="ServerCertificateHash" />
       <Property name="NoTlsVerify" type="bool" />
-      <Property name="StatusCodes" type="int[]" />
+      <Property name="StatusCodes" type="int[]" defaultInitialization="false" />
     </Class>
 
     <Class name="WebMonitorPattern" baseType="WebMonitor">
@@ -173,7 +173,7 @@
         <DefaultValue>RemoteSigned</DefaultValue>
       </Property>
       <Property name="UseWindowsTerminal" type="bool" />
-      <Property name="WindowsTerminalArgs" type="string[]" />
+      <Property name="WindowsTerminalArgs" type="string[]" defaultInitialization="true" />
       <Property name="Perspectives" type="FacetPerspective" isCollection="true" defaultInitialization="true" />
       <Property name="Auto" type="AutoAnnotation" isCollection="true" defaultInitialization="true" />
       <Property name="Monitors" type="CommandMonitor" isCollection="true" defaultInitialization="true" />
