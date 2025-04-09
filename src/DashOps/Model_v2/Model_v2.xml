@@ -23,15 +23,16 @@
       <Property name="Reassure" type="bool" />
       <Property name="Background" type="bool" />
       <Property name="Logs" />
-      <Property name="NoLogs" type="bool" />
-      <Property name="KeepOpen" type="bool" />
-      <Property name="AlwaysClose" type="bool" />
+      <Property name="NoLogs" type="bool?" />
+      <Property name="NoExecutionInfo" type="bool?" />
+      <Property name="KeepOpen" type="bool?" />
+      <Property name="AlwaysClose" type="bool?" />
       <Property name="Arguments" type="string[]" />
       <Property name="WorkingDirectory" />
       <Property name="Environment" type="dict" />
       <!--<Property name="ExecPaths" type="string[]" />-->
       <Property name="UseWindowsTerminal" type="bool?" />
-      <Property name="WindowsTerminalArgs" />
+      <Property name="WindowsTerminalArgs" type="string[]" />
       <Property name="ExitCodes" type="int[]" />
       <Property name="Tags" type="string[]" />
     </Class>
@@ -80,7 +81,7 @@
       <Property name="Background" type="bool?" />
       <Property name="Environment" type="dict" />
       <Property name="UseWindowsTerminal" type="bool?" />
-      <Property name="WindowsTerminalArgs" />
+      <Property name="WindowsTerminalArgs" type="string[]" />
     </Class>
 
     <Class name="MonitorBase">
@@ -149,8 +150,8 @@
       <Property name="WorkingDirectory" />
       <Property name="Environment" type="dict" />
       <!--<Property name="ExecPaths" type="string[]" />-->
-      <Property name="UseWindowsTerminal" type="bool?" />
-      <Property name="WindowsTerminalArgs" />
+      <Property name="UseWindowsTerminal" type="bool" />
+      <Property name="WindowsTerminalArgs" type="string[]" />
       <Property name="Perspectives" type="FacetPerspective" isCollection="true" defaultInitialization="true" />
       <Property name="Auto" type="AutoAnnotation" isCollection="true" defaultInitialization="true" />
       <Property name="Monitors" type="CommandMonitor" isCollection="true" defaultInitialization="true" />

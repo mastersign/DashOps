@@ -236,8 +236,48 @@ namespace Mastersign.DashOps
             {
                 foreach (var annotation in Project.Auto.Where(a => a.Match(actionView)))
                 {
-                    annotation.Apply(actionView);
+                    ApplyAutoAnnotation(actionView, annotation);
                 }
+            }
+        }
+
+        private void ApplyAutoAnnotation(ActionView action, AutoAnnotation annotation)
+        {
+            if (annotation.Tags != null)
+            {
+                action.Tags = [.. action.Tags.Union(annotation.Tags)];
+            }
+
+            if (annotation.Facets != null)
+            {
+                foreach (var facetName in annotation.Facets.Keys)
+                {
+                    action.Facets[facetName] = annotation.Facets[facetName];
+                }
+            }
+
+            action.Reassure = annotation.Reassure ?? action.Reassure;
+            action.NoLogs = annotation.NoLogs ?? action.NoLogs;
+            action.KeepOpen = annotation.KeepOpen ?? action.KeepOpen;
+            action.AlwaysClose = annotation.AlwaysClose ?? action.AlwaysClose;
+            action.Visible = !(annotation.Background ?? !action.Visible);
+
+            if (annotation.Environment != null)
+            {
+                foreach (var kvp in annotation.Environment)
+                {
+                    action.Environment[kvp.Key] = kvp.Value;
+                }
+            }
+
+            action.UseWindowsTerminal = annotation.UseWindowsTerminal ?? action.UseWindowsTerminal;
+            if (annotation.WindowsTerminalArgs != null)
+            {
+                action.WindowsTerminalArguments = FormatArguments(annotation.WindowsTerminalArgs
+                    // expand facets
+                    .Select(a => ExpandTemplate(a, action.Facets))
+                    // expand CMD-style environment variables
+                    .Select(ExpandEnv));
             }
         }
 

@@ -22,6 +22,7 @@ namespace Mastersign.DashOps.Model_v2
         public CommandActionBase()
         {
             this._arguments = new string[0];
+            this._windowsTerminalArgs = new string[0];
             this._exitCodes = new int[0];
             this._tags = new string[0];
         }
@@ -40,14 +41,14 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Reassure = " + _reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Background = " + _background.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    KeepOpen = " + _keepOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    AlwaysClose = " + _alwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(_noLogs, null) ? _noLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    KeepOpen = " + (!ReferenceEquals(_keepOpen, null) ? _keepOpen.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    AlwaysClose = " + (!ReferenceEquals(_alwaysClose, null) ? _alwaysClose.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(_environment, null) ? _environment.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    UseWindowsTerminal = " + (!ReferenceEquals(_useWindowsTerminal, null) ? _useWindowsTerminal.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    WindowsTerminalArgs = " + (!ReferenceEquals(_windowsTerminalArgs, null) ? _windowsTerminalArgs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    WindowsTerminalArgs = " + (!ReferenceEquals(_windowsTerminalArgs, null) ? _windowsTerminalArgs.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(_exitCodes, null) ? _exitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Tags = " + (!ReferenceEquals(_tags, null) ? _tags.ToString() : @"null").Replace("\n", "\n    "))));
         }
@@ -132,9 +133,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property NoLogs
         
-        private bool _noLogs;
+        private bool? _noLogs;
         
-        public virtual bool NoLogs
+        public virtual bool? NoLogs
         {
             get { return _noLogs; }
             set
@@ -170,9 +171,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property AlwaysClose
         
-        private bool _alwaysClose;
+        private bool? _alwaysClose;
         
-        public virtual bool AlwaysClose
+        public virtual bool? AlwaysClose
         {
             get { return _alwaysClose; }
             set
@@ -265,14 +266,14 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property WindowsTerminalArgs
         
-        private string _windowsTerminalArgs;
+        private string[] _windowsTerminalArgs;
         
-        public virtual string WindowsTerminalArgs
+        public virtual string[] WindowsTerminalArgs
         {
             get { return _windowsTerminalArgs; }
             set
             {
-                if (string.Equals(value, _windowsTerminalArgs))
+                if ((value == _windowsTerminalArgs))
                 {
                     return;
                 }
@@ -341,14 +342,14 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Reassure = " + Reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    KeepOpen = " + KeepOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    AlwaysClose = " + AlwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(NoLogs, null) ? NoLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    KeepOpen = " + (!ReferenceEquals(KeepOpen, null) ? KeepOpen.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    AlwaysClose = " + (!ReferenceEquals(AlwaysClose, null) ? AlwaysClose.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(Environment, null) ? Environment.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    UseWindowsTerminal = " + (!ReferenceEquals(UseWindowsTerminal, null) ? UseWindowsTerminal.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    WindowsTerminalArgs = " + (!ReferenceEquals(WindowsTerminalArgs, null) ? WindowsTerminalArgs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    WindowsTerminalArgs = " + (!ReferenceEquals(WindowsTerminalArgs, null) ? WindowsTerminalArgs.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Command = " + (!ReferenceEquals(_command, null) ? _command.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
@@ -416,14 +417,14 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Reassure = " + Reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    KeepOpen = " + KeepOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    AlwaysClose = " + AlwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(NoLogs, null) ? NoLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    KeepOpen = " + (!ReferenceEquals(KeepOpen, null) ? KeepOpen.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    AlwaysClose = " + (!ReferenceEquals(AlwaysClose, null) ? AlwaysClose.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(Environment, null) ? Environment.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    UseWindowsTerminal = " + (!ReferenceEquals(UseWindowsTerminal, null) ? UseWindowsTerminal.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    WindowsTerminalArgs = " + (!ReferenceEquals(WindowsTerminalArgs, null) ? WindowsTerminalArgs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    WindowsTerminalArgs = " + (!ReferenceEquals(WindowsTerminalArgs, null) ? WindowsTerminalArgs.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    BasePath = " + (!ReferenceEquals(_basePath, null) ? _basePath.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
@@ -511,14 +512,14 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Reassure = " + Reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    KeepOpen = " + KeepOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    AlwaysClose = " + AlwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(NoLogs, null) ? NoLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    KeepOpen = " + (!ReferenceEquals(KeepOpen, null) ? KeepOpen.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    AlwaysClose = " + (!ReferenceEquals(AlwaysClose, null) ? AlwaysClose.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(Environment, null) ? Environment.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    UseWindowsTerminal = " + (!ReferenceEquals(UseWindowsTerminal, null) ? UseWindowsTerminal.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    WindowsTerminalArgs = " + (!ReferenceEquals(WindowsTerminalArgs, null) ? WindowsTerminalArgs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    WindowsTerminalArgs = " + (!ReferenceEquals(WindowsTerminalArgs, null) ? WindowsTerminalArgs.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Command = " + (!ReferenceEquals(_command, null) ? _command.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
@@ -678,6 +679,7 @@ namespace Mastersign.DashOps.Model_v2
             this._include = new List<ActionMatcher>();
             this._exclude = new List<ActionMatcher>();
             this._tags = new string[0];
+            this._windowsTerminalArgs = new string[0];
         }
         
         #region String Representation
@@ -721,7 +723,7 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Background = " + (!ReferenceEquals(_background, null) ? _background.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(_environment, null) ? _environment.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    UseWindowsTerminal = " + (!ReferenceEquals(_useWindowsTerminal, null) ? _useWindowsTerminal.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    WindowsTerminalArgs = " + (!ReferenceEquals(_windowsTerminalArgs, null) ? _windowsTerminalArgs.ToString(formatProvider) : @"null").Replace("\n", "\n    "))));
+                (global::System.Environment.NewLine + @"    WindowsTerminalArgs = " + (!ReferenceEquals(_windowsTerminalArgs, null) ? _windowsTerminalArgs.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
         #endregion
@@ -937,14 +939,14 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property WindowsTerminalArgs
         
-        private string _windowsTerminalArgs;
+        private string[] _windowsTerminalArgs;
         
-        public virtual string WindowsTerminalArgs
+        public virtual string[] WindowsTerminalArgs
         {
             get { return _windowsTerminalArgs; }
             set
             {
-                if (string.Equals(value, _windowsTerminalArgs))
+                if ((value == _windowsTerminalArgs))
                 {
                     return;
                 }
@@ -1658,6 +1660,7 @@ namespace Mastersign.DashOps.Model_v2
             this._actions = new List<CommandAction>();
             this._actionDiscovery = new List<CommandActionDiscovery>();
             this._actionPatterns = new List<CommandActionPattern>();
+            this._windowsTerminalArgs = new string[0];
             this._perspectives = new List<FacetPerspective>();
             this._auto = new List<AutoAnnotation>();
             this._monitors = new List<CommandMonitor>();
@@ -1790,8 +1793,8 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    ActionPatterns = " + (!ReferenceEquals(_actionPatterns, null) ? (_actionPatterns.Count.ToString() + @" items" + __collection_ActionPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(_environment, null) ? _environment.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    UseWindowsTerminal = " + (!ReferenceEquals(_useWindowsTerminal, null) ? _useWindowsTerminal.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    WindowsTerminalArgs = " + (!ReferenceEquals(_windowsTerminalArgs, null) ? _windowsTerminalArgs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UseWindowsTerminal = " + _useWindowsTerminal.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    WindowsTerminalArgs = " + (!ReferenceEquals(_windowsTerminalArgs, null) ? _windowsTerminalArgs.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Perspectives = " + (!ReferenceEquals(_perspectives, null) ? (_perspectives.Count.ToString() + @" items" + __collection_Perspectives.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Auto = " + (!ReferenceEquals(_auto, null) ? (_auto.Count.ToString() + @" items" + __collection_Auto.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Monitors = " + (!ReferenceEquals(_monitors, null) ? (_monitors.Count.ToString() + @" items" + __collection_Monitors.ToString()) : @"null").Replace("\n", "\n    ")) + 
@@ -2017,9 +2020,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property UseWindowsTerminal
         
-        private bool? _useWindowsTerminal;
+        private bool _useWindowsTerminal;
         
-        public virtual bool? UseWindowsTerminal
+        public virtual bool UseWindowsTerminal
         {
             get { return _useWindowsTerminal; }
             set
@@ -2036,14 +2039,14 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property WindowsTerminalArgs
         
-        private string _windowsTerminalArgs;
+        private string[] _windowsTerminalArgs;
         
-        public virtual string WindowsTerminalArgs
+        public virtual string[] WindowsTerminalArgs
         {
             get { return _windowsTerminalArgs; }
             set
             {
-                if (string.Equals(value, _windowsTerminalArgs))
+                if ((value == _windowsTerminalArgs))
                 {
                     return;
                 }

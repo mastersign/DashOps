@@ -81,8 +81,16 @@ namespace Mastersign.DashOps
                 Shutdown(1);
                 return;
             }
+
             Executor = new Executor();
             MonitorManager = new MonitorManager();
+
+            Exit += ApplicationExitHandler;
+        }
+
+        private void ApplicationExitHandler(object sender, ExitEventArgs e)
+        {
+            Executor.Dispose();
         }
 
         private string GetAppVersion()

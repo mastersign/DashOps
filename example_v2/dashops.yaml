@@ -75,7 +75,7 @@ action-patterns:
     environment:
       ENV_B: value b
     always-close: true
-    windows-terminal-args: 'nt --tabColor #C81 --title "Check ${service}"'
+    windows-terminal-args: [nt, --tabColor, '#C81', --title, 'Check ${service}']
     facets:
       service:
         - service A

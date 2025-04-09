@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Mastersign.DashOps
 {
-    public class Executor
+    public class Executor : IDisposable
     {
         private class Execution(IExecutable executable, Action<ExecutionResult> onExit)
         {
@@ -13,6 +13,13 @@ namespace Mastersign.DashOps
         }
 
         private readonly Dictionary<Process, Execution> runningProcesses = [];
+
+        private readonly InterProcessConnector interProcessConnector = new();
+
+        public void Dispose()
+        {
+            interProcessConnector.Dispose();
+        }
 
         public Task<ExecutionResult> ExecuteAsync<T>(T executable)
             where T : IExecutable
@@ -44,45 +51,25 @@ namespace Mastersign.DashOps
             var timestamp = DateTime.Now;
             var logfile = executable.Logs != null
                     ? Path.Combine(
-                        executable.Logs, 
+                        executable.Logs,
                         executable.PreliminaryLogFileName(timestamp))
                     : null;
 
-            var psArgs = BuildPowerShellArguments(executable, logfile, timestamp);
-
-            string cmd;
-            var cmdArgs = new StringBuilder();
             if (executable.UseWindowsTerminal)
             {
-                cmd = CommandLine.WindowsTerminalExe;
-                if (!string.IsNullOrWhiteSpace(executable.WindowsTerminalArguments))
-                {
-                    cmdArgs.Append(executable.WindowsTerminalArguments);
-                    cmdArgs.Append(" ");
-                }
-                cmdArgs.Append('"');
-                cmdArgs.Append(CommandLine.PowerShellExe);
-                cmdArgs.Append("\" ");
-                cmdArgs.Append(psArgs);
+                StartProcessWithWindowsTerminal(executable, timestamp, logfile, onExit);
             }
             else
             {
-                cmd = CommandLine.PowerShellExe;
-                cmdArgs.Append(psArgs);
+                StartProcessDirect(executable, timestamp, logfile, onExit);
             }
-            var psi = new ProcessStartInfo(cmd, cmdArgs.ToString())
-            {
-                CreateNoWindow = !executable.Visible,
-                WorkingDirectory = executable.WorkingDirectory,
-                UseShellExecute = false,
-            };
-            if (executable.Environment is not null)
-            {
-                foreach (var kvp in executable.Environment)
-                {
-                    psi.Environment[kvp.Key] = kvp.Value;
-                }
-            }
+        }
+
+        private void StartProcessDirect(IExecutable executable, DateTime timestamp, string logfile, Action<ExecutionResult> onExit)
+        {
+            var cmd = CommandLine.PowerShellExe;
+            var cmdArgs = BuildPowerShellArguments(executable, logfile, timestamp);
+            var psi = BuildProcessStartInfo(executable, cmd, cmdArgs);
             Process p;
             try
             {
@@ -99,20 +86,117 @@ namespace Mastersign.DashOps
             }
             if (p != null)
             {
-                executable.CurrentLogFile = logfile;
-                p.EnableRaisingEvents = true;
-                lock (runningProcesses)
-                {
-                    runningProcesses[p] = new Execution(executable, onExit);
-                    p.Exited += ProcessExitedHandler;
-                }
-                if (p.HasExited) ProcessExitedHandler(p, EventArgs.Empty);
+                WatchProcessForExit(p, executable, logfile, onExit);
             }
         }
 
-        private void ProcessExitedHandler(object sender, EventArgs e)
+        private void StartProcessWithWindowsTerminal(IExecutable executable, DateTime timestamp, string logfile, Action<ExecutionResult> onExit)
         {
-            var p = (Process)sender;
+            string cmd = CommandLine.WindowsTerminalExe;
+            var cmdArgs = new StringBuilder();
+            if (!string.IsNullOrWhiteSpace(executable.WindowsTerminalArguments))
+            {
+                cmdArgs.Append(executable.WindowsTerminalArguments);
+                cmdArgs.Append(" ");
+            }
+            cmdArgs.Append('"');
+            cmdArgs.Append(CommandLine.PowerShellExe);
+            cmdArgs.Append("\" ");
+
+            var pipeName = interProcessConnector.StartSession((pipeName, data) =>
+            {
+                interProcessConnector.KillSession(pipeName);
+                if (data.Length == 0)
+                {
+                    onExit(new ExecutionResult(executable,
+                        startFailed: true,
+                        success: false,
+                        exitCode: 0,
+                        output: "Timeout while waiting for PowerShell process ID."));
+                    return;
+                }
+                if (data.Length != 4)
+                {
+                    onExit(new ExecutionResult(executable,
+                        startFailed: true,
+                        success: false,
+                        exitCode: 0,
+                        output: "Received unexpected PID data from PowerShell process"));
+                    return;
+                }
+                var pid = BitConverter.ToInt32(data, 0);
+                Process p;
+                try
+                {
+                    p = Process.GetProcessById(pid);
+                }
+                catch (Exception e)
+                {
+                    onExit(new ExecutionResult(executable,
+                        startFailed: true,
+                        success: false,
+                        exitCode: 0,
+                        output: "Failed to retrieve PowerShell process by PID." + Environment.NewLine 
+                            + Environment.NewLine
+                            + e.GetType().Name + Environment.NewLine 
+                            + e.Message));
+                    return;
+                }
+                WatchProcessForExit(p, executable, logfile, onExit);
+            });
+
+            cmdArgs.Append(BuildPowerShellArguments(executable, logfile, timestamp, pipeName));
+
+            var psi = BuildProcessStartInfo(executable, cmd, cmdArgs.ToString());
+            try
+            {
+                Process.Start(psi);
+            }
+            catch (Exception e)
+            {
+                interProcessConnector.KillSession(pipeName);
+                onExit(new ExecutionResult(executable,
+                    startFailed: true,
+                    success: false,
+                    exitCode: 0,
+                    output: "Failed to start PowerShell process in Windows Terminal." + Environment.NewLine
+                        + Environment.NewLine
+                        + e.GetType().Name + Environment.NewLine + e.Message));
+            }
+        }
+
+        private static ProcessStartInfo BuildProcessStartInfo(IExecutable executable, string cmd, string cmdArgs)
+        {
+            var psi = new ProcessStartInfo(cmd, cmdArgs)
+            {
+                CreateNoWindow = !executable.Visible,
+                WorkingDirectory = executable.WorkingDirectory,
+                UseShellExecute = false,
+            };
+            if (executable.Environment is not null)
+            {
+                foreach (var kvp in executable.Environment)
+                {
+                    psi.Environment[kvp.Key] = kvp.Value;
+                }
+            }
+            return psi;
+        }
+
+        private void WatchProcessForExit(Process p, IExecutable executable, string logfile, Action<ExecutionResult> onExit)
+        {
+            executable.CurrentLogFile = logfile;
+            p.EnableRaisingEvents = true;
+            lock (runningProcesses)
+            {
+                runningProcesses[p] = new Execution(executable, onExit);
+                p.Exited += (sender, ea) => ProcessExitedHandler((Process)sender);
+            }
+            if (p.HasExited) ProcessExitedHandler(p);
+        }
+
+        private void ProcessExitedHandler(Process p)
+        {
             Execution execution;
             lock (runningProcesses)
             {
@@ -150,13 +234,13 @@ namespace Mastersign.DashOps
                 }
             }
             execution.OnExit?.Invoke(new ExecutionResult(
-                executable, 
+                executable,
                 startFailed: false,
                 success, exitCode, output));
             executable?.NotifyExecutionFinished();
         }
 
-        private static string BuildPowerShellArguments(IExecutable executable, string logfile, DateTime timestamp)
+        private static string BuildPowerShellArguments(IExecutable executable, string logfile, DateTime timestamp, string pidPipeName = null)
         {
             var psLines = new List<string>();
             psLines.Add($"$Host.UI.RawUI.WindowTitle = \"DashOps - {executable.Title}\"");
@@ -173,6 +257,20 @@ namespace Mastersign.DashOps
             psLines.Add($"echo \"Start:      $($t0.toString($tsf))\"");
             psLines.Add("echo \"--------------------------------------------------------------------------------\"");
             psLines.Add("echo \"\"");
+            if (pidPipeName != null)
+            {
+                psLines.Add("$pidData = [System.BitConverter]::GetBytes($pid)");
+                psLines.Add("try {");
+                psLines.Add($"  $pidPipe = [System.IO.Pipes.NamedPipeClientStream]::new('.', '{pidPipeName}', [System.IO.Pipes.PipeDirection]::InOut)");
+                psLines.Add("  $pidPipe.Connect(2000)");
+                psLines.Add("  $pidPipe.Write($pidData, 0, $pidData.Length)");
+                psLines.Add("  $pidPipe.WaitForPipeDrain()");
+                psLines.Add("  $pidPipe.Close()");
+                psLines.Add("  $pidPipe = $null");
+                psLines.Add("} catch {");
+                psLines.Add("  Write-Warning \"Failed to report PID to DashOps: $_\"");
+                psLines.Add("}");
+            }
             psLines.Add($"& \"{executable.Command}\" {executable.Arguments}");
             psLines.Add("if ($LastExitCode -eq $null) {");
             psLines.Add("  if ($?) { $ec = 0 } else { $ec = 1; echo \"\"; Write-Warning \"Command failed.\" }");
