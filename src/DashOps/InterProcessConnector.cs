@@ -30,7 +30,7 @@ namespace Mastersign.DashOps
                     PipeName, PipeDirection.InOut,
                     maxNumberOfServerInstances: 1,
                     PipeTransmissionMode.Byte,
-                    PipeOptions.None,
+                    PipeOptions.Asynchronous,
                     inBufferSize: CHUNK_SIZE, 
                     outBufferSize: CHUNK_SIZE);
                 var worker = new Thread(ReadToEnd) { Name = "Interprocess Worker" };
@@ -46,10 +46,14 @@ namespace Mastersign.DashOps
                 {
                     stream.WaitForConnectionAsync(timeoutTokenSource.Token).Wait();
                 }
-                catch (OperationCanceledException)
+                catch (AggregateException e)
                 {
-                    NotifyHandler();
-                    return;
+                    if (e.InnerException is OperationCanceledException)
+                    {
+                        NotifyHandler();
+                        return;
+                    }
+                    throw;
                 }
                 finally
                 {
