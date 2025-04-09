@@ -45,6 +45,7 @@
     <Class name="CommandActionDiscovery" baseType="CommandActionBase">
       <Property name="BasePath" />
       <Property name="PathPattern" />
+      <Property name="Interpreter" />
       <Property name="Facets" type="dict" />
     </Class>
 
@@ -111,6 +112,7 @@
     <Class name="CommandMonitorDiscovery" baseType="CommandMonitorBase">
       <Property name="BasePath" />
       <Property name="PathPattern" />
+      <Property name="Interpreter" />
     </Class>
 
     <Class name="CommandMonitorPattern" baseType="CommandMonitor">

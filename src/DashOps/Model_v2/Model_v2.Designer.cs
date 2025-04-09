@@ -172,9 +172,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property KeepOpen
         
-        private bool _keepOpen;
+        private bool? _keepOpen;
         
-        public virtual bool KeepOpen
+        public virtual bool? KeepOpen
         {
             get { return _keepOpen; }
             set
@@ -451,6 +451,7 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Tags = " + (!ReferenceEquals(Tags, null) ? Tags.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    BasePath = " + (!ReferenceEquals(_basePath, null) ? _basePath.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    PathPattern = " + (!ReferenceEquals(_pathPattern, null) ? _pathPattern.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Interpreter = " + (!ReferenceEquals(_interpreter, null) ? _interpreter.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Facets = " + (!ReferenceEquals(_facets, null) ? _facets.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
@@ -489,6 +490,25 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _pathPattern = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Interpreter
+        
+        private string _interpreter;
+        
+        public virtual string Interpreter
+        {
+            get { return _interpreter; }
+            set
+            {
+                if (string.Equals(value, _interpreter))
+                {
+                    return;
+                }
+                _interpreter = value;
             }
         }
         
@@ -1334,7 +1354,8 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(Environment, null) ? Environment.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(ExitCodes, null) ? ExitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    BasePath = " + (!ReferenceEquals(_basePath, null) ? _basePath.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    PathPattern = " + (!ReferenceEquals(_pathPattern, null) ? _pathPattern.ToString(formatProvider) : @"null").Replace("\n", "\n    "))));
+                (global::System.Environment.NewLine + @"    PathPattern = " + (!ReferenceEquals(_pathPattern, null) ? _pathPattern.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Interpreter = " + (!ReferenceEquals(_interpreter, null) ? _interpreter.ToString(formatProvider) : @"null").Replace("\n", "\n    "))));
         }
         
         #endregion
@@ -1372,6 +1393,25 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _pathPattern = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Interpreter
+        
+        private string _interpreter;
+        
+        public virtual string Interpreter
+        {
+            get { return _interpreter; }
+            set
+            {
+                if (string.Equals(value, _interpreter))
+                {
+                    return;
+                }
+                _interpreter = value;
             }
         }
         

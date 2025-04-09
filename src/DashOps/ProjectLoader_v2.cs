@@ -304,16 +304,15 @@ namespace Mastersign.DashOps
             var facets = new Dictionary<string, string>(action.Facets ?? []);
             var actionView = new ActionView
             {
-                Command = ExpandEnv(
-                    ExpandTemplate(action.Command, facets)),
+                Command = ExpandEnv(ExpandTemplate(action.Command, facets)),
                 Arguments = FormatArguments(
-                    action.Arguments?.Select(a => ExpandTemplate(a, facets))),
+                    action.Arguments?.Select(a => ExpandEnv(ExpandTemplate(a, facets)))),
                 WorkingDirectory = BuildAbsolutePath(action.WorkingDirectory),
                 Environment = Merge(Project.Environment, action.Environment),
-                UseWindowsTerminal = action.UseWindowsTerminal ?? Project.UseWindowsTerminal ?? false,
-                WindowsTerminalArguments =
-                    ExpandTemplate(action.WindowsTerminalArgs, facets)
-                    ?? Project.WindowsTerminalArgs,
+                UseWindowsTerminal = action.UseWindowsTerminal ?? Project.UseWindowsTerminal,
+                WindowsTerminalArguments = FormatArguments(
+                    (action.WindowsTerminalArgs ?? Project.WindowsTerminalArgs)
+                        .Select(a => ExpandEnv(ExpandTemplate(a, facets)))),
                 ExitCodes = action.ExitCodes != null && action.ExitCodes.Length > 0
                     ? action.ExitCodes
                     : [0],
@@ -321,11 +320,10 @@ namespace Mastersign.DashOps
                 Reassure = action.Reassure,
                 Visible = !action.Background,
                 Logs = ExpandEnv(action.Logs),
-                NoLogs = action.NoLogs,
-                KeepOpen = action.KeepOpen,
-                AlwaysClose = action.AlwaysClose,
                 NoLogs = action.NoLogs ?? Project.NoLogs,
                 NoExecutionInfo = action.NoExecutionInfo ?? Project.NoExecutionInfo,
+                KeepOpen = action.KeepOpen ?? Project.KeepActionOpen,
+                AlwaysClose = action.AlwaysClose ?? Project.AlwaysCloseAction,
                 Tags = action.Tags ?? [],
                 Facets = facets,
             };
@@ -363,9 +361,9 @@ namespace Mastersign.DashOps
             CommandActionDiscovery actionDiscovery,
             string[] groupNames, Match m, string file)
         {
-            var facets = actionDiscovery.Facets != null
-                ? new Dictionary<string, string>(actionDiscovery.Facets)
-                : [];
+            var facets = new Dictionary<string, string>(actionDiscovery.Facets ?? []);
+
+            // capture named Regex groups into facets
             foreach (var groupName in groupNames)
             {
                 if (groupName == "0") continue;
@@ -374,25 +372,60 @@ namespace Mastersign.DashOps
                 facets[groupName] = g.Value;
             }
 
+            string cmd;
+            string cmdArgs;
+            var fileVariable = new Dictionary<string, string> { { "File", file } };
+            if (!string.IsNullOrWhiteSpace(actionDiscovery.Interpreter))
+            {
+                // custom interpreter for discovered files
+
+                cmd = actionDiscovery.Interpreter;
+                if (actionDiscovery.Arguments is null)
+                {
+                    cmdArgs = FormatArguments([file]);
+                }
+                else
+                {
+                    cmdArgs = FormatArguments(actionDiscovery.Arguments
+                        // expand ${File} and ${file} into discovered filename 
+                        .Select(a => ExpandTemplate(a, fileVariable))
+                        // expand facets
+                        .Select(a => ExpandTemplate(a, facets))
+                        // expand CMD-style environment variables
+                        .Select(ExpandEnv));
+                }
+            }
+            else
+            {
+                // discovered file is used as command itself
+
+                cmd = file;
+                cmdArgs = FormatArguments(actionDiscovery.Arguments?
+                    // expand facets
+                    .Select(a => ExpandTemplate(a, facets))
+                    // expand CMD-style environment variables
+                    .Select(ExpandEnv));
+            }
+
             return new ActionView()
             {
                 Title = ExpandTemplate(actionDiscovery.Description, facets),
                 Reassure = actionDiscovery.Reassure,
                 Visible = !actionDiscovery.Background,
                 Logs = ExpandEnv(ExpandTemplate(actionDiscovery.Logs, facets)),
-                NoLogs = actionDiscovery.NoLogs,
-                KeepOpen = actionDiscovery.KeepOpen,
-                AlwaysClose = actionDiscovery.AlwaysClose,
-                Command = file,
-                Arguments = FormatArguments(actionDiscovery.Arguments),
+                NoLogs = actionDiscovery.NoLogs ?? Project.NoLogs,
                 NoExecutionInfo = actionDiscovery.NoExecutionInfo ?? Project.NoExecutionInfo,
+                KeepOpen = actionDiscovery.KeepOpen ?? Project.KeepActionOpen,
+                AlwaysClose = actionDiscovery.AlwaysClose ?? Project.AlwaysCloseAction,
+                Command = cmd,
+                Arguments = cmdArgs,
                 WorkingDirectory = BuildAbsolutePath(
-                    ExpandTemplate(actionDiscovery.WorkingDirectory, facets)),
+                            ExpandTemplate(actionDiscovery.WorkingDirectory, facets)),
                 Environment = Merge(Project.Environment, actionDiscovery.Environment),
-                UseWindowsTerminal = actionDiscovery.UseWindowsTerminal ?? Project.UseWindowsTerminal ?? false,
-                WindowsTerminalArguments = 
-                    ExpandTemplate(actionDiscovery.WindowsTerminalArgs, facets)
-                    ?? Project.WindowsTerminalArgs,
+                UseWindowsTerminal = actionDiscovery.UseWindowsTerminal ?? Project.UseWindowsTerminal,
+                WindowsTerminalArguments = FormatArguments(
+                    (actionDiscovery.WindowsTerminalArgs ?? Project.WindowsTerminalArgs)
+                        .Select(a => ExpandTemplate(a, facets))),
                 ExitCodes = actionDiscovery.ExitCodes != null && actionDiscovery.ExitCodes.Length > 0
                     ? actionDiscovery.ExitCodes
                     : [0],
@@ -409,20 +442,20 @@ namespace Mastersign.DashOps
                 Reassure = actionPattern.Reassure,
                 Visible = !actionPattern.Background,
                 Logs = ExpandEnv(ExpandTemplate(actionPattern.Logs, facets)),
-                NoLogs = actionPattern.NoLogs,
-                KeepOpen = actionPattern.KeepOpen,
-                AlwaysClose = actionPattern.AlwaysClose,
+                NoLogs = actionPattern.NoLogs ?? Project.NoLogs,
                 NoExecutionInfo = actionPattern.NoExecutionInfo ?? Project.NoExecutionInfo,
+                KeepOpen = actionPattern.KeepOpen ?? Project.KeepActionOpen,
+                AlwaysClose = actionPattern.AlwaysClose ?? Project.AlwaysCloseAction,
                 Command = ExpandEnv(ExpandTemplate(actionPattern.Command, facets)),
-                Arguments = FormatArguments(
-                    actionPattern.Arguments?.Select(a => ExpandTemplate(a, facets))),
+                Arguments = FormatArguments(actionPattern.Arguments?
+                    .Select(a => ExpandEnv(ExpandTemplate(a, facets)))),
                 WorkingDirectory = BuildAbsolutePath(
                     ExpandTemplate(actionPattern.WorkingDirectory, facets)),
                 Environment = Merge(Project.Environment, actionPattern.Environment),
-                UseWindowsTerminal = actionPattern.UseWindowsTerminal ?? Project.UseWindowsTerminal ?? false,
-                WindowsTerminalArguments =
-                    ExpandTemplate(actionPattern.WindowsTerminalArgs, facets)
-                    ?? Project.WindowsTerminalArgs,
+                UseWindowsTerminal = actionPattern.UseWindowsTerminal ?? Project.UseWindowsTerminal,
+                WindowsTerminalArguments = FormatArguments(
+                    (actionPattern.WindowsTerminalArgs ?? Project.WindowsTerminalArgs)
+                        .Select(a => ExpandTemplate(a, facets))),
                 ExitCodes = actionPattern.ExitCodes != null && actionPattern.ExitCodes.Length > 0
                     ? actionPattern.ExitCodes
                     : [0],
@@ -438,7 +471,7 @@ namespace Mastersign.DashOps
                 NoLogs = monitor.NoLogs,
                 Interval = new TimeSpan(0, 0, monitor.Interval),
                 Command = ExpandEnv(monitor.Command),
-                Arguments = FormatArguments(monitor.Arguments),
+                Arguments = FormatArguments(monitor.Arguments?.Select(ExpandEnv)),
                 WorkingDirectory = BuildAbsolutePath(monitor.WorkingDirectory),
                 Environment = Merge(Project.Environment, monitor.Environment),
                 ExitCodes = monitor.ExitCodes != null && monitor.ExitCodes.Length > 0
@@ -483,15 +516,49 @@ namespace Mastersign.DashOps
                 variables[groupName] = g.Value;
             }
 
+            string cmd;
+            string cmdArgs;
+            var fileVariable = new Dictionary<string, string> { { "File", file } };
+            if (!string.IsNullOrWhiteSpace(monitorDiscovery.Interpreter))
+            {
+                // custom interpreter for discovered files
+
+                cmd = monitorDiscovery.Interpreter;
+                if (monitorDiscovery.Arguments is null)
+                {
+                    cmdArgs = FormatArguments([file]);
+                }
+                else
+                {
+                    cmdArgs = FormatArguments(monitorDiscovery.Arguments
+                        // expand ${File} and ${file} into discovered filename 
+                        .Select(a => ExpandTemplate(a, fileVariable))
+                        // expand group names from Regex match
+                        .Select(a => ExpandTemplate(a, variables))
+                        // expand CMD-style environment variables
+                        .Select(ExpandEnv));
+                }
+            }
+            else
+            {
+                // discovered file is used as command itself
+
+                cmd = file;
+                cmdArgs = FormatArguments(monitorDiscovery.Arguments?
+                    // expand group names from Regex match
+                    .Select(a => ExpandTemplate(a, variables))
+                    // expand CMD-style environment variables
+                    .Select(ExpandEnv));
+            }
+
             return new CommandMonitorView
             {
                 Title = ExpandTemplate(monitorDiscovery.Title, variables),
                 Logs = ExpandEnv(ExpandTemplate(monitorDiscovery.Logs, variables)),
                 NoLogs = monitorDiscovery.NoLogs,
                 Interval = new TimeSpan(0, 0, monitorDiscovery.Interval),
-                Command = file,
-                Arguments = FormatArguments(
-                    monitorDiscovery.Arguments?.Select(a => ExpandTemplate(a, variables))),
+                Command = cmd,
+                Arguments = cmdArgs,
                 WorkingDirectory = BuildAbsolutePath(monitorDiscovery.WorkingDirectory),
                 Environment = Merge(Project.Environment, monitorDiscovery.Environment ?? []),
                 ExitCodes = monitorDiscovery.ExitCodes != null && monitorDiscovery.ExitCodes.Length > 0
@@ -512,7 +579,7 @@ namespace Mastersign.DashOps
                 Interval = new TimeSpan(0, 0, monitorPattern.Interval),
                 Command = ExpandEnv(ExpandTemplate(monitorPattern.Command, variables)),
                 Arguments = FormatArguments(
-                    monitorPattern.Arguments?.Select(a => ExpandTemplate(a, variables))),
+                    monitorPattern.Arguments?.Select(a => ExpandEnv(ExpandTemplate(a, variables)))),
                 WorkingDirectory = BuildAbsolutePath(monitorPattern.WorkingDirectory),
                 Environment = Merge(Project.Environment, monitorPattern.Environment),
                 ExitCodes = monitorPattern.ExitCodes != null && monitorPattern.ExitCodes.Length > 0
@@ -659,8 +726,7 @@ namespace Mastersign.DashOps
 
         private static string FormatArguments(IEnumerable<string> arguments)
             => arguments != null
-                ? CommandLine.FormatArgumentList(
-                    arguments.Select(ExpandEnv).ToArray())
+                ? CommandLine.FormatArgumentList([.. arguments.Select(ExpandEnv)])
                 : null;
 
         private static Dictionary<TKey, TValue> MapValues<TKey, TValue>(
