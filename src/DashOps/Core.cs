@@ -15,12 +15,14 @@ namespace Mastersign.DashOps
         {
             if (!action.Reassure || Reassure(action))
             {
+                action.Status = ActionStatus.Running;
                 var result = await action.ExecuteAsync();
                 DashOpsCommands.ShowLastLog.RaiseCanExecuteChanged();
                 DashOpsCommands.ShowLogHistoryContextMenu.RaiseCanExecuteChanged();
                 // use if necessary CommandManager.InvalidateRequerySuggested();
                 if (result.StartFailed)
                 {
+                    action.Status = ActionStatus.StartError;
                     UserInteraction.ShowMessage(
                         "Execute Action",
                         "Starting action failed with:"
@@ -28,6 +30,12 @@ namespace Mastersign.DashOps
                         + Environment.NewLine
                         + result.Output,
                         symbol: InteractionSymbol.Error);
+                }
+                else
+                {
+                    action.Status = result.Success
+                        ? action.NoLogs ? ActionStatus.SuccessWithoutLogFile : ActionStatus.Success
+                        : action.NoLogs ? ActionStatus.FailedWithoutLogFile : ActionStatus.Failed;
                 }
             }
         }

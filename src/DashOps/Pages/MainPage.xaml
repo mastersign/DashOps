@@ -222,8 +222,46 @@
                             <ui:Button
                                     Command="local:DashOpsCommands.ShowLastLog"
                                     CommandParameter="{Binding}"
-                                    Style="{StaticResource ActionAddSplitButtonLeftStyle}"
-                                    Icon="{ui:SymbolIcon FontSize=20, Symbol=DocumentBulletListClock20}" />
+                                    Style="{StaticResource ActionAddSplitButtonLeftStyle}">
+                                <ui:SymbolIcon FontSize="20">
+                                    <ui:SymbolIcon.Style>
+                                        <Style>
+                                            <Setter Property="ui:SymbolIcon.Symbol" Value="{x:Static ui:SymbolRegular.DocumentTextClock20}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ui:Button}}}" Value="False">
+                                                    <Setter Property="ui:IconElement.Foreground" Value="{DynamicResource ButtonForegroundDisabled}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static local:ActionStatus.StartError}">
+                                                    <Setter Property="ui:IconElement.Foreground" Value="{StaticResource PaletteRedBrush}" />
+                                                    <Setter Property="ui:SymbolIcon.Symbol" Value="{x:Static ui:SymbolRegular.DocumentDismiss20}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static local:ActionStatus.Running}">
+                                                    <Setter Property="ui:IconElement.Foreground" Value="{StaticResource PaletteLightBlueBrush}" />
+                                                    <Setter Property="ui:SymbolIcon.Symbol" Value="{x:Static ui:SymbolRegular.DocumentSync20}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static local:ActionStatus.Success}">
+                                                    <Setter Property="ui:IconElement.Foreground" Value="{StaticResource PaletteGreenBrush}" />
+                                                    <Setter Property="ui:SymbolIcon.Symbol" Value="{x:Static ui:SymbolRegular.DocumentCheckmark20}" />
+                                                    <Setter Property="ui:SymbolIcon.Filled" Value="True" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static local:ActionStatus.SuccessWithoutLogFile}">
+                                                    <Setter Property="ui:IconElement.Foreground" Value="{StaticResource PaletteGreenBrush}" />
+                                                    <Setter Property="ui:SymbolIcon.Symbol" Value="{x:Static ui:SymbolRegular.DocumentCheckmark20}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static local:ActionStatus.Failed}">
+                                                    <Setter Property="ui:IconElement.Foreground" Value="{StaticResource PaletteRedBrush}" />
+                                                    <Setter Property="ui:SymbolIcon.Symbol" Value="{x:Static ui:SymbolRegular.DocumentError20}" />
+                                                    <Setter Property="ui:SymbolIcon.Filled" Value="True" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static local:ActionStatus.FailedWithoutLogFile}">
+                                                    <Setter Property="ui:IconElement.Foreground" Value="{StaticResource PaletteRedBrush}" />
+                                                    <Setter Property="ui:SymbolIcon.Symbol" Value="{x:Static ui:SymbolRegular.DocumentError20}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ui:SymbolIcon.Style>
+                                </ui:SymbolIcon>
+                            </ui:Button>
                             <ui:Button
                                     Tag="{Binding}"
                                     Command="local:DashOpsCommands.ShowLogHistoryContextMenu"

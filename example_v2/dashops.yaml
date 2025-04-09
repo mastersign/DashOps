@@ -37,6 +37,7 @@ actions:
     command: Get-ChildItem
     arguments: ['%ProgramFiles%']
     keep-open: true
+    no-logs: true
     facets:
       host: Localhost
       service: File System

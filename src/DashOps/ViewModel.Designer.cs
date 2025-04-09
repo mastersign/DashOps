@@ -9,6 +9,17 @@ namespace Mastersign.DashOps
     
     // Scaleton Version: 0.3.2
     
+    public enum ActionStatus
+    {
+        Unknown,
+        StartError,
+        Running,
+        Success,
+        SuccessWithoutLogFile,
+        Failed,
+        FailedWithoutLogFile,
+    }
+    
     public partial class ActionView : INotifyPropertyChanged
     {
         public ActionView()
@@ -17,6 +28,7 @@ namespace Mastersign.DashOps
             this._exitCodes = new int[0];
             this._tags = new string[0];
             this._facetViews = new global::System.Collections.ObjectModel.ObservableCollection<FacetView>();
+            this._status = DEF_STATUS;
         }
         
         #region Change Tracking
@@ -797,6 +809,41 @@ namespace Mastersign.DashOps
                 }
                 _currentLogFile = value;
                 this.OnCurrentLogFileChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property Status
+        
+        private ActionStatus _status;
+        
+        public event EventHandler StatusChanged;
+        
+        protected virtual void OnStatusChanged()
+        {
+            EventHandler handler = StatusChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Status");
+        }
+        
+        private const ActionStatus DEF_STATUS = ActionStatus.Unknown;
+        
+        [DefaultValue(DEF_STATUS)]
+        public virtual ActionStatus Status
+        {
+            get { return _status; }
+            set
+            {
+                if ((value == _status))
+                {
+                    return;
+                }
+                _status = value;
+                this.OnStatusChanged();
             }
         }
         

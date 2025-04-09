@@ -17,7 +17,7 @@
 
   <Types>
 
-    <!--<Enum name="ActionStatus">
+    <Enum name="ActionStatus">
       <Member name="Unknown" />
       <Member name="StartError" />
       <Member name="Running" />
@@ -25,7 +25,7 @@
       <Member name="SuccessWithoutLogFile" />
       <Member name="Failed" />
       <Member name="FailedWithoutLogFile" />
-    </Enum>-->
+    </Enum>
     
     <Class name="ActionView">
       <Property name="Title" />
@@ -52,7 +52,9 @@
       <Property name="AlwaysClose" type="bool" />
       <Property name="Visible" type="bool" />
       <Property name="CurrentLogFile" />
-      <!--<Property name="Status" type="ActionStatus" />-->
+      <Property name="Status" type="ActionStatus">
+        <DefaultValue>Unknown</DefaultValue>
+      </Property>
     </Class>
 
     <Class name="ActionSubset">

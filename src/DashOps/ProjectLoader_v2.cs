@@ -176,6 +176,11 @@ namespace Mastersign.DashOps
                 actionView.Logs = BuildLogDirPath(actionView.Logs, actionView.NoLogs);
                 if (Project.KeepActionOpen) actionView.KeepOpen = true;
                 if (Project.AlwaysCloseAction) actionView.AlwaysClose = true;
+                var logInfo = LogFileManager.GetLastLogFileInfo(actionView);
+                if (logInfo != null)
+                {
+                    actionView.Status = logInfo.Success ? ActionStatus.Success : ActionStatus.Failed;
+                }
             }
 
             ProjectView.IsMonitoringPaused = Project.PauseMonitors;
