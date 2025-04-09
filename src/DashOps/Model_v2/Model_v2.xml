@@ -176,6 +176,8 @@
       <Property name="UseWindowsTerminal" type="bool" />
       <Property name="WindowsTerminalArgs" type="string[]" defaultInitialization="true" />
       <Property name="Perspectives" type="FacetPerspective" isCollection="true" defaultInitialization="true" />
+      <Property name="StartupPerspective" />
+      <Property name="StartupSelection" />
       <Property name="Auto" type="AutoAnnotation" isCollection="true" defaultInitialization="true" />
       <Property name="Monitors" type="CommandMonitor" isCollection="true" defaultInitialization="true" />
       <Property name="MonitorDiscovery" type="CommandMonitorDiscovery" isCollection="true" defaultInitialization="true" />

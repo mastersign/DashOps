@@ -17,6 +17,9 @@ perspectives:
   - facet: env
     caption: Environments
 
+startup-perspective: env
+startup-selection: Test
+
 auto:
   - include:
       - mode: facet

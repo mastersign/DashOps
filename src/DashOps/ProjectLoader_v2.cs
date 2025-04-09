@@ -207,13 +207,39 @@ namespace Mastersign.DashOps
                 }
             }
 
-            ProjectView.AddTagsPerspective();
+            var tagsPerspective = ProjectView.AddTagsPerspective();
+            var facetPerspectives = new Dictionary<string, PerspectiveView>(StringComparer.InvariantCultureIgnoreCase);
             foreach (var perspective in Project.Perspectives)
             {
-                ProjectView.AddFacetPerspective(perspective.Facet, perspective.Caption);
+                facetPerspectives[perspective.Facet]
+                    = ProjectView.AddFacetPerspective(perspective.Facet, perspective.Caption);
             }
 
             CreateFacetViews();
+
+            if (!string.IsNullOrEmpty(Project.StartupPerspective))
+            {
+                if (Project.StartupPerspective.Equals("Tags", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    ProjectView.CurrentPerspective = tagsPerspective;
+                }
+                else
+                {
+                    ProjectView.CurrentPerspective =
+                        facetPerspectives.TryGetValue(Project.StartupPerspective, out var perspective)
+                            ? perspective : null;
+                }
+                if (ProjectView.CurrentPerspective is not null && 
+                    !string.IsNullOrEmpty(Project.StartupSelection))
+                {
+                    ProjectView.CurrentPerspective.CurrentSubset =
+                        ProjectView.CurrentPerspective.Subsets
+                            .FirstOrDefault(ss => string.Equals(
+                                Project.StartupSelection,
+                                ss.Title,
+                                StringComparison.InvariantCulture));
+                }
+            }
         }
 
         private string BuildLogDirPath(string logs, bool noLogs)

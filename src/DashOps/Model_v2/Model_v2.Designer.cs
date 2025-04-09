@@ -2208,6 +2208,8 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    UseWindowsTerminal = " + _useWindowsTerminal.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WindowsTerminalArgs = " + (!ReferenceEquals(_windowsTerminalArgs, null) ? _windowsTerminalArgs.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Perspectives = " + (!ReferenceEquals(_perspectives, null) ? (_perspectives.Count.ToString() + @" items" + __collection_Perspectives.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    StartupPerspective = " + (!ReferenceEquals(_startupPerspective, null) ? _startupPerspective.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    StartupSelection = " + (!ReferenceEquals(_startupSelection, null) ? _startupSelection.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Auto = " + (!ReferenceEquals(_auto, null) ? (_auto.Count.ToString() + @" items" + __collection_Auto.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Monitors = " + (!ReferenceEquals(_monitors, null) ? (_monitors.Count.ToString() + @" items" + __collection_Monitors.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    MonitorDiscovery = " + (!ReferenceEquals(_monitorDiscovery, null) ? (_monitorDiscovery.Count.ToString() + @" items" + __collection_MonitorDiscovery.ToString()) : @"null").Replace("\n", "\n    ")) + 
@@ -2599,6 +2601,44 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _perspectives = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property StartupPerspective
+        
+        private string _startupPerspective;
+        
+        public virtual string StartupPerspective
+        {
+            get { return _startupPerspective; }
+            set
+            {
+                if (string.Equals(value, _startupPerspective))
+                {
+                    return;
+                }
+                _startupPerspective = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property StartupSelection
+        
+        private string _startupSelection;
+        
+        public virtual string StartupSelection
+        {
+            get { return _startupSelection; }
+            set
+            {
+                if (string.Equals(value, _startupSelection))
+                {
+                    return;
+                }
+                _startupSelection = value;
             }
         }
         

@@ -15,26 +15,28 @@
             }
         }
 
-        public void AddFacetPerspective(string facetName, string caption = null)
+        public PerspectiveView AddFacetPerspective(string facetName, string caption = null)
         {
-            Perspectives.Add(
-                new PerspectiveView(
+            var perspective = new PerspectiveView(
                     title: caption ?? facetName + "s",
                     facet: facetName,
                     sourceActions: ActionViews,
                     filter: a => a.HasFacet(facetName),
-                    classifier: a => [a.GetFacetValue(facetName)]));
+                    classifier: a => [a.GetFacetValue(facetName)]);
+            Perspectives.Add(perspective);
+            return perspective;
         }
 
-        public void AddTagsPerspective()
+        public PerspectiveView AddTagsPerspective()
         {
-            Perspectives.Add(
-                new PerspectiveView(
+            var perspective = new PerspectiveView(
                     title: "Tags",
                     facet: null,
                     sourceActions: ActionViews,
                     filter: a => (a.Tags?.Length ?? 0) > 0,
-                    classifier: a => a.Tags));
+                    classifier: a => a.Tags);
+            Perspectives.Add(perspective);
+            return perspective;
         }
 
         public string WindowTitle => Properties.Resources.Common.WindowTitle + " - " + Title;
