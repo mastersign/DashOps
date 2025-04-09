@@ -67,10 +67,11 @@ namespace Mastersign.DashOps
 
         private void StartProcessDirect(IExecutable executable, DateTime timestamp, string logfile, Action<ExecutionResult> onExit)
         {
-            //var cmd = executable.UsePowerShellCore
-            //    ? "pwsh"
-            //    : CommandLine.PowerShellExe;
-            var cmd = CommandLine.WindowsPowerShellExe;
+            var cmd = !string.IsNullOrWhiteSpace(executable.PowerShellExe)
+                    ? executable.PowerShellExe
+                    : executable.UsePowerShellCore
+                        ? CommandLine.PowerShellCoreExe
+                        : CommandLine.WindowsPowerShellExe)
             var cmdArgs = BuildPowerShellArguments(executable, logfile, timestamp);
             var psi = BuildProcessStartInfo(executable, cmd, cmdArgs);
             Process p;
