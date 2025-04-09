@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using UI = Wpf.Ui.Controls;
 
 namespace Mastersign.DashOps
@@ -19,7 +18,7 @@ namespace Mastersign.DashOps
                 var result = await action.ExecuteAsync();
                 DashOpsCommands.ShowLastLog.RaiseCanExecuteChanged();
                 DashOpsCommands.ShowLogHistoryContextMenu.RaiseCanExecuteChanged();
-                //CommandManager.InvalidateRequerySuggested();
+                // use if necessary CommandManager.InvalidateRequerySuggested();
                 if (result.StartFailed)
                 {
                     UserInteraction.ShowMessage(
@@ -93,7 +92,7 @@ namespace Mastersign.DashOps
                         : UI.SymbolRegular.ErrorCircle12),
             };
 
-            item.Click += (s, ea) => Core.ShowLogFile(log);
+            item.Click += (s, ea) => ShowLogFile(log);
             return item;
         }
 
