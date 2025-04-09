@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns="http://scaleton.mastersign.de/2014/model">
+       xmlns="http://scaleton.mastersign.de/2014/model"
+       xsi:schemaLocation="http://scaleton.mastersign.de/2014/model http://scaleton.mastersign.de/Scaleton_Model_2014.xsd">
 
   <Namespace>Mastersign.DashOps.Model_v2</Namespace>
   
-  <!-- Format 2.0 -->
+  <!-- Project File Format 2.0 -->
 
   <ReferencedTypes>
     <ReferencedType id="dict" name="System.Collections.Generic.Dictionary`2[System.String, System.String]" />
