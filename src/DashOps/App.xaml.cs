@@ -20,7 +20,7 @@ namespace Mastersign.DashOps
 
         public MonitorManager MonitorManager { get; private set; }
 
-        private void Application_Startup(object sender, StartupEventArgs e)
+        private void ApplicationStartupHandler(object sender, StartupEventArgs e)
         {
             ApplicationThemeManager.ApplySystemTheme();
 

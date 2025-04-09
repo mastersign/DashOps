@@ -4,7 +4,7 @@
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:local="clr-namespace:Mastersign.DashOps"
              StartupUri="MainWindow.xaml"
-             Startup="Application_Startup">
+             Startup="ApplicationStartupHandler">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
