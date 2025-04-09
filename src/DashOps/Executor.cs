@@ -248,17 +248,18 @@ namespace Mastersign.DashOps
             {
                 psLines.Add($"$_ = Start-Transcript -Path \"{logfile}\"");
             }
-            psLines.Add($"$t0 = New-Object System.DateTime ({timestamp.Ticks})");
-            psLines.Add("$tsf = \"yyyy-MM-dd HH:mm:ss\"");
-            psLines.Add($"echo \"Directory:  {executable.WorkingDirectory}\"");
-            psLines.Add($"echo \"Command:    {executable.Command}\"");
-            if (!string.IsNullOrWhiteSpace(executable.Arguments))
-                psLines.Add($"echo \"Arguments:  {executable.Arguments.Replace("\"", "`\"")}\"");
-            psLines.Add($"echo \"Start:      $($t0.toString($tsf))\"");
-            psLines.Add("echo \"--------------------------------------------------------------------------------\"");
-            psLines.Add("echo \"\"");
+            if (executable.PrintExecutionInfo)
+            {
+                psLines.Add($"$t0 = New-Object System.DateTime ({timestamp.Ticks})");
+                psLines.Add("$tsf = \"yyyy-MM-dd HH:mm:ss\"");
+                psLines.Add("echo \"Process ID: $pid\"");
+            }
             if (pidPipeName != null)
             {
+                if (executable.PrintExecutionInfo)
+                {
+                    psLines.Add($"echo \"PID Pipe:   {pidPipeName}\"");
+                }
                 psLines.Add("$pidData = [System.BitConverter]::GetBytes($pid)");
                 psLines.Add("try {");
                 psLines.Add($"  $pidPipe = [System.IO.Pipes.NamedPipeClientStream]::new('.', '{pidPipeName}', [System.IO.Pipes.PipeDirection]::InOut)");
@@ -271,6 +272,16 @@ namespace Mastersign.DashOps
                 psLines.Add("  Write-Warning \"Failed to report PID to DashOps: $_\"");
                 psLines.Add("}");
             }
+            if (executable.PrintExecutionInfo)
+            {
+                psLines.Add($"echo \"Directory:  {executable.WorkingDirectory}\"");
+                psLines.Add($"echo \"Command:    {executable.Command}\"");
+                if (!string.IsNullOrWhiteSpace(executable.Arguments))
+                    psLines.Add($"echo \"Arguments:  {executable.Arguments.Replace("\"", "`\"")}\"");
+                psLines.Add($"echo \"Start:      $($t0.toString($tsf))\"");
+                psLines.Add("echo \"--------------------------------------------------------------------------------\"");
+                psLines.Add("echo \"\"");
+            }
             psLines.Add($"& \"{executable.Command}\" {executable.Arguments}");
             psLines.Add("if ($LastExitCode -eq $null) {");
             psLines.Add("  if ($?) { $ec = 0 } else { $ec = 1; echo \"\"; Write-Warning \"Command failed.\" }");
@@ -280,11 +291,14 @@ namespace Mastersign.DashOps
             psLines.Add("  $allowed = @(" + string.Join(",", executable.ExitCodes) + ")");
             psLines.Add("  if (!($ec -in $allowed)) { echo \"\"; Write-Warning \"Exit Code: $ec\" } else { echo \"\"; echo \"Exit Code: $ec\" }");
             psLines.Add("}");
-            psLines.Add("$t = [DateTime]::Now");
-            psLines.Add("echo \"\"");
-            psLines.Add("echo \"--------------------------------------------------------------------------------\"");
-            psLines.Add($"echo \"End:        $($t::Now.toString($tsf))\"");
-            psLines.Add($"echo \"Duration:   $(($t - $t0).ToString())\"");
+            if (executable.PrintExecutionInfo)
+            {
+                psLines.Add("$t = [DateTime]::Now");
+                psLines.Add("echo \"\"");
+                psLines.Add("echo \"--------------------------------------------------------------------------------\"");
+                psLines.Add($"echo \"End:        $($t::Now.toString($tsf))\"");
+                psLines.Add($"echo \"Duration:   $(($t - $t0).ToString())\"");
+            }
             if (logfile != null)
             {
                 psLines.Add("$_ = Stop-Transcript");

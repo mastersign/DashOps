@@ -42,6 +42,7 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Background = " + _background.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(_noLogs, null) ? _noLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(_noExecutionInfo, null) ? _noExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    KeepOpen = " + (!ReferenceEquals(_keepOpen, null) ? _keepOpen.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    AlwaysClose = " + (!ReferenceEquals(_alwaysClose, null) ? _alwaysClose.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -145,6 +146,25 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _noLogs = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property NoExecutionInfo
+        
+        private bool? _noExecutionInfo;
+        
+        public virtual bool? NoExecutionInfo
+        {
+            get { return _noExecutionInfo; }
+            set
+            {
+                if ((value == _noExecutionInfo))
+                {
+                    return;
+                }
+                _noExecutionInfo = value;
             }
         }
         
@@ -343,6 +363,7 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(NoLogs, null) ? NoLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(NoExecutionInfo, null) ? NoExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    KeepOpen = " + (!ReferenceEquals(KeepOpen, null) ? KeepOpen.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    AlwaysClose = " + (!ReferenceEquals(AlwaysClose, null) ? AlwaysClose.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -418,6 +439,7 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(NoLogs, null) ? NoLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(NoExecutionInfo, null) ? NoExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    KeepOpen = " + (!ReferenceEquals(KeepOpen, null) ? KeepOpen.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    AlwaysClose = " + (!ReferenceEquals(AlwaysClose, null) ? AlwaysClose.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -513,6 +535,7 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(NoLogs, null) ? NoLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(NoExecutionInfo, null) ? NoExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    KeepOpen = " + (!ReferenceEquals(KeepOpen, null) ? KeepOpen.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    AlwaysClose = " + (!ReferenceEquals(AlwaysClose, null) ? AlwaysClose.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -718,6 +741,7 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Tags = " + (!ReferenceEquals(_tags, null) ? _tags.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Reassure = " + (!ReferenceEquals(_reassure, null) ? _reassure.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(_noLogs, null) ? _noLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(_noExecutionInfo, null) ? _noExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    KeepOpen = " + (!ReferenceEquals(_keepOpen, null) ? _keepOpen.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    AlwaysClose = " + (!ReferenceEquals(_alwaysClose, null) ? _alwaysClose.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Background = " + (!ReferenceEquals(_background, null) ? _background.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -837,6 +861,25 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _noLogs = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property NoExecutionInfo
+        
+        private bool? _noExecutionInfo;
+        
+        public virtual bool? NoExecutionInfo
+        {
+            get { return _noExecutionInfo; }
+            set
+            {
+                if ((value == _noExecutionInfo))
+                {
+                    return;
+                }
+                _noExecutionInfo = value;
             }
         }
         
@@ -1786,6 +1829,7 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(_title, null) ? _title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoExecutionInfo = " + _noExecutionInfo.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    KeepActionOpen = " + _keepActionOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    AlwaysCloseAction = " + _alwaysCloseAction.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Actions = " + (!ReferenceEquals(_actions, null) ? (_actions.Count.ToString() + @" items" + __collection_Actions.ToString()) : @"null").Replace("\n", "\n    ")) + 
@@ -1880,6 +1924,25 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _noLogs = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property NoExecutionInfo
+        
+        private bool _noExecutionInfo;
+        
+        public virtual bool NoExecutionInfo
+        {
+            get { return _noExecutionInfo; }
+            set
+            {
+                if ((value == _noExecutionInfo))
+                {
+                    return;
+                }
+                _noExecutionInfo = value;
             }
         }
         

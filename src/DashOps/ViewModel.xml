@@ -43,6 +43,7 @@
       <Property name="FacetViews" isCollection="true" type="FacetView" />
       <Property name="Logs" />
       <Property name="NoLogs" type="bool" />
+      <Property name="NoExecutionInfo" type="bool" />
       <Property name="KeepOpen" type="bool" />
       <Property name="AlwaysClose" type="bool" />
       <Property name="Visible" type="bool" />

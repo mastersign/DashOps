@@ -18,6 +18,8 @@
 
         string CurrentLogFile { get; set; }
 
+        bool PrintExecutionInfo { get; }
+
         string Title { get; }
 
         bool Visible { get; }

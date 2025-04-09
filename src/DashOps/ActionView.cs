@@ -33,6 +33,8 @@
             // nothing for now
         }
 
+        public bool PrintExecutionInfo => !NoExecutionInfo;
+
         public Task<ExecutionResult> ExecuteAsync() => App.Instance.Executor.ExecuteAsync(this);
 
         public Func<string, bool> SuccessCheck => null;

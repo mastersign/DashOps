@@ -1,9 +1,7 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Windows;
 using Mastersign.DashOps.Model_v2;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -79,7 +77,7 @@ namespace Mastersign.DashOps
                 .Build();
         }
 
-        public static bool IsCompatible(Stream s, out string version) 
+        public static bool IsCompatible(Stream s, out string version)
             => ProjectVersionDetection.IsVersionSupported(s, SUPPORTED_VERSIONS, out version);
 
         private void LoadProject()
@@ -198,7 +196,7 @@ namespace Mastersign.DashOps
                 var logInfo = monitorView.GetLastLogFileInfo();
                 if (logInfo != null && logInfo.HasResult)
                 {
-                    monitorView.LastExecutionResult =  logInfo.Success;
+                    monitorView.LastExecutionResult = logInfo.Success;
                     monitorView.HasLastExecutionResult = true;
                 }
 
@@ -258,6 +256,7 @@ namespace Mastersign.DashOps
 
             action.Reassure = annotation.Reassure ?? action.Reassure;
             action.NoLogs = annotation.NoLogs ?? action.NoLogs;
+            action.NoExecutionInfo = annotation.NoExecutionInfo ?? action.NoExecutionInfo;
             action.KeepOpen = annotation.KeepOpen ?? action.KeepOpen;
             action.AlwaysClose = annotation.AlwaysClose ?? action.AlwaysClose;
             action.Visible = !(annotation.Background ?? !action.Visible);
@@ -325,6 +324,8 @@ namespace Mastersign.DashOps
                 NoLogs = action.NoLogs,
                 KeepOpen = action.KeepOpen,
                 AlwaysClose = action.AlwaysClose,
+                NoLogs = action.NoLogs ?? Project.NoLogs,
+                NoExecutionInfo = action.NoExecutionInfo ?? Project.NoExecutionInfo,
                 Tags = action.Tags ?? [],
                 Facets = facets,
             };
@@ -384,6 +385,7 @@ namespace Mastersign.DashOps
                 AlwaysClose = actionDiscovery.AlwaysClose,
                 Command = file,
                 Arguments = FormatArguments(actionDiscovery.Arguments),
+                NoExecutionInfo = actionDiscovery.NoExecutionInfo ?? Project.NoExecutionInfo,
                 WorkingDirectory = BuildAbsolutePath(
                     ExpandTemplate(actionDiscovery.WorkingDirectory, facets)),
                 Environment = Merge(Project.Environment, actionDiscovery.Environment),
@@ -410,6 +412,7 @@ namespace Mastersign.DashOps
                 NoLogs = actionPattern.NoLogs,
                 KeepOpen = actionPattern.KeepOpen,
                 AlwaysClose = actionPattern.AlwaysClose,
+                NoExecutionInfo = actionPattern.NoExecutionInfo ?? Project.NoExecutionInfo,
                 Command = ExpandEnv(ExpandTemplate(actionPattern.Command, facets)),
                 Arguments = FormatArguments(
                     actionPattern.Arguments?.Select(a => ExpandTemplate(a, facets))),

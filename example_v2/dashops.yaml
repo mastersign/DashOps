@@ -24,6 +24,7 @@ auto:
         value: Localhost
     reassure: true
     use-windows-terminal: false
+    no-execution-info: true
 
 environment:
   ENV_A: Default Value A
