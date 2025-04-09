@@ -73,6 +73,7 @@ action-patterns:
     command: '${service}\check-all.ps1'
     arguments: ['-Mode', '${mode}']
     working-directory: test-scripts
+    use-power-shell-core: true
     environment:
       ENV_B: value b
     always-close: true

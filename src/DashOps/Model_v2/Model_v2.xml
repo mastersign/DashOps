@@ -27,6 +27,10 @@
       <Property name="NoExecutionInfo" type="bool?" />
       <Property name="KeepOpen" type="bool?" />
       <Property name="AlwaysClose" type="bool?" />
+      <Property name="UsePowerShellCore" type="bool?" />
+      <Property name="PowerShellExe" />
+      <Property name="UsePowerShellProfile" type="bool?" />
+      <Property name="PowerShellExecutionPolicy" />
       <Property name="Arguments" type="string[]" />
       <Property name="WorkingDirectory" />
       <Property name="Environment" type="dict" />
@@ -82,6 +86,10 @@
       <Property name="AlwaysClose" type="bool?" />
       <Property name="Background" type="bool?" />
       <Property name="Environment" type="dict" />
+      <Property name="UsePowerShellCore" type="bool?" />
+      <Property name="PowerShellExe" />
+      <Property name="UsePowerShellProfile" type="bool?" />
+      <Property name="PowerShellExecutionPolicy" />
       <Property name="UseWindowsTerminal" type="bool?" />
       <Property name="WindowsTerminalArgs" type="string[]" />
     </Class>
@@ -98,6 +106,10 @@
     </Class>
 
     <Class name="CommandMonitorBase" baseType="MonitorBase">
+      <Property name="UsePowerShellCore" type="bool?" />
+      <Property name="PowerShellExe" />
+      <Property name="UsePowerShellProfile" type="bool?" />
+      <Property name="PowerShellExecutionPolicy" />
       <Property name="Arguments" type="string[]" />
       <Property name="WorkingDirectory" />
       <Property name="Environment" type="dict" />
@@ -154,6 +166,12 @@
       <Property name="WorkingDirectory" />
       <Property name="Environment" type="dict" />
       <!--<Property name="ExecPaths" type="string[]" />-->
+      <Property name="UsePowerShellCore" type="bool" />
+      <Property name="PowerShellExe" />
+      <Property name="UsePowerShellProfile" type="bool" />
+      <Property name="PowerShellExecutionPolicy" defaultInitialization="true">
+        <DefaultValue>RemoteSigned</DefaultValue>
+      </Property>
       <Property name="UseWindowsTerminal" type="bool" />
       <Property name="WindowsTerminalArgs" type="string[]" />
       <Property name="Perspectives" type="FacetPerspective" isCollection="true" defaultInitialization="true" />

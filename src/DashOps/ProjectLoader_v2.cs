@@ -1,7 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using Mastersign.DashOps.Model_v2;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -269,6 +271,14 @@ namespace Mastersign.DashOps
                 }
             }
 
+            action.UsePowerShellCore = annotation.UsePowerShellCore ?? action.UsePowerShellCore;
+            if (annotation.PowerShellExe != null)
+            {
+                action.PowerShellExe = ExpandEnv(ExpandTemplate(annotation.PowerShellExe, action.Facets));
+            }
+            action.UsePowerShellProfile = annotation.UsePowerShellProfile ?? action.UsePowerShellProfile;
+            action.PowerShellExecutionPolicy = annotation.PowerShellExecutionPolicy ?? action.PowerShellExecutionPolicy;
+
             action.UseWindowsTerminal = annotation.UseWindowsTerminal ?? action.UseWindowsTerminal;
             if (annotation.WindowsTerminalArgs != null)
             {
@@ -304,6 +314,14 @@ namespace Mastersign.DashOps
             var facets = new Dictionary<string, string>(action.Facets ?? []);
             var actionView = new ActionView
             {
+                UsePowerShellCore = action.UsePowerShellCore ?? Project.UsePowerShellCore,
+                PowerShellExe = !string.IsNullOrWhiteSpace(action.PowerShellExe)
+                    ? ExpandEnv(ExpandTemplate(action.PowerShellExe, facets))
+                    : ExpandEnv(ExpandTemplate(Project.PowerShellExe, facets)),
+                UsePowerShellProfile = action.UsePowerShellProfile ?? Project.UsePowerShellProfile,
+                PowerShellExecutionPolicy = !string.IsNullOrWhiteSpace(action.PowerShellExecutionPolicy)
+                    ? action.PowerShellExecutionPolicy
+                    : Project.PowerShellExecutionPolicy,
                 Command = ExpandEnv(ExpandTemplate(action.Command, facets)),
                 Arguments = FormatArguments(
                     action.Arguments?.Select(a => ExpandEnv(ExpandTemplate(a, facets)))),
@@ -417,6 +435,14 @@ namespace Mastersign.DashOps
                 NoExecutionInfo = actionDiscovery.NoExecutionInfo ?? Project.NoExecutionInfo,
                 KeepOpen = actionDiscovery.KeepOpen ?? Project.KeepActionOpen,
                 AlwaysClose = actionDiscovery.AlwaysClose ?? Project.AlwaysCloseAction,
+                UsePowerShellCore = actionDiscovery.UsePowerShellCore ?? Project.UsePowerShellCore,
+                PowerShellExe = !string.IsNullOrWhiteSpace(actionDiscovery.PowerShellExe)
+                    ? ExpandEnv(ExpandTemplate(actionDiscovery.PowerShellExe, facets))
+                    : ExpandEnv(ExpandTemplate(Project.PowerShellExe, facets)),
+                UsePowerShellProfile = actionDiscovery.UsePowerShellProfile ?? Project.UsePowerShellProfile,
+                PowerShellExecutionPolicy = !string.IsNullOrWhiteSpace(actionDiscovery.PowerShellExecutionPolicy)
+                    ? actionDiscovery.PowerShellExecutionPolicy
+                    : Project.PowerShellExecutionPolicy,
                 Command = cmd,
                 Arguments = cmdArgs,
                 WorkingDirectory = BuildAbsolutePath(
@@ -446,6 +472,14 @@ namespace Mastersign.DashOps
                 NoExecutionInfo = actionPattern.NoExecutionInfo ?? Project.NoExecutionInfo,
                 KeepOpen = actionPattern.KeepOpen ?? Project.KeepActionOpen,
                 AlwaysClose = actionPattern.AlwaysClose ?? Project.AlwaysCloseAction,
+                UsePowerShellCore = actionPattern.UsePowerShellCore ?? Project.UsePowerShellCore,
+                PowerShellExe = !string.IsNullOrWhiteSpace(actionPattern.PowerShellExe)
+                    ? ExpandEnv(ExpandTemplate(actionPattern.PowerShellExe, facets))
+                    : ExpandEnv(ExpandTemplate(Project.PowerShellExe, facets)),
+                UsePowerShellProfile = actionPattern.UsePowerShellProfile ?? Project.UsePowerShellProfile,
+                PowerShellExecutionPolicy = !string.IsNullOrWhiteSpace(actionPattern.PowerShellExecutionPolicy)
+                    ? actionPattern.PowerShellExecutionPolicy
+                    : Project.PowerShellExecutionPolicy,
                 Command = ExpandEnv(ExpandTemplate(actionPattern.Command, facets)),
                 Arguments = FormatArguments(actionPattern.Arguments?
                     .Select(a => ExpandEnv(ExpandTemplate(a, facets)))),
@@ -470,6 +504,12 @@ namespace Mastersign.DashOps
                 Logs = ExpandEnv(monitor.Logs),
                 NoLogs = monitor.NoLogs,
                 Interval = new TimeSpan(0, 0, monitor.Interval),
+                UsePowerShellCore = monitor.UsePowerShellCore ?? Project.UsePowerShellCore,
+                PowerShellExe = !string.IsNullOrWhiteSpace(monitor.PowerShellExe)
+                    ? ExpandEnv(monitor.PowerShellExe)
+                    : ExpandEnv(Project.PowerShellExe),
+                UsePowerShellProfile = monitor.UsePowerShellProfile ?? Project.UsePowerShellProfile,
+                PowerShellExecutionPolicy = monitor.PowerShellExecutionPolicy ?? Project.PowerShellExecutionPolicy,
                 Command = ExpandEnv(monitor.Command),
                 Arguments = FormatArguments(monitor.Arguments?.Select(ExpandEnv)),
                 WorkingDirectory = BuildAbsolutePath(monitor.WorkingDirectory),
@@ -557,6 +597,14 @@ namespace Mastersign.DashOps
                 Logs = ExpandEnv(ExpandTemplate(monitorDiscovery.Logs, variables)),
                 NoLogs = monitorDiscovery.NoLogs,
                 Interval = new TimeSpan(0, 0, monitorDiscovery.Interval),
+                UsePowerShellCore = monitorDiscovery.UsePowerShellCore ?? Project.UsePowerShellCore,
+                PowerShellExe = !string.IsNullOrWhiteSpace(monitorDiscovery.PowerShellExe)
+                    ? ExpandEnv(monitorDiscovery.PowerShellExe)
+                    : ExpandEnv(Project.PowerShellExe),
+                UsePowerShellProfile = monitorDiscovery.UsePowerShellProfile ?? Project.UsePowerShellProfile,
+                PowerShellExecutionPolicy = !string.IsNullOrWhiteSpace(monitorDiscovery.PowerShellExecutionPolicy)
+                    ? monitorDiscovery.PowerShellExecutionPolicy
+                    : Project.PowerShellExecutionPolicy,
                 Command = cmd,
                 Arguments = cmdArgs,
                 WorkingDirectory = BuildAbsolutePath(monitorDiscovery.WorkingDirectory),
@@ -577,6 +625,14 @@ namespace Mastersign.DashOps
                 Logs = ExpandEnv(ExpandTemplate(monitorPattern.Logs, variables)),
                 NoLogs = monitorPattern.NoLogs,
                 Interval = new TimeSpan(0, 0, monitorPattern.Interval),
+                UsePowerShellCore = monitorPattern.UsePowerShellCore ?? Project.UsePowerShellCore,
+                PowerShellExe = !string.IsNullOrWhiteSpace(monitorPattern.PowerShellExe)
+                    ? ExpandEnv(monitorPattern.PowerShellExe)
+                    : ExpandEnv(Project.PowerShellExe),
+                UsePowerShellProfile = monitorPattern.UsePowerShellProfile ?? Project.UsePowerShellProfile,
+                PowerShellExecutionPolicy = !string.IsNullOrWhiteSpace(monitorPattern.PowerShellExecutionPolicy)
+                    ? monitorPattern.PowerShellExecutionPolicy
+                    : Project.PowerShellExecutionPolicy,
                 Command = ExpandEnv(ExpandTemplate(monitorPattern.Command, variables)),
                 Arguments = FormatArguments(
                     monitorPattern.Arguments?.Select(a => ExpandEnv(ExpandTemplate(a, variables)))),

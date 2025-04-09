@@ -45,6 +45,10 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(_noExecutionInfo, null) ? _noExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    KeepOpen = " + (!ReferenceEquals(_keepOpen, null) ? _keepOpen.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    AlwaysClose = " + (!ReferenceEquals(_alwaysClose, null) ? _alwaysClose.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellCore = " + (!ReferenceEquals(_usePowerShellCore, null) ? _usePowerShellCore.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExe = " + (!ReferenceEquals(_powerShellExe, null) ? _powerShellExe.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellProfile = " + (!ReferenceEquals(_usePowerShellProfile, null) ? _usePowerShellProfile.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExecutionPolicy = " + (!ReferenceEquals(_powerShellExecutionPolicy, null) ? _powerShellExecutionPolicy.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(_environment, null) ? _environment.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -208,6 +212,82 @@ namespace Mastersign.DashOps.Model_v2
         
         #endregion
         
+        #region Property UsePowerShellCore
+        
+        private bool? _usePowerShellCore;
+        
+        public virtual bool? UsePowerShellCore
+        {
+            get { return _usePowerShellCore; }
+            set
+            {
+                if ((value == _usePowerShellCore))
+                {
+                    return;
+                }
+                _usePowerShellCore = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property PowerShellExe
+        
+        private string _powerShellExe;
+        
+        public virtual string PowerShellExe
+        {
+            get { return _powerShellExe; }
+            set
+            {
+                if (string.Equals(value, _powerShellExe))
+                {
+                    return;
+                }
+                _powerShellExe = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property UsePowerShellProfile
+        
+        private bool? _usePowerShellProfile;
+        
+        public virtual bool? UsePowerShellProfile
+        {
+            get { return _usePowerShellProfile; }
+            set
+            {
+                if ((value == _usePowerShellProfile))
+                {
+                    return;
+                }
+                _usePowerShellProfile = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property PowerShellExecutionPolicy
+        
+        private string _powerShellExecutionPolicy;
+        
+        public virtual string PowerShellExecutionPolicy
+        {
+            get { return _powerShellExecutionPolicy; }
+            set
+            {
+                if (string.Equals(value, _powerShellExecutionPolicy))
+                {
+                    return;
+                }
+                _powerShellExecutionPolicy = value;
+            }
+        }
+        
+        #endregion
+        
         #region Property Arguments
         
         private string[] _arguments;
@@ -366,6 +446,10 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(NoExecutionInfo, null) ? NoExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    KeepOpen = " + (!ReferenceEquals(KeepOpen, null) ? KeepOpen.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    AlwaysClose = " + (!ReferenceEquals(AlwaysClose, null) ? AlwaysClose.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellCore = " + (!ReferenceEquals(UsePowerShellCore, null) ? UsePowerShellCore.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExe = " + (!ReferenceEquals(PowerShellExe, null) ? PowerShellExe.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellProfile = " + (!ReferenceEquals(UsePowerShellProfile, null) ? UsePowerShellProfile.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExecutionPolicy = " + (!ReferenceEquals(PowerShellExecutionPolicy, null) ? PowerShellExecutionPolicy.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(Environment, null) ? Environment.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -442,6 +526,10 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(NoExecutionInfo, null) ? NoExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    KeepOpen = " + (!ReferenceEquals(KeepOpen, null) ? KeepOpen.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    AlwaysClose = " + (!ReferenceEquals(AlwaysClose, null) ? AlwaysClose.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellCore = " + (!ReferenceEquals(UsePowerShellCore, null) ? UsePowerShellCore.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExe = " + (!ReferenceEquals(PowerShellExe, null) ? PowerShellExe.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellProfile = " + (!ReferenceEquals(UsePowerShellProfile, null) ? UsePowerShellProfile.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExecutionPolicy = " + (!ReferenceEquals(PowerShellExecutionPolicy, null) ? PowerShellExecutionPolicy.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(Environment, null) ? Environment.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -558,6 +646,10 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(NoExecutionInfo, null) ? NoExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    KeepOpen = " + (!ReferenceEquals(KeepOpen, null) ? KeepOpen.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    AlwaysClose = " + (!ReferenceEquals(AlwaysClose, null) ? AlwaysClose.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellCore = " + (!ReferenceEquals(UsePowerShellCore, null) ? UsePowerShellCore.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExe = " + (!ReferenceEquals(PowerShellExe, null) ? PowerShellExe.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellProfile = " + (!ReferenceEquals(UsePowerShellProfile, null) ? UsePowerShellProfile.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExecutionPolicy = " + (!ReferenceEquals(PowerShellExecutionPolicy, null) ? PowerShellExecutionPolicy.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(Environment, null) ? Environment.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -766,6 +858,10 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    AlwaysClose = " + (!ReferenceEquals(_alwaysClose, null) ? _alwaysClose.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Background = " + (!ReferenceEquals(_background, null) ? _background.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(_environment, null) ? _environment.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellCore = " + (!ReferenceEquals(_usePowerShellCore, null) ? _usePowerShellCore.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExe = " + (!ReferenceEquals(_powerShellExe, null) ? _powerShellExe.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellProfile = " + (!ReferenceEquals(_usePowerShellProfile, null) ? _usePowerShellProfile.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExecutionPolicy = " + (!ReferenceEquals(_powerShellExecutionPolicy, null) ? _powerShellExecutionPolicy.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    UseWindowsTerminal = " + (!ReferenceEquals(_useWindowsTerminal, null) ? _useWindowsTerminal.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WindowsTerminalArgs = " + (!ReferenceEquals(_windowsTerminalArgs, null) ? _windowsTerminalArgs.ToString() : @"null").Replace("\n", "\n    "))));
         }
@@ -981,6 +1077,82 @@ namespace Mastersign.DashOps.Model_v2
         
         #endregion
         
+        #region Property UsePowerShellCore
+        
+        private bool? _usePowerShellCore;
+        
+        public virtual bool? UsePowerShellCore
+        {
+            get { return _usePowerShellCore; }
+            set
+            {
+                if ((value == _usePowerShellCore))
+                {
+                    return;
+                }
+                _usePowerShellCore = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property PowerShellExe
+        
+        private string _powerShellExe;
+        
+        public virtual string PowerShellExe
+        {
+            get { return _powerShellExe; }
+            set
+            {
+                if (string.Equals(value, _powerShellExe))
+                {
+                    return;
+                }
+                _powerShellExe = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property UsePowerShellProfile
+        
+        private bool? _usePowerShellProfile;
+        
+        public virtual bool? UsePowerShellProfile
+        {
+            get { return _usePowerShellProfile; }
+            set
+            {
+                if ((value == _usePowerShellProfile))
+                {
+                    return;
+                }
+                _usePowerShellProfile = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property PowerShellExecutionPolicy
+        
+        private string _powerShellExecutionPolicy;
+        
+        public virtual string PowerShellExecutionPolicy
+        {
+            get { return _powerShellExecutionPolicy; }
+            set
+            {
+                if (string.Equals(value, _powerShellExecutionPolicy))
+                {
+                    return;
+                }
+                _powerShellExecutionPolicy = value;
+            }
+        }
+        
+        #endregion
+        
         #region Property UseWindowsTerminal
         
         private bool? _useWindowsTerminal;
@@ -1191,10 +1363,90 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellCore = " + (!ReferenceEquals(_usePowerShellCore, null) ? _usePowerShellCore.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExe = " + (!ReferenceEquals(_powerShellExe, null) ? _powerShellExe.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellProfile = " + (!ReferenceEquals(_usePowerShellProfile, null) ? _usePowerShellProfile.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExecutionPolicy = " + (!ReferenceEquals(_powerShellExecutionPolicy, null) ? _powerShellExecutionPolicy.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(_environment, null) ? _environment.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(_exitCodes, null) ? _exitCodes.ToString() : @"null").Replace("\n", "\n    "))));
+        }
+        
+        #endregion
+        
+        #region Property UsePowerShellCore
+        
+        private bool? _usePowerShellCore;
+        
+        public virtual bool? UsePowerShellCore
+        {
+            get { return _usePowerShellCore; }
+            set
+            {
+                if ((value == _usePowerShellCore))
+                {
+                    return;
+                }
+                _usePowerShellCore = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property PowerShellExe
+        
+        private string _powerShellExe;
+        
+        public virtual string PowerShellExe
+        {
+            get { return _powerShellExe; }
+            set
+            {
+                if (string.Equals(value, _powerShellExe))
+                {
+                    return;
+                }
+                _powerShellExe = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property UsePowerShellProfile
+        
+        private bool? _usePowerShellProfile;
+        
+        public virtual bool? UsePowerShellProfile
+        {
+            get { return _usePowerShellProfile; }
+            set
+            {
+                if ((value == _usePowerShellProfile))
+                {
+                    return;
+                }
+                _usePowerShellProfile = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property PowerShellExecutionPolicy
+        
+        private string _powerShellExecutionPolicy;
+        
+        public virtual string PowerShellExecutionPolicy
+        {
+            get { return _powerShellExecutionPolicy; }
+            set
+            {
+                if (string.Equals(value, _powerShellExecutionPolicy))
+                {
+                    return;
+                }
+                _powerShellExecutionPolicy = value;
+            }
         }
         
         #endregion
@@ -1298,6 +1550,10 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellCore = " + (!ReferenceEquals(UsePowerShellCore, null) ? UsePowerShellCore.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExe = " + (!ReferenceEquals(PowerShellExe, null) ? PowerShellExe.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellProfile = " + (!ReferenceEquals(UsePowerShellProfile, null) ? UsePowerShellProfile.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExecutionPolicy = " + (!ReferenceEquals(PowerShellExecutionPolicy, null) ? PowerShellExecutionPolicy.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(Environment, null) ? Environment.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -1349,6 +1605,10 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellCore = " + (!ReferenceEquals(UsePowerShellCore, null) ? UsePowerShellCore.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExe = " + (!ReferenceEquals(PowerShellExe, null) ? PowerShellExe.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellProfile = " + (!ReferenceEquals(UsePowerShellProfile, null) ? UsePowerShellProfile.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExecutionPolicy = " + (!ReferenceEquals(PowerShellExecutionPolicy, null) ? PowerShellExecutionPolicy.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(Environment, null) ? Environment.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -1440,6 +1700,10 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellCore = " + (!ReferenceEquals(UsePowerShellCore, null) ? UsePowerShellCore.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExe = " + (!ReferenceEquals(PowerShellExe, null) ? PowerShellExe.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellProfile = " + (!ReferenceEquals(UsePowerShellProfile, null) ? UsePowerShellProfile.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExecutionPolicy = " + (!ReferenceEquals(PowerShellExecutionPolicy, null) ? PowerShellExecutionPolicy.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(Arguments, null) ? Arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(WorkingDirectory, null) ? WorkingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(Environment, null) ? Environment.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -1743,6 +2007,7 @@ namespace Mastersign.DashOps.Model_v2
             this._actions = new List<CommandAction>();
             this._actionDiscovery = new List<CommandActionDiscovery>();
             this._actionPatterns = new List<CommandActionPattern>();
+            this._powerShellExecutionPolicy = DEF_POWERSHELLEXECUTIONPOLICY;
             this._windowsTerminalArgs = new string[0];
             this._perspectives = new List<FacetPerspective>();
             this._auto = new List<AutoAnnotation>();
@@ -1877,6 +2142,10 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    ActionPatterns = " + (!ReferenceEquals(_actionPatterns, null) ? (_actionPatterns.Count.ToString() + @" items" + __collection_ActionPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(_environment, null) ? _environment.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellCore = " + _usePowerShellCore.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExe = " + (!ReferenceEquals(_powerShellExe, null) ? _powerShellExe.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellProfile = " + _usePowerShellProfile.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExecutionPolicy = " + (!ReferenceEquals(_powerShellExecutionPolicy, null) ? _powerShellExecutionPolicy.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    UseWindowsTerminal = " + _useWindowsTerminal.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WindowsTerminalArgs = " + (!ReferenceEquals(_windowsTerminalArgs, null) ? _windowsTerminalArgs.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Perspectives = " + (!ReferenceEquals(_perspectives, null) ? (_perspectives.Count.ToString() + @" items" + __collection_Perspectives.ToString()) : @"null").Replace("\n", "\n    ")) + 
@@ -2116,6 +2385,85 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _environment = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property UsePowerShellCore
+        
+        private bool _usePowerShellCore;
+        
+        public virtual bool UsePowerShellCore
+        {
+            get { return _usePowerShellCore; }
+            set
+            {
+                if ((value == _usePowerShellCore))
+                {
+                    return;
+                }
+                _usePowerShellCore = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property PowerShellExe
+        
+        private string _powerShellExe;
+        
+        public virtual string PowerShellExe
+        {
+            get { return _powerShellExe; }
+            set
+            {
+                if (string.Equals(value, _powerShellExe))
+                {
+                    return;
+                }
+                _powerShellExe = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property UsePowerShellProfile
+        
+        private bool _usePowerShellProfile;
+        
+        public virtual bool UsePowerShellProfile
+        {
+            get { return _usePowerShellProfile; }
+            set
+            {
+                if ((value == _usePowerShellProfile))
+                {
+                    return;
+                }
+                _usePowerShellProfile = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property PowerShellExecutionPolicy
+        
+        private string _powerShellExecutionPolicy;
+        
+        private const string DEF_POWERSHELLEXECUTIONPOLICY = @"RemoteSigned";
+        
+        [DefaultValue(DEF_POWERSHELLEXECUTIONPOLICY)]
+        public virtual string PowerShellExecutionPolicy
+        {
+            get { return _powerShellExecutionPolicy; }
+            set
+            {
+                if (string.Equals(value, _powerShellExecutionPolicy))
+                {
+                    return;
+                }
+                _powerShellExecutionPolicy = value;
             }
         }
         

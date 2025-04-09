@@ -67,7 +67,10 @@ namespace Mastersign.DashOps
 
         private void StartProcessDirect(IExecutable executable, DateTime timestamp, string logfile, Action<ExecutionResult> onExit)
         {
-            var cmd = CommandLine.PowerShellExe;
+            //var cmd = executable.UsePowerShellCore
+            //    ? "pwsh"
+            //    : CommandLine.PowerShellExe;
+            var cmd = CommandLine.WindowsPowerShellExe;
             var cmdArgs = BuildPowerShellArguments(executable, logfile, timestamp);
             var psi = BuildProcessStartInfo(executable, cmd, cmdArgs);
             Process p;
@@ -100,7 +103,12 @@ namespace Mastersign.DashOps
                 cmdArgs.Append(" ");
             }
             cmdArgs.Append('"');
-            cmdArgs.Append(CommandLine.PowerShellExe);
+            cmdArgs.Append(
+                !string.IsNullOrWhiteSpace(executable.PowerShellExe)
+                    ? executable.PowerShellExe
+                    : executable.UsePowerShellCore
+                        ? CommandLine.PowerShellCoreExe
+                        : CommandLine.WindowsPowerShellExe);
             cmdArgs.Append("\" ");
 
             var pipeName = interProcessConnector.StartSession((pipeName, data) =>
@@ -321,7 +329,15 @@ namespace Mastersign.DashOps
             psLines.Add("exit $ec");
             var cmd = string.Join(Environment.NewLine, psLines);
             var encodedCmd = EncodePowerShellCommand(cmd);
-            return $"-NoLogo -ExecutionPolicy RemoteSigned -EncodedCommand {encodedCmd}";
+
+            var psArgsBuilder = new StringBuilder();
+            psArgsBuilder.Append("-NoLogo");
+            if (!executable.UsePowerShellProfile) psArgsBuilder.Append(" -NoProfile");
+            psArgsBuilder.Append(" -ExecutionPolicy ");
+            psArgsBuilder.Append(executable.PowerShellExecutionPolicy);
+            psArgsBuilder.Append(" -EncodedCommand ");
+            psArgsBuilder.Append(encodedCmd);
+            return psArgsBuilder.ToString();
         }
 
         private static string EncodePowerShellCommand(string cmd)

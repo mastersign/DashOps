@@ -9,12 +9,20 @@ namespace Mastersign.DashOps
     public static class CommandLine
     {
         /// <summary>
-        /// An absolute path to the PowerShell executable.
+        /// An absolute path to the Windows PowerShell executable.
         /// </summary>
-        public static string PowerShellExe =>
+        public static string WindowsPowerShellExe =>
             Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.Windows),
                 @"System32\WindowsPowerShell\v1.0\powershell.exe");
+
+        /// <summary>
+        /// An absolute path to the Power Shell Core executable.
+        /// </summary>
+        public static string PowerShellCoreExe =>
+            Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                @"PowerShell\7\pwsh.exe");
 
         /// <summary>
         /// An absolute path to the Windows Terminal executable.

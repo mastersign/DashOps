@@ -20,6 +20,8 @@ namespace Mastersign.DashOps
             nameof(CommandAction.Host),
         ];
 
+        private const string DEF_POWER_SHELL_EXEC_POLICY = "RemoteSigned";
+
         public string ProjectPath { get; }
 
         public Project Project { get; private set; }
@@ -262,6 +264,7 @@ namespace Mastersign.DashOps
             }
             var actionView = new ActionView
             {
+                PowerShellExecutionPolicy = DEF_POWER_SHELL_EXEC_POLICY,
                 Command = ExpandEnv(action.Command),
                 Arguments = FormatArguments(action.Arguments),
                 WorkingDirectory = BuildAbsolutePath(action.WorkingDirectory),
@@ -382,6 +385,7 @@ namespace Mastersign.DashOps
                 NoLogs = actionDiscovery.NoLogs,
                 KeepOpen = actionDiscovery.KeepOpen,
                 AlwaysClose = actionDiscovery.AlwaysClose,
+                PowerShellExecutionPolicy = DEF_POWER_SHELL_EXEC_POLICY,
                 Command = file,
                 Arguments = FormatArguments(actionDiscovery.Arguments),
                 WorkingDirectory = BuildAbsolutePath(
@@ -406,6 +410,7 @@ namespace Mastersign.DashOps
                 NoLogs = actionPattern.NoLogs,
                 KeepOpen = actionPattern.KeepOpen,
                 AlwaysClose = actionPattern.AlwaysClose,
+                PowerShellExecutionPolicy = DEF_POWER_SHELL_EXEC_POLICY,
                 Command = ExpandEnv(ExpandTemplate(actionPattern.Command, facets)),
                 Arguments = FormatArguments(
                     actionPattern.Arguments?.Select(a => ExpandTemplate(a, facets))),
@@ -426,6 +431,7 @@ namespace Mastersign.DashOps
                 Logs = ExpandEnv(monitor.Logs),
                 NoLogs = monitor.NoLogs,
                 Interval = new TimeSpan(0, 0, monitor.Interval),
+                PowerShellExecutionPolicy = DEF_POWER_SHELL_EXEC_POLICY,
                 Command = ExpandEnv(monitor.Command),
                 Arguments = FormatArguments(monitor.Arguments),
                 WorkingDirectory = BuildAbsolutePath(monitor.WorkingDirectory),
@@ -477,6 +483,7 @@ namespace Mastersign.DashOps
                 Logs = ExpandEnv(ExpandTemplate(monitorDiscovery.Logs, variables)),
                 NoLogs = monitorDiscovery.NoLogs,
                 Interval = new TimeSpan(0, 0, monitorDiscovery.Interval),
+                PowerShellExecutionPolicy = DEF_POWER_SHELL_EXEC_POLICY,
                 Command = file,
                 Arguments = FormatArguments(
                     monitorDiscovery.Arguments?.Select(a => ExpandTemplate(a, variables))),
@@ -497,6 +504,7 @@ namespace Mastersign.DashOps
                 Logs = ExpandEnv(ExpandTemplate(monitorPattern.Logs, variables)),
                 NoLogs = monitorPattern.NoLogs,
                 Interval = new TimeSpan(0, 0, monitorPattern.Interval),
+                PowerShellExecutionPolicy = DEF_POWER_SHELL_EXEC_POLICY,
                 Command = ExpandEnv(ExpandTemplate(monitorPattern.Command, variables)),
                 Arguments = FormatArguments(
                     monitorPattern.Arguments?.Select(a => ExpandTemplate(a, variables))),

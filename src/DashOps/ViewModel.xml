@@ -30,6 +30,10 @@
     <Class name="ActionView">
       <Property name="Title" />
       <Property name="Reassure" type="bool" />
+      <Property name="UsePowerShellCore" type="bool" />
+      <Property name="PowerShellExe" />
+      <Property name="UsePowerShellProfile" type="bool" />
+      <Property name="PowerShellExecutionPolicy" />
       <Property name="Command" />
       <Property name="Arguments" type="string" />
       <Property name="WorkingDirectory" />
@@ -84,6 +88,10 @@
     </Class>
 
     <Class name="CommandMonitorView" baseType="MonitorView">
+      <Property name="UsePowerShellCore" type="bool" />
+      <Property name="PowerShellExe" />
+      <Property name="UsePowerShellProfile" type="bool" />
+      <Property name="PowerShellExecutionPolicy" />
       <Property name="Command" />
       <Property name="Arguments" type="string" />
       <Property name="WorkingDirectory" />

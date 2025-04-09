@@ -97,6 +97,134 @@ namespace Mastersign.DashOps
         
         #endregion
         
+        #region Property UsePowerShellCore
+        
+        private bool _usePowerShellCore;
+        
+        public event EventHandler UsePowerShellCoreChanged;
+        
+        protected virtual void OnUsePowerShellCoreChanged()
+        {
+            EventHandler handler = UsePowerShellCoreChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"UsePowerShellCore");
+        }
+        
+        public virtual bool UsePowerShellCore
+        {
+            get { return _usePowerShellCore; }
+            set
+            {
+                if ((value == _usePowerShellCore))
+                {
+                    return;
+                }
+                _usePowerShellCore = value;
+                this.OnUsePowerShellCoreChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property PowerShellExe
+        
+        private string _powerShellExe;
+        
+        public event EventHandler PowerShellExeChanged;
+        
+        protected virtual void OnPowerShellExeChanged()
+        {
+            EventHandler handler = PowerShellExeChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"PowerShellExe");
+        }
+        
+        public virtual string PowerShellExe
+        {
+            get { return _powerShellExe; }
+            set
+            {
+                if (string.Equals(value, _powerShellExe))
+                {
+                    return;
+                }
+                _powerShellExe = value;
+                this.OnPowerShellExeChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property UsePowerShellProfile
+        
+        private bool _usePowerShellProfile;
+        
+        public event EventHandler UsePowerShellProfileChanged;
+        
+        protected virtual void OnUsePowerShellProfileChanged()
+        {
+            EventHandler handler = UsePowerShellProfileChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"UsePowerShellProfile");
+        }
+        
+        public virtual bool UsePowerShellProfile
+        {
+            get { return _usePowerShellProfile; }
+            set
+            {
+                if ((value == _usePowerShellProfile))
+                {
+                    return;
+                }
+                _usePowerShellProfile = value;
+                this.OnUsePowerShellProfileChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property PowerShellExecutionPolicy
+        
+        private string _powerShellExecutionPolicy;
+        
+        public event EventHandler PowerShellExecutionPolicyChanged;
+        
+        protected virtual void OnPowerShellExecutionPolicyChanged()
+        {
+            EventHandler handler = PowerShellExecutionPolicyChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"PowerShellExecutionPolicy");
+        }
+        
+        public virtual string PowerShellExecutionPolicy
+        {
+            get { return _powerShellExecutionPolicy; }
+            set
+            {
+                if (string.Equals(value, _powerShellExecutionPolicy))
+                {
+                    return;
+                }
+                _powerShellExecutionPolicy = value;
+                this.OnPowerShellExecutionPolicyChanged();
+            }
+        }
+        
+        #endregion
+        
         #region Property Command
         
         private string _command;
@@ -1318,6 +1446,134 @@ namespace Mastersign.DashOps
         
         #region Change Tracking
         
+        
+        #endregion
+        
+        #region Property UsePowerShellCore
+        
+        private bool _usePowerShellCore;
+        
+        public event EventHandler UsePowerShellCoreChanged;
+        
+        protected virtual void OnUsePowerShellCoreChanged()
+        {
+            EventHandler handler = UsePowerShellCoreChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"UsePowerShellCore");
+        }
+        
+        public virtual bool UsePowerShellCore
+        {
+            get { return _usePowerShellCore; }
+            set
+            {
+                if ((value == _usePowerShellCore))
+                {
+                    return;
+                }
+                _usePowerShellCore = value;
+                this.OnUsePowerShellCoreChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property PowerShellExe
+        
+        private string _powerShellExe;
+        
+        public event EventHandler PowerShellExeChanged;
+        
+        protected virtual void OnPowerShellExeChanged()
+        {
+            EventHandler handler = PowerShellExeChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"PowerShellExe");
+        }
+        
+        public virtual string PowerShellExe
+        {
+            get { return _powerShellExe; }
+            set
+            {
+                if (string.Equals(value, _powerShellExe))
+                {
+                    return;
+                }
+                _powerShellExe = value;
+                this.OnPowerShellExeChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property UsePowerShellProfile
+        
+        private bool _usePowerShellProfile;
+        
+        public event EventHandler UsePowerShellProfileChanged;
+        
+        protected virtual void OnUsePowerShellProfileChanged()
+        {
+            EventHandler handler = UsePowerShellProfileChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"UsePowerShellProfile");
+        }
+        
+        public virtual bool UsePowerShellProfile
+        {
+            get { return _usePowerShellProfile; }
+            set
+            {
+                if ((value == _usePowerShellProfile))
+                {
+                    return;
+                }
+                _usePowerShellProfile = value;
+                this.OnUsePowerShellProfileChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property PowerShellExecutionPolicy
+        
+        private string _powerShellExecutionPolicy;
+        
+        public event EventHandler PowerShellExecutionPolicyChanged;
+        
+        protected virtual void OnPowerShellExecutionPolicyChanged()
+        {
+            EventHandler handler = PowerShellExecutionPolicyChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"PowerShellExecutionPolicy");
+        }
+        
+        public virtual string PowerShellExecutionPolicy
+        {
+            get { return _powerShellExecutionPolicy; }
+            set
+            {
+                if (string.Equals(value, _powerShellExecutionPolicy))
+                {
+                    return;
+                }
+                _powerShellExecutionPolicy = value;
+                this.OnPowerShellExecutionPolicyChanged();
+            }
+        }
         
         #endregion
         

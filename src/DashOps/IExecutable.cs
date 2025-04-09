@@ -2,6 +2,14 @@
 {
     public interface IExecutable : ILogged
     {
+        bool UsePowerShellCore { get; }
+
+        string PowerShellExe { get; }
+
+        bool UsePowerShellProfile { get; }
+
+        string PowerShellExecutionPolicy { get; }
+
         string Command { get; }
 
         string Arguments { get; }
