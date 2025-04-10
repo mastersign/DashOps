@@ -58,12 +58,37 @@ namespace Mastersign.DashOps
 
         private static readonly string[] pagesWithoutHeader = ["home", "main"];
 
+        private Page currentPage;
+
         private void Navigation_Navigated(NavigationView sender, NavigatedEventArgs e)
         {
-            gridHeader.Visibility = pagesWithoutHeader.Contains((e.Page as Page).Name)
+            currentPage = e.Page as Page;
+
+            gridHeader.Visibility = pagesWithoutHeader.Contains(currentPage?.Name)
                 ? Visibility.Collapsed
                 : Visibility.Visible;
-            labelPageTitle.Text = (e.Page as Page)?.Title;
+            labelPageTitle.Text = currentPage?.Title;
+            UpdateMaxPageHeight();
+        }
+
+        private void FluentWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (e.HeightChanged) UpdateMaxPageHeight();
+        }
+
+        private void UpdateMaxPageHeight()
+        {
+            if (currentPage is null) return;
+            var fit = currentPage is IFitPage;
+            if (fit)
+            {
+                var header = navigationViewMain.Header as FrameworkElement;
+                currentPage.MaxHeight = ActualHeight - (header?.ActualHeight ?? 0.0) - 64;
+            }
+            else
+            {
+                currentPage.MaxHeight = double.PositiveInfinity;
+            }
         }
 
         private void CommandApplicationCloseExecutedHandler(object sender, ExecutedRoutedEventArgs e)

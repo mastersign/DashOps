@@ -18,7 +18,7 @@ namespace Mastersign.DashOps.Pages
     /// <summary>
     /// Interaktionslogik für HomePage.xaml
     /// </summary>
-    public partial class MainPage : Page
+    public partial class MainPage : Page, IFitPage
     {
         private App App => Application.Current as App;
 

@@ -13,7 +13,7 @@
     Title="{Binding WindowTitle}"
     Height="450" Width="800" Icon="/icon.ico"
     ExtendsContentIntoTitleBar="True"
-    mc:Ignorable="d"
+    mc:Ignorable="d" SizeChanged="FluentWindow_SizeChanged"
     >
 
     <ui:FluentWindow.CommandBindings>
@@ -39,15 +39,15 @@
         </ui:TitleBar>
 
         <ui:NavigationView x:Name="navigationViewMain"
-                           Grid.Row="1"
-                           PaneDisplayMode="LeftMinimal"
-                           OpenPaneLength="200"
-                           IsPaneToggleVisible="True"
-                           IsPaneOpen="False"
-                           IsBackButtonVisible="Collapsed"
-                           Navigated="Navigation_Navigated"
-                           HeaderVisibility="Visible"
-                           >
+                Grid.Row="1"
+                PaneDisplayMode="LeftMinimal"
+                OpenPaneLength="200"
+                IsPaneToggleVisible="True"
+                IsPaneOpen="False"
+                IsBackButtonVisible="Collapsed"
+                Navigated="Navigation_Navigated"
+                HeaderVisibility="Visible"
+                >
             <ui:NavigationView.Header>
                 <Grid x:Name="gridHeader"
                       Grid.Row="1" Grid.Column="1" Margin="16,0,0,16">
