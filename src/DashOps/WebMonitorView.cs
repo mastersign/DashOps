@@ -14,7 +14,8 @@ namespace Mastersign.DashOps
 
         private string _commandId;
 
-        public override string CommandId => _commandId ?? (_commandId = IdBuilder.BuildId(Url));
+        public override string CommandId => _commandId ??= IdBuilder.BuildId(
+            Url + " " + string.Join(";", Headers.Select(kvp => $"{kvp.Key}={kvp.Value}")));
 
         private string BuildLogFileName(string name)
             => Logs != null ? Path.Combine(Logs, name) : null;
