@@ -83,7 +83,7 @@ namespace Mastersign.DashOps
             if (fit)
             {
                 var header = navigationViewMain.Header as FrameworkElement;
-                currentPage.MaxHeight = ActualHeight - (header?.ActualHeight ?? 0.0) - 64;
+                currentPage.MaxHeight = ActualHeight - (header?.ActualHeight ?? 0.0) - 54;
             }
             else
             {
