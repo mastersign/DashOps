@@ -233,17 +233,41 @@ namespace Mastersign.DashOps
                 if (rawLogFile != null && LogFileManager.WaitForFileAccess(rawLogFile))
                 {
                     var logFile = LogFileManager.FinalizeLogFileName(rawLogFile, success, exitCode);
-                    LogFileManager.PostprocessLogFile(rawLogFile, logFile, outputBuffer);
+                    try
+                    {
+                        LogFileManager.PostprocessLogFile(rawLogFile, logFile, outputBuffer);
+                    }
+                    catch (IOException ex)
+                    {
+                        Debug.WriteLine($"Failed to post-process temporary log file: {ex.Message}");
+                    }
                     output = outputBuffer.ToString();
                     if (success && executable.SuccessCheck != null)
                     {
                         var tmpLogFile = logFile;
                         success = executable.SuccessCheck(output);
                         logFile = LogFileManager.FinalizeLogFileName(rawLogFile, success, exitCode);
-                        File.Move(tmpLogFile, logFile);
+                        try
+                        {
+                            File.Move(tmpLogFile, logFile);
+                        }
+                        catch (IOException ex)
+                        {
+                            Debug.WriteLine($"Failed to rename temporary log file: {ex.Message}");
+                        }
                     }
-                    executable.CurrentLogFile = logFile;
-                    File.Delete(rawLogFile);
+                    if (File.Exists(logFile))
+                    {
+                        executable.CurrentLogFile = logFile;
+                    }
+                    try
+                    {
+                        File.Delete(rawLogFile);
+                    }
+                    catch (IOException ex)
+                    {
+                        Debug.WriteLine($"Failed to delete temporary log file: {ex.Message}");
+                    }
                 }
                 else
                 {

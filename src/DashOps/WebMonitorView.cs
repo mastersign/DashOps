@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
@@ -30,12 +31,25 @@ namespace Mastersign.DashOps
             var tWebRequest = new Task<Tuple<bool, int>>(() =>
             {
                 CurrentLogFile = BuildLogFileName(this.PreliminaryLogFileName(startTime));
-                var logWriter = CurrentLogFile != null ? new StreamWriter(CurrentLogFile, false, Encoding.UTF8) : null;
-                logWriter?.WriteLine("Url:".PadRight(LOG_INDENT) 
+
+                Stream logStream;
+                try
+                {
+                    logStream = CurrentLogFile != null
+                        ? File.Open(CurrentLogFile, FileMode.CreateNew, FileAccess.Write, FileShare.Read)
+                        : null;
+                }
+                catch (IOException ex)
+                {
+                    Debug.WriteLine($"Failed to open log file for monitor: {ex.GetType().FullName} {ex.Message}");
+                    logStream = null;
+                }
+                var logWriter = logStream != null ? new StreamWriter(logStream, Encoding.UTF8) : null;
+                logWriter?.WriteLine("Url:".PadRight(LOG_INDENT)
                                      + Url);
-                logWriter?.WriteLine("Timeout:".PadRight(LOG_INDENT) 
+                logWriter?.WriteLine("Timeout:".PadRight(LOG_INDENT)
                                      + Timeout);
-                logWriter?.WriteLine("Start:".PadRight(LOG_INDENT) 
+                logWriter?.WriteLine("Start:".PadRight(LOG_INDENT)
                                      + startTime.ToString(TS_FORMAT));
                 logWriter?.WriteLine("--------------------------------------------------------------------------------");
                 logWriter?.Flush();
@@ -210,8 +224,18 @@ namespace Mastersign.DashOps
             var logFile = BuildLogFileName(LogFileManager.FinalizeLogFileName(CurrentLogFile, success, exitCode));
             if (LogFileManager.WaitForFileAccess(CurrentLogFile))
             {
-                File.Move(CurrentLogFile, logFile);
-                CurrentLogFile = logFile;
+                try
+                {
+                    File.Move(CurrentLogFile, logFile);
+                }
+                catch (IOException ex)
+                {
+                    Debug.WriteLine($"Failed to rename web monitor log file: {ex.Message}");
+                }
+                if (File.Exists(logFile))
+                {
+                    CurrentLogFile = logFile;
+                }
             }
             else
             {
