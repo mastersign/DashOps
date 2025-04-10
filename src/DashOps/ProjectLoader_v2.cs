@@ -389,7 +389,7 @@ namespace Mastersign.DashOps
             };
             return actionView;
         }
-
+        
         private IEnumerable<ActionView> DiscoverActions(CommandActionDiscovery actionDiscovery)
         {
             var basePath = BuildAbsolutePath(actionDiscovery.BasePath);

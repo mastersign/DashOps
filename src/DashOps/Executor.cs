@@ -145,9 +145,9 @@ namespace Mastersign.DashOps
                         startFailed: true,
                         success: false,
                         exitCode: 0,
-                        output: "Failed to retrieve PowerShell process by PID." + Environment.NewLine 
+                        output: "Failed to retrieve PowerShell process by PID." + Environment.NewLine
                             + Environment.NewLine
-                            + e.GetType().Name + Environment.NewLine 
+                            + e.GetType().Name + Environment.NewLine
                             + e.Message));
                     return;
                 }
@@ -194,7 +194,7 @@ namespace Mastersign.DashOps
                 var oldPaths = psi.Environment.TryGetValue("PATH", out var oldPath)
                     ? oldPath.Split(Path.PathSeparator)
                     : [];
-                psi.Environment["PATH"] = string.Join(new string(Path.PathSeparator, 1), 
+                psi.Environment["PATH"] = string.Join(new string(Path.PathSeparator, 1),
                     executable.ExePaths.Concat(oldPaths));
             }
             return psi;

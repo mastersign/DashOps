@@ -75,23 +75,23 @@ namespace Mastersign.DashOps
                     wr.Timeout = (int)Timeout.TotalMilliseconds;
 
                     response = (HttpWebResponse)wr.GetResponse();
-                    logWriter?.WriteLine("Method:".PadRight(LOG_INDENT) 
+                    logWriter?.WriteLine("Method:".PadRight(LOG_INDENT)
                                          + response.Method);
-                    logWriter?.WriteLine("Status Code:".PadRight(LOG_INDENT) 
+                    logWriter?.WriteLine("Status Code:".PadRight(LOG_INDENT)
                                          + (int)response.StatusCode + " - " + response.StatusCode);
-                    logWriter?.WriteLine("Response Url:".PadRight(LOG_INDENT) 
+                    logWriter?.WriteLine("Response Url:".PadRight(LOG_INDENT)
                                          + response.ResponseUri);
-                    logWriter?.WriteLine("Server:".PadRight(LOG_INDENT) 
+                    logWriter?.WriteLine("Server:".PadRight(LOG_INDENT)
                                          + response.Server);
-                    logWriter?.WriteLine("Content Length:".PadRight(LOG_INDENT) 
+                    logWriter?.WriteLine("Content Length:".PadRight(LOG_INDENT)
                                          + response.ContentLength);
                     if (!string.IsNullOrWhiteSpace(response.ContentEncoding))
-                        logWriter?.WriteLine("Content Encoding:".PadRight(LOG_INDENT) 
+                        logWriter?.WriteLine("Content Encoding:".PadRight(LOG_INDENT)
                                              + response.ContentEncoding);
-                    logWriter?.WriteLine("Content Type:".PadRight(LOG_INDENT) 
+                    logWriter?.WriteLine("Content Type:".PadRight(LOG_INDENT)
                                          + response.ContentType);
                     if (response.CharacterSet != null)
-                        logWriter?.WriteLine("Charset:".PadRight(LOG_INDENT) 
+                        logWriter?.WriteLine("Charset:".PadRight(LOG_INDENT)
                                              + response.CharacterSet);
                     logWriter?.WriteLine(
                         "--------------------------------------------------------------------------------");
@@ -104,26 +104,26 @@ namespace Mastersign.DashOps
                         logWriter?.WriteLine("Detected Charset:".PadRight(LOG_INDENT)
                                              + detectedCharset);
                     var endTime = DateTime.Now;
-                    logWriter?.WriteLine("End:".PadRight(LOG_INDENT) 
+                    logWriter?.WriteLine("End:".PadRight(LOG_INDENT)
                                          + endTime.ToString(TS_FORMAT));
                     var duration = endTime - startTime;
-                    logWriter?.WriteLine("Duration:".PadRight(LOG_INDENT) 
+                    logWriter?.WriteLine("Duration:".PadRight(LOG_INDENT)
                                          + duration);
                     if (!StatusCodes.Contains((int)response.StatusCode))
                     {
-                        logWriter?.WriteLine("Error:".PadRight(LOG_INDENT) 
+                        logWriter?.WriteLine("Error:".PadRight(LOG_INDENT)
                                              + "Status code not allowed: " + string.Join(", ", StatusCodes));
                         return Tuple.Create(false, (int)response.StatusCode);
                     }
                     if (!RequiredPatterns.All(p => p.IsMatch(responseText)))
                     {
-                        logWriter?.WriteLine("Error:".PadRight(LOG_INDENT) 
+                        logWriter?.WriteLine("Error:".PadRight(LOG_INDENT)
                                              + "Required pattern did not match");
                         return Tuple.Create(false, (int)response.StatusCode);
                     }
                     if (ForbiddenPatterns.Any(p => p.IsMatch(responseText)))
                     {
-                        logWriter?.WriteLine("Error:".PadRight(LOG_INDENT) 
+                        logWriter?.WriteLine("Error:".PadRight(LOG_INDENT)
                                              + "Forbidden pattern did match");
                         return Tuple.Create(false, (int)response.StatusCode);
                     }
