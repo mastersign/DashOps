@@ -43,9 +43,7 @@ actions:
       service: File System
       verb: dir
       env: System
-    tags:
-      - Y
-      - X
+    tags: [X, Y, Z, A, B, C, D, E, F, G, H, I ,J, K, L, M, N]
   - description: List content of user directory
     command: Get-ChildItem
     arguments: ['$env:UserProfile']
@@ -63,10 +61,10 @@ action-discovery:
   - description: '${verb} ${service} on ${host}'
     base-path: "test-scripts\\"
     path-pattern: '(?<service>.+?)\\(?<verb>[^_]+)_(?<host>[^\.]+)\.ps1'
-    arguments: ['a', 'b', 123]
+    arguments: ['a:${verb}', 'b:${service}', 123]
     environment:
       ENV_A: Value A
-      ENV_B: Value B
+      ENV_B: Value B ${host}
     exe-paths:
       - test-scripts\bin
     facets:
@@ -95,18 +93,37 @@ action-patterns:
 default-monitor-interval: 10
 
 monitors:
-  - title: Monitor 1
-    command: test-scripts\monitor-1.ps1
+  - title: The Monitor
+    command: test-scripts\monitor.ps1
     arguments: [5]
+    exit-codes: []
+    required-patterns:
+      - '\WSUC{2}ES+\W'
+    forbidden-patterns: []
+
+monitor-discovery:
+  - title: Monitor ${no}
+    base-path: test-scripts
+    path-pattern: 'monitor-(?<no>\d+)\.ps1'
+    arguments: [5, '${no}']
     environment:
-      ENV_MONITOR: Monitor 1
+      ENV_MONITOR: Monitor ${no}
 
 default-web-monitor-timeout: 5
 
 web-monitors:
-  - title: Monitor 2
+  - title: GitHub
     url: https://github.com
     required-patterns:
       - '<title>[^<>]*GitHub</title>'
     forbidden-patterns:
       - '<title>Google</title>'
+
+web-monitor-patterns:
+  - title: Mastersign ${no}
+    url: https://mastersign.de
+    headers:
+      X-DashOps-Monitor-No: ${no}
+    variables:
+      no: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    active: false
