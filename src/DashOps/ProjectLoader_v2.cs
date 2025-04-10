@@ -481,13 +481,18 @@ namespace Mastersign.DashOps
                     : ExpandEnv(ExpandTemplate(Project.PowerShellExe, facets)),
                 UsePowerShellProfile = actionDiscovery.UsePowerShellProfile ?? Project.UsePowerShellProfile,
                 PowerShellExecutionPolicy = !string.IsNullOrWhiteSpace(actionDiscovery.PowerShellExecutionPolicy)
-                    ? actionDiscovery.PowerShellExecutionPolicy
-                    : Project.PowerShellExecutionPolicy,
+                    ? ExpandTemplate(actionDiscovery.PowerShellExecutionPolicy, facets)
+                    : ExpandTemplate(Project.PowerShellExecutionPolicy, facets),
                 Command = cmd,
                 Arguments = cmdArgs,
                 WorkingDirectory = BuildAbsolutePath(
-                            ExpandTemplate(actionDiscovery.WorkingDirectory, facets)),
-                Environment = Merge(Project.Environment, actionDiscovery.Environment),
+                            ExpandEnv(ExpandTemplate(actionDiscovery.WorkingDirectory, facets))),
+                Environment = ExpandEnv(
+                    ExpandDictionaryTemplate(
+                        ExpandDictionaryTemplate(
+                            Merge(Project.Environment, actionDiscovery.Environment ?? []),
+                            fileVariable),
+                        facets)),
                 ExePaths = (actionDiscovery.ExePaths ?? Project.ExePaths ?? [])
                     .Select(p => ExpandTemplate(p, facets))
                     .Select(ExpandEnv)
@@ -495,7 +500,9 @@ namespace Mastersign.DashOps
                 UseWindowsTerminal = actionDiscovery.UseWindowsTerminal ?? Project.UseWindowsTerminal,
                 WindowsTerminalArguments = FormatArguments(
                     (actionDiscovery.WindowsTerminalArgs ?? Project.WindowsTerminalArgs)
-                        .Select(a => ExpandTemplate(a, facets))),
+                        .Select(a => ExpandTemplate(a, fileVariable))
+                        .Select(a => ExpandTemplate(a, facets))
+                        .Select(ExpandEnv)),
                 ExitCodes = actionDiscovery.ExitCodes ?? [0],
                 Facets = ExpandDictionaryTemplate(facets, facets),
                 Tags = actionDiscovery.Tags ?? [],
@@ -520,14 +527,17 @@ namespace Mastersign.DashOps
                     : ExpandEnv(ExpandTemplate(Project.PowerShellExe, facets)),
                 UsePowerShellProfile = actionPattern.UsePowerShellProfile ?? Project.UsePowerShellProfile,
                 PowerShellExecutionPolicy = !string.IsNullOrWhiteSpace(actionPattern.PowerShellExecutionPolicy)
-                    ? actionPattern.PowerShellExecutionPolicy
-                    : Project.PowerShellExecutionPolicy,
+                    ? ExpandTemplate(actionPattern.PowerShellExecutionPolicy, facets)
+                    : ExpandTemplate(Project.PowerShellExecutionPolicy, facets),
                 Command = ExpandEnv(ExpandTemplate(actionPattern.Command, facets)),
                 Arguments = FormatArguments(actionPattern.Arguments?
                     .Select(a => ExpandEnv(ExpandTemplate(a, facets)))),
                 WorkingDirectory = BuildAbsolutePath(
-                    ExpandTemplate(actionPattern.WorkingDirectory, facets)),
-                Environment = Merge(Project.Environment, actionPattern.Environment),
+                    ExpandEnv(ExpandTemplate(actionPattern.WorkingDirectory, facets))),
+                Environment = ExpandEnv(
+                    ExpandDictionaryTemplate(
+                        Merge(Project.Environment, actionPattern.Environment ?? []),
+                        facets)),
                 ExePaths = (actionPattern.ExePaths ?? Project.ExePaths ?? [])
                     .Select(p => ExpandTemplate(p, facets))
                     .Select(ExpandEnv)
@@ -535,7 +545,8 @@ namespace Mastersign.DashOps
                 UseWindowsTerminal = actionPattern.UseWindowsTerminal ?? Project.UseWindowsTerminal,
                 WindowsTerminalArguments = FormatArguments(
                     (actionPattern.WindowsTerminalArgs ?? Project.WindowsTerminalArgs)
-                        .Select(a => ExpandTemplate(a, facets))),
+                        .Select(a => ExpandTemplate(a, facets))
+                        .Select(ExpandEnv)),
                 ExitCodes = actionPattern.ExitCodes ?? [0],
                 Facets = ExpandDictionaryTemplate(facets, facets),
                 Tags = actionPattern.Tags ?? [],
@@ -646,17 +657,24 @@ namespace Mastersign.DashOps
                 Interval = new TimeSpan(0, 0, monitorDiscovery.Interval),
                 UsePowerShellCore = monitorDiscovery.UsePowerShellCore ?? Project.UsePowerShellCore,
                 PowerShellExe = !string.IsNullOrWhiteSpace(monitorDiscovery.PowerShellExe)
-                    ? ExpandEnv(monitorDiscovery.PowerShellExe)
-                    : ExpandEnv(Project.PowerShellExe),
+                    ? ExpandEnv(ExpandTemplate(monitorDiscovery.PowerShellExe, variables))
+                    : ExpandEnv(ExpandTemplate(Project.PowerShellExe, variables)),
                 UsePowerShellProfile = monitorDiscovery.UsePowerShellProfile ?? Project.UsePowerShellProfile,
                 PowerShellExecutionPolicy = !string.IsNullOrWhiteSpace(monitorDiscovery.PowerShellExecutionPolicy)
-                    ? monitorDiscovery.PowerShellExecutionPolicy
-                    : Project.PowerShellExecutionPolicy,
+                    ? ExpandTemplate(monitorDiscovery.PowerShellExecutionPolicy, variables)
+                    : ExpandTemplate(Project.PowerShellExecutionPolicy, variables),
                 Command = cmd,
                 Arguments = cmdArgs,
-                WorkingDirectory = BuildAbsolutePath(monitorDiscovery.WorkingDirectory),
-                Environment = Merge(Project.Environment, monitorDiscovery.Environment ?? []),
+                WorkingDirectory = BuildAbsolutePath(
+                    ExpandEnv(ExpandTemplate(monitorDiscovery.WorkingDirectory, variables))),
+                Environment = ExpandEnv(
+                    ExpandDictionaryTemplate(
+                        ExpandDictionaryTemplate(
+                            Merge(Project.Environment, monitorDiscovery.Environment ?? []),
+                            fileVariable),
+                        variables)),
                 ExePaths = (monitorDiscovery.ExePaths ?? Project.ExePaths ?? [])
+                    .Select(p => ExpandTemplate(p, variables))
                     .Select(ExpandEnv)
                     .ToArray(),
                 ExitCodes = monitorDiscovery.ExitCodes ?? [0],
@@ -676,18 +694,23 @@ namespace Mastersign.DashOps
                 Interval = new TimeSpan(0, 0, monitorPattern.Interval),
                 UsePowerShellCore = monitorPattern.UsePowerShellCore ?? Project.UsePowerShellCore,
                 PowerShellExe = !string.IsNullOrWhiteSpace(monitorPattern.PowerShellExe)
-                    ? ExpandEnv(monitorPattern.PowerShellExe)
-                    : ExpandEnv(Project.PowerShellExe),
+                    ? ExpandEnv(ExpandTemplate(monitorPattern.PowerShellExe, variables))
+                    : ExpandEnv(ExpandTemplate(Project.PowerShellExe, variables)),
                 UsePowerShellProfile = monitorPattern.UsePowerShellProfile ?? Project.UsePowerShellProfile,
                 PowerShellExecutionPolicy = !string.IsNullOrWhiteSpace(monitorPattern.PowerShellExecutionPolicy)
-                    ? monitorPattern.PowerShellExecutionPolicy
-                    : Project.PowerShellExecutionPolicy,
+                    ? ExpandTemplate(monitorPattern.PowerShellExecutionPolicy, variables)
+                    : ExpandTemplate(Project.PowerShellExecutionPolicy, variables),
                 Command = ExpandEnv(ExpandTemplate(monitorPattern.Command, variables)),
                 Arguments = FormatArguments(
                     monitorPattern.Arguments?.Select(a => ExpandEnv(ExpandTemplate(a, variables)))),
-                WorkingDirectory = BuildAbsolutePath(monitorPattern.WorkingDirectory),
-                Environment = Merge(Project.Environment, monitorPattern.Environment),
+                WorkingDirectory = BuildAbsolutePath(
+                    ExpandEnv(ExpandTemplate(monitorPattern.WorkingDirectory, variables))),
+                Environment = ExpandEnv(
+                    ExpandDictionaryTemplate(
+                        Merge(Project.Environment, monitorPattern.Environment ?? []),
+                        variables)),
                 ExePaths = (monitorPattern.ExePaths ?? Project.ExePaths ?? [])
+                    .Select(p => ExpandTemplate(p, variables))
                     .Select(ExpandEnv)
                     .ToArray(),
                 ExitCodes = monitorPattern.ExitCodes ?? [0],
@@ -831,6 +854,9 @@ namespace Mastersign.DashOps
             => string.IsNullOrWhiteSpace(template)
                 ? template
                 : Environment.ExpandEnvironmentVariables(template);
+
+        private static Dictionary<string, string> ExpandEnv(Dictionary<string, string> dict)
+            => MapValues(dict, ExpandEnv);
 
         private static string FormatArguments(IEnumerable<string> arguments)
             => arguments != null
