@@ -99,6 +99,9 @@
       <Property name="Title" />
       <Property name="Logs" />
       <Property name="NoLogs" type="bool" />
+      <Property name="Active" type="bool" defaultInitialization="true">
+        <DefaultValue>true</DefaultValue>
+      </Property>
       <Property name="Interval" type="int" defaultInitialization="true">
         <DefaultValue>-1</DefaultValue>
       </Property>

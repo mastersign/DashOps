@@ -1233,6 +1233,7 @@ namespace Mastersign.DashOps.Model_v2
     {
         public MonitorBase()
         {
+            this._active = DEF_ACTIVE;
             this._interval = DEF_INTERVAL;
             this._requiredPatterns = new string[0];
             this._forbiddenPatterns = new string[0];
@@ -1251,6 +1252,7 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(_title, null) ? _title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Active = " + _active.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Interval = " + _interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(_requiredPatterns, null) ? _requiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(_forbiddenPatterns, null) ? _forbiddenPatterns.ToString() : @"null").Replace("\n", "\n    "))));
@@ -1310,6 +1312,28 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _noLogs = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Active
+        
+        private bool _active;
+        
+        private const bool DEF_ACTIVE = true;
+        
+        [DefaultValue(DEF_ACTIVE)]
+        public virtual bool Active
+        {
+            get { return _active; }
+            set
+            {
+                if ((value == _active))
+                {
+                    return;
+                }
+                _active = value;
             }
         }
         
@@ -1395,6 +1419,7 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Active = " + Active.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -1602,6 +1627,7 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Active = " + Active.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -1658,6 +1684,7 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Active = " + Active.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -1754,6 +1781,7 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Active = " + Active.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -1812,6 +1840,7 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Active = " + Active.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -1962,6 +1991,7 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Active = " + Active.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 

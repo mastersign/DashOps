@@ -1260,6 +1260,38 @@ namespace Mastersign.DashOps
         
         #endregion
         
+        #region Property Deactivated
+        
+        private bool _deactivated;
+        
+        public event EventHandler DeactivatedChanged;
+        
+        protected virtual void OnDeactivatedChanged()
+        {
+            EventHandler handler = DeactivatedChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Deactivated");
+        }
+        
+        public virtual bool Deactivated
+        {
+            get { return _deactivated; }
+            set
+            {
+                if ((value == _deactivated))
+                {
+                    return;
+                }
+                _deactivated = value;
+                this.OnDeactivatedChanged();
+            }
+        }
+        
+        #endregion
+        
         #region Property Interval
         
         private TimeSpan _interval;

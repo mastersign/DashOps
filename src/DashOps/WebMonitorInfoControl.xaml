@@ -38,6 +38,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="0" Style="{StaticResource Caption}">
@@ -58,21 +59,47 @@
                     CopyText="{Binding CommandId}" />
 
                 <TextBlock Grid.Row="2" Style="{StaticResource Caption}">
-                    Interval:</TextBlock>
-                <TextBlock Grid.Row="2" Style="{StaticResource ListValue}"
-                    Text="{Binding Interval}" />
+                    Active:</TextBlock>
+                <ui:SymbolIcon
+                        Grid.Row="2" Grid.Column="1" Margin="16,8,0,4"
+                        HorizontalAlignment="Left"
+                        FontSize="20">
+                    <ui:SymbolIcon.Style>
+                        <Style>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Deactivated}" Value="False">
+                                    <DataTrigger.Setters>
+                                        <Setter Property="ui:SymbolIcon.Symbol" Value="Checkmark24" />
+                                        <Setter Property="ui:SymbolIcon.Foreground" Value="{StaticResource PaletteGreenBrush}" />
+                                    </DataTrigger.Setters>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Deactivated}" Value="True">
+                                    <DataTrigger.Setters>
+                                        <Setter Property="ui:SymbolIcon.Symbol" Value="Dismiss24" />
+                                        <Setter Property="ui:SymbolIcon.Foreground" Value="{StaticResource PaletteRedBrush}" />
+                                    </DataTrigger.Setters>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ui:SymbolIcon.Style>
+                </ui:SymbolIcon>
 
                 <TextBlock Grid.Row="3" Style="{StaticResource Caption}">
-                    URL:</TextBlock>
-                <TextBlock Grid.Row="3" Style="{StaticResource ListValueCode}"
-                    Text="{Binding Url}" />
-                <local:CopyButton Grid.Row="3" Grid.Column="2" VerticalAlignment="Top" Margin="0,0,0,0"
-                    CopyText="{Binding Url}" />
+                    Interval:</TextBlock>
+                <TextBlock Grid.Row="3" Style="{StaticResource ListValue}"
+                    Text="{Binding Interval}" />
 
                 <TextBlock Grid.Row="4" Style="{StaticResource Caption}">
+                    URL:</TextBlock>
+                <TextBlock Grid.Row="4" Style="{StaticResource ListValueCode}"
+                    Text="{Binding Url}" />
+                <local:CopyButton Grid.Row="4" Grid.Column="2" VerticalAlignment="Top" Margin="0,0,0,0"
+                    CopyText="{Binding Url}" />
+
+                <TextBlock Grid.Row="5" Style="{StaticResource Caption}">
                     Headers:</TextBlock>
                 <ItemsControl
-                        Grid.Row="4" Grid.Column="1" Margin="16,8,0,4"
+                        Grid.Row="5" Grid.Column="1" Margin="16,8,0,4"
                         ItemsSource="{Binding HeaderKeyValuePairs}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -95,20 +122,20 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
-                <TextBlock Grid.Row="5" Style="{StaticResource Caption}">
+                <TextBlock Grid.Row="6" Style="{StaticResource Caption}">
                     Timeout:</TextBlock>
-                <TextBlock Grid.Row="5" Style="{StaticResource ListValueCode}"
+                <TextBlock Grid.Row="6" Style="{StaticResource ListValueCode}"
                     Text="{Binding Timeout}" />
 
-                <TextBlock Grid.Row="6" Style="{StaticResource Caption}">
+                <TextBlock Grid.Row="7" Style="{StaticResource Caption}">
                     Success Status:</TextBlock>
-                <TextBlock Grid.Row="6" Style="{StaticResource ListValue}"
+                <TextBlock Grid.Row="7" Style="{StaticResource ListValue}"
                     Text="{Binding StatusCodesFormatted}" />
 
-                <TextBlock Grid.Row="7" Style="{StaticResource Caption}">
+                <TextBlock Grid.Row="8" Style="{StaticResource Caption}">
                     TLS Verify:</TextBlock>
                 <ui:SymbolIcon
-                        Grid.Row="7" Grid.Column="1" Margin="16,8,0,4"
+                        Grid.Row="8" Grid.Column="1" Margin="16,8,0,4"
                         HorizontalAlignment="Left"
                         FontSize="20">
                     <ui:SymbolIcon.Style>
@@ -131,24 +158,24 @@
                     </ui:SymbolIcon.Style>
                 </ui:SymbolIcon>
 
-                <TextBlock Grid.Row="8" Style="{StaticResource Caption}">
+                <TextBlock Grid.Row="9" Style="{StaticResource Caption}">
                     Expected Certificate:</TextBlock>
-                <TextBlock Grid.Row="8" Style="{StaticResource ListValueCode}"
+                <TextBlock Grid.Row="9" Style="{StaticResource ListValueCode}"
                     Text="{Binding ServerCertificateHash}" />
-                <local:CopyButton Grid.Row="8" Grid.Column="2" VerticalAlignment="Top" Margin="0,0,0,0"
+                <local:CopyButton Grid.Row="9" Grid.Column="2" VerticalAlignment="Top" Margin="0,0,0,0"
                     CopyText="{Binding ServerCertificateHash}" />
 
-                <TextBlock Grid.Row="9" Style="{StaticResource Caption}">
+                <TextBlock Grid.Row="10" Style="{StaticResource Caption}">
                     Patterns:</TextBlock>
-                <TextBlock Grid.Row="9" Style="{StaticResource ListValue}">
+                <TextBlock Grid.Row="10" Style="{StaticResource ListValue}">
                     <Run Text="{Binding RequiredPatternCount, Mode=OneTime}" /><Run>&#x00A0;Required,</Run>
                     <Run Text="{Binding ForbiddenPatternCount, Mode=OneTime}" /><Run>&#x00A0;Forbidden</Run>
                 </TextBlock>
-                
-                <TextBlock Grid.Row="10" Style="{StaticResource Caption}">
+
+                <TextBlock Grid.Row="11" Style="{StaticResource Caption}">
                     Logging:</TextBlock>
                 <ui:SymbolIcon
-                        Grid.Row="10" Grid.Column="1" Margin="16,8,0,4"
+                        Grid.Row="11" Grid.Column="1" Margin="16,8,0,4"
                         HorizontalAlignment="Left"
                         FontSize="20">
                     <ui:SymbolIcon.Style>

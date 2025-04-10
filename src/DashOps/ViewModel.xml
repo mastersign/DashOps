@@ -79,6 +79,7 @@
       <Property name="Logs" />
       <Property name="NoLogs" type="bool" />
       <Property name="CurrentLogFile" />
+      <Property name="Deactivated" type="bool" />
       <Property name="Interval" type="TimeSpan" />
       <Property name="RequiredPatterns" type="regexes" />
       <Property name="ForbiddenPatterns" type="regexes" />

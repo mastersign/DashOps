@@ -22,6 +22,7 @@ namespace Mastersign.DashOps
             var now = DateTime.Now;
             foreach (var monitor in monitors)
             {
+                if (monitor.Deactivated) continue;
                 ProcessMonitor(monitor, now);
             }
         }

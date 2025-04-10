@@ -553,6 +553,7 @@ namespace Mastersign.DashOps
                 Title = monitor.Title,
                 Logs = ExpandEnv(monitor.Logs),
                 NoLogs = monitor.NoLogs,
+                Deactivated = !monitor.Active,
                 Interval = new TimeSpan(0, 0, monitor.Interval),
                 UsePowerShellCore = monitor.UsePowerShellCore ?? Project.UsePowerShellCore,
                 PowerShellExe = !string.IsNullOrWhiteSpace(monitor.PowerShellExe)
@@ -649,6 +650,7 @@ namespace Mastersign.DashOps
                 Title = ExpandTemplate(monitorDiscovery.Title, variables),
                 Logs = ExpandEnv(ExpandTemplate(monitorDiscovery.Logs, variables)),
                 NoLogs = monitorDiscovery.NoLogs,
+                Deactivated = !monitorDiscovery.Active,
                 Interval = new TimeSpan(0, 0, monitorDiscovery.Interval),
                 UsePowerShellCore = monitorDiscovery.UsePowerShellCore ?? Project.UsePowerShellCore,
                 PowerShellExe = !string.IsNullOrWhiteSpace(monitorDiscovery.PowerShellExe)
@@ -680,6 +682,7 @@ namespace Mastersign.DashOps
                 Title = ExpandTemplate(monitorPattern.Title, variables),
                 Logs = ExpandEnv(ExpandTemplate(monitorPattern.Logs, variables)),
                 NoLogs = monitorPattern.NoLogs,
+                Deactivated = !monitorPattern.Active,
                 Interval = new TimeSpan(0, 0, monitorPattern.Interval),
                 UsePowerShellCore = monitorPattern.UsePowerShellCore ?? Project.UsePowerShellCore,
                 PowerShellExe = !string.IsNullOrWhiteSpace(monitorPattern.PowerShellExe)
@@ -710,6 +713,7 @@ namespace Mastersign.DashOps
                 Title = monitor.Title,
                 Logs = ExpandEnv(monitor.Logs),
                 NoLogs = monitor.NoLogs,
+                Deactivated = !monitor.Active,
                 Interval = new TimeSpan(0, 0, monitor.Interval),
                 Url = monitor.Url,
                 Headers = new Dictionary<string, string>(monitor.Headers ?? []),
@@ -736,6 +740,7 @@ namespace Mastersign.DashOps
                 Title = ExpandTemplate(monitorPattern.Title, variables),
                 Logs = ExpandEnv(ExpandTemplate(monitorPattern.Logs, variables)),
                 NoLogs = monitorPattern.NoLogs,
+                Deactivated = !monitorPattern.Active,
                 Interval = new TimeSpan(0, 0, monitorPattern.Interval),
                 Url = ExpandTemplate(monitorPattern.Url, variables),
                 Headers = ExpandDictionaryTemplate(monitorPattern.Headers, variables),
