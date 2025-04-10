@@ -373,9 +373,7 @@ namespace Mastersign.DashOps
                 WindowsTerminalArguments = FormatArguments(
                     (action.WindowsTerminalArgs ?? Project.WindowsTerminalArgs)
                         .Select(a => ExpandEnv(ExpandTemplate(a, facets)))),
-                ExitCodes = action.ExitCodes != null && action.ExitCodes.Length > 0
-                    ? action.ExitCodes
-                    : [0],
+                ExitCodes = action.ExitCodes ?? [0],
                 Title = action.Description,
                 Reassure = action.Reassure,
                 Visible = !action.Background,
@@ -498,9 +496,7 @@ namespace Mastersign.DashOps
                 WindowsTerminalArguments = FormatArguments(
                     (actionDiscovery.WindowsTerminalArgs ?? Project.WindowsTerminalArgs)
                         .Select(a => ExpandTemplate(a, facets))),
-                ExitCodes = actionDiscovery.ExitCodes != null && actionDiscovery.ExitCodes.Length > 0
-                    ? actionDiscovery.ExitCodes
-                    : [0],
+                ExitCodes = actionDiscovery.ExitCodes ?? [0],
                 Facets = ExpandDictionaryTemplate(facets, facets),
                 Tags = actionDiscovery.Tags ?? [],
             };
@@ -540,9 +536,7 @@ namespace Mastersign.DashOps
                 WindowsTerminalArguments = FormatArguments(
                     (actionPattern.WindowsTerminalArgs ?? Project.WindowsTerminalArgs)
                         .Select(a => ExpandTemplate(a, facets))),
-                ExitCodes = actionPattern.ExitCodes != null && actionPattern.ExitCodes.Length > 0
-                    ? actionPattern.ExitCodes
-                    : [0],
+                ExitCodes = actionPattern.ExitCodes ?? [0],
                 Facets = ExpandDictionaryTemplate(facets, facets),
                 Tags = actionPattern.Tags ?? [],
             };
@@ -568,9 +562,7 @@ namespace Mastersign.DashOps
                 ExePaths = (monitor.ExePaths ?? Project.ExePaths ?? [])
                     .Select(ExpandEnv)
                     .ToArray(),
-                ExitCodes = monitor.ExitCodes != null && monitor.ExitCodes.Length > 0
-                    ? monitor.ExitCodes
-                    : [0],
+                ExitCodes = monitor.ExitCodes ?? [0],
                 RequiredPatterns = BuildPatterns(monitor.RequiredPatterns),
                 ForbiddenPatterns = BuildPatterns(monitor.ForbiddenPatterns),
             };
@@ -667,9 +659,7 @@ namespace Mastersign.DashOps
                 ExePaths = (monitorDiscovery.ExePaths ?? Project.ExePaths ?? [])
                     .Select(ExpandEnv)
                     .ToArray(),
-                ExitCodes = monitorDiscovery.ExitCodes != null && monitorDiscovery.ExitCodes.Length > 0
-                    ? monitorDiscovery.ExitCodes
-                    : [0],
+                ExitCodes = monitorDiscovery.ExitCodes ?? [0],
                 RequiredPatterns = BuildPatterns(monitorDiscovery.RequiredPatterns),
                 ForbiddenPatterns = BuildPatterns(monitorDiscovery.ForbiddenPatterns)
             };
@@ -700,9 +690,7 @@ namespace Mastersign.DashOps
                 ExePaths = (monitorPattern.ExePaths ?? Project.ExePaths ?? [])
                     .Select(ExpandEnv)
                     .ToArray(),
-                ExitCodes = monitorPattern.ExitCodes != null && monitorPattern.ExitCodes.Length > 0
-                    ? monitorPattern.ExitCodes
-                    : [0],
+                ExitCodes = monitorPattern.ExitCodes ?? [0],
                 RequiredPatterns = BuildPatterns(monitorPattern.RequiredPatterns),
                 ForbiddenPatterns = BuildPatterns(monitorPattern.ForbiddenPatterns)
             };
