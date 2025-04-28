@@ -74,6 +74,22 @@ namespace Mastersign.DashOps
         {
             _deserializer = new DeserializerBuilder()
                 .WithNamingConvention(HyphenatedNamingConvention.Instance)
+                .WithAttributeOverride(typeof(Project), nameof(Project.PowerShellExe), new YamlMemberAttribute { Alias = "PowershellExe" })
+                .WithAttributeOverride(typeof(Project), nameof(Project.PowerShellExecutionPolicy), new YamlMemberAttribute { Alias = "PowershellExecutionPolicy" })
+                .WithAttributeOverride(typeof(Project), nameof(Project.UsePowerShellCore), new YamlMemberAttribute { Alias = "UsePowershellCore" })
+                .WithAttributeOverride(typeof(Project), nameof(Project.UsePowerShellProfile), new YamlMemberAttribute { Alias = "UsePowershellProfile" })
+                .WithAttributeOverride(typeof(CommandActionBase), nameof(CommandActionBase.PowerShellExe), new YamlMemberAttribute { Alias = "PowershellExe" })
+                .WithAttributeOverride(typeof(CommandActionBase), nameof(CommandActionBase.PowerShellExecutionPolicy), new YamlMemberAttribute { Alias = "PowershellExecutionPolicy" })
+                .WithAttributeOverride(typeof(CommandActionBase), nameof(CommandActionBase.UsePowerShellCore), new YamlMemberAttribute { Alias = "UsePowershellCore" })
+                .WithAttributeOverride(typeof(CommandActionBase), nameof(CommandActionBase.UsePowerShellProfile), new YamlMemberAttribute { Alias = "UsePowershellProfile" })
+                .WithAttributeOverride(typeof(AutoAnnotation), nameof(AutoAnnotation.PowerShellExe), new YamlMemberAttribute { Alias = "PowershellExe" })
+                .WithAttributeOverride(typeof(AutoAnnotation), nameof(AutoAnnotation.PowerShellExecutionPolicy), new YamlMemberAttribute { Alias = "PowershellExecutionPolicy" })
+                .WithAttributeOverride(typeof(AutoAnnotation), nameof(AutoAnnotation.UsePowerShellCore), new YamlMemberAttribute { Alias = "UsePowershellCore" })
+                .WithAttributeOverride(typeof(AutoAnnotation), nameof(AutoAnnotation.UsePowerShellProfile), new YamlMemberAttribute { Alias = "UsePowershellProfile" })
+                .WithAttributeOverride(typeof(CommandMonitor), nameof(CommandMonitor.PowerShellExe), new YamlMemberAttribute { Alias = "PowershellExe" })
+                .WithAttributeOverride(typeof(CommandMonitor), nameof(CommandMonitor.PowerShellExecutionPolicy), new YamlMemberAttribute { Alias = "PowershellExecutionPolicy" })
+                .WithAttributeOverride(typeof(CommandMonitor), nameof(CommandMonitor.UsePowerShellCore), new YamlMemberAttribute { Alias = "UsePowershellCore" })
+                .WithAttributeOverride(typeof(CommandMonitor), nameof(CommandMonitor.UsePowerShellProfile), new YamlMemberAttribute { Alias = "UsePowershellProfile" })
                 .Build();
         }
 
