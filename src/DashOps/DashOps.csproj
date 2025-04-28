@@ -34,6 +34,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="resources\*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mastersign.WpfCodeEditor" Version="1.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="WPF-UI" Version="4.0.2" />
     <PackageReference Include="WPF-UI.Tray" Version="4.0.2" />
@@ -99,10 +104,10 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Update="Properties\Resources\SettingsPage.Designer.cs">
+    <Compile Update="Properties\Resources\HomePage.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>SettingsPage.resx</DependentUpon>
+      <DependentUpon>HomePage.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -115,9 +120,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AboutPage.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Properties\Resources\SettingsPage.resx">
+    <EmbeddedResource Update="Properties\Resources\HomePage.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>SettingsPage.Designer.cs</LastGenOutput>
+      <LastGenOutput>HomePage.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   

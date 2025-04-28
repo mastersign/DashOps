@@ -88,11 +88,11 @@ namespace Mastersign.DashOps.Properties.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Could not find the executable of the default editor. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die DashOps - {0} - Editor ähnelt.
         /// </summary>
-        public static string EditorNotFound_Message {
+        public static string EditorTitle_1 {
             get {
-                return ResourceManager.GetString("EditorNotFound_Message", resourceCulture);
+                return ResourceManager.GetString("EditorTitle_1", resourceCulture);
             }
         }
         
@@ -106,7 +106,7 @@ namespace Mastersign.DashOps.Properties.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Home ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Project ähnelt.
         /// </summary>
         public static string Page_Home_Title {
             get {
@@ -115,7 +115,7 @@ namespace Mastersign.DashOps.Properties.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Main ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Dashboard ähnelt.
         /// </summary>
         public static string Page_Main_Title {
             get {

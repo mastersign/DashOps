@@ -22,14 +22,14 @@ namespace Mastersign.DashOps.Properties.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class SettingsPage {
+    public class HomePage {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal SettingsPage() {
+        internal HomePage() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Mastersign.DashOps.Properties.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Mastersign.DashOps.Properties.Resources.SettingsPage", typeof(SettingsPage).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Mastersign.DashOps.Properties.Resources.HomePage", typeof(HomePage).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,25 +61,7 @@ namespace Mastersign.DashOps.Properties.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Edit Project ähnelt.
-        /// </summary>
-        public static string EditProject_Title {
-            get {
-                return ResourceManager.GetString("EditProject_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Project ähnelt.
-        /// </summary>
-        public static string Project_Headline {
-            get {
-                return ResourceManager.GetString("Project_Headline", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Format Version: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Project Format: ähnelt.
         /// </summary>
         public static string ProjectFormatVersion_Caption {
             get {

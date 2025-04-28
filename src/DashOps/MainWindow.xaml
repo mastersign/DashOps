@@ -13,7 +13,9 @@
     Title="{Binding WindowTitle}"
     Height="450" Width="800" Icon="/icon.ico"
     ExtendsContentIntoTitleBar="True"
-    mc:Ignorable="d" SizeChanged="FluentWindow_SizeChanged"
+    mc:Ignorable="d" 
+    SizeChanged="SizeChangedHandler"
+    Closing="ClosingHandler"
     >
 
     <ui:FluentWindow.CommandBindings>
@@ -21,7 +23,6 @@
                         CanExecute="CommandSwitchPerspectiveCheck" 
                         Executed="CommandSwitchPerspectiveHandler" />
         <CommandBinding Command="local:DashOpsCommands.EditProject"
-                        CanExecute="CommandEditProjectExecute"
                         Executed="CommandEditProjectExecuted" />
     </ui:FluentWindow.CommandBindings>
 

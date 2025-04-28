@@ -117,31 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Application_Exit" xml:space="preserve">
-    <value>Exit DashOps</value>
+  <data name="CommitHash_Caption" xml:space="preserve">
+    <value>Commit:</value>
   </data>
-  <data name="Page_About_Title" xml:space="preserve">
-    <value>About</value>
+  <data name="ProductName_Caption" xml:space="preserve">
+    <value>Produktname:</value>
   </data>
-  <data name="Page_Home_Title" xml:space="preserve">
-    <value>Project</value>
+  <data name="Publisher_Caption" xml:space="preserve">
+    <value>Herausgeber:</value>
   </data>
-  <data name="Page_Settings_Title" xml:space="preserve">
-    <value>Settings</value>
+  <data name="Version_Caption" xml:space="preserve">
+    <value>Version:</value>
   </data>
-  <data name="WindowTitle" xml:space="preserve">
-    <value>DashOps</value>
-  </data>
-  <data name="Command_EditProject" xml:space="preserve">
-    <value>Edit Project</value>
-  </data>
-  <data name="Page_Main_Title" xml:space="preserve">
-    <value>Dashboard</value>
-  </data>
-  <data name="Command_SwitchPerspective" xml:space="preserve">
-    <value>Switch Perspective</value>
-  </data>
-  <data name="EditorTitle_1" xml:space="preserve">
-    <value>DashOps - {0} - Editor</value>
+  <data name="Website_Caption" xml:space="preserve">
+    <value>Website:</value>
   </data>
 </root>

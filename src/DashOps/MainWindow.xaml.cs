@@ -71,9 +71,14 @@ namespace Mastersign.DashOps
             UpdateMaxPageHeight();
         }
 
-        private void FluentWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void SizeChangedHandler(object sender, SizeChangedEventArgs e)
         {
             if (e.HeightChanged) UpdateMaxPageHeight();
+        }
+
+        private void ClosingHandler(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ConfigEditorWindow.CloseInstance();
         }
 
         private void UpdateMaxPageHeight()
@@ -114,32 +119,12 @@ namespace Mastersign.DashOps
             e.CanExecute = ProjectView != null; // && e.Parameter != ProjectView.CurrentPerspective;
         }
 
-        private void CommandEditProjectExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            //e.CanExecute = CurrentApp?.Runtime?.Config != null;
-            e.CanExecute = true;
-        }
-
         private void CommandEditProjectExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            UserInteraction.ShowMessage(
-                "Edit Project",
-                "Not implemented",
-                symbol: InteractionSymbol.Error);
-            //try
-            //{
-            //    CurrentApp.Runtime.Config.EditSetup();
-            //}
-            //catch (DefaultEditorNotFoundException exc)
-            //{
-            //    System.Windows.MessageBox.Show(
-            //        Properties.Resources.Common.EditorNotFound_Message
-            //        + Environment.NewLine + Environment.NewLine
-            //        + exc.EditorExecutable,
-            //        Properties.Resources.CommandsPage.EditCommand_Title,
-            //        System.Windows.MessageBoxButton.OK,
-            //        MessageBoxImage.Error);
-            //}
+            ConfigEditorWindow.Open(
+                string.Format(Properties.Resources.Common.EditorTitle_1, ProjectView?.Title),
+                (App.Current as App).ProjectLoader.ProjectPath,
+                "dashops-v2");
         }
     }
 }
