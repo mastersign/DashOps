@@ -89,6 +89,7 @@ internal static class UserInteraction
             var textBlock = new TextBlock
             {
                 Text = text,
+                TextWrapping = TextWrapping.Wrap,
             };
             Grid.SetColumn(textBlock, 1);
             grid.Children.Add(textBlock);
