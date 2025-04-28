@@ -1,0 +1,309 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://mastersign.de/dashops-v2.schema.json",
+  "title": "DashOps Project v2",
+  "description": "The file format for DashOps projects",
+
+  "$defs": {
+    "CommandLineArguments": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          { "type": "string" },
+          { "type": "number" }
+        ]
+      }
+    },
+    "CommandActionBase": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "title": "Action Description",
+          "description": "The text displayed on the action button.\n\nPlaceholders like '${verb}' are replaced by facet values.",
+          "type": "string"
+        },
+        "reassure": {
+          "title": "Reassure Execution",
+          "description": "A switch to activate a confirmation dialog, prior to executing the action",
+          "type": "boolean"
+        },
+        "background": {
+          "title": "Run In Background",
+          "description": "A switch to activate hidden execution, without a visible terminal window",
+          "type": "boolean"
+        },
+        "logs": {
+          "title": "Logging Directory",
+          "description": "Overrides the default logging directory of the project for this action",
+          "type": "string"
+        },
+        "no-logs": {
+          "title": "No Logs",
+          "description": "A switch to deactivate logging for this action",
+          "type": "boolean"
+        },
+        "no-execution-info": {
+          "title": "No Execution Info in Logs",
+          "description": "A switch to suppress header and footer with execution info when writing log files",
+          "type": "boolean"
+        },
+        "keep-open": {
+          "title": "Keep Open",
+          "description": "A switch to set the behavior for the terminal window after finishing the action. If true, the terminal window is kept open, even if the action succeeded.",
+          "type": "boolean"
+        },
+        "always-close": {
+          "title": "Always Close",
+          "description": "A switch to set the behavior for the terminal window after finishing the action. If true, the terminal window is closed, even if the action failed.",
+          "type": "boolean"
+        },
+        "use-powershell-core": {
+          "title": "Use PowerShell Core",
+          "description": "Use PowerShell (not Windows PowerShell) as the execution environment for this action",
+          "type": "boolean"
+        },
+        "powershell-exe": {
+          "title": "PowerShell Executable",
+          "description": "A path to a PowerShell executable as the execution environment for this action. Overrides the use-powershell-core property.",
+          "type": "string"
+        },
+        "use-powershell-profile": {
+          "title": "Use PowerShell Profile",
+          "description": "A switch to activate loading the PowerShell profile when executing this action",
+          "type": "boolean"
+        },
+        "powershell-execution-policy": {
+          "title": "PowerShell Execution Policy",
+          "description": "Sets the execution policy for the PowerShell",
+          "type": "string",
+          "enum": [ "AllSigned", "Bypass", "RemoteSigned", "Restricted", "Unrestricted", "Default" ]
+        },
+        "working-directory": {
+          "title": "Working Directory",
+          "description": "A path to the working directory of the action",
+          "type": "string"
+        },
+        "environment": {
+          "title": "Environment",
+          "description": "A map with additional environment variables",
+          "type": "object"
+        },
+        "exe-paths": {
+          "title": "Executable Paths",
+          "description": "Additional paths for the environment variable PATH",
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "use-windows-terminal": {
+          "title": "Use Windows Terminal",
+          "description": "A switch to activate using the Windows Terminal instead of the classic console host",
+          "type": "boolean"
+        },
+        "windows-terminal-args": {
+          "title": "Windows Terminal Arguments",
+          "description": "The command line arguments for the Windows Terminal.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "exit-codes": {
+          "title": "Exit Codes",
+          "description": "A list with exit codes considered successfull",
+          "type": "array",
+          "items": { "type": "number" }
+        },
+        "tags": {
+          "title": "Tags",
+          "description": "Tags group actions together",
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "CommandAction": {
+      "title": "Action",
+      "description": "An explicitly defined action",
+      "allOf": [ { "$ref": "#/$defs/CommandActionBase" } ],
+      "properties": {
+        "command": {
+          "title": "Command",
+          "description": "The command of the action.\n\nThe command is executed inside of a PowerShell session.",
+          "type": "string"
+        },
+        "arguments": {
+          "title": "Command Line Arguments",
+          "description": "The command line arguments of the action.\n\nPlaceholders ${facet} are replaced by the facets value.",
+          "allOf": [ { "$ref": "#/$defs/CommandLineArguments" } ]
+        },
+        "facets": {
+          "title": "Facets",
+          "description": "Each facet associates this action with a value for a perspective",
+          "type": "object"
+        }
+      }
+    },
+    "CommandActionDiscovery": {
+      "title": "Discovered Action",
+      "description": "The defintion for discovered actions",
+      "allOf": [ { "$ref": "#/$defs/CommandActionBase" } ],
+      "properties": {
+        "base-path": {
+          "title": "Base Path",
+          "description": "The base path to search for files",
+          "type": "string"
+        },
+        "path-pattern": {
+          "title": "Path Pattern",
+          "description": "A regular expression matching a relative path below the base path.\nCaptured named groups in the expression are used as facets."
+        },
+        "interpreter": {
+          "title": "Interpreter",
+          "description": "By default the discovered files are treated as PowerShell scripts or executables. With this property, another interpreter can be specified.",
+          "type": "string"
+        },
+        "arguments": {
+          "title": "Command Line Arguments",
+          "description": "The command line arguments of the action.\n\nThe placeholder ${file} is replaced by the absolute path of the discovered file. Placeholders ${facet} are replaced by the facets value.",
+          "allOf": [ { "$ref": "#/$defs/CommandLineArguments" } ]
+        },
+        "facets": {
+          "title": "Facets",
+          "description": "Each facet associates this action with a value for a perspective",
+          "type": "object"
+        }
+      }
+    },
+    "CommandActionPattern": {
+      "title": "Action Pattern",
+      "description": "An action pattern, wich is instantiated by combining all given facet values",
+      "allOf": [ { "$ref": "#/$defs/CommandActionBase" } ],
+      "properties": {
+        "command": {
+          "title": "Command",
+          "description": "The command of the action.\n\nThe command is executed inside of a PowerShell session.",
+          "type": "string"
+        },
+        "arguments": {
+          "title": "Command Line Arguments",
+          "description": "The command line arguments of the action.\n\nPlaceholders ${facet} are replaced by the facets value.",
+          "allOf": [ { "$ref": "#/$defs/CommandLineArguments" } ]
+        },
+        "facets": {
+          "title": "Facets",
+          "description": "Each facet associates this action with a value for a perspective",
+          "type": "object"
+        }
+      }
+    }
+  },
+
+  "type": "object",
+  "properties": {
+    "version": {
+      "title": "Project Format",
+      "description": "The version number of the project format",
+      "type": "string",
+      "enum": [
+        "2.0"
+      ]
+    },
+    "title": {
+      "title": "Project Title",
+      "description": "A descriptive title for the project",
+      "type": "string"
+    },
+    "logs": {
+      "title": "Default Logging Directory",
+      "description": "A path to a directory where log files are stored by default",
+      "type": "string"
+    },
+    "no-logs": {
+      "title": "No Logs",
+      "description": "A switch to deactivate logging by default",
+      "type": "boolean"
+    },
+    "no-execution-info": {
+      "title": "No Execution Info in Logs",
+      "description": "A switch to suppress header and footer when writing log files by default",
+      "type": "boolean"
+    },
+    "keep-action-open": {
+      "title": "Keep Action Open",
+      "description": "A switch to set the default behavior for the terminal window after finishing an action. If true, the terminal window is kept open, even if the action succeeded.",
+      "type": "boolean"
+    },
+    "always-close-action": {
+      "title": "Always Close Action",
+      "description": "A switch to set the default behavior for the terminal window after finishing an action. If true, the terminal window is closed, even if the action failed.",
+      "type": "boolean"
+    },
+    "environment": {
+      "title": "Environment",
+      "description": "A map with environment variables for all actions",
+      "type": "object"
+    },
+    "exe-paths": {
+      "title": "Executable Paths",
+      "description": "Additions to the environment variable PATH for all actions",
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "use-powershell-core": {
+      "title": "Use PowerShell Core",
+      "description": "Use PowerShell (not Windows PowerShell) as the default execution envrionment for actions",
+      "type": "boolean"
+    },
+    "powershell-exe": {
+      "title": "PowerShell Executable",
+      "description": "A path to a PowerShell executable as the execution environment for actions. Overrides the use-powershell-core property.",
+      "type": "string"
+    },
+    "use-powershell-profile": {
+      "title": "Use PowerShell Profile",
+      "description": "A switch to activate loading the PowerShell profile by default, when execution actions",
+      "type": "boolean"
+    },
+    "powershell-execution-policy": {
+      "title": "PowerShell Execution Policy",
+      "description": "Sets the default execution policy for the PowerShell. The default is 'RemoteSigned'.",
+      "type": "string",
+      "enum": [ "AllSigned", "Bypass", "RemoteSigned", "Restricted", "Unrestricted", "Default" ]
+    },
+    "use-windows-terminal": {
+      "title": "Use Windows Terminal",
+      "description": "A switch to activate using the Windows Terminal instead of the classic console host by default for all actions",
+      "type": "boolean"
+    },
+    "windows-terminal-args": {
+      "title": "Windows Terminal Arguments",
+      "description": "The command line arguments for the Windows Terminal.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "actions": {
+      "title": "Actions",
+      "description": "A list with explicit actions",
+      "type": "array",
+      "items": { "$ref": "#/$defs/CommandAction" }
+    },
+    "action-discovery": {
+      "title": "Action Discovery",
+      "description": "A list of actions, implicitly defined by the existence of files",
+      "type": "array",
+      "items": { "$ref": "#/$defs/CommandActionDiscovery" }
+    },
+    "action-patterns": {
+      "title": "Action Patterns",
+      "description": "A list of action patterns, that will expand into multi-dimensional fields of actions",
+      "type": "array",
+      "items": { "$ref": "#/$defs/CommandActionPattern" }
+    }
+  },
+  "required": [
+    "version",
+    "title"
+  ]
+}

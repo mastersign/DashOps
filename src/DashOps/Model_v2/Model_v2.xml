@@ -159,14 +159,15 @@
     <Class name="Project">
       <Property name="Version" />
       <Property name="Title" />
+
+      <Property name="Perspectives" type="FacetPerspective" isCollection="true" defaultInitialization="true" />
+      <Property name="StartupPerspective" />
+      <Property name="StartupSelection" />
+
       <Property name="Logs" />
       <Property name="NoLogs" type="bool" />
       <Property name="NoExecutionInfo" type="bool" />
-      <Property name="KeepActionOpen" type="bool" />
-      <Property name="AlwaysCloseAction" type="bool" />
-      <Property name="Actions" isCollection="true" type="CommandAction" defaultInitialization="true" />
-      <Property name="ActionDiscovery" isCollection="true" type="CommandActionDiscovery" defaultInitialization="true" />
-      <Property name="ActionPatterns" isCollection="true" type="CommandActionPattern" defaultInitialization="true" />
+
       <Property name="WorkingDirectory" />
       <Property name="Environment" type="dict" />
       <Property name="ExePaths" type="string[]" defaultInitialization="true" />
@@ -178,15 +179,16 @@
       </Property>
       <Property name="UseWindowsTerminal" type="bool" />
       <Property name="WindowsTerminalArgs" type="string[]" defaultInitialization="true" />
-      <Property name="Perspectives" type="FacetPerspective" isCollection="true" defaultInitialization="true" />
-      <Property name="StartupPerspective" />
-      <Property name="StartupSelection" />
+
+      <Property name="KeepActionOpen" type="bool" />
+      <Property name="AlwaysCloseAction" type="bool" />
+      
+      <Property name="Actions" isCollection="true" type="CommandAction" defaultInitialization="true" />
+      <Property name="ActionDiscovery" isCollection="true" type="CommandActionDiscovery" defaultInitialization="true" />
+      <Property name="ActionPatterns" isCollection="true" type="CommandActionPattern" defaultInitialization="true" />
+      
       <Property name="Auto" type="AutoAnnotation" isCollection="true" defaultInitialization="true" />
-      <Property name="Monitors" type="CommandMonitor" isCollection="true" defaultInitialization="true" />
-      <Property name="MonitorDiscovery" type="CommandMonitorDiscovery" isCollection="true" defaultInitialization="true" />
-      <Property name="MonitorPatterns" type="CommandMonitorPattern" isCollection="true" defaultInitialization="true" />
-      <Property name="WebMonitors" type="WebMonitor" isCollection="true" defaultInitialization="true" />
-      <Property name="WebMonitorPatterns" type="WebMonitorPattern" isCollection="true" defaultInitialization="true" />
+
       <Property name="PauseMonitors" type="bool" />
       <Property name="DefaultMonitorInterval" type="int" defaultInitialization="true">
         <DefaultValue>60</DefaultValue>
@@ -194,6 +196,12 @@
       <Property name="DefaultWebMonitorTimeout" type="int" defaultInitialization="true">
         <DefaultValue>20</DefaultValue>
       </Property>
+
+      <Property name="Monitors" type="CommandMonitor" isCollection="true" defaultInitialization="true" />
+      <Property name="MonitorDiscovery" type="CommandMonitorDiscovery" isCollection="true" defaultInitialization="true" />
+      <Property name="MonitorPatterns" type="CommandMonitorPattern" isCollection="true" defaultInitialization="true" />
+      <Property name="WebMonitors" type="WebMonitor" isCollection="true" defaultInitialization="true" />
+      <Property name="WebMonitorPatterns" type="WebMonitorPattern" isCollection="true" defaultInitialization="true" />
     </Class>
 
   </Types>

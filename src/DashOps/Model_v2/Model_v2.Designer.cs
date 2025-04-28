@@ -2091,21 +2091,21 @@ namespace Mastersign.DashOps.Model_v2
     {
         public Project()
         {
-            this._actions = new List<CommandAction>();
-            this._actionDiscovery = new List<CommandActionDiscovery>();
-            this._actionPatterns = new List<CommandActionPattern>();
+            this._perspectives = new List<FacetPerspective>();
             this._exePaths = new string[0];
             this._powerShellExecutionPolicy = DEF_POWERSHELLEXECUTIONPOLICY;
             this._windowsTerminalArgs = new string[0];
-            this._perspectives = new List<FacetPerspective>();
+            this._actions = new List<CommandAction>();
+            this._actionDiscovery = new List<CommandActionDiscovery>();
+            this._actionPatterns = new List<CommandActionPattern>();
             this._auto = new List<AutoAnnotation>();
+            this._defaultMonitorInterval = DEF_DEFAULTMONITORINTERVAL;
+            this._defaultWebMonitorTimeout = DEF_DEFAULTWEBMONITORTIMEOUT;
             this._monitors = new List<CommandMonitor>();
             this._monitorDiscovery = new List<CommandMonitorDiscovery>();
             this._monitorPatterns = new List<CommandMonitorPattern>();
             this._webMonitors = new List<WebMonitor>();
             this._webMonitorPatterns = new List<WebMonitorPattern>();
-            this._defaultMonitorInterval = DEF_DEFAULTMONITORINTERVAL;
-            this._defaultWebMonitorTimeout = DEF_DEFAULTWEBMONITORTIMEOUT;
         }
         
         #region String Representation
@@ -2117,6 +2117,16 @@ namespace Mastersign.DashOps.Model_v2
         
         public virtual string ToString(IFormatProvider formatProvider)
         {
+            global::System.Text.StringBuilder __collection_Perspectives = new global::System.Text.StringBuilder();
+            if ((!ReferenceEquals(_perspectives, null) && !(_perspectives.Count == 0)))
+            {
+                for (int __index = 0; __index < Math.Min(_perspectives.Count, 10); __index++)
+                {
+                    FacetPerspective __item = _perspectives[__index];
+                    __collection_Perspectives.AppendLine();
+                    __collection_Perspectives.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
+                }
+            }
             global::System.Text.StringBuilder __collection_Actions = new global::System.Text.StringBuilder();
             if ((!ReferenceEquals(_actions, null) && !(_actions.Count == 0)))
             {
@@ -2145,16 +2155,6 @@ namespace Mastersign.DashOps.Model_v2
                     CommandActionPattern __item = _actionPatterns[__index];
                     __collection_ActionPatterns.AppendLine();
                     __collection_ActionPatterns.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
-                }
-            }
-            global::System.Text.StringBuilder __collection_Perspectives = new global::System.Text.StringBuilder();
-            if ((!ReferenceEquals(_perspectives, null) && !(_perspectives.Count == 0)))
-            {
-                for (int __index = 0; __index < Math.Min(_perspectives.Count, 10); __index++)
-                {
-                    FacetPerspective __item = _perspectives[__index];
-                    __collection_Perspectives.AppendLine();
-                    __collection_Perspectives.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
                 }
             }
             global::System.Text.StringBuilder __collection_Auto = new global::System.Text.StringBuilder();
@@ -2220,14 +2220,12 @@ namespace Mastersign.DashOps.Model_v2
             return (this.GetType().FullName + @": " + (
                 (global::System.Environment.NewLine + @"    Version = " + (!ReferenceEquals(_version, null) ? _version.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(_title, null) ? _title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Perspectives = " + (!ReferenceEquals(_perspectives, null) ? (_perspectives.Count.ToString() + @" items" + __collection_Perspectives.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    StartupPerspective = " + (!ReferenceEquals(_startupPerspective, null) ? _startupPerspective.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    StartupSelection = " + (!ReferenceEquals(_startupSelection, null) ? _startupSelection.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoExecutionInfo = " + _noExecutionInfo.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    KeepActionOpen = " + _keepActionOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    AlwaysCloseAction = " + _alwaysCloseAction.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Actions = " + (!ReferenceEquals(_actions, null) ? (_actions.Count.ToString() + @" items" + __collection_Actions.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    ActionDiscovery = " + (!ReferenceEquals(_actionDiscovery, null) ? (_actionDiscovery.Count.ToString() + @" items" + __collection_ActionDiscovery.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    ActionPatterns = " + (!ReferenceEquals(_actionPatterns, null) ? (_actionPatterns.Count.ToString() + @" items" + __collection_ActionPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(_environment, null) ? _environment.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ExePaths = " + (!ReferenceEquals(_exePaths, null) ? _exePaths.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -2237,18 +2235,20 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    PowerShellExecutionPolicy = " + (!ReferenceEquals(_powerShellExecutionPolicy, null) ? _powerShellExecutionPolicy.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    UseWindowsTerminal = " + _useWindowsTerminal.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WindowsTerminalArgs = " + (!ReferenceEquals(_windowsTerminalArgs, null) ? _windowsTerminalArgs.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Perspectives = " + (!ReferenceEquals(_perspectives, null) ? (_perspectives.Count.ToString() + @" items" + __collection_Perspectives.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    StartupPerspective = " + (!ReferenceEquals(_startupPerspective, null) ? _startupPerspective.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    StartupSelection = " + (!ReferenceEquals(_startupSelection, null) ? _startupSelection.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    KeepActionOpen = " + _keepActionOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    AlwaysCloseAction = " + _alwaysCloseAction.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Actions = " + (!ReferenceEquals(_actions, null) ? (_actions.Count.ToString() + @" items" + __collection_Actions.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ActionDiscovery = " + (!ReferenceEquals(_actionDiscovery, null) ? (_actionDiscovery.Count.ToString() + @" items" + __collection_ActionDiscovery.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ActionPatterns = " + (!ReferenceEquals(_actionPatterns, null) ? (_actionPatterns.Count.ToString() + @" items" + __collection_ActionPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Auto = " + (!ReferenceEquals(_auto, null) ? (_auto.Count.ToString() + @" items" + __collection_Auto.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PauseMonitors = " + _pauseMonitors.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    DefaultMonitorInterval = " + _defaultMonitorInterval.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    DefaultWebMonitorTimeout = " + _defaultWebMonitorTimeout.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Monitors = " + (!ReferenceEquals(_monitors, null) ? (_monitors.Count.ToString() + @" items" + __collection_Monitors.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    MonitorDiscovery = " + (!ReferenceEquals(_monitorDiscovery, null) ? (_monitorDiscovery.Count.ToString() + @" items" + __collection_MonitorDiscovery.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    MonitorPatterns = " + (!ReferenceEquals(_monitorPatterns, null) ? (_monitorPatterns.Count.ToString() + @" items" + __collection_MonitorPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WebMonitors = " + (!ReferenceEquals(_webMonitors, null) ? (_webMonitors.Count.ToString() + @" items" + __collection_WebMonitors.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    WebMonitorPatterns = " + (!ReferenceEquals(_webMonitorPatterns, null) ? (_webMonitorPatterns.Count.ToString() + @" items" + __collection_WebMonitorPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    PauseMonitors = " + _pauseMonitors.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    DefaultMonitorInterval = " + _defaultMonitorInterval.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    DefaultWebMonitorTimeout = " + _defaultWebMonitorTimeout.ToString(formatProvider).Replace("\n", "\n    "))));
+                (global::System.Environment.NewLine + @"    WebMonitorPatterns = " + (!ReferenceEquals(_webMonitorPatterns, null) ? (_webMonitorPatterns.Count.ToString() + @" items" + __collection_WebMonitorPatterns.ToString()) : @"null").Replace("\n", "\n    "))));
         }
         
         #endregion
@@ -2286,6 +2286,63 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _title = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Perspectives
+        
+        private List<FacetPerspective> _perspectives;
+        
+        public virtual List<FacetPerspective> Perspectives
+        {
+            get { return _perspectives; }
+            set
+            {
+                if ((value == _perspectives))
+                {
+                    return;
+                }
+                _perspectives = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property StartupPerspective
+        
+        private string _startupPerspective;
+        
+        public virtual string StartupPerspective
+        {
+            get { return _startupPerspective; }
+            set
+            {
+                if (string.Equals(value, _startupPerspective))
+                {
+                    return;
+                }
+                _startupPerspective = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property StartupSelection
+        
+        private string _startupSelection;
+        
+        public virtual string StartupSelection
+        {
+            get { return _startupSelection; }
+            set
+            {
+                if (string.Equals(value, _startupSelection))
+                {
+                    return;
+                }
+                _startupSelection = value;
             }
         }
         
@@ -2343,101 +2400,6 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _noExecutionInfo = value;
-            }
-        }
-        
-        #endregion
-        
-        #region Property KeepActionOpen
-        
-        private bool _keepActionOpen;
-        
-        public virtual bool KeepActionOpen
-        {
-            get { return _keepActionOpen; }
-            set
-            {
-                if ((value == _keepActionOpen))
-                {
-                    return;
-                }
-                _keepActionOpen = value;
-            }
-        }
-        
-        #endregion
-        
-        #region Property AlwaysCloseAction
-        
-        private bool _alwaysCloseAction;
-        
-        public virtual bool AlwaysCloseAction
-        {
-            get { return _alwaysCloseAction; }
-            set
-            {
-                if ((value == _alwaysCloseAction))
-                {
-                    return;
-                }
-                _alwaysCloseAction = value;
-            }
-        }
-        
-        #endregion
-        
-        #region Property Actions
-        
-        private List<CommandAction> _actions;
-        
-        public virtual List<CommandAction> Actions
-        {
-            get { return _actions; }
-            set
-            {
-                if ((value == _actions))
-                {
-                    return;
-                }
-                _actions = value;
-            }
-        }
-        
-        #endregion
-        
-        #region Property ActionDiscovery
-        
-        private List<CommandActionDiscovery> _actionDiscovery;
-        
-        public virtual List<CommandActionDiscovery> ActionDiscovery
-        {
-            get { return _actionDiscovery; }
-            set
-            {
-                if ((value == _actionDiscovery))
-                {
-                    return;
-                }
-                _actionDiscovery = value;
-            }
-        }
-        
-        #endregion
-        
-        #region Property ActionPatterns
-        
-        private List<CommandActionPattern> _actionPatterns;
-        
-        public virtual List<CommandActionPattern> ActionPatterns
-        {
-            get { return _actionPatterns; }
-            set
-            {
-                if ((value == _actionPatterns))
-                {
-                    return;
-                }
-                _actionPatterns = value;
             }
         }
         
@@ -2617,58 +2579,96 @@ namespace Mastersign.DashOps.Model_v2
         
         #endregion
         
-        #region Property Perspectives
+        #region Property KeepActionOpen
         
-        private List<FacetPerspective> _perspectives;
+        private bool _keepActionOpen;
         
-        public virtual List<FacetPerspective> Perspectives
+        public virtual bool KeepActionOpen
         {
-            get { return _perspectives; }
+            get { return _keepActionOpen; }
             set
             {
-                if ((value == _perspectives))
+                if ((value == _keepActionOpen))
                 {
                     return;
                 }
-                _perspectives = value;
+                _keepActionOpen = value;
             }
         }
         
         #endregion
         
-        #region Property StartupPerspective
+        #region Property AlwaysCloseAction
         
-        private string _startupPerspective;
+        private bool _alwaysCloseAction;
         
-        public virtual string StartupPerspective
+        public virtual bool AlwaysCloseAction
         {
-            get { return _startupPerspective; }
+            get { return _alwaysCloseAction; }
             set
             {
-                if (string.Equals(value, _startupPerspective))
+                if ((value == _alwaysCloseAction))
                 {
                     return;
                 }
-                _startupPerspective = value;
+                _alwaysCloseAction = value;
             }
         }
         
         #endregion
         
-        #region Property StartupSelection
+        #region Property Actions
         
-        private string _startupSelection;
+        private List<CommandAction> _actions;
         
-        public virtual string StartupSelection
+        public virtual List<CommandAction> Actions
         {
-            get { return _startupSelection; }
+            get { return _actions; }
             set
             {
-                if (string.Equals(value, _startupSelection))
+                if ((value == _actions))
                 {
                     return;
                 }
-                _startupSelection = value;
+                _actions = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property ActionDiscovery
+        
+        private List<CommandActionDiscovery> _actionDiscovery;
+        
+        public virtual List<CommandActionDiscovery> ActionDiscovery
+        {
+            get { return _actionDiscovery; }
+            set
+            {
+                if ((value == _actionDiscovery))
+                {
+                    return;
+                }
+                _actionDiscovery = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property ActionPatterns
+        
+        private List<CommandActionPattern> _actionPatterns;
+        
+        public virtual List<CommandActionPattern> ActionPatterns
+        {
+            get { return _actionPatterns; }
+            set
+            {
+                if ((value == _actionPatterns))
+                {
+                    return;
+                }
+                _actionPatterns = value;
             }
         }
         
@@ -2688,6 +2688,69 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _auto = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property PauseMonitors
+        
+        private bool _pauseMonitors;
+        
+        public virtual bool PauseMonitors
+        {
+            get { return _pauseMonitors; }
+            set
+            {
+                if ((value == _pauseMonitors))
+                {
+                    return;
+                }
+                _pauseMonitors = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property DefaultMonitorInterval
+        
+        private int _defaultMonitorInterval;
+        
+        private const int DEF_DEFAULTMONITORINTERVAL = 60;
+        
+        [DefaultValue(DEF_DEFAULTMONITORINTERVAL)]
+        public virtual int DefaultMonitorInterval
+        {
+            get { return _defaultMonitorInterval; }
+            set
+            {
+                if ((value == _defaultMonitorInterval))
+                {
+                    return;
+                }
+                _defaultMonitorInterval = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property DefaultWebMonitorTimeout
+        
+        private int _defaultWebMonitorTimeout;
+        
+        private const int DEF_DEFAULTWEBMONITORTIMEOUT = 20;
+        
+        [DefaultValue(DEF_DEFAULTWEBMONITORTIMEOUT)]
+        public virtual int DefaultWebMonitorTimeout
+        {
+            get { return _defaultWebMonitorTimeout; }
+            set
+            {
+                if ((value == _defaultWebMonitorTimeout))
+                {
+                    return;
+                }
+                _defaultWebMonitorTimeout = value;
             }
         }
         
@@ -2783,69 +2846,6 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _webMonitorPatterns = value;
-            }
-        }
-        
-        #endregion
-        
-        #region Property PauseMonitors
-        
-        private bool _pauseMonitors;
-        
-        public virtual bool PauseMonitors
-        {
-            get { return _pauseMonitors; }
-            set
-            {
-                if ((value == _pauseMonitors))
-                {
-                    return;
-                }
-                _pauseMonitors = value;
-            }
-        }
-        
-        #endregion
-        
-        #region Property DefaultMonitorInterval
-        
-        private int _defaultMonitorInterval;
-        
-        private const int DEF_DEFAULTMONITORINTERVAL = 60;
-        
-        [DefaultValue(DEF_DEFAULTMONITORINTERVAL)]
-        public virtual int DefaultMonitorInterval
-        {
-            get { return _defaultMonitorInterval; }
-            set
-            {
-                if ((value == _defaultMonitorInterval))
-                {
-                    return;
-                }
-                _defaultMonitorInterval = value;
-            }
-        }
-        
-        #endregion
-        
-        #region Property DefaultWebMonitorTimeout
-        
-        private int _defaultWebMonitorTimeout;
-        
-        private const int DEF_DEFAULTWEBMONITORTIMEOUT = 20;
-        
-        [DefaultValue(DEF_DEFAULTWEBMONITORTIMEOUT)]
-        public virtual int DefaultWebMonitorTimeout
-        {
-            get { return _defaultWebMonitorTimeout; }
-            set
-            {
-                if ((value == _defaultWebMonitorTimeout))
-                {
-                    return;
-                }
-                _defaultWebMonitorTimeout = value;
             }
         }
         
