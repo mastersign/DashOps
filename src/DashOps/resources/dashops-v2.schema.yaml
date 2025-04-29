@@ -58,6 +58,7 @@ $defs:
         description: >-
           A list with exit codes considered successfull.
 
+          An empty list accepts all exit codes as success.
           The default is just 0.
         oneOf:
           - type: "null"
@@ -135,6 +136,7 @@ $defs:
         description: |-
           A list with HTTP status codes considered successfull.
 
+          An empty list accepts all status codes as success.
           The default is 200 – 204.
         oneOf:
           - type: 'null'
@@ -241,9 +243,10 @@ $defs:
         title: Monitor Defaults
         description: A number of default settings for monitors
         type: object
-        offOf:
+        allOf:
           - $ref: '#/$defs/MonitorSettings'
           - $ref: '#/$defs/CommandSettings'
+          - $ref: '#/$defs/HttpRequestSettings'
 
   CommandActionBase:
     allOf:
@@ -339,18 +342,27 @@ $defs:
 
   CommandActionPattern:
     title: Action Pattern
-    description: >-
-      An action pattern, which generates a field of command actions.
-
-
-      The facet values of the action pattern are combined in all possible combinations,
-      to instantiate actual actions.
-
-      Given an action pattern which has three facets with 2, 3, and 4 values.
-      Then 2 * 3 * 4 = 24 actions are instantiated.
+    description: A pattern for generating a multi-dimensional field of actions
     allOf:
-      - $ref: '#/$defs/CommandAction'
+      - $ref: '#/$defs/CommandActionBase'
     properties:
+      command:
+        title: Command
+        description: |-
+          The command of the action.
+
+          The command is executed inside of a PowerShell session.
+          Environment variables in CMD syntax like %AppData% are expanded.
+        type: string
+      arguments:
+        title: Command Line Arguments
+        description: |-
+          The command line arguments of the action.
+
+          Placeholders like ${facet} are replaced by the facets value.
+          Environment variables in CMD syntax like %AppData% are expanded.
+        allOf:
+          - $ref: '#/$defs/CommandLineArguments'
       facets:
         title: Facets
         description: A list of values for a number of facets
@@ -366,19 +378,43 @@ $defs:
       - command
       - facets
 
+  # PoorActionPredicate:
+  #   type: object
+  #   properties:
+  #     mode:
+  #       title: Match Mode
+  #       type: string
+  #       enum:
+  #         - description
+  #         - command
+  #         - facet
+  #         - tag
+  #     pattern:
+  #       title: Description Pattern
+  #       description: |-
+  #         A regular expression matched according to the mode.
+
+  #         If value is set, it has priority, and the pattern is ignored.
+  #       type: string
+  #     value:
+  #       title: Description Value
+  #       description: |-
+  #         An string compared according to the mode.
+
+  #         Has priority over pattern.
+  #       type: string
+  #     facet:
+  #       title: Facet
+  #       description: |-
+  #         A facet to match against.
+  #         Is ignored, if the predicate is not in facet mode.
+  #       type: string
+  #   required:
+  #     - mode
+
   ActionPredicate:
-    type: object
-    properties:
-      mode:
-        title: Match Mode
-        type: string
-        enum:
-          - description
-          - command
-          - facet
-          - tag
     oneOf:
-      - title: Description Action Predicate
+      - title: Description Regex Predicate
         description: |-
           A regular expression to match against the description of actions.
 
@@ -391,9 +427,12 @@ $defs:
             title: Description Pattern
             description: A regular expression matched against the description of the action
             type: string
-      - title: Description Action Predicate
+        required:
+          - mode
+          - pattern
+      - title: Description String Predicate
         description: |-
-          A constant string to compare with the description of actions.
+          A constant string to compare to the description of actions.
 
           Is true, if the value equals the description of the action.
         type: object
@@ -404,7 +443,10 @@ $defs:
             title: Description Value
             description: An exact description compared with the description of the action
             type: string
-      - title: Command Action Predicate
+        required:
+          - mode
+          - value
+      - title: Command Regex Predicate
         description: |-
           A regular expression to match against the command of actions.
 
@@ -417,9 +459,12 @@ $defs:
             title: Command Pattern
             description: A regular expression matched against the command of the action
             type: string
-      - title: Command Action Predicate
+        required:
+          - mode
+          - pattern
+      - title: Command String Predicate
         description: |-
-          A constant string to match against the command of actions.
+          A constant string to compare to the command of actions.
 
           Is true, if the value equals the command of the action.
         type: object
@@ -430,7 +475,10 @@ $defs:
             title: Command Value
             description: An exact command compared with the command of the action
             type: string
-      - title: Facet Action Predicate
+        required:
+          - mode
+          - value
+      - title: Facet Regex Predicate
         description: |-
           A reguölar expression to match against the facets of actions.
 
@@ -442,13 +490,17 @@ $defs:
           facet:
             title: Facet
             description: The facet to match against
+            type: string
           pattern:
             title: Facet Pattern
             description: A regular expression matched against the facet value
             type: string
-      - title: Facet Action Predicate
+        required:
+          - mode
+          - pattern
+      - title: Facet String Predicate
         description: |-
-          A constant string to match against the facets of actions.
+          A constant string to compare to the facets of actions.
 
           Is true, if the value equals the value of the given facet.
         type: object
@@ -458,11 +510,15 @@ $defs:
           facet:
             title: Facet
             description: The facet to match against
+            type: string
           value:
             title: Facet Value
             description: The exact facet value to compare
             type: string
-      - title: Tag Action Predicate
+        required:
+          - mode
+          - value
+      - title: Tag Regex Predicate
         description: |-
           A regular expression to match against the tags of actions.
 
@@ -475,9 +531,12 @@ $defs:
             title: Tag Pattern
             description: A regular expression matched against the tags of the action
             type: string
-      - title: Tag Action Predicate
+        required:
+          - mode
+          - pattern
+      - title: Tag String Predicate
         description: |-
-          A constant string to match against the tags of actions.
+          A constant string to compare to the tags of actions.
 
           Is true, if the value equals one of the tags of the action.
         type: object
@@ -488,6 +547,9 @@ $defs:
             title: Tag
             description: The exact tag to compare
             type: string
+        required:
+          - mode
+          - value
 
   AutoActionSettings:
     title: Auto Action Settings
@@ -623,15 +685,7 @@ $defs:
 
   CommandMonitorPattern:
     title: Command Monitor Pattern
-    description: >-
-      A monitor pattern, which generates a field of command monitors.
-
-
-      The variable values of the monitor pattern are combined in all possible combinations,
-      to instantiate actual monitors.
-
-      Given a monitor pattern which has three variables with 2, 3, and 4 values.
-      Then 2 * 3 * 4 = 24 monitors are instantiated.
+    description: A pattern for generating a multi-dimensional field of command monitors
     allOf:
       - $ref: '#/$defs/CommandMonitor'
     type: object
@@ -673,15 +727,7 @@ $defs:
 
   WebMonitorPattern:
     title: Web Monitor Pattern
-    description: >-
-      A monitor pattern, which generates a field of web monitors.
-
-
-      The variable values of the monitor pattern are combined in all possible combinations,
-      to instantiate actual monitors.
-
-      Given a monitor pattern which has three variables with 2, 3, and 4 values.
-      Then 2 * 3 * 4 = 24 monitors are instantiated.
+    description: A monitor pattern, which generates a field of web monitors
     allOf:
       - $ref: '#/$defs/WebMonitorBase'
     type: object
@@ -693,7 +739,9 @@ $defs:
         additionalProperties:
           type: array
           items:
-            type: string
+            oneOf:
+              - type: string
+              - type: number
     required:
       - title
       - url
@@ -755,7 +803,7 @@ properties:
       for-actions:
         title: Auto Action Settings
         description: A number of automatically applied settings for actions
-        type: object
+        type: array
         items:
           $ref: '#/$defs/AutoActionSettings'
 
@@ -767,15 +815,24 @@ properties:
       $ref: '#/$defs/CommandAction'
   action-discovery:
     title: Action Discovery
-    description: A list of actions, implicitly defined by the existence of files
+    description: >-
+      A list of action discoveries.
+
+      An action discovery yields a command action for every matched file in a base path.
     type: array
     items:
       $ref: '#/$defs/CommandActionDiscovery'
   action-patterns:
     title: Action Patterns
     description: >-
-      A list of action patterns, that will expand into a multi-dimensional
-      field of actions
+      A list of action patterns, that will expand into multi-dimensional
+      fields of command actions.
+
+      The facet values of an action pattern are combined in all possible combinations,
+      to instantiate actual actions.
+
+      Given an action pattern which has three facets with 2, 3, and 4 values.
+      Then 2 * 3 * 4 = 24 actions are instantiated.
     type: array
     items:
       $ref: '#/$defs/CommandActionPattern'
@@ -788,15 +845,24 @@ properties:
       $ref: '#/$defs/CommandMonitor'
   monitor-discovery:
     title: Command Monitor Discovery
-    description: A list of command monitors, implicitly defined by the existence of files
+    description: >-
+      A list of monitor discoveries.
+
+      An monitor discovery yields a command monitor for every matched file in a base path.
     type: array
     items:
       $ref: '#/$defs/CommandMonitorDiscovery'
   monitor-patterns:
     title: Command Monitor Patterns
     description: >-
-      A list of monitor patterns, that will expand into a multi-dimensional
-      field of command monitors
+      A list of monitor patterns, that will expand into multi-dimensional
+      fields of command monitors.
+
+      The variable values of a monitor pattern are combined in all possible combinations,
+      to instantiate actual command monitors.
+
+      Given a monitor pattern which has three variables with 2, 3, and 4 values.
+      Then 2 * 3 * 4 = 24 monitors are instantiated.
     type: array
     items:
       $ref: '#/$defs/CommandMonitorPattern'
@@ -809,8 +875,14 @@ properties:
   web-monitor-patterns:
     title: Web Monitor Patterns
     description: >-
-      A list of monitor patterns, that will expand into a multi-dimensional
-      field of web monitors
+      A list of monitor patterns, that will expand into multi-dimensional
+      fields of web monitors.
+
+      The variable values of a web monitor pattern are combined in all possible combinations,
+      to instantiate actual web monitors.
+
+      Given a monitor pattern which has three variables with 2, 3, and 4 values.
+      Then 2 * 3 * 4 = 24 monitors are instantiated.
     type: array
     items:
       $ref: '#/$defs/WebMonitorPattern'

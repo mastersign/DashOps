@@ -2,8 +2,7 @@ version: '2.0'
 title: Test Project v2
 logs: test-logs
 
-pause-monitors: true
-use-windows-terminal: true
+pause-monitoring: true
 
 # demo exec-paths
 
@@ -20,6 +19,15 @@ perspectives:
 startup-perspective: env
 startup-selection: Test
 
+defaults:
+  for-actions:
+    use-windows-terminal: true
+    environment:
+      ENV_A: Default Value A
+  for-monitors:
+    interval: 10
+    http-timeout: 5
+
 auto-settings:
   for-actions:
     - include:
@@ -29,9 +37,6 @@ auto-settings:
       reassure: true
       use-windows-terminal: false
       no-execution-info: true
-
-environment:
-  ENV_A: Default Value A
 
 actions:
   - description: List content of program files directory
@@ -58,6 +63,7 @@ actions:
     tags:
       - Z
       - Y
+
 action-discovery:
   - description: '${verb} ${service} on ${host}'
     base-path: "test-scripts\\"
@@ -73,6 +79,7 @@ action-discovery:
       env: Test
     tags:
       - discovered
+
 action-patterns:
   - description: 'Check ${service} on all hosts ${mode}'
     command: '${service}\check-all.ps1'
@@ -91,8 +98,6 @@ action-patterns:
     tags:
      - expanded
 
-default-monitor-interval: 10
-
 monitors:
   - title: The Monitor
     command: test-scripts\monitor.ps1
@@ -110,8 +115,6 @@ monitor-discovery:
     environment:
       ENV_MONITOR: Monitor ${no}
 
-default-web-monitor-timeout: 5
-
 web-monitors:
   - title: GitHub
     url: https://github.com
@@ -127,4 +130,4 @@ web-monitor-patterns:
       X-DashOps-Monitor-No: ${no}
     variables:
       no: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-    active: false
+    deactivated: true

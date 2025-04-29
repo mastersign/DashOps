@@ -120,7 +120,7 @@ namespace Mastersign.DashOps
                         logWriter?.WriteLine("Duration:".PadRight(LOG_INDENT)
                                              + duration);
                     }
-                    if (!StatusCodes.Contains((int)response.StatusCode))
+                    if (StatusCodes.Length > 0 && !StatusCodes.Contains((int)response.StatusCode))
                     {
                         if (PrintExecutionInfo)
                         {
