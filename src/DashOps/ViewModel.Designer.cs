@@ -1228,6 +1228,38 @@ namespace Mastersign.DashOps
         
         #endregion
         
+        #region Property NoExecutionInfo
+        
+        private bool _noExecutionInfo;
+        
+        public event EventHandler NoExecutionInfoChanged;
+        
+        protected virtual void OnNoExecutionInfoChanged()
+        {
+            EventHandler handler = NoExecutionInfoChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"NoExecutionInfo");
+        }
+        
+        public virtual bool NoExecutionInfo
+        {
+            get { return _noExecutionInfo; }
+            set
+            {
+                if ((value == _noExecutionInfo))
+                {
+                    return;
+                }
+                _noExecutionInfo = value;
+                this.OnNoExecutionInfoChanged();
+            }
+        }
+        
+        #endregion
+        
         #region Property CurrentLogFile
         
         private string _currentLogFile;

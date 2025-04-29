@@ -1,6 +1,6 @@
 ﻿namespace Mastersign.DashOps.Model_v2;
 
-partial class AutoAnnotation
+partial class AutoActionSettings
 {
     public bool Match(ActionView action)
     {

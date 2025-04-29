@@ -1,0 +1,820 @@
+$schema: http://json-schema.org/draft-07/schema
+$id: https://mastersign.de/dashops-v2.schema.json
+
+title: DashOps Project v2
+description: The file format for DashOps projects
+
+$defs:
+
+  CommandLineArguments:
+    type: array
+    items:
+      oneOf:
+        - type: string
+        - type: number
+
+  Tags:
+    title: Tags
+    description: >-
+      A list of tags.
+      Tags group actions together.
+    type: array
+    items:
+      type: string
+
+  Facets:
+    title: Facets
+    description: >-
+      A map with values for a number of facets.
+      Facets organize actions into perspectives and provide values for placeholders.
+    type: object
+    additionalProperties:
+      type: string
+
+  CommandSettings:
+    type: object
+    properties:
+
+      working-directory:
+        title: Working Directory
+        description: |-
+          A path to the working directory.
+
+          If the path is relative, it is resolved relative to the current working directory of DashOps.
+          If the path is not set or empty, the current working directory of DashOps is used as base path.
+        type: string
+      environment:
+        title: Environment
+        description: A map with additional environment variables
+        type: object
+      exe-paths:
+        title: Executable Paths
+        description: Additional paths for the environment variable PATH
+        type: array
+        items:
+          type: string
+      exit-codes:
+        title: Exit Codes
+        description: >-
+          A list with exit codes considered successfull.
+
+          The default is just 0.
+        oneOf:
+          - type: "null"
+          - type: array
+            items:
+              type: number
+
+      use-powershell-core:
+        title: Use PowerShell Core
+        description: >-
+          Use PowerShell (not Windows PowerShell) as the execution environment for an action
+        type: boolean
+      powershell-exe:
+        title: PowerShell Executable
+        description: >-
+          A path to a PowerShell executable as the execution environment for an action.
+          Overrides the use-powershell-core setting.
+        type: string
+      use-powershell-profile:
+        title: Use PowerShell Profile
+        description: >-
+          A switch to activate loading the PowerShell profile when executing an action
+        type: boolean
+      powershell-execution-policy:
+        title: PowerShell Execution Policy
+        description: Sets the execution policy for the PowerShell
+        type: string
+        enum:
+          - AllSigned
+          - Bypass
+          - RemoteSigned
+          - Restricted
+          - Unrestricted
+          - Default
+
+  InteractiveCommandSettings:
+    type: object
+    properties:
+      use-windows-terminal:
+        title: Use Windows Terminal
+        description: >-
+          A switch to activate using the Windows Terminal instead of the
+          classic console host
+        type: boolean
+      windows-terminal-args:
+        title: Windows Terminal Arguments
+        description: Command line arguments for the Windows Terminal
+        type: array
+        items:
+          type: string
+
+  HttpRequestSettings:
+    type: object
+    properties:
+      headers:
+        title: Headers
+        description: A map with HTTP headers to use send with the request
+        type: object
+        additionalProperties:
+          type: string
+      http-timeout:
+        title: HTTP Timeout
+        description: A timeout in seconds for the HTTP request
+        type: number
+      no-tls-verify:
+        title: No TLS Verification
+        description: A switch to ignore TLS verification errors
+        type: boolean
+      server-certificate-hash:
+        title: Server Certificate Hash
+        description: An expected SHA1 hash of the server certificate in hexadecimal format
+        type: string
+      status-codes:
+        title: HTTP Status Codes
+        description: |-
+          A list with HTTP status codes considered successfull.
+
+          The default is 200 – 204.
+        oneOf:
+          - type: 'null'
+          - type: array
+            items:
+              type: number
+
+  ActionSettings:
+    type: object
+    properties:
+
+      reassure:
+        title: Reassure Execution
+        description: A switch to activate a confirmation dialog, prior to executing the
+          action
+        type: boolean
+      background:
+        title: Run In Background
+        description: A switch to activate hidden execution, without a visible terminal
+          window
+        type: boolean
+      keep-open:
+        title: Keep Open
+        description: >-
+          A switch to set the behavior for the terminal window after finishing an action.
+          If true, the terminal window is kept open, even if the action succeeded.
+        type: boolean
+      always-close:
+        title: Always Close
+        description: >-
+          A switch to set the behavior for the terminal window after finishing an action.
+          If true, the terminal window is closed, even if the action failed.
+        type: boolean
+
+      logs:
+        title: Logging Directory
+        description: A path to a directory to store logs in
+        type: string
+      no-logs:
+        title: No Logs
+        description: A switch to deactivate logging
+        type: boolean
+      no-execution-info:
+        title: No Execution Info in Logs
+        description: >-
+          A switch to suppress header and footer with execution info when writing log files
+        type: boolean
+
+  MonitorSettings:
+    type: object
+    properties:
+
+      deactivated:
+        title: Deactivated
+        description: A switch to exclude the monitor from automatic execution
+        type: boolean
+      interval:
+        title: Interval
+        description: The number of seconds between automatic executions of a monitor
+        type: number
+
+      logs:
+        title: Logging Directory
+        description: A path to a directory to store logs in
+        type: string
+      no-logs:
+        title: No Logs
+        description: A switch to deactivate logging
+        type: boolean
+
+      required-patterns:
+        title: Required Patterns
+        description: >-
+          A list with regular expressions, which must match
+          the output from a command or the text response from a HTTP request.
+          If one of the regular expressions does not match, the monitor fails.
+        type: array
+        items:
+          type: string
+      forbidden-patterns:
+        title: Forbidden Patterns
+        description: >-
+          A list of regular expressions, which must not match
+          the output from a command or the text response from a HTTP request.
+          I one of the regular expressions does match, the monitor fails.
+        type: array
+        items:
+          type: string
+
+  DefaultSettings:
+    title: Defaults
+    description: A number of default settings for actions and monitors
+    type: object
+    properties:
+      for-actions:
+        title: Action Defaults
+        description: A number of default settings for actions
+        type: object
+        allOf:
+          - $ref: '#/$defs/ActionSettings'
+          - $ref: '#/$defs/CommandSettings'
+          - $ref: '#/$defs/InteractiveCommandSettings'
+      for-monitors:
+        title: Monitor Defaults
+        description: A number of default settings for monitors
+        type: object
+        offOf:
+          - $ref: '#/$defs/MonitorSettings'
+          - $ref: '#/$defs/CommandSettings'
+
+  CommandActionBase:
+    allOf:
+      - $ref: '#/$defs/ActionSettings'
+      - $ref: '#/$defs/CommandSettings'
+      - $ref: '#/$defs/InteractiveCommandSettings'
+    type: object
+    properties:
+      description:
+        title: Action Description
+        description: |-
+          The text displayed on the action button.
+
+          Placeholders like ${facet} are replaced by the facet value.
+        type: string
+      tags:
+        $ref: '#/$defs/Tags'
+
+  CommandAction:
+    title: Action
+    description: An explicitly defined action
+    allOf:
+      - $ref: '#/$defs/CommandActionBase'
+    properties:
+      command:
+        title: Command
+        description: |-
+          The command of the action.
+
+          The command is executed inside of a PowerShell session.
+          Environment variables in CMD syntax like %AppData% are expanded.
+        type: string
+      arguments:
+        title: Command Line Arguments
+        description: |-
+          The command line arguments of the action.
+
+          Placeholders like ${facet} are replaced by the facets value.
+          Environment variables in CMD syntax like %AppData% are expanded.
+        allOf:
+          - $ref: '#/$defs/CommandLineArguments'
+      facets:
+        $ref: '#/$defs/Facets'
+    required:
+      - description
+      - command
+
+  CommandActionDiscovery:
+    title: Action Discovery
+    description: >-
+      An action discovery, which generates an action for each matched file path.
+    allOf:
+      - $ref: '#/$defs/CommandActionBase'
+    properties:
+      base-path:
+        title: Base Path
+        description: |-
+          The base path to search for files.
+
+          If the path is relative, it is resolved relative to the current working directory of DashOps.
+          If the path is not set or empty, the current working directory of DashOps is used as base path.
+        type: string
+      path-pattern:
+        title: Path Pattern
+        description: |-
+          A regular expression matching a relative file path below the base path.
+
+          Captured named groups in the expression are treated as facets.
+      interpreter:
+        title: Interpreter
+        description: |-
+          By default the discovered files are treated as PowerShell scripts or executables.
+          With this property, another interpreter can be specified.
+
+          Placeholders like ${facet} are replaced by the facets value.
+          Environment variables in CMD syntax like %AppData% are expanded.
+        type: string
+      arguments:
+        title: Command Line Arguments
+        description: |-
+          The command line arguments of the action.
+
+          The placeholder ${file} is replaced by the absolute path of the discovered file.
+          Placeholders like ${facet} are replaced by the facets value.
+          Environment variables in CMD syntax like %AppData% are expanded.
+        allOf:
+          - $ref: '#/$defs/CommandLineArguments'
+      facets:
+        $ref: '#/$defs/Facets'
+    required:
+      - description
+      - path-pattern
+
+  CommandActionPattern:
+    title: Action Pattern
+    description: >-
+      An action pattern, which generates a field of command actions.
+
+
+      The facet values of the action pattern are combined in all possible combinations,
+      to instantiate actual actions.
+
+      Given an action pattern which has three facets with 2, 3, and 4 values.
+      Then 2 * 3 * 4 = 24 actions are instantiated.
+    allOf:
+      - $ref: '#/$defs/CommandAction'
+    properties:
+      facets:
+        title: Facets
+        description: A list of values for a number of facets
+        type: object
+        additionalProperties:
+          type: array
+          items:
+            oneOf:
+              - type: string
+              - type: number
+    required:
+      - description
+      - command
+      - facets
+
+  ActionPredicate:
+    type: object
+    properties:
+      mode:
+        title: Match Mode
+        type: string
+        enum:
+          - description
+          - command
+          - facet
+          - tag
+    oneOf:
+      - title: Description Action Predicate
+        description: |-
+          A regular expression to match against the description of actions.
+
+          Is true, if the pattern matches the description of the action.
+        type: object
+        properties:
+          mode:
+            const: description
+          pattern:
+            title: Description Pattern
+            description: A regular expression matched against the description of the action
+            type: string
+      - title: Description Action Predicate
+        description: |-
+          A constant string to compare with the description of actions.
+
+          Is true, if the value equals the description of the action.
+        type: object
+        properties:
+          mode:
+            const: description
+          value:
+            title: Description Value
+            description: An exact description compared with the description of the action
+            type: string
+      - title: Command Action Predicate
+        description: |-
+          A regular expression to match against the command of actions.
+
+          Is true, if the pattern matches the command of the action.
+        type: object
+        properties:
+          mode:
+            const: command
+          pattern:
+            title: Command Pattern
+            description: A regular expression matched against the command of the action
+            type: string
+      - title: Command Action Predicate
+        description: |-
+          A constant string to match against the command of actions.
+
+          Is true, if the value equals the command of the action.
+        type: object
+        properties:
+          mode:
+            const: command
+          value:
+            title: Command Value
+            description: An exact command compared with the command of the action
+            type: string
+      - title: Facet Action Predicate
+        description: |-
+          A reguölar expression to match against the facets of actions.
+
+          Is true, if the pattern matches the value of the given facet.
+        type: object
+        properties:
+          mode:
+            const: facet
+          facet:
+            title: Facet
+            description: The facet to match against
+          pattern:
+            title: Facet Pattern
+            description: A regular expression matched against the facet value
+            type: string
+      - title: Facet Action Predicate
+        description: |-
+          A constant string to match against the facets of actions.
+
+          Is true, if the value equals the value of the given facet.
+        type: object
+        properties:
+          mode:
+            const: facet
+          facet:
+            title: Facet
+            description: The facet to match against
+          value:
+            title: Facet Value
+            description: The exact facet value to compare
+            type: string
+      - title: Tag Action Predicate
+        description: |-
+          A regular expression to match against the tags of actions.
+
+          Is true, if the pattern matches one of the tags of the action.
+        type: object
+        properties:
+          mode:
+            const: tag
+          pattern:
+            title: Tag Pattern
+            description: A regular expression matched against the tags of the action
+            type: string
+      - title: Tag Action Predicate
+        description: |-
+          A constant string to match against the tags of actions.
+
+          Is true, if the value equals one of the tags of the action.
+        type: object
+        properties:
+          mode:
+            const: tag
+          value:
+            title: Tag
+            description: The exact tag to compare
+            type: string
+
+  AutoActionSettings:
+    title: Auto Action Settings
+    description: >-
+      Apply these settings automatically to matching actions.
+
+
+      Facets and tags added by auto settings, are NOT considered
+      when evaluating the include and exclude predicates.
+
+      Facets added by auto settings, are NOT considered
+      when expanding placeholders in action settings.
+    allOf:
+      - $ref: '#/$defs/ActionSettings'
+      - $ref: '#/$defs/CommandSettings'
+      - $ref: '#/$defs/InteractiveCommandSettings'
+    type: object
+    properties:
+      include:
+        title: Include Predicates
+        description: >-
+          Apply the settings only to actions, that match ALL of the predicates in this list.
+          If the list is empty, all actions are included.
+        type: array
+        items:
+          $ref: '#/$defs/ActionPredicate'
+      exclude:
+        title: Exclude Predicates
+        description: >-
+          Apply the settings only to actions, that match NONE of the predicates in this list.
+          If the list is empty, no actions are excluded.
+        type: array
+        items:
+          $ref: '#/$defs/ActionPredicate'
+      facets:
+        $ref: '#/$defs/Facets'
+      tags:
+        $ref: '#/$defs/Tags'
+
+  MonitorBase:
+    allOf:
+      - $ref: '#/$defs/MonitorSettings'
+    type: object
+    properties:
+      title:
+        title: Title
+        description: |-
+          The title of the monitor in the UI.
+
+          In discovered monitors and monitor patterns, placeholder like ${var} are replaced by variable values.
+        type: string
+
+  CommandMonitorBase:
+    allOf:
+      - $ref: '#/$defs/MonitorBase'
+      - $ref: '#/$defs/CommandSettings'
+    type: object
+    properties:
+      arguments:
+        title: Command Line Arguments
+        description: |-
+          The command line arguments of the monitor.
+
+          In discovered monitors and monitor patterns, placeholder like ${var} are replaced by variable values.
+          In discoverey monitors, the placeholder ${file} is replaced by the absolute path of the discovered file.
+          Environment variables in CMD syntax like %AppData% are expanded.
+        allOf:
+          - $ref: '#/$defs/CommandLineArguments'
+
+  CommandMonitor:
+    title: Command Monitor
+    description: A monitor, that runs a PowerShell script or executable
+    allOf:
+      - $ref: '#/$defs/CommandMonitorBase'
+    type: object
+    properties:
+      command:
+        title: Command
+        description: |-
+          The command of the monitor.
+
+          The command is executed inside of a PowerShell session.
+          Environment variables in CMD syntax like %AppData% are expanded.
+        type: string
+    required:
+      - title
+      - command
+
+  CommandMonitorDiscovery:
+    title: Command Monitor Discovery
+    description: >-
+      A monitor discovery, which generates a monitor for each matched file path
+    allOf:
+      - $ref: '#/$defs/CommandMonitorBase'
+    type: object
+    properties:
+      base-path:
+        title: Base Path
+        description: |-
+          The base path to search for files.
+
+          If the path is relative, it is resolved relative to the current working directory of DashOps.
+          If the path is not set or empty, the current working directory of DashOps is used as base path.
+        type: string
+      path-pattern:
+        title: Path Pattern
+        description: |-
+          A regular expression matching a relative file path below the base path.
+
+          Captured named groups in the expression are treated as variables.
+      interpreter:
+        title: Interpreter
+        description: |-
+          By default the discovered files are treated as PowerShell scripts or executables.
+          With this property, another interpreter can be specified.
+
+          Placeholders like ${var} are replaced by the variable value.
+          Environment variables in CMD syntax like %AppData% are expanded.
+        type: string
+      arguments:
+        title: Command Line Arguments
+        description: |-
+          The command line arguments of the action.
+
+          The placeholder ${file} is replaced by the absolute path of the discovered file.
+          Placeholders like ${var} are replaced by the variable value.
+          Environment variables in CMD syntax like %AppData% are expanded.
+        allOf:
+          - $ref: '#/$defs/CommandLineArguments'
+    required:
+      - title
+      - path-pattern
+
+  CommandMonitorPattern:
+    title: Command Monitor Pattern
+    description: >-
+      A monitor pattern, which generates a field of command monitors.
+
+
+      The variable values of the monitor pattern are combined in all possible combinations,
+      to instantiate actual monitors.
+
+      Given a monitor pattern which has three variables with 2, 3, and 4 values.
+      Then 2 * 3 * 4 = 24 monitors are instantiated.
+    allOf:
+      - $ref: '#/$defs/CommandMonitor'
+    type: object
+    properties:
+      variables:
+        title: Variables
+        description: A list of values for a number of variables
+        type: object
+        additionalProperties:
+          type: array
+          items:
+            oneOf:
+              - type: string
+              - type: number
+    required:
+      - title
+      - command
+      - variables
+
+  WebMonitorBase:
+    allOf:
+      - $ref: '#/$defs/MonitorBase'
+      - $ref: '#/$defs/HttpRequestSettings'
+    type: object
+    properties:
+      url:
+        title: URL
+        description: The address of the HTTP endpoint
+        type: string
+
+  WebMonitor:
+    title: Web Monitor
+    description: A monitor which calls an HTTP endpoint with the GET method
+    allOf:
+      - $ref: '#/$defs/WebMonitorBase'
+    required:
+      - title
+      - url
+
+  WebMonitorPattern:
+    title: Web Monitor Pattern
+    description: >-
+      A monitor pattern, which generates a field of web monitors.
+
+
+      The variable values of the monitor pattern are combined in all possible combinations,
+      to instantiate actual monitors.
+
+      Given a monitor pattern which has three variables with 2, 3, and 4 values.
+      Then 2 * 3 * 4 = 24 monitors are instantiated.
+    allOf:
+      - $ref: '#/$defs/WebMonitorBase'
+    type: object
+    properties:
+      variables:
+        title: Variables
+        description: A list of values for a number of variables
+        type: object
+        additionalProperties:
+          type: array
+          items:
+            type: string
+    required:
+      - title
+      - url
+      - variables
+
+type: object
+properties:
+  version:
+    title: Project Format
+    description: The version number of the project format
+    type: string
+    enum: ["2.0"]
+  title:
+    title: Project Title
+    description: A descriptive title for the project
+    type: string
+
+  perspectives:
+    title: Perspectives
+    description: A selection of facets, to use as perspectives in the UI
+    type: array
+    items:
+      title: Facet Perspective
+      type: object
+      properties:
+        caption:
+          title: Perspective Caption
+          type: string
+        facet:
+          title: Perspective Facet
+          type: string
+      required: [facet]
+  startup-perspective:
+    title: Start-Up Perspective
+    description: >-
+      Defines the pre-selected perspective on start-up.
+      Can be either the keyword 'tags', or a facet name.
+    type: string
+  startup-selection:
+    title: Start-Up Selection
+    description: >-
+      Defines the pre-selected facet value or tag on start-up.
+      Requires the startup-perspective property to be set.
+    type: string
+
+  pause-monitoring:
+    title: Pause Monitoring
+    description: A switch to prevent the automatic start of monitors on startup
+    type: boolean
+
+  defaults:
+    $ref: '#/$defs/DefaultSettings'
+
+  auto-settings:
+    title: Auto Settings
+    description: A number of automatically applied settings
+    type: object
+    properties:
+      for-actions:
+        title: Auto Action Settings
+        description: A number of automatically applied settings for actions
+        type: object
+        items:
+          $ref: '#/$defs/AutoActionSettings'
+
+  actions:
+    title: Actions
+    description: A list with explicit actions
+    type: array
+    items:
+      $ref: '#/$defs/CommandAction'
+  action-discovery:
+    title: Action Discovery
+    description: A list of actions, implicitly defined by the existence of files
+    type: array
+    items:
+      $ref: '#/$defs/CommandActionDiscovery'
+  action-patterns:
+    title: Action Patterns
+    description: >-
+      A list of action patterns, that will expand into a multi-dimensional
+      field of actions
+    type: array
+    items:
+      $ref: '#/$defs/CommandActionPattern'
+
+  monitors:
+    title: Command Monitors
+    description: A list with explicit command monitors
+    type: array
+    items:
+      $ref: '#/$defs/CommandMonitor'
+  monitor-discovery:
+    title: Command Monitor Discovery
+    description: A list of command monitors, implicitly defined by the existence of files
+    type: array
+    items:
+      $ref: '#/$defs/CommandMonitorDiscovery'
+  monitor-patterns:
+    title: Command Monitor Patterns
+    description: >-
+      A list of monitor patterns, that will expand into a multi-dimensional
+      field of command monitors
+    type: array
+    items:
+      $ref: '#/$defs/CommandMonitorPattern'
+  web-monitors:
+    title: Web Monitors
+    description: A list with explicit web monitors
+    type: array
+    items:
+      $ref: '#/$defs/WebMonitor'
+  web-monitor-patterns:
+    title: Web Monitor Patterns
+    description: >-
+      A list of monitor patterns, that will expand into a multi-dimensional
+      field of web monitors
+    type: array
+    items:
+      $ref: '#/$defs/WebMonitorPattern'
+
+required:
+  - version
+  - title

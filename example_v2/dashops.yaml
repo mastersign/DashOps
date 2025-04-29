@@ -20,14 +20,15 @@ perspectives:
 startup-perspective: env
 startup-selection: Test
 
-auto:
-  - include:
-      - mode: facet
-        facet: host
-        value: Localhost
-    reassure: true
-    use-windows-terminal: false
-    no-execution-info: true
+auto-settings:
+  for-actions:
+    - include:
+        - mode: facet
+          facet: host
+          value: Localhost
+      reassure: true
+      use-windows-terminal: false
+      no-execution-info: true
 
 environment:
   ENV_A: Default Value A

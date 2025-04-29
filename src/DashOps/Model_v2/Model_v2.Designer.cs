@@ -34,8 +34,8 @@ namespace Mastersign.DashOps.Model_v2
         {
             return (this.GetType().FullName + @": " + (
                 (global::System.Environment.NewLine + @"    Description = " + (!ReferenceEquals(_description, null) ? _description.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Reassure = " + _reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Background = " + _background.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Reassure = " + (!ReferenceEquals(_reassure, null) ? _reassure.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Background = " + (!ReferenceEquals(_background, null) ? _background.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(_noLogs, null) ? _noLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(_noExecutionInfo, null) ? _noExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -78,9 +78,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property Reassure
         
-        private bool _reassure;
+        private bool? _reassure;
         
-        public virtual bool Reassure
+        public virtual bool? Reassure
         {
             get { return _reassure; }
             set
@@ -97,9 +97,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property Background
         
-        private bool _background;
+        private bool? _background;
         
-        public virtual bool Background
+        public virtual bool? Background
         {
             get { return _background; }
             set
@@ -455,8 +455,8 @@ namespace Mastersign.DashOps.Model_v2
         {
             return (this.GetType().FullName + @": " + (
                 (global::System.Environment.NewLine + @"    Description = " + (!ReferenceEquals(Description, null) ? Description.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Reassure = " + Reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Reassure = " + (!ReferenceEquals(Reassure, null) ? Reassure.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Background = " + (!ReferenceEquals(Background, null) ? Background.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(NoLogs, null) ? NoLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(NoExecutionInfo, null) ? NoExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -536,8 +536,8 @@ namespace Mastersign.DashOps.Model_v2
         {
             return (this.GetType().FullName + @": " + (
                 (global::System.Environment.NewLine + @"    Description = " + (!ReferenceEquals(Description, null) ? Description.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Reassure = " + Reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Reassure = " + (!ReferenceEquals(Reassure, null) ? Reassure.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Background = " + (!ReferenceEquals(Background, null) ? Background.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(NoLogs, null) ? NoLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(NoExecutionInfo, null) ? NoExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -657,8 +657,8 @@ namespace Mastersign.DashOps.Model_v2
         {
             return (this.GetType().FullName + @": " + (
                 (global::System.Environment.NewLine + @"    Description = " + (!ReferenceEquals(Description, null) ? Description.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Reassure = " + Reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Background = " + Background.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Reassure = " + (!ReferenceEquals(Reassure, null) ? Reassure.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Background = " + (!ReferenceEquals(Background, null) ? Background.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(NoLogs, null) ? NoLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(NoExecutionInfo, null) ? NoExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -750,7 +750,7 @@ namespace Mastersign.DashOps.Model_v2
         
         private ActionMatchMode _mode;
         
-        private const ActionMatchMode DEF_MODE = ActionMatchMode.Facet;
+        private const ActionMatchMode DEF_MODE = ActionMatchMode.Description;
         
         [DefaultValue(DEF_MODE)]
         public virtual ActionMatchMode Mode
@@ -826,9 +826,9 @@ namespace Mastersign.DashOps.Model_v2
         #endregion
     }
     
-    public partial class AutoAnnotation
+    public partial class AutoActionSettings
     {
-        public AutoAnnotation()
+        public AutoActionSettings()
         {
             this._include = new List<ActionMatcher>();
             this._exclude = new List<ActionMatcher>();
@@ -868,14 +868,16 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Exclude = " + (!ReferenceEquals(_exclude, null) ? (_exclude.Count.ToString() + @" items" + __collection_Exclude.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Facets = " + (!ReferenceEquals(_facets, null) ? _facets.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Tags = " + (!ReferenceEquals(_tags, null) ? _tags.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Reassure = " + (!ReferenceEquals(_reassure, null) ? _reassure.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(_noLogs, null) ? _noLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(_noExecutionInfo, null) ? _noExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Reassure = " + (!ReferenceEquals(_reassure, null) ? _reassure.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Background = " + (!ReferenceEquals(_background, null) ? _background.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    KeepOpen = " + (!ReferenceEquals(_keepOpen, null) ? _keepOpen.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    AlwaysClose = " + (!ReferenceEquals(_alwaysClose, null) ? _alwaysClose.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Background = " + (!ReferenceEquals(_background, null) ? _background.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(_environment, null) ? _environment.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ExePaths = " + (!ReferenceEquals(_exePaths, null) ? _exePaths.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(_exitCodes, null) ? _exitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    UsePowerShellCore = " + (!ReferenceEquals(_usePowerShellCore, null) ? _usePowerShellCore.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    PowerShellExe = " + (!ReferenceEquals(_powerShellExe, null) ? _powerShellExe.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    UsePowerShellProfile = " + (!ReferenceEquals(_usePowerShellProfile, null) ? _usePowerShellProfile.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -962,20 +964,20 @@ namespace Mastersign.DashOps.Model_v2
         
         #endregion
         
-        #region Property Reassure
+        #region Property Logs
         
-        private bool? _reassure;
+        private string _logs;
         
-        public virtual bool? Reassure
+        public virtual string Logs
         {
-            get { return _reassure; }
+            get { return _logs; }
             set
             {
-                if ((value == _reassure))
+                if (string.Equals(value, _logs))
                 {
                     return;
                 }
-                _reassure = value;
+                _logs = value;
             }
         }
         
@@ -1019,6 +1021,44 @@ namespace Mastersign.DashOps.Model_v2
         
         #endregion
         
+        #region Property Reassure
+        
+        private bool? _reassure;
+        
+        public virtual bool? Reassure
+        {
+            get { return _reassure; }
+            set
+            {
+                if ((value == _reassure))
+                {
+                    return;
+                }
+                _reassure = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Background
+        
+        private bool? _background;
+        
+        public virtual bool? Background
+        {
+            get { return _background; }
+            set
+            {
+                if ((value == _background))
+                {
+                    return;
+                }
+                _background = value;
+            }
+        }
+        
+        #endregion
+        
         #region Property KeepOpen
         
         private bool? _keepOpen;
@@ -1057,25 +1097,6 @@ namespace Mastersign.DashOps.Model_v2
         
         #endregion
         
-        #region Property Background
-        
-        private bool? _background;
-        
-        public virtual bool? Background
-        {
-            get { return _background; }
-            set
-            {
-                if ((value == _background))
-                {
-                    return;
-                }
-                _background = value;
-            }
-        }
-        
-        #endregion
-        
         #region Property Environment
         
         private Dictionary<string, string> _environment;
@@ -1109,6 +1130,25 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _exePaths = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property ExitCodes
+        
+        private int[] _exitCodes;
+        
+        public virtual int[] ExitCodes
+        {
+            get { return _exitCodes; }
+            set
+            {
+                if ((value == _exitCodes))
+                {
+                    return;
+                }
+                _exitCodes = value;
             }
         }
         
@@ -1229,12 +1269,62 @@ namespace Mastersign.DashOps.Model_v2
         #endregion
     }
     
+    public partial class AutoSettings
+    {
+        public AutoSettings()
+        {
+            this._forActions = new List<AutoActionSettings>();
+        }
+        
+        #region String Representation
+        
+        public override string ToString()
+        {
+            return this.ToString(CultureInfo.CurrentUICulture);
+        }
+        
+        public virtual string ToString(IFormatProvider formatProvider)
+        {
+            global::System.Text.StringBuilder __collection_ForActions = new global::System.Text.StringBuilder();
+            if ((!ReferenceEquals(_forActions, null) && !(_forActions.Count == 0)))
+            {
+                for (int __index = 0; __index < Math.Min(_forActions.Count, 10); __index++)
+                {
+                    AutoActionSettings __item = _forActions[__index];
+                    __collection_ForActions.AppendLine();
+                    __collection_ForActions.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
+                }
+            }
+            return (this.GetType().FullName + @": " + 
+                (global::System.Environment.NewLine + @"    ForActions = " + (!ReferenceEquals(_forActions, null) ? (_forActions.Count.ToString() + @" items" + __collection_ForActions.ToString()) : @"null").Replace("\n", "\n    ")));
+        }
+        
+        #endregion
+        
+        #region Property ForActions
+        
+        private List<AutoActionSettings> _forActions;
+        
+        public virtual List<AutoActionSettings> ForActions
+        {
+            get { return _forActions; }
+            set
+            {
+                if ((value == _forActions))
+                {
+                    return;
+                }
+                _forActions = value;
+            }
+        }
+        
+        #endregion
+    }
+    
     public partial class MonitorBase
     {
         public MonitorBase()
         {
-            this._active = DEF_ACTIVE;
-            this._interval = DEF_INTERVAL;
             this._requiredPatterns = new string[0];
             this._forbiddenPatterns = new string[0];
         }
@@ -1250,10 +1340,11 @@ namespace Mastersign.DashOps.Model_v2
         {
             return (this.GetType().FullName + @": " + (
                 (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(_title, null) ? _title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Deactivated = " + (!ReferenceEquals(_deactivated, null) ? _deactivated.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Interval = " + (!ReferenceEquals(_interval, null) ? _interval.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Active = " + _active.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Interval = " + _interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(_noLogs, null) ? _noLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(_noExecutionInfo, null) ? _noExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(_requiredPatterns, null) ? _requiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(_forbiddenPatterns, null) ? _forbiddenPatterns.ToString() : @"null").Replace("\n", "\n    "))));
         }
@@ -1274,6 +1365,44 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _title = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Deactivated
+        
+        private bool? _deactivated;
+        
+        public virtual bool? Deactivated
+        {
+            get { return _deactivated; }
+            set
+            {
+                if ((value == _deactivated))
+                {
+                    return;
+                }
+                _deactivated = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Interval
+        
+        private int? _interval;
+        
+        public virtual int? Interval
+        {
+            get { return _interval; }
+            set
+            {
+                if ((value == _interval))
+                {
+                    return;
+                }
+                _interval = value;
             }
         }
         
@@ -1300,9 +1429,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property NoLogs
         
-        private bool _noLogs;
+        private bool? _noLogs;
         
-        public virtual bool NoLogs
+        public virtual bool? NoLogs
         {
             get { return _noLogs; }
             set
@@ -1317,45 +1446,20 @@ namespace Mastersign.DashOps.Model_v2
         
         #endregion
         
-        #region Property Active
+        #region Property NoExecutionInfo
         
-        private bool _active;
+        private bool? _noExecutionInfo;
         
-        private const bool DEF_ACTIVE = true;
-        
-        [DefaultValue(DEF_ACTIVE)]
-        public virtual bool Active
+        public virtual bool? NoExecutionInfo
         {
-            get { return _active; }
+            get { return _noExecutionInfo; }
             set
             {
-                if ((value == _active))
+                if ((value == _noExecutionInfo))
                 {
                     return;
                 }
-                _active = value;
-            }
-        }
-        
-        #endregion
-        
-        #region Property Interval
-        
-        private int _interval;
-        
-        private const int DEF_INTERVAL = -1;
-        
-        [DefaultValue(DEF_INTERVAL)]
-        public virtual int Interval
-        {
-            get { return _interval; }
-            set
-            {
-                if ((value == _interval))
-                {
-                    return;
-                }
-                _interval = value;
+                _noExecutionInfo = value;
             }
         }
         
@@ -1417,10 +1521,11 @@ namespace Mastersign.DashOps.Model_v2
         {
             return (this.GetType().FullName + @": " + (
                 (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Deactivated = " + (!ReferenceEquals(Deactivated, null) ? Deactivated.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Interval = " + (!ReferenceEquals(Interval, null) ? Interval.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Active = " + Active.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(NoLogs, null) ? NoLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(NoExecutionInfo, null) ? NoExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    UsePowerShellCore = " + (!ReferenceEquals(_usePowerShellCore, null) ? _usePowerShellCore.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -1625,10 +1730,11 @@ namespace Mastersign.DashOps.Model_v2
         {
             return (this.GetType().FullName + @": " + (
                 (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Deactivated = " + (!ReferenceEquals(Deactivated, null) ? Deactivated.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Interval = " + (!ReferenceEquals(Interval, null) ? Interval.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Active = " + Active.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(NoLogs, null) ? NoLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(NoExecutionInfo, null) ? NoExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    UsePowerShellCore = " + (!ReferenceEquals(UsePowerShellCore, null) ? UsePowerShellCore.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -1682,10 +1788,11 @@ namespace Mastersign.DashOps.Model_v2
         {
             return (this.GetType().FullName + @": " + (
                 (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Deactivated = " + (!ReferenceEquals(Deactivated, null) ? Deactivated.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Interval = " + (!ReferenceEquals(Interval, null) ? Interval.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Active = " + Active.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(NoLogs, null) ? NoLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(NoExecutionInfo, null) ? NoExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    UsePowerShellCore = " + (!ReferenceEquals(UsePowerShellCore, null) ? UsePowerShellCore.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -1779,10 +1886,11 @@ namespace Mastersign.DashOps.Model_v2
         {
             return (this.GetType().FullName + @": " + (
                 (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Deactivated = " + (!ReferenceEquals(Deactivated, null) ? Deactivated.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Interval = " + (!ReferenceEquals(Interval, null) ? Interval.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Active = " + Active.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(NoLogs, null) ? NoLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(NoExecutionInfo, null) ? NoExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    UsePowerShellCore = " + (!ReferenceEquals(UsePowerShellCore, null) ? UsePowerShellCore.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -1824,7 +1932,6 @@ namespace Mastersign.DashOps.Model_v2
     {
         public WebMonitor()
         {
-            this._timeout = DEF_TIMEOUT;
         }
         
         #region String Representation
@@ -1838,17 +1945,18 @@ namespace Mastersign.DashOps.Model_v2
         {
             return (this.GetType().FullName + @": " + (
                 (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Deactivated = " + (!ReferenceEquals(Deactivated, null) ? Deactivated.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Interval = " + (!ReferenceEquals(Interval, null) ? Interval.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Active = " + Active.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(NoLogs, null) ? NoLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(NoExecutionInfo, null) ? NoExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Url = " + (!ReferenceEquals(_url, null) ? _url.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Headers = " + (!ReferenceEquals(_headers, null) ? _headers.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Timeout = " + _timeout.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    HttpTimeout = " + (!ReferenceEquals(_httpTimeout, null) ? _httpTimeout.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ServerCertificateHash = " + (!ReferenceEquals(_serverCertificateHash, null) ? _serverCertificateHash.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    NoTlsVerify = " + _noTlsVerify.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoTlsVerify = " + (!ReferenceEquals(_noTlsVerify, null) ? _noTlsVerify.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    StatusCodes = " + (!ReferenceEquals(_statusCodes, null) ? _statusCodes.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
@@ -1892,23 +2000,20 @@ namespace Mastersign.DashOps.Model_v2
         
         #endregion
         
-        #region Property Timeout
+        #region Property HttpTimeout
         
-        private int _timeout;
+        private int? _httpTimeout;
         
-        private const int DEF_TIMEOUT = -1;
-        
-        [DefaultValue(DEF_TIMEOUT)]
-        public virtual int Timeout
+        public virtual int? HttpTimeout
         {
-            get { return _timeout; }
+            get { return _httpTimeout; }
             set
             {
-                if ((value == _timeout))
+                if ((value == _httpTimeout))
                 {
                     return;
                 }
-                _timeout = value;
+                _httpTimeout = value;
             }
         }
         
@@ -1935,9 +2040,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property NoTlsVerify
         
-        private bool _noTlsVerify;
+        private bool? _noTlsVerify;
         
-        public virtual bool NoTlsVerify
+        public virtual bool? NoTlsVerify
         {
             get { return _noTlsVerify; }
             set
@@ -1989,17 +2094,18 @@ namespace Mastersign.DashOps.Model_v2
         {
             return (this.GetType().FullName + @": " + (
                 (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(Title, null) ? Title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Deactivated = " + (!ReferenceEquals(Deactivated, null) ? Deactivated.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Interval = " + (!ReferenceEquals(Interval, null) ? Interval.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(Logs, null) ? Logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    NoLogs = " + NoLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Active = " + Active.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Interval = " + Interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(NoLogs, null) ? NoLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(NoExecutionInfo, null) ? NoExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(RequiredPatterns, null) ? RequiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(ForbiddenPatterns, null) ? ForbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Url = " + (!ReferenceEquals(Url, null) ? Url.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Headers = " + (!ReferenceEquals(Headers, null) ? Headers.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Timeout = " + Timeout.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    HttpTimeout = " + (!ReferenceEquals(HttpTimeout, null) ? HttpTimeout.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ServerCertificateHash = " + (!ReferenceEquals(ServerCertificateHash, null) ? ServerCertificateHash.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    NoTlsVerify = " + NoTlsVerify.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoTlsVerify = " + (!ReferenceEquals(NoTlsVerify, null) ? NoTlsVerify.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    StatusCodes = " + (!ReferenceEquals(StatusCodes, null) ? StatusCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Variables = " + (!ReferenceEquals(_variables, null) ? _variables.ToString() : @"null").Replace("\n", "\n    "))));
         }
@@ -2087,25 +2193,13 @@ namespace Mastersign.DashOps.Model_v2
         #endregion
     }
     
-    public partial class Project
+    public partial class DefaultActionSettings
     {
-        public Project()
+        public DefaultActionSettings()
         {
-            this._perspectives = new List<FacetPerspective>();
             this._exePaths = new string[0];
             this._powerShellExecutionPolicy = DEF_POWERSHELLEXECUTIONPOLICY;
             this._windowsTerminalArgs = new string[0];
-            this._actions = new List<CommandAction>();
-            this._actionDiscovery = new List<CommandActionDiscovery>();
-            this._actionPatterns = new List<CommandActionPattern>();
-            this._auto = new List<AutoAnnotation>();
-            this._defaultMonitorInterval = DEF_DEFAULTMONITORINTERVAL;
-            this._defaultWebMonitorTimeout = DEF_DEFAULTWEBMONITORTIMEOUT;
-            this._monitors = new List<CommandMonitor>();
-            this._monitorDiscovery = new List<CommandMonitorDiscovery>();
-            this._monitorPatterns = new List<CommandMonitorPattern>();
-            this._webMonitors = new List<WebMonitor>();
-            this._webMonitorPatterns = new List<WebMonitorPattern>();
         }
         
         #region String Representation
@@ -2117,232 +2211,99 @@ namespace Mastersign.DashOps.Model_v2
         
         public virtual string ToString(IFormatProvider formatProvider)
         {
-            global::System.Text.StringBuilder __collection_Perspectives = new global::System.Text.StringBuilder();
-            if ((!ReferenceEquals(_perspectives, null) && !(_perspectives.Count == 0)))
-            {
-                for (int __index = 0; __index < Math.Min(_perspectives.Count, 10); __index++)
-                {
-                    FacetPerspective __item = _perspectives[__index];
-                    __collection_Perspectives.AppendLine();
-                    __collection_Perspectives.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
-                }
-            }
-            global::System.Text.StringBuilder __collection_Actions = new global::System.Text.StringBuilder();
-            if ((!ReferenceEquals(_actions, null) && !(_actions.Count == 0)))
-            {
-                for (int __index = 0; __index < Math.Min(_actions.Count, 10); __index++)
-                {
-                    CommandAction __item = _actions[__index];
-                    __collection_Actions.AppendLine();
-                    __collection_Actions.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
-                }
-            }
-            global::System.Text.StringBuilder __collection_ActionDiscovery = new global::System.Text.StringBuilder();
-            if ((!ReferenceEquals(_actionDiscovery, null) && !(_actionDiscovery.Count == 0)))
-            {
-                for (int __index = 0; __index < Math.Min(_actionDiscovery.Count, 10); __index++)
-                {
-                    CommandActionDiscovery __item = _actionDiscovery[__index];
-                    __collection_ActionDiscovery.AppendLine();
-                    __collection_ActionDiscovery.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
-                }
-            }
-            global::System.Text.StringBuilder __collection_ActionPatterns = new global::System.Text.StringBuilder();
-            if ((!ReferenceEquals(_actionPatterns, null) && !(_actionPatterns.Count == 0)))
-            {
-                for (int __index = 0; __index < Math.Min(_actionPatterns.Count, 10); __index++)
-                {
-                    CommandActionPattern __item = _actionPatterns[__index];
-                    __collection_ActionPatterns.AppendLine();
-                    __collection_ActionPatterns.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
-                }
-            }
-            global::System.Text.StringBuilder __collection_Auto = new global::System.Text.StringBuilder();
-            if ((!ReferenceEquals(_auto, null) && !(_auto.Count == 0)))
-            {
-                for (int __index = 0; __index < Math.Min(_auto.Count, 10); __index++)
-                {
-                    AutoAnnotation __item = _auto[__index];
-                    __collection_Auto.AppendLine();
-                    __collection_Auto.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
-                }
-            }
-            global::System.Text.StringBuilder __collection_Monitors = new global::System.Text.StringBuilder();
-            if ((!ReferenceEquals(_monitors, null) && !(_monitors.Count == 0)))
-            {
-                for (int __index = 0; __index < Math.Min(_monitors.Count, 10); __index++)
-                {
-                    CommandMonitor __item = _monitors[__index];
-                    __collection_Monitors.AppendLine();
-                    __collection_Monitors.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
-                }
-            }
-            global::System.Text.StringBuilder __collection_MonitorDiscovery = new global::System.Text.StringBuilder();
-            if ((!ReferenceEquals(_monitorDiscovery, null) && !(_monitorDiscovery.Count == 0)))
-            {
-                for (int __index = 0; __index < Math.Min(_monitorDiscovery.Count, 10); __index++)
-                {
-                    CommandMonitorDiscovery __item = _monitorDiscovery[__index];
-                    __collection_MonitorDiscovery.AppendLine();
-                    __collection_MonitorDiscovery.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
-                }
-            }
-            global::System.Text.StringBuilder __collection_MonitorPatterns = new global::System.Text.StringBuilder();
-            if ((!ReferenceEquals(_monitorPatterns, null) && !(_monitorPatterns.Count == 0)))
-            {
-                for (int __index = 0; __index < Math.Min(_monitorPatterns.Count, 10); __index++)
-                {
-                    CommandMonitorPattern __item = _monitorPatterns[__index];
-                    __collection_MonitorPatterns.AppendLine();
-                    __collection_MonitorPatterns.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
-                }
-            }
-            global::System.Text.StringBuilder __collection_WebMonitors = new global::System.Text.StringBuilder();
-            if ((!ReferenceEquals(_webMonitors, null) && !(_webMonitors.Count == 0)))
-            {
-                for (int __index = 0; __index < Math.Min(_webMonitors.Count, 10); __index++)
-                {
-                    WebMonitor __item = _webMonitors[__index];
-                    __collection_WebMonitors.AppendLine();
-                    __collection_WebMonitors.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
-                }
-            }
-            global::System.Text.StringBuilder __collection_WebMonitorPatterns = new global::System.Text.StringBuilder();
-            if ((!ReferenceEquals(_webMonitorPatterns, null) && !(_webMonitorPatterns.Count == 0)))
-            {
-                for (int __index = 0; __index < Math.Min(_webMonitorPatterns.Count, 10); __index++)
-                {
-                    WebMonitorPattern __item = _webMonitorPatterns[__index];
-                    __collection_WebMonitorPatterns.AppendLine();
-                    __collection_WebMonitorPatterns.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
-                }
-            }
             return (this.GetType().FullName + @": " + (
-                (global::System.Environment.NewLine + @"    Version = " + (!ReferenceEquals(_version, null) ? _version.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(_title, null) ? _title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Perspectives = " + (!ReferenceEquals(_perspectives, null) ? (_perspectives.Count.ToString() + @" items" + __collection_Perspectives.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    StartupPerspective = " + (!ReferenceEquals(_startupPerspective, null) ? _startupPerspective.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    StartupSelection = " + (!ReferenceEquals(_startupSelection, null) ? _startupSelection.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Reassure = " + _reassure.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Background = " + _background.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    KeepOpen = " + _keepOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    AlwaysClose = " + _alwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoExecutionInfo = " + _noExecutionInfo.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(_environment, null) ? _environment.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ExePaths = " + (!ReferenceEquals(_exePaths, null) ? _exePaths.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(_exitCodes, null) ? _exitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    UsePowerShellCore = " + _usePowerShellCore.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    PowerShellExe = " + (!ReferenceEquals(_powerShellExe, null) ? _powerShellExe.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    UsePowerShellProfile = " + _usePowerShellProfile.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    PowerShellExecutionPolicy = " + (!ReferenceEquals(_powerShellExecutionPolicy, null) ? _powerShellExecutionPolicy.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    UseWindowsTerminal = " + _useWindowsTerminal.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    WindowsTerminalArgs = " + (!ReferenceEquals(_windowsTerminalArgs, null) ? _windowsTerminalArgs.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    KeepActionOpen = " + _keepActionOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    AlwaysCloseAction = " + _alwaysCloseAction.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Actions = " + (!ReferenceEquals(_actions, null) ? (_actions.Count.ToString() + @" items" + __collection_Actions.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    ActionDiscovery = " + (!ReferenceEquals(_actionDiscovery, null) ? (_actionDiscovery.Count.ToString() + @" items" + __collection_ActionDiscovery.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    ActionPatterns = " + (!ReferenceEquals(_actionPatterns, null) ? (_actionPatterns.Count.ToString() + @" items" + __collection_ActionPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Auto = " + (!ReferenceEquals(_auto, null) ? (_auto.Count.ToString() + @" items" + __collection_Auto.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    PauseMonitors = " + _pauseMonitors.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    DefaultMonitorInterval = " + _defaultMonitorInterval.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    DefaultWebMonitorTimeout = " + _defaultWebMonitorTimeout.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    Monitors = " + (!ReferenceEquals(_monitors, null) ? (_monitors.Count.ToString() + @" items" + __collection_Monitors.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    MonitorDiscovery = " + (!ReferenceEquals(_monitorDiscovery, null) ? (_monitorDiscovery.Count.ToString() + @" items" + __collection_MonitorDiscovery.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    MonitorPatterns = " + (!ReferenceEquals(_monitorPatterns, null) ? (_monitorPatterns.Count.ToString() + @" items" + __collection_MonitorPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    WebMonitors = " + (!ReferenceEquals(_webMonitors, null) ? (_webMonitors.Count.ToString() + @" items" + __collection_WebMonitors.ToString()) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    WebMonitorPatterns = " + (!ReferenceEquals(_webMonitorPatterns, null) ? (_webMonitorPatterns.Count.ToString() + @" items" + __collection_WebMonitorPatterns.ToString()) : @"null").Replace("\n", "\n    "))));
+                (global::System.Environment.NewLine + @"    WindowsTerminalArgs = " + (!ReferenceEquals(_windowsTerminalArgs, null) ? _windowsTerminalArgs.ToString() : @"null").Replace("\n", "\n    "))));
         }
         
         #endregion
         
-        #region Property Version
+        #region Property Reassure
         
-        private string _version;
+        private bool _reassure;
         
-        public virtual string Version
+        public virtual bool Reassure
         {
-            get { return _version; }
+            get { return _reassure; }
             set
             {
-                if (string.Equals(value, _version))
+                if ((value == _reassure))
                 {
                     return;
                 }
-                _version = value;
+                _reassure = value;
             }
         }
         
         #endregion
         
-        #region Property Title
+        #region Property Background
         
-        private string _title;
+        private bool _background;
         
-        public virtual string Title
+        public virtual bool Background
         {
-            get { return _title; }
+            get { return _background; }
             set
             {
-                if (string.Equals(value, _title))
+                if ((value == _background))
                 {
                     return;
                 }
-                _title = value;
+                _background = value;
             }
         }
         
         #endregion
         
-        #region Property Perspectives
+        #region Property KeepOpen
         
-        private List<FacetPerspective> _perspectives;
+        private bool _keepOpen;
         
-        public virtual List<FacetPerspective> Perspectives
+        public virtual bool KeepOpen
         {
-            get { return _perspectives; }
+            get { return _keepOpen; }
             set
             {
-                if ((value == _perspectives))
+                if ((value == _keepOpen))
                 {
                     return;
                 }
-                _perspectives = value;
+                _keepOpen = value;
             }
         }
         
         #endregion
         
-        #region Property StartupPerspective
+        #region Property AlwaysClose
         
-        private string _startupPerspective;
+        private bool _alwaysClose;
         
-        public virtual string StartupPerspective
+        public virtual bool AlwaysClose
         {
-            get { return _startupPerspective; }
+            get { return _alwaysClose; }
             set
             {
-                if (string.Equals(value, _startupPerspective))
+                if ((value == _alwaysClose))
                 {
                     return;
                 }
-                _startupPerspective = value;
-            }
-        }
-        
-        #endregion
-        
-        #region Property StartupSelection
-        
-        private string _startupSelection;
-        
-        public virtual string StartupSelection
-        {
-            get { return _startupSelection; }
-            set
-            {
-                if (string.Equals(value, _startupSelection))
-                {
-                    return;
-                }
-                _startupSelection = value;
+                _alwaysClose = value;
             }
         }
         
@@ -2457,6 +2418,25 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _exePaths = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property ExitCodes
+        
+        private int[] _exitCodes;
+        
+        public virtual int[] ExitCodes
+        {
+            get { return _exitCodes; }
+            set
+            {
+                if ((value == _exitCodes))
+                {
+                    return;
+                }
+                _exitCodes = value;
             }
         }
         
@@ -2578,40 +2558,748 @@ namespace Mastersign.DashOps.Model_v2
         }
         
         #endregion
-        
-        #region Property KeepActionOpen
-        
-        private bool _keepActionOpen;
-        
-        public virtual bool KeepActionOpen
+    }
+    
+    public partial class DefaultMonitorSettings
+    {
+        public DefaultMonitorSettings()
         {
-            get { return _keepActionOpen; }
+            this._interval = DEF_INTERVAL;
+            this._httpTimeout = DEF_HTTPTIMEOUT;
+            this._requiredPatterns = new string[0];
+            this._forbiddenPatterns = new string[0];
+            this._exePaths = new string[0];
+            this._powerShellExecutionPolicy = DEF_POWERSHELLEXECUTIONPOLICY;
+        }
+        
+        #region String Representation
+        
+        public override string ToString()
+        {
+            return this.ToString(CultureInfo.CurrentUICulture);
+        }
+        
+        public virtual string ToString(IFormatProvider formatProvider)
+        {
+            return (this.GetType().FullName + @": " + (
+                (global::System.Environment.NewLine + @"    Deactivated = " + _deactivated.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Interval = " + _interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    HttpTimeout = " + _httpTimeout.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoTlsVerify = " + _noTlsVerify.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    StatusCodes = " + (!ReferenceEquals(_statusCodes, null) ? _statusCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(_requiredPatterns, null) ? _requiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(_forbiddenPatterns, null) ? _forbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoExecutionInfo = " + _noExecutionInfo.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(_environment, null) ? _environment.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ExePaths = " + (!ReferenceEquals(_exePaths, null) ? _exePaths.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(_exitCodes, null) ? _exitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellCore = " + _usePowerShellCore.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExe = " + (!ReferenceEquals(_powerShellExe, null) ? _powerShellExe.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellProfile = " + _usePowerShellProfile.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExecutionPolicy = " + (!ReferenceEquals(_powerShellExecutionPolicy, null) ? _powerShellExecutionPolicy.ToString(formatProvider) : @"null").Replace("\n", "\n    "))));
+        }
+        
+        #endregion
+        
+        #region Property Deactivated
+        
+        private bool _deactivated;
+        
+        public virtual bool Deactivated
+        {
+            get { return _deactivated; }
             set
             {
-                if ((value == _keepActionOpen))
+                if ((value == _deactivated))
                 {
                     return;
                 }
-                _keepActionOpen = value;
+                _deactivated = value;
             }
         }
         
         #endregion
         
-        #region Property AlwaysCloseAction
+        #region Property Interval
         
-        private bool _alwaysCloseAction;
+        private int _interval;
         
-        public virtual bool AlwaysCloseAction
+        private const int DEF_INTERVAL = 60;
+        
+        [DefaultValue(DEF_INTERVAL)]
+        public virtual int Interval
         {
-            get { return _alwaysCloseAction; }
+            get { return _interval; }
             set
             {
-                if ((value == _alwaysCloseAction))
+                if ((value == _interval))
                 {
                     return;
                 }
-                _alwaysCloseAction = value;
+                _interval = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property HttpTimeout
+        
+        private int _httpTimeout;
+        
+        private const int DEF_HTTPTIMEOUT = 20;
+        
+        [DefaultValue(DEF_HTTPTIMEOUT)]
+        public virtual int HttpTimeout
+        {
+            get { return _httpTimeout; }
+            set
+            {
+                if ((value == _httpTimeout))
+                {
+                    return;
+                }
+                _httpTimeout = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property NoTlsVerify
+        
+        private bool _noTlsVerify;
+        
+        public virtual bool NoTlsVerify
+        {
+            get { return _noTlsVerify; }
+            set
+            {
+                if ((value == _noTlsVerify))
+                {
+                    return;
+                }
+                _noTlsVerify = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property StatusCodes
+        
+        private int[] _statusCodes;
+        
+        public virtual int[] StatusCodes
+        {
+            get { return _statusCodes; }
+            set
+            {
+                if ((value == _statusCodes))
+                {
+                    return;
+                }
+                _statusCodes = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property RequiredPatterns
+        
+        private string[] _requiredPatterns;
+        
+        public virtual string[] RequiredPatterns
+        {
+            get { return _requiredPatterns; }
+            set
+            {
+                if ((value == _requiredPatterns))
+                {
+                    return;
+                }
+                _requiredPatterns = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property ForbiddenPatterns
+        
+        private string[] _forbiddenPatterns;
+        
+        public virtual string[] ForbiddenPatterns
+        {
+            get { return _forbiddenPatterns; }
+            set
+            {
+                if ((value == _forbiddenPatterns))
+                {
+                    return;
+                }
+                _forbiddenPatterns = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Logs
+        
+        private string _logs;
+        
+        public virtual string Logs
+        {
+            get { return _logs; }
+            set
+            {
+                if (string.Equals(value, _logs))
+                {
+                    return;
+                }
+                _logs = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property NoLogs
+        
+        private bool _noLogs;
+        
+        public virtual bool NoLogs
+        {
+            get { return _noLogs; }
+            set
+            {
+                if ((value == _noLogs))
+                {
+                    return;
+                }
+                _noLogs = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property NoExecutionInfo
+        
+        private bool _noExecutionInfo;
+        
+        public virtual bool NoExecutionInfo
+        {
+            get { return _noExecutionInfo; }
+            set
+            {
+                if ((value == _noExecutionInfo))
+                {
+                    return;
+                }
+                _noExecutionInfo = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property WorkingDirectory
+        
+        private string _workingDirectory;
+        
+        public virtual string WorkingDirectory
+        {
+            get { return _workingDirectory; }
+            set
+            {
+                if (string.Equals(value, _workingDirectory))
+                {
+                    return;
+                }
+                _workingDirectory = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Environment
+        
+        private Dictionary<string, string> _environment;
+        
+        public virtual Dictionary<string, string> Environment
+        {
+            get { return _environment; }
+            set
+            {
+                if ((value == _environment))
+                {
+                    return;
+                }
+                _environment = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property ExePaths
+        
+        private string[] _exePaths;
+        
+        public virtual string[] ExePaths
+        {
+            get { return _exePaths; }
+            set
+            {
+                if ((value == _exePaths))
+                {
+                    return;
+                }
+                _exePaths = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property ExitCodes
+        
+        private int[] _exitCodes;
+        
+        public virtual int[] ExitCodes
+        {
+            get { return _exitCodes; }
+            set
+            {
+                if ((value == _exitCodes))
+                {
+                    return;
+                }
+                _exitCodes = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property UsePowerShellCore
+        
+        private bool _usePowerShellCore;
+        
+        public virtual bool UsePowerShellCore
+        {
+            get { return _usePowerShellCore; }
+            set
+            {
+                if ((value == _usePowerShellCore))
+                {
+                    return;
+                }
+                _usePowerShellCore = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property PowerShellExe
+        
+        private string _powerShellExe;
+        
+        public virtual string PowerShellExe
+        {
+            get { return _powerShellExe; }
+            set
+            {
+                if (string.Equals(value, _powerShellExe))
+                {
+                    return;
+                }
+                _powerShellExe = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property UsePowerShellProfile
+        
+        private bool _usePowerShellProfile;
+        
+        public virtual bool UsePowerShellProfile
+        {
+            get { return _usePowerShellProfile; }
+            set
+            {
+                if ((value == _usePowerShellProfile))
+                {
+                    return;
+                }
+                _usePowerShellProfile = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property PowerShellExecutionPolicy
+        
+        private string _powerShellExecutionPolicy;
+        
+        private const string DEF_POWERSHELLEXECUTIONPOLICY = @"RemoteSigned";
+        
+        [DefaultValue(DEF_POWERSHELLEXECUTIONPOLICY)]
+        public virtual string PowerShellExecutionPolicy
+        {
+            get { return _powerShellExecutionPolicy; }
+            set
+            {
+                if (string.Equals(value, _powerShellExecutionPolicy))
+                {
+                    return;
+                }
+                _powerShellExecutionPolicy = value;
+            }
+        }
+        
+        #endregion
+    }
+    
+    public partial class DefaultSettings
+    {
+        public DefaultSettings()
+        {
+        }
+        
+        #region String Representation
+        
+        public override string ToString()
+        {
+            return this.ToString(CultureInfo.CurrentUICulture);
+        }
+        
+        public virtual string ToString(IFormatProvider formatProvider)
+        {
+            return (this.GetType().FullName + @": " + (
+                (global::System.Environment.NewLine + @"    ForActions = " + (!ReferenceEquals(_forActions, null) ? _forActions.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ForMonitors = " + (!ReferenceEquals(_forMonitors, null) ? _forMonitors.ToString() : @"null").Replace("\n", "\n    "))));
+        }
+        
+        #endregion
+        
+        #region Property ForActions
+        
+        private DefaultActionSettings _forActions;
+        
+        public virtual DefaultActionSettings ForActions
+        {
+            get { return _forActions; }
+            set
+            {
+                if ((value == _forActions))
+                {
+                    return;
+                }
+                _forActions = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property ForMonitors
+        
+        private DefaultMonitorSettings _forMonitors;
+        
+        public virtual DefaultMonitorSettings ForMonitors
+        {
+            get { return _forMonitors; }
+            set
+            {
+                if ((value == _forMonitors))
+                {
+                    return;
+                }
+                _forMonitors = value;
+            }
+        }
+        
+        #endregion
+    }
+    
+    public partial class Project
+    {
+        public Project()
+        {
+            this._perspectives = new List<FacetPerspective>();
+            this._actions = new List<CommandAction>();
+            this._actionDiscovery = new List<CommandActionDiscovery>();
+            this._actionPatterns = new List<CommandActionPattern>();
+            this._monitors = new List<CommandMonitor>();
+            this._monitorDiscovery = new List<CommandMonitorDiscovery>();
+            this._monitorPatterns = new List<CommandMonitorPattern>();
+            this._webMonitors = new List<WebMonitor>();
+            this._webMonitorPatterns = new List<WebMonitorPattern>();
+            this.Initialize();
+        }
+        
+        #region String Representation
+        
+        public override string ToString()
+        {
+            return this.ToString(CultureInfo.CurrentUICulture);
+        }
+        
+        public virtual string ToString(IFormatProvider formatProvider)
+        {
+            global::System.Text.StringBuilder __collection_Perspectives = new global::System.Text.StringBuilder();
+            if ((!ReferenceEquals(_perspectives, null) && !(_perspectives.Count == 0)))
+            {
+                for (int __index = 0; __index < Math.Min(_perspectives.Count, 10); __index++)
+                {
+                    FacetPerspective __item = _perspectives[__index];
+                    __collection_Perspectives.AppendLine();
+                    __collection_Perspectives.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
+                }
+            }
+            global::System.Text.StringBuilder __collection_Actions = new global::System.Text.StringBuilder();
+            if ((!ReferenceEquals(_actions, null) && !(_actions.Count == 0)))
+            {
+                for (int __index = 0; __index < Math.Min(_actions.Count, 10); __index++)
+                {
+                    CommandAction __item = _actions[__index];
+                    __collection_Actions.AppendLine();
+                    __collection_Actions.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
+                }
+            }
+            global::System.Text.StringBuilder __collection_ActionDiscovery = new global::System.Text.StringBuilder();
+            if ((!ReferenceEquals(_actionDiscovery, null) && !(_actionDiscovery.Count == 0)))
+            {
+                for (int __index = 0; __index < Math.Min(_actionDiscovery.Count, 10); __index++)
+                {
+                    CommandActionDiscovery __item = _actionDiscovery[__index];
+                    __collection_ActionDiscovery.AppendLine();
+                    __collection_ActionDiscovery.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
+                }
+            }
+            global::System.Text.StringBuilder __collection_ActionPatterns = new global::System.Text.StringBuilder();
+            if ((!ReferenceEquals(_actionPatterns, null) && !(_actionPatterns.Count == 0)))
+            {
+                for (int __index = 0; __index < Math.Min(_actionPatterns.Count, 10); __index++)
+                {
+                    CommandActionPattern __item = _actionPatterns[__index];
+                    __collection_ActionPatterns.AppendLine();
+                    __collection_ActionPatterns.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
+                }
+            }
+            global::System.Text.StringBuilder __collection_Monitors = new global::System.Text.StringBuilder();
+            if ((!ReferenceEquals(_monitors, null) && !(_monitors.Count == 0)))
+            {
+                for (int __index = 0; __index < Math.Min(_monitors.Count, 10); __index++)
+                {
+                    CommandMonitor __item = _monitors[__index];
+                    __collection_Monitors.AppendLine();
+                    __collection_Monitors.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
+                }
+            }
+            global::System.Text.StringBuilder __collection_MonitorDiscovery = new global::System.Text.StringBuilder();
+            if ((!ReferenceEquals(_monitorDiscovery, null) && !(_monitorDiscovery.Count == 0)))
+            {
+                for (int __index = 0; __index < Math.Min(_monitorDiscovery.Count, 10); __index++)
+                {
+                    CommandMonitorDiscovery __item = _monitorDiscovery[__index];
+                    __collection_MonitorDiscovery.AppendLine();
+                    __collection_MonitorDiscovery.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
+                }
+            }
+            global::System.Text.StringBuilder __collection_MonitorPatterns = new global::System.Text.StringBuilder();
+            if ((!ReferenceEquals(_monitorPatterns, null) && !(_monitorPatterns.Count == 0)))
+            {
+                for (int __index = 0; __index < Math.Min(_monitorPatterns.Count, 10); __index++)
+                {
+                    CommandMonitorPattern __item = _monitorPatterns[__index];
+                    __collection_MonitorPatterns.AppendLine();
+                    __collection_MonitorPatterns.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
+                }
+            }
+            global::System.Text.StringBuilder __collection_WebMonitors = new global::System.Text.StringBuilder();
+            if ((!ReferenceEquals(_webMonitors, null) && !(_webMonitors.Count == 0)))
+            {
+                for (int __index = 0; __index < Math.Min(_webMonitors.Count, 10); __index++)
+                {
+                    WebMonitor __item = _webMonitors[__index];
+                    __collection_WebMonitors.AppendLine();
+                    __collection_WebMonitors.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
+                }
+            }
+            global::System.Text.StringBuilder __collection_WebMonitorPatterns = new global::System.Text.StringBuilder();
+            if ((!ReferenceEquals(_webMonitorPatterns, null) && !(_webMonitorPatterns.Count == 0)))
+            {
+                for (int __index = 0; __index < Math.Min(_webMonitorPatterns.Count, 10); __index++)
+                {
+                    WebMonitorPattern __item = _webMonitorPatterns[__index];
+                    __collection_WebMonitorPatterns.AppendLine();
+                    __collection_WebMonitorPatterns.Append((@"- " + __index.ToString() + @": " + (!ReferenceEquals(__item, null) ? __item.ToString() : @"null")));
+                }
+            }
+            return (this.GetType().FullName + @": " + (
+                (global::System.Environment.NewLine + @"    Version = " + (!ReferenceEquals(_version, null) ? _version.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(_title, null) ? _title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Perspectives = " + (!ReferenceEquals(_perspectives, null) ? (_perspectives.Count.ToString() + @" items" + __collection_Perspectives.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    StartupPerspective = " + (!ReferenceEquals(_startupPerspective, null) ? _startupPerspective.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    StartupSelection = " + (!ReferenceEquals(_startupSelection, null) ? _startupSelection.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PauseMonitoring = " + _pauseMonitoring.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Defaults = " + (!ReferenceEquals(_defaults, null) ? _defaults.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    AutoSettings = " + (!ReferenceEquals(_autoSettings, null) ? _autoSettings.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Actions = " + (!ReferenceEquals(_actions, null) ? (_actions.Count.ToString() + @" items" + __collection_Actions.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ActionDiscovery = " + (!ReferenceEquals(_actionDiscovery, null) ? (_actionDiscovery.Count.ToString() + @" items" + __collection_ActionDiscovery.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ActionPatterns = " + (!ReferenceEquals(_actionPatterns, null) ? (_actionPatterns.Count.ToString() + @" items" + __collection_ActionPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Monitors = " + (!ReferenceEquals(_monitors, null) ? (_monitors.Count.ToString() + @" items" + __collection_Monitors.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    MonitorDiscovery = " + (!ReferenceEquals(_monitorDiscovery, null) ? (_monitorDiscovery.Count.ToString() + @" items" + __collection_MonitorDiscovery.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    MonitorPatterns = " + (!ReferenceEquals(_monitorPatterns, null) ? (_monitorPatterns.Count.ToString() + @" items" + __collection_MonitorPatterns.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    WebMonitors = " + (!ReferenceEquals(_webMonitors, null) ? (_webMonitors.Count.ToString() + @" items" + __collection_WebMonitors.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    WebMonitorPatterns = " + (!ReferenceEquals(_webMonitorPatterns, null) ? (_webMonitorPatterns.Count.ToString() + @" items" + __collection_WebMonitorPatterns.ToString()) : @"null").Replace("\n", "\n    "))));
+        }
+        
+        #endregion
+        
+        #region Property Version
+        
+        private string _version;
+        
+        public virtual string Version
+        {
+            get { return _version; }
+            set
+            {
+                if (string.Equals(value, _version))
+                {
+                    return;
+                }
+                _version = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Title
+        
+        private string _title;
+        
+        public virtual string Title
+        {
+            get { return _title; }
+            set
+            {
+                if (string.Equals(value, _title))
+                {
+                    return;
+                }
+                _title = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Perspectives
+        
+        private List<FacetPerspective> _perspectives;
+        
+        public virtual List<FacetPerspective> Perspectives
+        {
+            get { return _perspectives; }
+            set
+            {
+                if ((value == _perspectives))
+                {
+                    return;
+                }
+                _perspectives = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property StartupPerspective
+        
+        private string _startupPerspective;
+        
+        public virtual string StartupPerspective
+        {
+            get { return _startupPerspective; }
+            set
+            {
+                if (string.Equals(value, _startupPerspective))
+                {
+                    return;
+                }
+                _startupPerspective = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property StartupSelection
+        
+        private string _startupSelection;
+        
+        public virtual string StartupSelection
+        {
+            get { return _startupSelection; }
+            set
+            {
+                if (string.Equals(value, _startupSelection))
+                {
+                    return;
+                }
+                _startupSelection = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property PauseMonitoring
+        
+        private bool _pauseMonitoring;
+        
+        public virtual bool PauseMonitoring
+        {
+            get { return _pauseMonitoring; }
+            set
+            {
+                if ((value == _pauseMonitoring))
+                {
+                    return;
+                }
+                _pauseMonitoring = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Defaults
+        
+        private DefaultSettings _defaults;
+        
+        public virtual DefaultSettings Defaults
+        {
+            get { return _defaults; }
+            set
+            {
+                if ((value == _defaults))
+                {
+                    return;
+                }
+                _defaults = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property AutoSettings
+        
+        private AutoSettings _autoSettings;
+        
+        public virtual AutoSettings AutoSettings
+        {
+            get { return _autoSettings; }
+            set
+            {
+                if ((value == _autoSettings))
+                {
+                    return;
+                }
+                _autoSettings = value;
             }
         }
         
@@ -2669,88 +3357,6 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _actionPatterns = value;
-            }
-        }
-        
-        #endregion
-        
-        #region Property Auto
-        
-        private List<AutoAnnotation> _auto;
-        
-        public virtual List<AutoAnnotation> Auto
-        {
-            get { return _auto; }
-            set
-            {
-                if ((value == _auto))
-                {
-                    return;
-                }
-                _auto = value;
-            }
-        }
-        
-        #endregion
-        
-        #region Property PauseMonitors
-        
-        private bool _pauseMonitors;
-        
-        public virtual bool PauseMonitors
-        {
-            get { return _pauseMonitors; }
-            set
-            {
-                if ((value == _pauseMonitors))
-                {
-                    return;
-                }
-                _pauseMonitors = value;
-            }
-        }
-        
-        #endregion
-        
-        #region Property DefaultMonitorInterval
-        
-        private int _defaultMonitorInterval;
-        
-        private const int DEF_DEFAULTMONITORINTERVAL = 60;
-        
-        [DefaultValue(DEF_DEFAULTMONITORINTERVAL)]
-        public virtual int DefaultMonitorInterval
-        {
-            get { return _defaultMonitorInterval; }
-            set
-            {
-                if ((value == _defaultMonitorInterval))
-                {
-                    return;
-                }
-                _defaultMonitorInterval = value;
-            }
-        }
-        
-        #endregion
-        
-        #region Property DefaultWebMonitorTimeout
-        
-        private int _defaultWebMonitorTimeout;
-        
-        private const int DEF_DEFAULTWEBMONITORTIMEOUT = 20;
-        
-        [DefaultValue(DEF_DEFAULTWEBMONITORTIMEOUT)]
-        public virtual int DefaultWebMonitorTimeout
-        {
-            get { return _defaultWebMonitorTimeout; }
-            set
-            {
-                if ((value == _defaultWebMonitorTimeout))
-                {
-                    return;
-                }
-                _defaultWebMonitorTimeout = value;
             }
         }
         

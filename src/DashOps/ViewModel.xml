@@ -78,6 +78,7 @@
       <Property name="Title" />
       <Property name="Logs" />
       <Property name="NoLogs" type="bool" />
+      <Property name="NoExecutionInfo" type="bool" />
       <Property name="CurrentLogFile" />
       <Property name="Deactivated" type="bool" />
       <Property name="Interval" type="TimeSpan" />

@@ -49,7 +49,7 @@ namespace Mastersign.DashOps
             // nothing
         }
 
-        public bool PrintExecutionInfo => true;
+        public bool PrintExecutionInfo => !NoExecutionInfo;
 
         public string ExitCodesFormatted => string.Join(", ", ExitCodes ?? []);
 

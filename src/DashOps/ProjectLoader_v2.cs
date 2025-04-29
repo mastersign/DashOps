@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using Mastersign.DashOps.Model_v2;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -74,18 +75,22 @@ namespace Mastersign.DashOps
         {
             _deserializer = new DeserializerBuilder()
                 .WithNamingConvention(HyphenatedNamingConvention.Instance)
-                .WithAttributeOverride(typeof(Project), nameof(Project.PowerShellExe), new YamlMemberAttribute { Alias = "PowershellExe" })
-                .WithAttributeOverride(typeof(Project), nameof(Project.PowerShellExecutionPolicy), new YamlMemberAttribute { Alias = "PowershellExecutionPolicy" })
-                .WithAttributeOverride(typeof(Project), nameof(Project.UsePowerShellCore), new YamlMemberAttribute { Alias = "UsePowershellCore" })
-                .WithAttributeOverride(typeof(Project), nameof(Project.UsePowerShellProfile), new YamlMemberAttribute { Alias = "UsePowershellProfile" })
+                .WithAttributeOverride(typeof(DefaultActionSettings), nameof(DefaultActionSettings.PowerShellExe), new YamlMemberAttribute { Alias = "PowershellExe" })
+                .WithAttributeOverride(typeof(DefaultActionSettings), nameof(DefaultActionSettings.PowerShellExecutionPolicy), new YamlMemberAttribute { Alias = "PowershellExecutionPolicy" })
+                .WithAttributeOverride(typeof(DefaultActionSettings), nameof(DefaultActionSettings.UsePowerShellCore), new YamlMemberAttribute { Alias = "UsePowershellCore" })
+                .WithAttributeOverride(typeof(DefaultActionSettings), nameof(DefaultActionSettings.UsePowerShellProfile), new YamlMemberAttribute { Alias = "UsePowershellProfile" })
+                .WithAttributeOverride(typeof(DefaultMonitorSettings), nameof(DefaultMonitorSettings.PowerShellExe), new YamlMemberAttribute { Alias = "PowershellExe" })
+                .WithAttributeOverride(typeof(DefaultMonitorSettings), nameof(DefaultMonitorSettings.PowerShellExecutionPolicy), new YamlMemberAttribute { Alias = "PowershellExecutionPolicy" })
+                .WithAttributeOverride(typeof(DefaultMonitorSettings), nameof(DefaultMonitorSettings.UsePowerShellCore), new YamlMemberAttribute { Alias = "UsePowershellCore" })
+                .WithAttributeOverride(typeof(DefaultMonitorSettings), nameof(DefaultMonitorSettings.UsePowerShellProfile), new YamlMemberAttribute { Alias = "UsePowershellProfile" })
                 .WithAttributeOverride(typeof(CommandActionBase), nameof(CommandActionBase.PowerShellExe), new YamlMemberAttribute { Alias = "PowershellExe" })
                 .WithAttributeOverride(typeof(CommandActionBase), nameof(CommandActionBase.PowerShellExecutionPolicy), new YamlMemberAttribute { Alias = "PowershellExecutionPolicy" })
                 .WithAttributeOverride(typeof(CommandActionBase), nameof(CommandActionBase.UsePowerShellCore), new YamlMemberAttribute { Alias = "UsePowershellCore" })
                 .WithAttributeOverride(typeof(CommandActionBase), nameof(CommandActionBase.UsePowerShellProfile), new YamlMemberAttribute { Alias = "UsePowershellProfile" })
-                .WithAttributeOverride(typeof(AutoAnnotation), nameof(AutoAnnotation.PowerShellExe), new YamlMemberAttribute { Alias = "PowershellExe" })
-                .WithAttributeOverride(typeof(AutoAnnotation), nameof(AutoAnnotation.PowerShellExecutionPolicy), new YamlMemberAttribute { Alias = "PowershellExecutionPolicy" })
-                .WithAttributeOverride(typeof(AutoAnnotation), nameof(AutoAnnotation.UsePowerShellCore), new YamlMemberAttribute { Alias = "UsePowershellCore" })
-                .WithAttributeOverride(typeof(AutoAnnotation), nameof(AutoAnnotation.UsePowerShellProfile), new YamlMemberAttribute { Alias = "UsePowershellProfile" })
+                .WithAttributeOverride(typeof(AutoActionSettings), nameof(AutoActionSettings.PowerShellExe), new YamlMemberAttribute { Alias = "PowershellExe" })
+                .WithAttributeOverride(typeof(AutoActionSettings), nameof(AutoActionSettings.PowerShellExecutionPolicy), new YamlMemberAttribute { Alias = "PowershellExecutionPolicy" })
+                .WithAttributeOverride(typeof(AutoActionSettings), nameof(AutoActionSettings.UsePowerShellCore), new YamlMemberAttribute { Alias = "UsePowershellCore" })
+                .WithAttributeOverride(typeof(AutoActionSettings), nameof(AutoActionSettings.UsePowerShellProfile), new YamlMemberAttribute { Alias = "UsePowershellProfile" })
                 .WithAttributeOverride(typeof(CommandMonitor), nameof(CommandMonitor.PowerShellExe), new YamlMemberAttribute { Alias = "PowershellExe" })
                 .WithAttributeOverride(typeof(CommandMonitor), nameof(CommandMonitor.PowerShellExecutionPolicy), new YamlMemberAttribute { Alias = "PowershellExecutionPolicy" })
                 .WithAttributeOverride(typeof(CommandMonitor), nameof(CommandMonitor.UsePowerShellCore), new YamlMemberAttribute { Alias = "UsePowershellCore" })
@@ -155,6 +160,19 @@ namespace Mastersign.DashOps
             }
         }
 
+        private void AsureRelativeDirectory(string path)
+        {
+            if (path is null) return;
+            if (!Path.IsPathRooted(path))
+            {
+                path = Path.Combine(Environment.CurrentDirectory, path);
+            }
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+        }
+
         private void UpdateProjectView()
         {
             ProjectView.ActionViews.Clear();
@@ -163,20 +181,15 @@ namespace Mastersign.DashOps
             ProjectView.MonitorViews.Clear();
             ProjectView.FormatVersion = Project?.Version ?? "0.0";
             ProjectView.Title = Project?.Title ?? "Unknown";
-            var defaultLogDir = ExpandEnv(Project?.Logs);
             if (Project == null) return;
 
-            if (defaultLogDir != null)
-            {
-                if (!Path.IsPathRooted(defaultLogDir))
-                {
-                    defaultLogDir = Path.Combine(Environment.CurrentDirectory, defaultLogDir);
-                }
-                if (!Directory.Exists(defaultLogDir))
-                {
-                    Directory.CreateDirectory(defaultLogDir);
-                }
-            }
+            var actionDefaults = Project.Defaults.ForActions;
+            var monitorDefaults = Project.Defaults.ForMonitors;
+
+            var defaultActionLogDir = ExpandEnv(actionDefaults.Logs);
+            AsureRelativeDirectory(defaultActionLogDir);
+            var defaultMonitorLogDir = ExpandEnv(monitorDefaults.Logs);
+            AsureRelativeDirectory(defaultMonitorLogDir);
 
             void AddActionViews(IEnumerable<ActionView> actionViews)
             {
@@ -189,9 +202,9 @@ namespace Mastersign.DashOps
             ApplyAutoAnnotations();
             foreach (var actionView in ProjectView.ActionViews)
             {
-                actionView.Logs = BuildLogDirPath(actionView.Logs, actionView.NoLogs);
-                if (Project.KeepActionOpen) actionView.KeepOpen = true;
-                if (Project.AlwaysCloseAction) actionView.AlwaysClose = true;
+                actionView.Logs = BuildActionLogDirPath(actionView.Logs, actionView.NoLogs);
+                if (actionDefaults.KeepOpen) actionView.KeepOpen = true;
+                if (actionDefaults.AlwaysClose) actionView.AlwaysClose = true;
                 var logInfo = LogFileManager.GetLastLogFileInfo(actionView);
                 if (logInfo != null)
                 {
@@ -199,9 +212,9 @@ namespace Mastersign.DashOps
                 }
             }
 
-            ProjectView.IsMonitoringPaused = Project.PauseMonitors;
-            var defaultMonitorInterval = new TimeSpan(0, 0, Project.DefaultMonitorInterval);
-            var defaultWebMonitorTimeout = new TimeSpan(0, 0, Project.DefaultWebMonitorTimeout);
+            ProjectView.IsMonitoringPaused = Project.PauseMonitoring;
+            var defaultMonitorInterval = new TimeSpan(0, 0, monitorDefaults.Interval);
+            var defaultWebMonitorTimeout = new TimeSpan(0, 0, monitorDefaults.HttpTimeout);
             void AddMonitorViews(IEnumerable<MonitorView> monitorViews)
             {
                 foreach (var monitorView in monitorViews) ProjectView.MonitorViews.Add(monitorView);
@@ -213,7 +226,7 @@ namespace Mastersign.DashOps
             if (Project.WebMonitorPatterns != null) AddMonitorViews(Project.WebMonitorPatterns.SelectMany(ExpandWebMonitorPattern));
             foreach (var monitorView in ProjectView.MonitorViews)
             {
-                monitorView.Logs = BuildLogDirPath(monitorView.Logs, monitorView.NoLogs);
+                monitorView.Logs = BuildMonitorLogDirPath(monitorView.Logs, monitorView.NoLogs);
                 var logInfo = monitorView.GetLastLogFileInfo();
                 if (logInfo != null && logInfo.HasResult)
                 {
@@ -263,10 +276,10 @@ namespace Mastersign.DashOps
             }
         }
 
-        private string BuildLogDirPath(string logs, bool noLogs)
+        private string BuildLogDirPath(string logs, string defaultLogs, bool noLogs)
         {
-            if (Project.NoLogs || noLogs) return null;
-            logs = logs ?? Project.Logs;
+            if (noLogs) return null;
+            logs = logs ?? defaultLogs;
             if (logs != null && !Path.IsPathRooted(logs))
             {
                 logs = Path.Combine(Environment.CurrentDirectory, logs);
@@ -274,50 +287,57 @@ namespace Mastersign.DashOps
             return logs;
         }
 
+        private string BuildActionLogDirPath(string logs, bool noLogs)
+            => BuildLogDirPath(logs, Project.Defaults.ForActions.Logs, noLogs);
+
+        private string BuildMonitorLogDirPath(string logs, bool noLogs)
+            => BuildLogDirPath(logs, Project.Defaults.ForMonitors.Logs, noLogs);
+
         private void ApplyAutoAnnotations()
         {
-            if (Project.Auto == null) return;
+            if (Project.AutoSettings?.ForActions is null) return;
             foreach (var actionView in ProjectView.ActionViews)
             {
-                foreach (var annotation in Project.Auto.Where(a => a.Match(actionView)))
+                foreach (var autoSettings in Project.AutoSettings.ForActions.Where(a => a.Match(actionView)))
                 {
-                    ApplyAutoAnnotation(actionView, annotation);
+                    ApplyAutoSettings(actionView, autoSettings);
                 }
             }
         }
 
-        private void ApplyAutoAnnotation(ActionView action, AutoAnnotation annotation)
+        private void ApplyAutoSettings(ActionView action, AutoActionSettings autoSettings)
         {
-            if (annotation.Tags != null)
+            if (autoSettings.Tags != null)
             {
-                action.Tags = [.. action.Tags.Union(annotation.Tags)];
+                action.Tags = [.. action.Tags.Union(autoSettings.Tags)];
             }
 
-            if (annotation.Facets != null)
+            if (autoSettings.Facets != null)
             {
-                foreach (var facetName in annotation.Facets.Keys)
+                foreach (var facetName in autoSettings.Facets.Keys)
                 {
-                    action.Facets[facetName] = annotation.Facets[facetName];
+                    action.Facets[facetName] = autoSettings.Facets[facetName];
                 }
             }
 
-            action.Reassure = annotation.Reassure ?? action.Reassure;
-            action.NoLogs = annotation.NoLogs ?? action.NoLogs;
-            action.NoExecutionInfo = annotation.NoExecutionInfo ?? action.NoExecutionInfo;
-            action.KeepOpen = annotation.KeepOpen ?? action.KeepOpen;
-            action.AlwaysClose = annotation.AlwaysClose ?? action.AlwaysClose;
-            action.Visible = !(annotation.Background ?? !action.Visible);
+            action.Reassure = autoSettings.Reassure ?? action.Reassure;
+            action.Logs = autoSettings.Logs ?? action.Logs;
+            action.NoLogs = autoSettings.NoLogs ?? action.NoLogs;
+            action.NoExecutionInfo = autoSettings.NoExecutionInfo ?? action.NoExecutionInfo;
+            action.KeepOpen = autoSettings.KeepOpen ?? action.KeepOpen;
+            action.AlwaysClose = autoSettings.AlwaysClose ?? action.AlwaysClose;
+            action.Visible = !(autoSettings.Background ?? !action.Visible);
 
-            if (annotation.Environment != null)
+            if (autoSettings.Environment != null)
             {
-                foreach (var kvp in annotation.Environment)
+                foreach (var kvp in autoSettings.Environment)
                 {
                     action.Environment[kvp.Key] = kvp.Value;
                 }
             }
-            if (annotation.ExePaths != null)
+            if (autoSettings.ExePaths != null)
             {
-                action.ExePaths = annotation.ExePaths
+                action.ExePaths = autoSettings.ExePaths
                     // expand facets
                     .Select(p => ExpandTemplate(p, action.Facets))
                     // expand CMD-style environment variables
@@ -325,18 +345,20 @@ namespace Mastersign.DashOps
                     .ToArray();
             }
 
-            action.UsePowerShellCore = annotation.UsePowerShellCore ?? action.UsePowerShellCore;
-            if (annotation.PowerShellExe != null)
-            {
-                action.PowerShellExe = ExpandEnv(ExpandTemplate(annotation.PowerShellExe, action.Facets));
-            }
-            action.UsePowerShellProfile = annotation.UsePowerShellProfile ?? action.UsePowerShellProfile;
-            action.PowerShellExecutionPolicy = annotation.PowerShellExecutionPolicy ?? action.PowerShellExecutionPolicy;
+            action.ExitCodes = autoSettings.ExitCodes ?? action.ExitCodes;
 
-            action.UseWindowsTerminal = annotation.UseWindowsTerminal ?? action.UseWindowsTerminal;
-            if (annotation.WindowsTerminalArgs != null)
+            action.UsePowerShellCore = autoSettings.UsePowerShellCore ?? action.UsePowerShellCore;
+            if (autoSettings.PowerShellExe != null)
             {
-                action.WindowsTerminalArguments = FormatArguments(annotation.WindowsTerminalArgs
+                action.PowerShellExe = ExpandEnv(ExpandTemplate(autoSettings.PowerShellExe, action.Facets));
+            }
+            action.UsePowerShellProfile = autoSettings.UsePowerShellProfile ?? action.UsePowerShellProfile;
+            action.PowerShellExecutionPolicy = autoSettings.PowerShellExecutionPolicy ?? action.PowerShellExecutionPolicy;
+
+            action.UseWindowsTerminal = autoSettings.UseWindowsTerminal ?? action.UseWindowsTerminal;
+            if (autoSettings.WindowsTerminalArgs != null)
+            {
+                action.WindowsTerminalArguments = FormatArguments(autoSettings.WindowsTerminalArgs
                     // expand facets
                     .Select(a => ExpandTemplate(a, action.Facets))
                     // expand CMD-style environment variables
@@ -365,39 +387,40 @@ namespace Mastersign.DashOps
 
         private ActionView ActionViewFromCommandAction(CommandAction action)
         {
+            var defaults = Project.Defaults.ForActions;
             var facets = new Dictionary<string, string>(action.Facets ?? []);
             var actionView = new ActionView
             {
-                UsePowerShellCore = action.UsePowerShellCore ?? Project.UsePowerShellCore,
+                UsePowerShellCore = action.UsePowerShellCore ?? defaults.UsePowerShellCore,
                 PowerShellExe = !string.IsNullOrWhiteSpace(action.PowerShellExe)
                     ? ExpandEnv(ExpandTemplate(action.PowerShellExe, facets))
-                    : ExpandEnv(ExpandTemplate(Project.PowerShellExe, facets)),
-                UsePowerShellProfile = action.UsePowerShellProfile ?? Project.UsePowerShellProfile,
+                    : ExpandEnv(ExpandTemplate(defaults.PowerShellExe, facets)),
+                UsePowerShellProfile = action.UsePowerShellProfile ?? defaults.UsePowerShellProfile,
                 PowerShellExecutionPolicy = !string.IsNullOrWhiteSpace(action.PowerShellExecutionPolicy)
                     ? action.PowerShellExecutionPolicy
-                    : Project.PowerShellExecutionPolicy,
+                    : defaults.PowerShellExecutionPolicy,
                 Command = ExpandEnv(ExpandTemplate(action.Command, facets)),
                 Arguments = FormatArguments(
                     action.Arguments?.Select(a => ExpandEnv(ExpandTemplate(a, facets)))),
                 WorkingDirectory = BuildAbsolutePath(action.WorkingDirectory),
-                Environment = Merge(Project.Environment, action.Environment),
-                ExePaths = (action.ExePaths ?? Project.ExePaths ?? [])
+                Environment = Merge(defaults.Environment, action.Environment),
+                ExePaths = (action.ExePaths ?? defaults.ExePaths ?? [])
                     .Select(p => ExpandTemplate(p, facets))
                     .Select(ExpandEnv)
                     .ToArray(),
-                UseWindowsTerminal = action.UseWindowsTerminal ?? Project.UseWindowsTerminal,
+                UseWindowsTerminal = action.UseWindowsTerminal ?? defaults.UseWindowsTerminal,
                 WindowsTerminalArguments = FormatArguments(
-                    (action.WindowsTerminalArgs ?? Project.WindowsTerminalArgs)
+                    (action.WindowsTerminalArgs ?? defaults.WindowsTerminalArgs)
                         .Select(a => ExpandEnv(ExpandTemplate(a, facets)))),
-                ExitCodes = action.ExitCodes ?? [0],
+                ExitCodes = action.ExitCodes ?? defaults.ExitCodes ?? [0],
                 Title = action.Description,
-                Reassure = action.Reassure,
-                Visible = !action.Background,
-                Logs = ExpandEnv(action.Logs),
-                NoLogs = action.NoLogs ?? Project.NoLogs,
-                NoExecutionInfo = action.NoExecutionInfo ?? Project.NoExecutionInfo,
-                KeepOpen = action.KeepOpen ?? Project.KeepActionOpen,
-                AlwaysClose = action.AlwaysClose ?? Project.AlwaysCloseAction,
+                Reassure = action.Reassure ?? defaults.Reassure,
+                Visible = !(action.Background ?? defaults.Background),
+                Logs = ExpandEnv(action.Logs ?? defaults.Logs),
+                NoLogs = action.NoLogs ?? defaults.NoLogs,
+                NoExecutionInfo = action.NoExecutionInfo ?? defaults.NoExecutionInfo,
+                KeepOpen = action.KeepOpen ?? defaults.KeepOpen,
+                AlwaysClose = action.AlwaysClose ?? defaults.AlwaysClose,
                 Tags = action.Tags ?? [],
                 Facets = facets,
             };
@@ -435,6 +458,7 @@ namespace Mastersign.DashOps
             CommandActionDiscovery actionDiscovery,
             string[] groupNames, Match m, string file)
         {
+            var defaults = Project.Defaults.ForActions;
             var facets = new Dictionary<string, string>(actionDiscovery.Facets ?? []);
 
             // capture named Regex groups into facets
@@ -453,7 +477,7 @@ namespace Mastersign.DashOps
             {
                 // custom interpreter for discovered files
 
-                cmd = actionDiscovery.Interpreter;
+                cmd = ExpandEnv(ExpandTemplate(actionDiscovery.Interpreter, facets));
                 if (actionDiscovery.Arguments is null)
                 {
                     cmdArgs = FormatArguments([file]);
@@ -484,21 +508,21 @@ namespace Mastersign.DashOps
             return new ActionView()
             {
                 Title = ExpandTemplate(actionDiscovery.Description, facets),
-                Reassure = actionDiscovery.Reassure,
-                Visible = !actionDiscovery.Background,
-                Logs = ExpandEnv(ExpandTemplate(actionDiscovery.Logs, facets)),
-                NoLogs = actionDiscovery.NoLogs ?? Project.NoLogs,
-                NoExecutionInfo = actionDiscovery.NoExecutionInfo ?? Project.NoExecutionInfo,
-                KeepOpen = actionDiscovery.KeepOpen ?? Project.KeepActionOpen,
-                AlwaysClose = actionDiscovery.AlwaysClose ?? Project.AlwaysCloseAction,
-                UsePowerShellCore = actionDiscovery.UsePowerShellCore ?? Project.UsePowerShellCore,
+                Reassure = actionDiscovery.Reassure ?? defaults.Reassure,
+                Visible = !(actionDiscovery.Background ?? defaults.Background),
+                Logs = ExpandEnv(ExpandTemplate(actionDiscovery.Logs ?? defaults.Logs, facets)),
+                NoLogs = actionDiscovery.NoLogs ?? defaults.NoLogs,
+                NoExecutionInfo = actionDiscovery.NoExecutionInfo ?? defaults.NoExecutionInfo,
+                KeepOpen = actionDiscovery.KeepOpen ?? defaults.KeepOpen,
+                AlwaysClose = actionDiscovery.AlwaysClose ?? defaults.AlwaysClose,
+                UsePowerShellCore = actionDiscovery.UsePowerShellCore ?? defaults.UsePowerShellCore,
                 PowerShellExe = !string.IsNullOrWhiteSpace(actionDiscovery.PowerShellExe)
                     ? ExpandEnv(ExpandTemplate(actionDiscovery.PowerShellExe, facets))
-                    : ExpandEnv(ExpandTemplate(Project.PowerShellExe, facets)),
-                UsePowerShellProfile = actionDiscovery.UsePowerShellProfile ?? Project.UsePowerShellProfile,
+                    : ExpandEnv(ExpandTemplate(defaults.PowerShellExe, facets)),
+                UsePowerShellProfile = actionDiscovery.UsePowerShellProfile ?? defaults.UsePowerShellProfile,
                 PowerShellExecutionPolicy = !string.IsNullOrWhiteSpace(actionDiscovery.PowerShellExecutionPolicy)
                     ? ExpandTemplate(actionDiscovery.PowerShellExecutionPolicy, facets)
-                    : ExpandTemplate(Project.PowerShellExecutionPolicy, facets),
+                    : ExpandTemplate(defaults.PowerShellExecutionPolicy, facets),
                 Command = cmd,
                 Arguments = cmdArgs,
                 WorkingDirectory = BuildAbsolutePath(
@@ -506,20 +530,20 @@ namespace Mastersign.DashOps
                 Environment = ExpandEnv(
                     ExpandDictionaryTemplate(
                         ExpandDictionaryTemplate(
-                            Merge(Project.Environment, actionDiscovery.Environment ?? []),
+                            Merge(defaults.Environment, actionDiscovery.Environment ?? []),
                             fileVariable),
                         facets)),
-                ExePaths = (actionDiscovery.ExePaths ?? Project.ExePaths ?? [])
+                ExePaths = (actionDiscovery.ExePaths ?? defaults.ExePaths ?? [])
                     .Select(p => ExpandTemplate(p, facets))
                     .Select(ExpandEnv)
                     .ToArray(),
-                UseWindowsTerminal = actionDiscovery.UseWindowsTerminal ?? Project.UseWindowsTerminal,
+                UseWindowsTerminal = actionDiscovery.UseWindowsTerminal ?? defaults.UseWindowsTerminal,
                 WindowsTerminalArguments = FormatArguments(
-                    (actionDiscovery.WindowsTerminalArgs ?? Project.WindowsTerminalArgs)
+                    (actionDiscovery.WindowsTerminalArgs ?? defaults.WindowsTerminalArgs)
                         .Select(a => ExpandTemplate(a, fileVariable))
                         .Select(a => ExpandTemplate(a, facets))
                         .Select(ExpandEnv)),
-                ExitCodes = actionDiscovery.ExitCodes ?? [0],
+                ExitCodes = actionDiscovery.ExitCodes ?? defaults.ExitCodes ?? [0],
                 Facets = ExpandDictionaryTemplate(facets, facets),
                 Tags = actionDiscovery.Tags ?? [],
             };
@@ -527,72 +551,79 @@ namespace Mastersign.DashOps
 
         private ActionView ActionViewFromPatternVariation(
             CommandActionPattern actionPattern, Dictionary<string, string> facets)
-            => new()
+        {
+            var defaults = Project.Defaults.ForActions;
+            return new()
             {
                 Title = ExpandTemplate(actionPattern.Description, facets),
-                Reassure = actionPattern.Reassure,
-                Visible = !actionPattern.Background,
-                Logs = ExpandEnv(ExpandTemplate(actionPattern.Logs, facets)),
-                NoLogs = actionPattern.NoLogs ?? Project.NoLogs,
-                NoExecutionInfo = actionPattern.NoExecutionInfo ?? Project.NoExecutionInfo,
-                KeepOpen = actionPattern.KeepOpen ?? Project.KeepActionOpen,
-                AlwaysClose = actionPattern.AlwaysClose ?? Project.AlwaysCloseAction,
-                UsePowerShellCore = actionPattern.UsePowerShellCore ?? Project.UsePowerShellCore,
+                Reassure = actionPattern.Reassure ?? defaults.Reassure,
+                Visible = !(actionPattern.Background ?? defaults.Background),
+                Logs = ExpandEnv(ExpandTemplate(actionPattern.Logs ?? defaults.Logs, facets)),
+                NoLogs = actionPattern.NoLogs ?? defaults.NoLogs,
+                NoExecutionInfo = actionPattern.NoExecutionInfo ?? defaults.NoExecutionInfo,
+                KeepOpen = actionPattern.KeepOpen ?? defaults.AlwaysClose,
+                AlwaysClose = actionPattern.AlwaysClose ?? defaults.AlwaysClose,
+                UsePowerShellCore = actionPattern.UsePowerShellCore ?? defaults.UsePowerShellCore,
                 PowerShellExe = !string.IsNullOrWhiteSpace(actionPattern.PowerShellExe)
-                    ? ExpandEnv(ExpandTemplate(actionPattern.PowerShellExe, facets))
-                    : ExpandEnv(ExpandTemplate(Project.PowerShellExe, facets)),
-                UsePowerShellProfile = actionPattern.UsePowerShellProfile ?? Project.UsePowerShellProfile,
+                            ? ExpandEnv(ExpandTemplate(actionPattern.PowerShellExe, facets))
+                            : ExpandEnv(ExpandTemplate(defaults.PowerShellExe, facets)),
+                UsePowerShellProfile = actionPattern.UsePowerShellProfile ?? defaults.UsePowerShellProfile,
                 PowerShellExecutionPolicy = !string.IsNullOrWhiteSpace(actionPattern.PowerShellExecutionPolicy)
-                    ? ExpandTemplate(actionPattern.PowerShellExecutionPolicy, facets)
-                    : ExpandTemplate(Project.PowerShellExecutionPolicy, facets),
+                            ? ExpandTemplate(actionPattern.PowerShellExecutionPolicy, facets)
+                            : ExpandTemplate(defaults.PowerShellExecutionPolicy, facets),
                 Command = ExpandEnv(ExpandTemplate(actionPattern.Command, facets)),
                 Arguments = FormatArguments(actionPattern.Arguments?
-                    .Select(a => ExpandEnv(ExpandTemplate(a, facets)))),
+                            .Select(a => ExpandEnv(ExpandTemplate(a, facets)))),
                 WorkingDirectory = BuildAbsolutePath(
-                    ExpandEnv(ExpandTemplate(actionPattern.WorkingDirectory, facets))),
+                            ExpandEnv(ExpandTemplate(actionPattern.WorkingDirectory, facets))),
                 Environment = ExpandEnv(
-                    ExpandDictionaryTemplate(
-                        Merge(Project.Environment, actionPattern.Environment ?? []),
-                        facets)),
-                ExePaths = (actionPattern.ExePaths ?? Project.ExePaths ?? [])
-                    .Select(p => ExpandTemplate(p, facets))
-                    .Select(ExpandEnv)
-                    .ToArray(),
-                UseWindowsTerminal = actionPattern.UseWindowsTerminal ?? Project.UseWindowsTerminal,
+                            ExpandDictionaryTemplate(
+                                Merge(defaults.Environment, actionPattern.Environment ?? []),
+                                facets)),
+                ExePaths = (actionPattern.ExePaths ?? defaults.ExePaths ?? [])
+                            .Select(p => ExpandTemplate(p, facets))
+                            .Select(ExpandEnv)
+                            .ToArray(),
+                UseWindowsTerminal = actionPattern.UseWindowsTerminal ?? defaults.UseWindowsTerminal,
                 WindowsTerminalArguments = FormatArguments(
-                    (actionPattern.WindowsTerminalArgs ?? Project.WindowsTerminalArgs)
-                        .Select(a => ExpandTemplate(a, facets))
-                        .Select(ExpandEnv)),
-                ExitCodes = actionPattern.ExitCodes ?? [0],
+                            (actionPattern.WindowsTerminalArgs ?? defaults.WindowsTerminalArgs)
+                                .Select(a => ExpandTemplate(a, facets))
+                                .Select(ExpandEnv)),
+                ExitCodes = actionPattern.ExitCodes ?? defaults.ExitCodes ?? [0],
                 Facets = ExpandDictionaryTemplate(facets, facets),
                 Tags = actionPattern.Tags ?? [],
             };
+        }
 
         private MonitorView MonitorViewFromCommandMonitor(CommandMonitor monitor)
-            => new CommandMonitorView
+        {
+            var defaults = Project.Defaults.ForMonitors;
+            return new CommandMonitorView
             {
                 Title = monitor.Title,
-                Logs = ExpandEnv(monitor.Logs),
-                NoLogs = monitor.NoLogs,
-                Deactivated = !monitor.Active,
-                Interval = new TimeSpan(0, 0, monitor.Interval),
-                UsePowerShellCore = monitor.UsePowerShellCore ?? Project.UsePowerShellCore,
+                Logs = ExpandEnv(monitor.Logs ?? defaults.Logs),
+                NoLogs = monitor.NoLogs ?? defaults.NoLogs,
+                NoExecutionInfo = monitor.NoExecutionInfo ?? defaults.NoExecutionInfo,
+                Deactivated = monitor.Deactivated ?? defaults.Deactivated,
+                Interval = new TimeSpan(0, 0, monitor.Interval ?? defaults.Interval),
+                UsePowerShellCore = monitor.UsePowerShellCore ?? defaults.UsePowerShellCore,
                 PowerShellExe = !string.IsNullOrWhiteSpace(monitor.PowerShellExe)
-                    ? ExpandEnv(monitor.PowerShellExe)
-                    : ExpandEnv(Project.PowerShellExe),
-                UsePowerShellProfile = monitor.UsePowerShellProfile ?? Project.UsePowerShellProfile,
-                PowerShellExecutionPolicy = monitor.PowerShellExecutionPolicy ?? Project.PowerShellExecutionPolicy,
+                            ? ExpandEnv(monitor.PowerShellExe)
+                            : ExpandEnv(defaults.PowerShellExe),
+                UsePowerShellProfile = monitor.UsePowerShellProfile ?? defaults.UsePowerShellProfile,
+                PowerShellExecutionPolicy = monitor.PowerShellExecutionPolicy ?? defaults.PowerShellExecutionPolicy,
                 Command = ExpandEnv(monitor.Command),
                 Arguments = FormatArguments(monitor.Arguments?.Select(ExpandEnv)),
-                WorkingDirectory = BuildAbsolutePath(monitor.WorkingDirectory),
-                Environment = Merge(Project.Environment, monitor.Environment),
-                ExePaths = (monitor.ExePaths ?? Project.ExePaths ?? [])
-                    .Select(ExpandEnv)
-                    .ToArray(),
-                ExitCodes = monitor.ExitCodes ?? [0],
-                RequiredPatterns = BuildPatterns(monitor.RequiredPatterns),
-                ForbiddenPatterns = BuildPatterns(monitor.ForbiddenPatterns),
+                WorkingDirectory = BuildAbsolutePath(monitor.WorkingDirectory ?? defaults.WorkingDirectory),
+                Environment = Merge(defaults.Environment, monitor.Environment),
+                ExePaths = (monitor.ExePaths ?? defaults.ExePaths ?? [])
+                            .Select(ExpandEnv)
+                            .ToArray(),
+                ExitCodes = monitor.ExitCodes ?? defaults.ExitCodes ?? [0],
+                RequiredPatterns = BuildPatterns(monitor.RequiredPatterns ?? defaults.RequiredPatterns),
+                ForbiddenPatterns = BuildPatterns(monitor.ForbiddenPatterns ?? defaults.ForbiddenPatterns),
             };
+        }
 
         private IEnumerable<MonitorView> DiscoverMonitors(CommandMonitorDiscovery monitorDiscovery)
         {
@@ -636,7 +667,7 @@ namespace Mastersign.DashOps
             {
                 // custom interpreter for discovered files
 
-                cmd = monitorDiscovery.Interpreter;
+                cmd = ExpandEnv(ExpandTemplate(monitorDiscovery.Interpreter, variables));
                 if (monitorDiscovery.Arguments is null)
                 {
                     cmdArgs = FormatArguments([file]);
@@ -664,21 +695,23 @@ namespace Mastersign.DashOps
                     .Select(ExpandEnv));
             }
 
+            var defaults = Project.Defaults.ForMonitors;
             return new CommandMonitorView
             {
                 Title = ExpandTemplate(monitorDiscovery.Title, variables),
-                Logs = ExpandEnv(ExpandTemplate(monitorDiscovery.Logs, variables)),
-                NoLogs = monitorDiscovery.NoLogs,
-                Deactivated = !monitorDiscovery.Active,
-                Interval = new TimeSpan(0, 0, monitorDiscovery.Interval),
-                UsePowerShellCore = monitorDiscovery.UsePowerShellCore ?? Project.UsePowerShellCore,
+                Logs = ExpandEnv(ExpandTemplate(monitorDiscovery.Logs ?? defaults.Logs, variables)),
+                NoLogs = monitorDiscovery.NoLogs ?? defaults.NoLogs,
+                NoExecutionInfo = monitorDiscovery.NoExecutionInfo ?? defaults.NoExecutionInfo,
+                Deactivated = monitorDiscovery.Deactivated ?? defaults.Deactivated,
+                Interval = new TimeSpan(0, 0, monitorDiscovery.Interval ?? defaults.Interval),
+                UsePowerShellCore = monitorDiscovery.UsePowerShellCore ?? defaults.UsePowerShellCore,
                 PowerShellExe = !string.IsNullOrWhiteSpace(monitorDiscovery.PowerShellExe)
                     ? ExpandEnv(ExpandTemplate(monitorDiscovery.PowerShellExe, variables))
-                    : ExpandEnv(ExpandTemplate(Project.PowerShellExe, variables)),
-                UsePowerShellProfile = monitorDiscovery.UsePowerShellProfile ?? Project.UsePowerShellProfile,
+                    : ExpandEnv(ExpandTemplate(defaults.PowerShellExe, variables)),
+                UsePowerShellProfile = monitorDiscovery.UsePowerShellProfile ?? defaults.UsePowerShellProfile,
                 PowerShellExecutionPolicy = !string.IsNullOrWhiteSpace(monitorDiscovery.PowerShellExecutionPolicy)
                     ? ExpandTemplate(monitorDiscovery.PowerShellExecutionPolicy, variables)
-                    : ExpandTemplate(Project.PowerShellExecutionPolicy, variables),
+                    : ExpandTemplate(defaults.PowerShellExecutionPolicy, variables),
                 Command = cmd,
                 Arguments = cmdArgs,
                 WorkingDirectory = BuildAbsolutePath(
@@ -686,100 +719,108 @@ namespace Mastersign.DashOps
                 Environment = ExpandEnv(
                     ExpandDictionaryTemplate(
                         ExpandDictionaryTemplate(
-                            Merge(Project.Environment, monitorDiscovery.Environment ?? []),
+                            Merge(defaults.Environment, monitorDiscovery.Environment ?? []),
                             fileVariable),
                         variables)),
-                ExePaths = (monitorDiscovery.ExePaths ?? Project.ExePaths ?? [])
+                ExePaths = (monitorDiscovery.ExePaths ?? defaults.ExePaths ?? [])
                     .Select(p => ExpandTemplate(p, variables))
                     .Select(ExpandEnv)
                     .ToArray(),
-                ExitCodes = monitorDiscovery.ExitCodes ?? [0],
-                RequiredPatterns = BuildPatterns(monitorDiscovery.RequiredPatterns),
-                ForbiddenPatterns = BuildPatterns(monitorDiscovery.ForbiddenPatterns)
+                ExitCodes = monitorDiscovery.ExitCodes ?? defaults.ExitCodes ?? [0],
+                RequiredPatterns = BuildPatterns(monitorDiscovery.RequiredPatterns ?? defaults.RequiredPatterns),
+                ForbiddenPatterns = BuildPatterns(monitorDiscovery.ForbiddenPatterns ?? defaults.ForbiddenPatterns)
             };
         }
 
         private MonitorView MonitorViewFromPatternVariation(
             CommandMonitorPattern monitorPattern, Dictionary<string, string> variables)
-            => new CommandMonitorView
+        {
+            var defaults = Project.Defaults.ForMonitors;
+            return new CommandMonitorView
             {
                 Title = ExpandTemplate(monitorPattern.Title, variables),
-                Logs = ExpandEnv(ExpandTemplate(monitorPattern.Logs, variables)),
-                NoLogs = monitorPattern.NoLogs,
-                Deactivated = !monitorPattern.Active,
-                Interval = new TimeSpan(0, 0, monitorPattern.Interval),
-                UsePowerShellCore = monitorPattern.UsePowerShellCore ?? Project.UsePowerShellCore,
+                Logs = ExpandEnv(ExpandTemplate(monitorPattern.Logs ?? defaults.Logs, variables)),
+                NoLogs = monitorPattern.NoLogs ?? defaults.NoLogs,
+                NoExecutionInfo = monitorPattern.NoExecutionInfo ?? defaults.NoExecutionInfo,
+                Deactivated = monitorPattern.Deactivated ?? defaults.Deactivated,
+                Interval = new TimeSpan(0, 0, monitorPattern.Interval ?? defaults.Interval),
+                UsePowerShellCore = monitorPattern.UsePowerShellCore ?? defaults.UsePowerShellCore,
                 PowerShellExe = !string.IsNullOrWhiteSpace(monitorPattern.PowerShellExe)
-                    ? ExpandEnv(ExpandTemplate(monitorPattern.PowerShellExe, variables))
-                    : ExpandEnv(ExpandTemplate(Project.PowerShellExe, variables)),
-                UsePowerShellProfile = monitorPattern.UsePowerShellProfile ?? Project.UsePowerShellProfile,
+                            ? ExpandEnv(ExpandTemplate(monitorPattern.PowerShellExe, variables))
+                            : ExpandEnv(ExpandTemplate(defaults.PowerShellExe, variables)),
+                UsePowerShellProfile = monitorPattern.UsePowerShellProfile ?? defaults.UsePowerShellProfile,
                 PowerShellExecutionPolicy = !string.IsNullOrWhiteSpace(monitorPattern.PowerShellExecutionPolicy)
-                    ? ExpandTemplate(monitorPattern.PowerShellExecutionPolicy, variables)
-                    : ExpandTemplate(Project.PowerShellExecutionPolicy, variables),
+                            ? ExpandTemplate(monitorPattern.PowerShellExecutionPolicy, variables)
+                            : ExpandTemplate(defaults.PowerShellExecutionPolicy, variables),
                 Command = ExpandEnv(ExpandTemplate(monitorPattern.Command, variables)),
                 Arguments = FormatArguments(
-                    monitorPattern.Arguments?.Select(a => ExpandEnv(ExpandTemplate(a, variables)))),
+                            monitorPattern.Arguments?.Select(a => ExpandEnv(ExpandTemplate(a, variables)))),
                 WorkingDirectory = BuildAbsolutePath(
-                    ExpandEnv(ExpandTemplate(monitorPattern.WorkingDirectory, variables))),
+                            ExpandEnv(ExpandTemplate(monitorPattern.WorkingDirectory, variables))),
                 Environment = ExpandEnv(
-                    ExpandDictionaryTemplate(
-                        Merge(Project.Environment, monitorPattern.Environment ?? []),
-                        variables)),
-                ExePaths = (monitorPattern.ExePaths ?? Project.ExePaths ?? [])
-                    .Select(p => ExpandTemplate(p, variables))
-                    .Select(ExpandEnv)
-                    .ToArray(),
-                ExitCodes = monitorPattern.ExitCodes ?? [0],
-                RequiredPatterns = BuildPatterns(monitorPattern.RequiredPatterns),
-                ForbiddenPatterns = BuildPatterns(monitorPattern.ForbiddenPatterns)
+                            ExpandDictionaryTemplate(
+                                Merge(defaults.Environment, monitorPattern.Environment ?? []),
+                                variables)),
+                ExePaths = (monitorPattern.ExePaths ?? defaults.ExePaths ?? [])
+                            .Select(p => ExpandTemplate(p, variables))
+                            .Select(ExpandEnv)
+                            .ToArray(),
+                ExitCodes = monitorPattern.ExitCodes ?? defaults.ExitCodes ?? [0],
+                RequiredPatterns = BuildPatterns(monitorPattern.RequiredPatterns ?? defaults.RequiredPatterns),
+                ForbiddenPatterns = BuildPatterns(monitorPattern.ForbiddenPatterns ?? defaults.ForbiddenPatterns)
             };
+        }
 
-        private static MonitorView MonitorViewFromWebMonitor(WebMonitor monitor)
-            => new WebMonitorView
+        private MonitorView MonitorViewFromWebMonitor(WebMonitor monitor)
+        {
+            var defaults = Project.Defaults.ForMonitors;
+            return new WebMonitorView
             {
                 Title = monitor.Title,
-                Logs = ExpandEnv(monitor.Logs),
-                NoLogs = monitor.NoLogs,
-                Deactivated = !monitor.Active,
-                Interval = new TimeSpan(0, 0, monitor.Interval),
+                Logs = ExpandEnv(monitor.Logs ?? defaults.Logs),
+                NoLogs = monitor.NoLogs ?? defaults.NoLogs,
+                NoExecutionInfo = monitor.NoExecutionInfo ?? defaults.NoExecutionInfo,
+                Deactivated = monitor.Deactivated ?? defaults.Deactivated,
+                Interval = new TimeSpan(0, 0, monitor.Interval ?? defaults.Interval),
                 Url = monitor.Url,
                 Headers = new Dictionary<string, string>(monitor.Headers ?? []),
-                Timeout = new TimeSpan(0, 0, monitor.Timeout),
+                Timeout = new TimeSpan(0, 0, monitor.HttpTimeout ?? defaults.HttpTimeout),
                 ServerCertificateHash = monitor.ServerCertificateHash,
-                NoTlsVerify = monitor.NoTlsVerify,
-                StatusCodes = monitor.StatusCodes != null && monitor.StatusCodes.Length > 0
-                    ? monitor.StatusCodes
-                    : [200, 201, 202, 203, 204],
-                RequiredPatterns = BuildPatterns(monitor.RequiredPatterns),
-                ForbiddenPatterns = BuildPatterns(monitor.ForbiddenPatterns),
+                NoTlsVerify = monitor.NoTlsVerify ?? defaults.NoTlsVerify,
+                StatusCodes = monitor.StatusCodes ?? defaults.StatusCodes ?? [200, 201, 202, 203, 204],
+                RequiredPatterns = BuildPatterns(monitor.RequiredPatterns ?? defaults.RequiredPatterns),
+                ForbiddenPatterns = BuildPatterns(monitor.ForbiddenPatterns ?? defaults.ForbiddenPatterns),
             };
+        }
 
-        private static IEnumerable<MonitorView> ExpandWebMonitorPattern(WebMonitorPattern monitorPattern)
+        private IEnumerable<MonitorView> ExpandWebMonitorPattern(WebMonitorPattern monitorPattern)
             => monitorPattern.Variables != null
                 ? EnumerateVariations(monitorPattern.Variables)
                     .Select(d => MonitorViewFromPatternVariation(monitorPattern, d))
                 : [];
 
-        private static MonitorView MonitorViewFromPatternVariation(
+        private MonitorView MonitorViewFromPatternVariation(
             WebMonitorPattern monitorPattern, Dictionary<string, string> variables)
-            => new WebMonitorView
+        {
+            var defaults = Project.Defaults.ForMonitors;
+            return new WebMonitorView
             {
                 Title = ExpandTemplate(monitorPattern.Title, variables),
-                Logs = ExpandEnv(ExpandTemplate(monitorPattern.Logs, variables)),
-                NoLogs = monitorPattern.NoLogs,
-                Deactivated = !monitorPattern.Active,
-                Interval = new TimeSpan(0, 0, monitorPattern.Interval),
+                Logs = ExpandEnv(ExpandTemplate(monitorPattern.Logs ?? defaults.Logs, variables)),
+                NoLogs = monitorPattern.NoLogs ?? defaults.NoLogs,
+                NoExecutionInfo = monitorPattern.NoExecutionInfo ?? defaults.NoExecutionInfo,
+                Deactivated = monitorPattern.Deactivated ?? defaults.Deactivated,
+                Interval = new TimeSpan(0, 0, monitorPattern.Interval ?? defaults.Interval),
                 Url = ExpandTemplate(monitorPattern.Url, variables),
                 Headers = ExpandDictionaryTemplate(monitorPattern.Headers, variables),
-                Timeout = new TimeSpan(0, 0, monitorPattern.Timeout),
+                Timeout = new TimeSpan(0, 0, monitorPattern.HttpTimeout ?? defaults.HttpTimeout),
                 ServerCertificateHash = monitorPattern.ServerCertificateHash,
-                NoTlsVerify = monitorPattern.NoTlsVerify,
-                StatusCodes = monitorPattern.StatusCodes != null && monitorPattern.StatusCodes.Length > 0
-                    ? monitorPattern.StatusCodes
-                    : [200, 201, 202, 203, 204],
-                RequiredPatterns = BuildPatterns(monitorPattern.RequiredPatterns),
-                ForbiddenPatterns = BuildPatterns(monitorPattern.ForbiddenPatterns)
+                NoTlsVerify = monitorPattern.NoTlsVerify ?? defaults.NoTlsVerify,
+                StatusCodes = monitorPattern.StatusCodes ?? defaults.StatusCodes ?? [200, 201, 202, 203, 204],
+                RequiredPatterns = BuildPatterns(monitorPattern.RequiredPatterns ?? defaults.RequiredPatterns),
+                ForbiddenPatterns = BuildPatterns(monitorPattern.ForbiddenPatterns ?? defaults.ForbiddenPatterns),
             };
+        }
 
         private static string BuildAbsolutePath(string dir)
         {
