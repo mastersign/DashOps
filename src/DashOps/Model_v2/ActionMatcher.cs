@@ -8,20 +8,12 @@ partial class ActionMatcher
                ? System.Text.RegularExpressions.Regex.IsMatch(value, Pattern)
                : string.Equals(value, Value));
 
-    private string NormalizedFacet
-    {
-        get
-        {
-            // no normalization since v2
-            return Facet;
-        }
-    }
 
-    public bool Match(ActionView actionView) => Mode switch
+    public bool Match(MatchableAction actionView) => Mode switch
     {
-        ActionMatchMode.Description => MatchString(actionView.Title),
+        ActionMatchMode.Title => MatchString(actionView.Title),
         ActionMatchMode.Command => MatchString(actionView.Command),
-        ActionMatchMode.Facet => MatchString(actionView.GetFacetValue(NormalizedFacet)),
+        ActionMatchMode.Facet => MatchString(actionView.GetFacetValue(Facet)),
         ActionMatchMode.Tag => actionView.Tags.Any(MatchString),
         _ => throw new ArgumentOutOfRangeException(),
     };

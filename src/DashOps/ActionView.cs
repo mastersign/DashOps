@@ -23,7 +23,7 @@
 
         private string _commandId;
 
-        public string CommandId 
+        public string CommandId
             => _commandId ??= IdBuilder.BuildId(Command + " " + Arguments);
 
         public override string ToString() => $"[{CommandId}] {Title}: {CommandLabel}";
@@ -40,5 +40,18 @@
         public Func<string, bool> SuccessCheck => null;
 
         public string ExitCodesFormatted => string.Join(", ", ExitCodes);
+
+        public void UpdateStatusFromLogFile()
+        {
+            var logInfo = LogFileManager.GetLastLogFileInfo(this);
+            if (logInfo != null)
+            {
+                Status = logInfo.Success ? ActionStatus.Success : ActionStatus.Failed;
+            }
+            else
+            {
+                Status = ActionStatus.Unknown;
+            }
+        }
     }
 }

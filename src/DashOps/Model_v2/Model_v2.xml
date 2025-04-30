@@ -17,49 +17,84 @@
   </Configuration>
   
   <Types>
-    
-    <Class name="CommandActionBase">
-      <Property name="Description" />
-      <Property name="Reassure" type="bool?" />
-      <Property name="Background" type="bool?" />
+
+    <Class name="DefaultActionSettings">
+      <Property name="Reassure" type="bool" />
+      <Property name="Background" type="bool" />
+      <Property name="KeepOpen" type="bool" />
+      <Property name="AlwaysClose" type="bool" />
+
       <Property name="Logs" />
-      <Property name="NoLogs" type="bool?" />
-      <Property name="NoExecutionInfo" type="bool?" />
-      <Property name="KeepOpen" type="bool?" />
-      <Property name="AlwaysClose" type="bool?" />
-      <Property name="UsePowerShellCore" type="bool?" />
-      <Property name="PowerShellExe" />
-      <Property name="UsePowerShellProfile" type="bool?" />
-      <Property name="PowerShellExecutionPolicy" />
-      <Property name="Arguments" type="string[]" defaultInitialization="false" />
+      <Property name="NoLogs" type="bool" />
+      <Property name="NoExecutionInfo" type="bool" />
+
       <Property name="WorkingDirectory" />
       <Property name="Environment" type="dict" />
+      <Property name="ExePaths" type="string[]" defaultInitialization="true" />
+      <Property name="ExitCodes" type="int[]" defaultInitialization="false" />
+
+      <Property name="UsePowerShellCore" type="bool" />
+      <Property name="PowerShellExe" />
+      <Property name="UsePowerShellProfile" type="bool" />
+      <Property name="PowerShellExecutionPolicy" defaultInitialization="true">
+        <DefaultValue>RemoteSigned</DefaultValue>
+      </Property>
+      <Property name="UseWindowsTerminal" type="bool" />
+      <Property name="WindowsTerminalArgs" type="string[]" defaultInitialization="true" />
+    </Class>
+
+    <Class name="ActionSettings">
+      <Property name="Reassure" type="bool?" />
+      <Property name="Background" type="bool?" />
+      <Property name="KeepOpen" type="bool?" />
+      <Property name="AlwaysClose" type="bool?" />
+
+      <Property name="Logs" type="string" />
+      <Property name="NoLogs" type="bool?" />
+      <Property name="NoExecutionInfo" type="bool?" />
+    </Class>
+
+    <Class name="CommandActionSettings" baseType="ActionSettings">
+      <Property name="WorkingDirectory" type="string" />
+      <Property name="Environment" type="dict" />
       <Property name="ExePaths" type="string[]" defaultInitialization="false" />
+
+      <Property name="ExitCodes" type="int[]" defaultInitialization="false" />
+
+      <Property name="UsePowerShellCore" type="bool?" />
+      <Property name="PowerShellExe" type="string" />
+      <Property name="UsePowerShellProfile" type="bool?" />
+      <Property name="PowerShellExecutionPolicy" type="string" />
+      
       <Property name="UseWindowsTerminal" type="bool?" />
       <Property name="WindowsTerminalArgs" type="string[]" defaultInitialization="false" />
-      <Property name="ExitCodes" type="int[]" defaultInitialization="false" />
+    </Class>
+
+    <Class name="CommandActionBase" baseType="CommandActionSettings">
+      <Property name="Title" type="string" />
+      <Property name="Arguments" type="string[]" defaultInitialization="false" />
       <Property name="Tags" type="string[]" defaultInitialization="false" />
     </Class>
     
     <Class name="CommandAction" baseType="CommandActionBase">
-      <Property name="Command" />
+      <Property name="Command" type="string" />
       <Property name="Facets" type="dict" />
     </Class>
 
     <Class name="CommandActionDiscovery" baseType="CommandActionBase">
-      <Property name="BasePath" />
-      <Property name="PathPattern" />
-      <Property name="Interpreter" />
+      <Property name="BasePath" type="string" />
+      <Property name="PathPattern" type="string" />
+      <Property name="Interpreter" type="string" />
       <Property name="Facets" type="dict" />
     </Class>
 
     <Class name="CommandActionPattern" baseType="CommandActionBase">
-      <Property name="Command" />
+      <Property name="Command" type="string" />
       <Property name="Facets" type="mdict" />
     </Class>
     
     <Enum name="ActionMatchMode">
-      <Member name="Description" />
+      <Member name="Title" />
       <Member name="Command" />
       <Member name="Facet" />
       <Member name="Tag" />
@@ -67,113 +102,86 @@
     
     <Class name="ActionMatcher">
       <Property name="Mode" type="ActionMatchMode" defaultInitialization="true">
-        <DefaultValue>Description</DefaultValue>
+        <DefaultValue>Title</DefaultValue>
       </Property>
       <Property name="Facet" />
       <Property name="Pattern" />
       <Property name="Value" />
     </Class>
     
-    <Class name="AutoActionSettings">
+    <Class name="MatchableAction">
+      <Property name="Title" type="string" />
+      <Property name="Command" type="string" />
+      <Property name="Facets" type="dict" />
+      <Property name="Tags" type="string[]" defaultInitialization="false" />
+    </Class>
+    
+    <Class name="AutoActionSettings" baseType="CommandActionSettings">
       <Property name="Include" type="ActionMatcher" isCollection="true" />
       <Property name="Exclude" type="ActionMatcher" isCollection="true" />
       
       <Property name="Facets" type="dict" />
       <Property name="Tags" type="string[]" defaultInitialization="false" />
-      <Property name="Logs" />
-      <Property name="NoLogs" type="bool?" />
-      <Property name="NoExecutionInfo" type="bool?" />
-      <Property name="Reassure" type="bool?" />
-      <Property name="Background" type="bool?" />
-      <Property name="KeepOpen" type="bool?" />
-      <Property name="AlwaysClose" type="bool?" />
-      <Property name="Environment" type="dict" />
-      <Property name="ExePaths" type="string[]" defaultInitialization="false" />
-      <Property name="ExitCodes" type="int[]" defaultInitialization="false" />
-      <Property name="UsePowerShellCore" type="bool?" />
-      <Property name="PowerShellExe" />
-      <Property name="UsePowerShellProfile" type="bool?" />
-      <Property name="PowerShellExecutionPolicy" />
-      <Property name="UseWindowsTerminal" type="bool?" />
-      <Property name="WindowsTerminalArgs" type="string[]" defaultInitialization="false" />
     </Class>
-    
-    <!--
-    
-    <Enum name="MonitorMatchMode">
-      <Member name="Description" />
-      <Member name="Command" />
-      <Member name="Url" />
-      <Member name="Header" />
-      <Member name="Variable" />
-    </Enum>
-    
-    <Class name="MonitorMatcher">
-      <Property name="Mode" type="MonitorMatchMode" defaultInitialization="true">
-        <DefaultValue>Description</DefaultValue>
+
+    <Class name="DefaultMonitorSettings">
+      <Property name="Deactivated" type="bool" />
+      <Property name="Interval" type="int" defaultInitialization="true">
+        <DefaultValue>60</DefaultValue>
       </Property>
-      <Property name="Header" />
-      <Property name="Variable" />
-      <Property name="Pattern" />
-      <Property name="Value" />
-    </Class>
-    
-    <Class name="AutoMonitorSettings">
-      <Property name="Include" type="MonitorMatcher" isCollection="true" />
-      <Property name="Exclude" type="MonitorMatcher" isCollection="true" />
-      
-      <Property name="Deactivated" type="bool?" />
-      <Property name="Interval" type="int?" />
       
       <Property name="Logs" />
-      <Property name="NoLogs" type="bool?" />
+      <Property name="NoLogs" type="bool" />
+      <Property name="NoExecutionInfo" type="bool" />
 
       <Property name="RequiredPatterns" type="string[]" />
       <Property name="ForbiddenPatterns" type="string[]" />
 
+      <Property name="HttpTimeout" type="int" defaultInitialization="true">
+        <DefaultValue>20</DefaultValue>
+      </Property>
+      <Property name="NoTlsVerify" type="bool" />
+      <Property name="StatusCodes" type="int[]" defaultInitialization="false" />
+
       <Property name="WorkingDirectory" />
       <Property name="Environment" type="dict" />
+      <Property name="ExePaths" type="string[]" defaultInitialization="true" />
       <Property name="ExitCodes" type="int[]" defaultInitialization="false" />
 
-      <Property name="UsePowerShellCore" type="bool?" />
+      <Property name="UsePowerShellCore" type="bool" />
       <Property name="PowerShellExe" />
-      <Property name="UsePowerShellProfile" type="bool?" />
-      <Property name="PowerShellExecutionPolicy" />
-
-      <Property name="Headers" type="dict" />
-      <Property name="HttpTimeout" type="int?" />
-      <Property name="ServerCertificateHash" />
-      <Property name="NoTlsVerify" type="bool?" />
-      <Property name="StatusCodes" type="int[]" defaultInitialization="false" />
+      <Property name="UsePowerShellProfile" type="bool" />
+      <Property name="PowerShellExecutionPolicy" defaultInitialization="true">
+        <DefaultValue>RemoteSigned</DefaultValue>
+      </Property>
     </Class>
-    -->
     
-    <Class name="AutoSettings">
-      <Property name="ForActions" type="AutoActionSettings" isCollection="true" defaultInitialization="true" />
-      <!--<Property name="ForMonitors" type="AutoMonitorSettings" isCollection="true" defaultInitialization="true" />-->
-    </Class>
-
     <Class name="MonitorBase">
       <Property name="Title" />
+      
       <Property name="Deactivated" type="bool?" />
       <Property name="Interval" type="int?" />
+      
       <Property name="Logs" />
       <Property name="NoLogs" type="bool?" />
       <Property name="NoExecutionInfo" type="bool?" />
+      
       <Property name="RequiredPatterns" type="string[]" />
       <Property name="ForbiddenPatterns" type="string[]" />
     </Class>
 
     <Class name="CommandMonitorBase" baseType="MonitorBase">
-      <Property name="UsePowerShellCore" type="bool?" />
-      <Property name="PowerShellExe" />
-      <Property name="UsePowerShellProfile" type="bool?" />
-      <Property name="PowerShellExecutionPolicy" />
       <Property name="Arguments" type="string[]" defaultInitialization="false" />
+      
       <Property name="WorkingDirectory" />
       <Property name="Environment" type="dict" />
       <Property name="ExePaths" type="string[]" defaultInitialization="false" />
       <Property name="ExitCodes" type="int[]" defaultInitialization="false" />
+      
+      <Property name="UsePowerShellCore" type="bool?" />
+      <Property name="PowerShellExe" />
+      <Property name="UsePowerShellProfile" type="bool?" />
+      <Property name="PowerShellExecutionPolicy" />
     </Class>
     
     <Class name="CommandMonitor" baseType="CommandMonitorBase">
@@ -203,71 +211,79 @@
       <Property name="Variables" type="mdict" />
     </Class>
 
+    <!--
+    
+    <Enum name="MonitorMatchMode">
+      <Member name="Title" />
+      <Member name="Command" />
+      <Member name="Url" />
+      <Member name="Header" />
+      <Member name="Variable" />
+    </Enum>
+    
+    <Class name="MonitorMatcher">
+      <Property name="Mode" type="MonitorMatchMode" defaultInitialization="true">
+        <DefaultValue>Title</DefaultValue>
+      </Property>
+      <Property name="Header" />
+      <Property name="Variable" />
+      <Property name="Pattern" />
+      <Property name="Value" />
+    </Class>
+    
+    <Class name="MatchableMonitor">
+      <Property name="Title" />
+      <Property name="Command" />
+      <Property name="Url" />
+      <Property name="Headers" type="dict" />
+      <Property name="Variables" type="dict" />
+    </Class>
+    
+    <Class name="AutoMonitorSettings">
+      <Property name="Include" type="MonitorMatcher" isCollection="true" />
+      <Property name="Exclude" type="MonitorMatcher" isCollection="true" />
+      
+      <Property name="Deactivated" type="bool?" />
+      <Property name="Interval" type="int?" />
+      
+      <Property name="Logs" />
+      <Property name="NoLogs" type="bool?" />
+      <Property name="NoExecutionInfo" type="bool?" />
+
+      <Property name="RequiredPatterns" type="string[]" />
+      <Property name="ForbiddenPatterns" type="string[]" />
+
+      <Property name="WorkingDirectory" />
+      <Property name="Environment" type="dict" />
+      <Property name="ExePaths" type="string[]" defaultInitialization="false" />
+      <Property name="ExitCodes" type="int[]" defaultInitialization="false" />
+      <Property name="UsePowerShellCore" type="bool?" />
+      <Property name="PowerShellExe" />
+      <Property name="UsePowerShellProfile" type="bool?" />
+      <Property name="PowerShellExecutionPolicy" />
+
+      <Property name="Headers" type="dict" />
+      <Property name="HttpTimeout" type="int?" />
+      <Property name="ServerCertificateHash" />
+      <Property name="NoTlsVerify" type="bool?" />
+      <Property name="StatusCodes" type="int[]" defaultInitialization="false" />
+    </Class>
+    -->
+
     <Class name="FacetPerspective">
       <Property name="Caption" />
       <Property name="Facet" />
       <!--<Property name="Icon" />-->
     </Class>
     
-    <Class name="DefaultActionSettings">
-      <Property name="Reassure" type="bool" />
-      <Property name="Background" type="bool" />
-      <Property name="KeepOpen" type="bool" />
-      <Property name="AlwaysClose" type="bool" />
-
-      <Property name="Logs" />
-      <Property name="NoLogs" type="bool" />
-      <Property name="NoExecutionInfo" type="bool" />
-
-      <Property name="WorkingDirectory" />
-      <Property name="Environment" type="dict" />
-      <Property name="ExePaths" type="string[]" defaultInitialization="true" />
-      <Property name="ExitCodes" type="int[]" defaultInitialization="false" />
-      
-      <Property name="UsePowerShellCore" type="bool" />
-      <Property name="PowerShellExe" />
-      <Property name="UsePowerShellProfile" type="bool" />
-      <Property name="PowerShellExecutionPolicy" defaultInitialization="true">
-        <DefaultValue>RemoteSigned</DefaultValue>
-      </Property>
-      <Property name="UseWindowsTerminal" type="bool" />
-      <Property name="WindowsTerminalArgs" type="string[]" defaultInitialization="true" />
-    </Class>
-
-    <Class name="DefaultMonitorSettings">
-      <Property name="Deactivated" type="bool" />
-      <Property name="Interval" type="int" defaultInitialization="true">
-        <DefaultValue>60</DefaultValue>
-      </Property>
-      <Property name="HttpTimeout" type="int" defaultInitialization="true">
-        <DefaultValue>20</DefaultValue>
-      </Property>
-      <Property name="NoTlsVerify" type="bool" />
-      <Property name="StatusCodes" type="int[]" defaultInitialization="false" />
-      
-      <Property name="RequiredPatterns" type="string[]" />
-      <Property name="ForbiddenPatterns" type="string[]" />
-
-      <Property name="Logs" />
-      <Property name="NoLogs" type="bool" />
-      <Property name="NoExecutionInfo" type="bool" />
-
-      <Property name="WorkingDirectory" />
-      <Property name="Environment" type="dict" />
-      <Property name="ExePaths" type="string[]" defaultInitialization="true" />
-      <Property name="ExitCodes" type="int[]" defaultInitialization="false" />
-      
-      <Property name="UsePowerShellCore" type="bool" />
-      <Property name="PowerShellExe" />
-      <Property name="UsePowerShellProfile" type="bool" />
-      <Property name="PowerShellExecutionPolicy" defaultInitialization="true">
-        <DefaultValue>RemoteSigned</DefaultValue>
-      </Property>
-    </Class>
-    
     <Class name="DefaultSettings">
       <Property name="ForActions" type="DefaultActionSettings" />
       <Property name="ForMonitors" type="DefaultMonitorSettings" />
+    </Class>
+
+    <Class name="AutoSettings">
+      <Property name="ForActions" type="AutoActionSettings" isCollection="true" defaultInitialization="true" />
+      <!--<Property name="ForMonitors" type="AutoMonitorSettings" isCollection="true" defaultInitialization="true" />-->
     </Class>
 
     <Class name="Project">
@@ -282,7 +298,6 @@
       <Property name="PauseMonitoring" type="bool" />
       
       <Property name="Defaults" type="DefaultSettings" />
-
       <Property name="AutoSettings" type="AutoSettings" />
 
       <Property name="Actions" isCollection="true" type="CommandAction" defaultInitialization="true" />

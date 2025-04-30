@@ -33,6 +33,26 @@
         "type": "string"
       }
     },
+    "LoggingSettings": {
+      "type": "object",
+      "properties": {
+        "logs": {
+          "title": "Logging Directory",
+          "description": "A path to a directory to store logs in",
+          "type": "string"
+        },
+        "no-logs": {
+          "title": "No Logs",
+          "description": "A switch to deactivate logging",
+          "type": "boolean"
+        },
+        "no-execution-info": {
+          "title": "No Execution Info in Logs",
+          "description": "A switch to suppress header and footer with execution info when writing log files",
+          "type": "boolean"
+        }
+      }
+    },
     "CommandSettings": {
       "type": "object",
       "properties": {
@@ -182,21 +202,6 @@
           "title": "Always Close",
           "description": "A switch to set the behavior for the terminal window after finishing an action. If true, the terminal window is closed, even if the action failed.",
           "type": "boolean"
-        },
-        "logs": {
-          "title": "Logging Directory",
-          "description": "A path to a directory to store logs in",
-          "type": "string"
-        },
-        "no-logs": {
-          "title": "No Logs",
-          "description": "A switch to deactivate logging",
-          "type": "boolean"
-        },
-        "no-execution-info": {
-          "title": "No Execution Info in Logs",
-          "description": "A switch to suppress header and footer with execution info when writing log files",
-          "type": "boolean"
         }
       }
     },
@@ -212,16 +217,6 @@
           "title": "Interval",
           "description": "The number of seconds between automatic executions of a monitor",
           "type": "number"
-        },
-        "logs": {
-          "title": "Logging Directory",
-          "description": "A path to a directory to store logs in",
-          "type": "string"
-        },
-        "no-logs": {
-          "title": "No Logs",
-          "description": "A switch to deactivate logging",
-          "type": "boolean"
         },
         "required-patterns": {
           "title": "Required Patterns",
@@ -255,6 +250,9 @@
               "$ref": "#/$defs/ActionSettings"
             },
             {
+              "$ref": "#/$defs/LoggingSettings"
+            },
+            {
               "$ref": "#/$defs/CommandSettings"
             },
             {
@@ -269,6 +267,9 @@
           "allOf": [
             {
               "$ref": "#/$defs/MonitorSettings"
+            },
+            {
+              "$ref": "#/$defs/LoggingSettings"
             },
             {
               "$ref": "#/$defs/CommandSettings"
@@ -286,6 +287,9 @@
           "$ref": "#/$defs/ActionSettings"
         },
         {
+          "$ref": "#/$defs/LoggingSettings"
+        },
+        {
           "$ref": "#/$defs/CommandSettings"
         },
         {
@@ -294,9 +298,9 @@
       ],
       "type": "object",
       "properties": {
-        "description": {
-          "title": "Action Description",
-          "description": "The text displayed on the action button.\n\nPlaceholders like ${facet} are replaced by the facet value.",
+        "title": {
+          "title": "Action Title",
+          "description": "The text displayed on the action button in the UI.\n\nPlaceholders like ${facet} are replaced by the facet value.",
           "type": "string"
         },
         "tags": {
@@ -332,7 +336,7 @@
         }
       },
       "required": [
-        "description",
+        "title",
         "command"
       ]
     },
@@ -373,7 +377,7 @@
         }
       },
       "required": [
-        "description",
+        "title",
         "path-pattern"
       ]
     },
@@ -420,7 +424,7 @@
         }
       },
       "required": [
-        "description",
+        "title",
         "command",
         "facets"
       ]
@@ -599,6 +603,9 @@
           "$ref": "#/$defs/ActionSettings"
         },
         {
+          "$ref": "#/$defs/LoggingSettings"
+        },
+        {
           "$ref": "#/$defs/CommandSettings"
         },
         {
@@ -635,6 +642,9 @@
       "allOf": [
         {
           "$ref": "#/$defs/MonitorSettings"
+        },
+        {
+          "$ref": "#/$defs/LoggingSettings"
         }
       ],
       "type": "object",

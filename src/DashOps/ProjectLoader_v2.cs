@@ -2,10 +2,10 @@
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using Mastersign.DashOps.Model_v2;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
+using static Mastersign.DashOps.Model_v2.Helper;
 
 namespace Mastersign.DashOps
 {
@@ -186,10 +186,15 @@ namespace Mastersign.DashOps
             var actionDefaults = Project.Defaults.ForActions;
             var monitorDefaults = Project.Defaults.ForMonitors;
 
+            if (string.IsNullOrWhiteSpace(actionDefaults.Logs)) actionDefaults.Logs = "logs";
             var defaultActionLogDir = ExpandEnv(actionDefaults.Logs);
             AsureRelativeDirectory(defaultActionLogDir);
+            if (string.IsNullOrWhiteSpace(monitorDefaults.Logs)) monitorDefaults.Logs = "logs";
             var defaultMonitorLogDir = ExpandEnv(monitorDefaults.Logs);
             AsureRelativeDirectory(defaultMonitorLogDir);
+
+            if (string.IsNullOrWhiteSpace(actionDefaults.WorkingDirectory)) actionDefaults.WorkingDirectory = ".";
+            if (string.IsNullOrWhiteSpace(monitorDefaults.WorkingDirectory)) monitorDefaults.WorkingDirectory = ".";
 
             void AddActionViews(IEnumerable<ActionView> actionViews)
             {
@@ -198,19 +203,6 @@ namespace Mastersign.DashOps
             if (Project.Actions != null) AddActionViews(Project.Actions.Select(ActionViewFromCommandAction));
             if (Project.ActionDiscovery != null) AddActionViews(Project.ActionDiscovery.SelectMany(DiscoverActions));
             if (Project.ActionPatterns != null) AddActionViews(Project.ActionPatterns.SelectMany(ExpandActionPattern));
-
-            ApplyAutoAnnotations();
-            foreach (var actionView in ProjectView.ActionViews)
-            {
-                actionView.Logs = BuildActionLogDirPath(actionView.Logs, actionView.NoLogs);
-                if (actionDefaults.KeepOpen) actionView.KeepOpen = true;
-                if (actionDefaults.AlwaysClose) actionView.AlwaysClose = true;
-                var logInfo = LogFileManager.GetLastLogFileInfo(actionView);
-                if (logInfo != null)
-                {
-                    actionView.Status = logInfo.Success ? ActionStatus.Success : ActionStatus.Failed;
-                }
-            }
 
             ProjectView.IsMonitoringPaused = Project.PauseMonitoring;
             var defaultMonitorInterval = new TimeSpan(0, 0, monitorDefaults.Interval);
@@ -293,78 +285,8 @@ namespace Mastersign.DashOps
         private string BuildMonitorLogDirPath(string logs, bool noLogs)
             => BuildLogDirPath(logs, Project.Defaults.ForMonitors.Logs, noLogs);
 
-        private void ApplyAutoAnnotations()
-        {
-            if (Project.AutoSettings?.ForActions is null) return;
-            foreach (var actionView in ProjectView.ActionViews)
-            {
-                foreach (var autoSettings in Project.AutoSettings.ForActions.Where(a => a.Match(actionView)))
-                {
-                    ApplyAutoSettings(actionView, autoSettings);
-                }
-            }
-        }
-
-        private void ApplyAutoSettings(ActionView action, AutoActionSettings autoSettings)
-        {
-            if (autoSettings.Tags != null)
-            {
-                action.Tags = [.. action.Tags.Union(autoSettings.Tags)];
-            }
-
-            if (autoSettings.Facets != null)
-            {
-                foreach (var facetName in autoSettings.Facets.Keys)
-                {
-                    action.Facets[facetName] = autoSettings.Facets[facetName];
-                }
-            }
-
-            action.Reassure = autoSettings.Reassure ?? action.Reassure;
-            action.Logs = autoSettings.Logs ?? action.Logs;
-            action.NoLogs = autoSettings.NoLogs ?? action.NoLogs;
-            action.NoExecutionInfo = autoSettings.NoExecutionInfo ?? action.NoExecutionInfo;
-            action.KeepOpen = autoSettings.KeepOpen ?? action.KeepOpen;
-            action.AlwaysClose = autoSettings.AlwaysClose ?? action.AlwaysClose;
-            action.Visible = !(autoSettings.Background ?? !action.Visible);
-
-            if (autoSettings.Environment != null)
-            {
-                foreach (var kvp in autoSettings.Environment)
-                {
-                    action.Environment[kvp.Key] = kvp.Value;
-                }
-            }
-            if (autoSettings.ExePaths != null)
-            {
-                action.ExePaths = autoSettings.ExePaths
-                    // expand facets
-                    .Select(p => ExpandTemplate(p, action.Facets))
-                    // expand CMD-style environment variables
-                    .Select(ExpandEnv)
-                    .ToArray();
-            }
-
-            action.ExitCodes = autoSettings.ExitCodes ?? action.ExitCodes;
-
-            action.UsePowerShellCore = autoSettings.UsePowerShellCore ?? action.UsePowerShellCore;
-            if (autoSettings.PowerShellExe != null)
-            {
-                action.PowerShellExe = ExpandEnv(ExpandTemplate(autoSettings.PowerShellExe, action.Facets));
-            }
-            action.UsePowerShellProfile = autoSettings.UsePowerShellProfile ?? action.UsePowerShellProfile;
-            action.PowerShellExecutionPolicy = autoSettings.PowerShellExecutionPolicy ?? action.PowerShellExecutionPolicy;
-
-            action.UseWindowsTerminal = autoSettings.UseWindowsTerminal ?? action.UseWindowsTerminal;
-            if (autoSettings.WindowsTerminalArgs != null)
-            {
-                action.WindowsTerminalArguments = FormatArguments(autoSettings.WindowsTerminalArgs
-                    // expand facets
-                    .Select(a => ExpandTemplate(a, action.Facets))
-                    // expand CMD-style environment variables
-                    .Select(ExpandEnv));
-            }
-        }
+        private IEnumerable<AutoActionSettings> AutoSettingsFor(MatchableAction action)
+            => Project.AutoSettings.ForActions.Where(a => a.Match(action));
 
         private void CreateFacetViews()
         {
@@ -387,52 +309,16 @@ namespace Mastersign.DashOps
 
         private ActionView ActionViewFromCommandAction(CommandAction action)
         {
-            var defaults = Project.Defaults.ForActions;
-            var facets = new Dictionary<string, string>(action.Facets ?? []);
-            var actionView = new ActionView
-            {
-                UsePowerShellCore = action.UsePowerShellCore ?? defaults.UsePowerShellCore,
-                PowerShellExe = !string.IsNullOrWhiteSpace(action.PowerShellExe)
-                    ? ExpandEnv(ExpandTemplate(action.PowerShellExe, facets))
-                    : ExpandEnv(ExpandTemplate(defaults.PowerShellExe, facets)),
-                UsePowerShellProfile = action.UsePowerShellProfile ?? defaults.UsePowerShellProfile,
-                PowerShellExecutionPolicy = !string.IsNullOrWhiteSpace(action.PowerShellExecutionPolicy)
-                    ? action.PowerShellExecutionPolicy
-                    : defaults.PowerShellExecutionPolicy,
-                Command = ExpandEnv(ExpandTemplate(action.Command, facets)),
-                Arguments = FormatArguments(
-                    action.Arguments?.Select(a => ExpandEnv(ExpandTemplate(a, facets)))),
-                WorkingDirectory = BuildAbsolutePath(action.WorkingDirectory),
-                Environment = Merge(defaults.Environment, action.Environment),
-                ExePaths = (action.ExePaths ?? defaults.ExePaths ?? [])
-                    .Select(p => ExpandTemplate(p, facets))
-                    .Select(ExpandEnv)
-                    .ToArray(),
-                UseWindowsTerminal = action.UseWindowsTerminal ?? defaults.UseWindowsTerminal,
-                WindowsTerminalArguments = FormatArguments(
-                    (action.WindowsTerminalArgs ?? defaults.WindowsTerminalArgs)
-                        .Select(a => ExpandEnv(ExpandTemplate(a, facets)))),
-                ExitCodes = action.ExitCodes ?? defaults.ExitCodes ?? [0],
-                Title = action.Description,
-                Reassure = action.Reassure ?? defaults.Reassure,
-                Visible = !(action.Background ?? defaults.Background),
-                Logs = ExpandEnv(action.Logs ?? defaults.Logs),
-                NoLogs = action.NoLogs ?? defaults.NoLogs,
-                NoExecutionInfo = action.NoExecutionInfo ?? defaults.NoExecutionInfo,
-                KeepOpen = action.KeepOpen ?? defaults.KeepOpen,
-                AlwaysClose = action.AlwaysClose ?? defaults.AlwaysClose,
-                Tags = action.Tags ?? [],
-                Facets = facets,
-            };
-            return actionView;
+            var matchable = action.CreateMatchable();
+            var autoSettings = AutoSettingsFor(matchable).ToList();
+            return action.CreateView(Project.Defaults.ForActions, autoSettings);
         }
         
         private IEnumerable<ActionView> DiscoverActions(CommandActionDiscovery actionDiscovery)
         {
             var basePath = BuildAbsolutePath(actionDiscovery.BasePath);
             if (!Directory.Exists(basePath)) yield break;
-            var pathRegex = BuildRegexFromPattern(actionDiscovery.PathPattern,
-                RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            var pathRegex = BuildPathPattern(actionDiscovery.PathPattern);
             if (pathRegex == null) yield break;
 
             var groupNames = pathRegex.GetGroupNames();
@@ -458,141 +344,26 @@ namespace Mastersign.DashOps
             CommandActionDiscovery actionDiscovery,
             string[] groupNames, Match m, string file)
         {
-            var defaults = Project.Defaults.ForActions;
-            var facets = new Dictionary<string, string>(actionDiscovery.Facets ?? []);
-
-            // capture named Regex groups into facets
+            var discoveryFacets = new Dictionary<string, string>();
             foreach (var groupName in groupNames)
             {
                 if (groupName == "0") continue;
                 var g = m.Groups[groupName];
                 if (!g.Success) continue;
-                facets[groupName] = g.Value;
+                discoveryFacets[groupName] = g.Value;
             }
 
-            string cmd;
-            string cmdArgs;
-            var fileVariable = new Dictionary<string, string> { { "File", file } };
-            if (!string.IsNullOrWhiteSpace(actionDiscovery.Interpreter))
-            {
-                // custom interpreter for discovered files
-
-                cmd = ExpandEnv(ExpandTemplate(actionDiscovery.Interpreter, facets));
-                if (actionDiscovery.Arguments is null)
-                {
-                    cmdArgs = FormatArguments([file]);
-                }
-                else
-                {
-                    cmdArgs = FormatArguments(actionDiscovery.Arguments
-                        // expand ${File} and ${file} into discovered filename 
-                        .Select(a => ExpandTemplate(a, fileVariable))
-                        // expand facets
-                        .Select(a => ExpandTemplate(a, facets))
-                        // expand CMD-style environment variables
-                        .Select(ExpandEnv));
-                }
-            }
-            else
-            {
-                // discovered file is used as command itself
-
-                cmd = file;
-                cmdArgs = FormatArguments(actionDiscovery.Arguments?
-                    // expand facets
-                    .Select(a => ExpandTemplate(a, facets))
-                    // expand CMD-style environment variables
-                    .Select(ExpandEnv));
-            }
-
-            return new ActionView()
-            {
-                Title = ExpandTemplate(actionDiscovery.Description, facets),
-                Reassure = actionDiscovery.Reassure ?? defaults.Reassure,
-                Visible = !(actionDiscovery.Background ?? defaults.Background),
-                Logs = ExpandEnv(ExpandTemplate(actionDiscovery.Logs ?? defaults.Logs, facets)),
-                NoLogs = actionDiscovery.NoLogs ?? defaults.NoLogs,
-                NoExecutionInfo = actionDiscovery.NoExecutionInfo ?? defaults.NoExecutionInfo,
-                KeepOpen = actionDiscovery.KeepOpen ?? defaults.KeepOpen,
-                AlwaysClose = actionDiscovery.AlwaysClose ?? defaults.AlwaysClose,
-                UsePowerShellCore = actionDiscovery.UsePowerShellCore ?? defaults.UsePowerShellCore,
-                PowerShellExe = !string.IsNullOrWhiteSpace(actionDiscovery.PowerShellExe)
-                    ? ExpandEnv(ExpandTemplate(actionDiscovery.PowerShellExe, facets))
-                    : ExpandEnv(ExpandTemplate(defaults.PowerShellExe, facets)),
-                UsePowerShellProfile = actionDiscovery.UsePowerShellProfile ?? defaults.UsePowerShellProfile,
-                PowerShellExecutionPolicy = !string.IsNullOrWhiteSpace(actionDiscovery.PowerShellExecutionPolicy)
-                    ? ExpandTemplate(actionDiscovery.PowerShellExecutionPolicy, facets)
-                    : ExpandTemplate(defaults.PowerShellExecutionPolicy, facets),
-                Command = cmd,
-                Arguments = cmdArgs,
-                WorkingDirectory = BuildAbsolutePath(
-                            ExpandEnv(ExpandTemplate(actionDiscovery.WorkingDirectory, facets))),
-                Environment = ExpandEnv(
-                    ExpandDictionaryTemplate(
-                        ExpandDictionaryTemplate(
-                            Merge(defaults.Environment, actionDiscovery.Environment ?? []),
-                            fileVariable),
-                        facets)),
-                ExePaths = (actionDiscovery.ExePaths ?? defaults.ExePaths ?? [])
-                    .Select(p => ExpandTemplate(p, facets))
-                    .Select(ExpandEnv)
-                    .ToArray(),
-                UseWindowsTerminal = actionDiscovery.UseWindowsTerminal ?? defaults.UseWindowsTerminal,
-                WindowsTerminalArguments = FormatArguments(
-                    (actionDiscovery.WindowsTerminalArgs ?? defaults.WindowsTerminalArgs)
-                        .Select(a => ExpandTemplate(a, fileVariable))
-                        .Select(a => ExpandTemplate(a, facets))
-                        .Select(ExpandEnv)),
-                ExitCodes = actionDiscovery.ExitCodes ?? defaults.ExitCodes ?? [0],
-                Facets = ExpandDictionaryTemplate(facets, facets),
-                Tags = actionDiscovery.Tags ?? [],
-            };
+            var matchable = actionDiscovery.CreateMatchable(discoveryFacets, file);
+            var autoSettings = AutoSettingsFor(matchable).ToList();
+            return actionDiscovery.CreateView(Project.Defaults.ForActions, autoSettings, discoveryFacets, file);
         }
 
         private ActionView ActionViewFromPatternVariation(
             CommandActionPattern actionPattern, Dictionary<string, string> facets)
         {
-            var defaults = Project.Defaults.ForActions;
-            return new()
-            {
-                Title = ExpandTemplate(actionPattern.Description, facets),
-                Reassure = actionPattern.Reassure ?? defaults.Reassure,
-                Visible = !(actionPattern.Background ?? defaults.Background),
-                Logs = ExpandEnv(ExpandTemplate(actionPattern.Logs ?? defaults.Logs, facets)),
-                NoLogs = actionPattern.NoLogs ?? defaults.NoLogs,
-                NoExecutionInfo = actionPattern.NoExecutionInfo ?? defaults.NoExecutionInfo,
-                KeepOpen = actionPattern.KeepOpen ?? defaults.AlwaysClose,
-                AlwaysClose = actionPattern.AlwaysClose ?? defaults.AlwaysClose,
-                UsePowerShellCore = actionPattern.UsePowerShellCore ?? defaults.UsePowerShellCore,
-                PowerShellExe = !string.IsNullOrWhiteSpace(actionPattern.PowerShellExe)
-                            ? ExpandEnv(ExpandTemplate(actionPattern.PowerShellExe, facets))
-                            : ExpandEnv(ExpandTemplate(defaults.PowerShellExe, facets)),
-                UsePowerShellProfile = actionPattern.UsePowerShellProfile ?? defaults.UsePowerShellProfile,
-                PowerShellExecutionPolicy = !string.IsNullOrWhiteSpace(actionPattern.PowerShellExecutionPolicy)
-                            ? ExpandTemplate(actionPattern.PowerShellExecutionPolicy, facets)
-                            : ExpandTemplate(defaults.PowerShellExecutionPolicy, facets),
-                Command = ExpandEnv(ExpandTemplate(actionPattern.Command, facets)),
-                Arguments = FormatArguments(actionPattern.Arguments?
-                            .Select(a => ExpandEnv(ExpandTemplate(a, facets)))),
-                WorkingDirectory = BuildAbsolutePath(
-                            ExpandEnv(ExpandTemplate(actionPattern.WorkingDirectory, facets))),
-                Environment = ExpandEnv(
-                            ExpandDictionaryTemplate(
-                                Merge(defaults.Environment, actionPattern.Environment ?? []),
-                                facets)),
-                ExePaths = (actionPattern.ExePaths ?? defaults.ExePaths ?? [])
-                            .Select(p => ExpandTemplate(p, facets))
-                            .Select(ExpandEnv)
-                            .ToArray(),
-                UseWindowsTerminal = actionPattern.UseWindowsTerminal ?? defaults.UseWindowsTerminal,
-                WindowsTerminalArguments = FormatArguments(
-                            (actionPattern.WindowsTerminalArgs ?? defaults.WindowsTerminalArgs)
-                                .Select(a => ExpandTemplate(a, facets))
-                                .Select(ExpandEnv)),
-                ExitCodes = actionPattern.ExitCodes ?? defaults.ExitCodes ?? [0],
-                Facets = ExpandDictionaryTemplate(facets, facets),
-                Tags = actionPattern.Tags ?? [],
-            };
+            var matchableAction = actionPattern.CreateMatchable(facets);
+            var autoSettings = AutoSettingsFor(matchableAction).ToList();
+            return actionPattern.CreateView(Project.Defaults.ForActions, autoSettings, facets);
         }
 
         private MonitorView MonitorViewFromCommandMonitor(CommandMonitor monitor)
@@ -620,8 +391,8 @@ namespace Mastersign.DashOps
                             .Select(ExpandEnv)
                             .ToArray(),
                 ExitCodes = monitor.ExitCodes ?? defaults.ExitCodes ?? [0],
-                RequiredPatterns = BuildPatterns(monitor.RequiredPatterns ?? defaults.RequiredPatterns),
-                ForbiddenPatterns = BuildPatterns(monitor.ForbiddenPatterns ?? defaults.ForbiddenPatterns),
+                RequiredPatterns = BuildTextPatterns(monitor.RequiredPatterns ?? defaults.RequiredPatterns),
+                ForbiddenPatterns = BuildTextPatterns(monitor.ForbiddenPatterns ?? defaults.ForbiddenPatterns),
             };
         }
 
@@ -629,8 +400,7 @@ namespace Mastersign.DashOps
         {
             var basePath = BuildAbsolutePath(monitorDiscovery.BasePath);
             if (!Directory.Exists(basePath)) yield break;
-            var pathRegex = BuildRegexFromPattern(monitorDiscovery.PathPattern,
-                RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            var pathRegex = BuildPathPattern(monitorDiscovery.PathPattern);
             if (pathRegex == null) yield break;
 
             var groupNames = pathRegex.GetGroupNames();
@@ -715,11 +485,11 @@ namespace Mastersign.DashOps
                 Command = cmd,
                 Arguments = cmdArgs,
                 WorkingDirectory = BuildAbsolutePath(
-                    ExpandEnv(ExpandTemplate(monitorDiscovery.WorkingDirectory, variables))),
+ExpandEnv(ExpandTemplate(monitorDiscovery.WorkingDirectory, variables))),
                 Environment = ExpandEnv(
-                    ExpandDictionaryTemplate(
-                        ExpandDictionaryTemplate(
-                            Merge(defaults.Environment, monitorDiscovery.Environment ?? []),
+ExpandDictionaryTemplate(
+ExpandDictionaryTemplate(
+Merge(defaults.Environment, monitorDiscovery.Environment ?? []),
                             fileVariable),
                         variables)),
                 ExePaths = (monitorDiscovery.ExePaths ?? defaults.ExePaths ?? [])
@@ -727,8 +497,8 @@ namespace Mastersign.DashOps
                     .Select(ExpandEnv)
                     .ToArray(),
                 ExitCodes = monitorDiscovery.ExitCodes ?? defaults.ExitCodes ?? [0],
-                RequiredPatterns = BuildPatterns(monitorDiscovery.RequiredPatterns ?? defaults.RequiredPatterns),
-                ForbiddenPatterns = BuildPatterns(monitorDiscovery.ForbiddenPatterns ?? defaults.ForbiddenPatterns)
+                RequiredPatterns = BuildTextPatterns(monitorDiscovery.RequiredPatterns ?? defaults.RequiredPatterns),
+                ForbiddenPatterns = BuildTextPatterns(monitorDiscovery.ForbiddenPatterns ?? defaults.ForbiddenPatterns)
             };
         }
 
@@ -756,18 +526,18 @@ namespace Mastersign.DashOps
                 Arguments = FormatArguments(
                             monitorPattern.Arguments?.Select(a => ExpandEnv(ExpandTemplate(a, variables)))),
                 WorkingDirectory = BuildAbsolutePath(
-                            ExpandEnv(ExpandTemplate(monitorPattern.WorkingDirectory, variables))),
+ExpandEnv(ExpandTemplate(monitorPattern.WorkingDirectory, variables))),
                 Environment = ExpandEnv(
-                            ExpandDictionaryTemplate(
-                                Merge(defaults.Environment, monitorPattern.Environment ?? []),
+ExpandDictionaryTemplate(
+Merge(defaults.Environment, monitorPattern.Environment ?? []),
                                 variables)),
                 ExePaths = (monitorPattern.ExePaths ?? defaults.ExePaths ?? [])
                             .Select(p => ExpandTemplate(p, variables))
                             .Select(ExpandEnv)
                             .ToArray(),
                 ExitCodes = monitorPattern.ExitCodes ?? defaults.ExitCodes ?? [0],
-                RequiredPatterns = BuildPatterns(monitorPattern.RequiredPatterns ?? defaults.RequiredPatterns),
-                ForbiddenPatterns = BuildPatterns(monitorPattern.ForbiddenPatterns ?? defaults.ForbiddenPatterns)
+                RequiredPatterns = BuildTextPatterns(monitorPattern.RequiredPatterns ?? defaults.RequiredPatterns),
+                ForbiddenPatterns = BuildTextPatterns(monitorPattern.ForbiddenPatterns ?? defaults.ForbiddenPatterns)
             };
         }
 
@@ -788,8 +558,8 @@ namespace Mastersign.DashOps
                 ServerCertificateHash = monitor.ServerCertificateHash,
                 NoTlsVerify = monitor.NoTlsVerify ?? defaults.NoTlsVerify,
                 StatusCodes = monitor.StatusCodes ?? defaults.StatusCodes ?? [200, 201, 202, 203, 204],
-                RequiredPatterns = BuildPatterns(monitor.RequiredPatterns ?? defaults.RequiredPatterns),
-                ForbiddenPatterns = BuildPatterns(monitor.ForbiddenPatterns ?? defaults.ForbiddenPatterns),
+                RequiredPatterns = BuildTextPatterns(monitor.RequiredPatterns ?? defaults.RequiredPatterns),
+                ForbiddenPatterns = BuildTextPatterns(monitor.ForbiddenPatterns ?? defaults.ForbiddenPatterns),
             };
         }
 
@@ -817,133 +587,9 @@ namespace Mastersign.DashOps
                 ServerCertificateHash = monitorPattern.ServerCertificateHash,
                 NoTlsVerify = monitorPattern.NoTlsVerify ?? defaults.NoTlsVerify,
                 StatusCodes = monitorPattern.StatusCodes ?? defaults.StatusCodes ?? [200, 201, 202, 203, 204],
-                RequiredPatterns = BuildPatterns(monitorPattern.RequiredPatterns ?? defaults.RequiredPatterns),
-                ForbiddenPatterns = BuildPatterns(monitorPattern.ForbiddenPatterns ?? defaults.ForbiddenPatterns),
+                RequiredPatterns = BuildTextPatterns(monitorPattern.RequiredPatterns ?? defaults.RequiredPatterns),
+                ForbiddenPatterns = BuildTextPatterns(monitorPattern.ForbiddenPatterns ?? defaults.ForbiddenPatterns),
             };
-        }
-
-        private static string BuildAbsolutePath(string dir)
-        {
-            dir = ExpandEnv(dir);
-            dir = dir?.TrimEnd(
-                Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) ?? string.Empty;
-            return string.IsNullOrWhiteSpace(dir)
-                ? Environment.CurrentDirectory
-                : Path.IsPathRooted(dir)
-                    ? dir
-                    : Path.Combine(Environment.CurrentDirectory, dir);
-        }
-
-        private static Regex BuildRegexFromPattern(string pattern, RegexOptions options)
-        {
-            if (string.IsNullOrWhiteSpace(pattern)) return null;
-            try
-            {
-                return new Regex(pattern,
-                    RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-            }
-            catch (ArgumentException exc)
-            {
-                UserInteraction.ShowMessage(
-                    "Parsing Regular Expression",
-                    "Error in regular expression: " + exc.Message,
-                    symbol: InteractionSymbol.Warning);
-                return null;
-            }
-        }
-
-        private static IEnumerable<Tuple<string, Match>> DiscoverFiles(string basePath, Regex pattern)
-        {
-            foreach (var file in Directory.EnumerateFiles(basePath, "*", SearchOption.AllDirectories))
-            {
-                Debug.Assert(file.StartsWith(basePath, StringComparison.OrdinalIgnoreCase));
-                var relativePath = file.Substring(basePath.Length + 1);
-                var m = pattern.Match(relativePath);
-                if (!m.Success) continue;
-                yield return Tuple.Create(file, m);
-            }
-        }
-
-        private static Regex[] BuildPatterns(IEnumerable<string> patterns)
-        {
-            try
-            {
-                return patterns?.Select(p => new Regex(p,
-                        RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Multiline,
-                        TimeSpan.FromMilliseconds(1000))
-                    ).ToArray() ?? [];
-            }
-            catch (ArgumentException exc)
-            {
-                UserInteraction.ShowMessage(
-                    "Parsing Regular Expression",
-                    "Error in regular expression: " + exc.Message,
-                    symbol: InteractionSymbol.Error);
-                return [];
-            }
-        }
-
-        private static IEnumerable<Dictionary<string, string>> EnumerateVariations(Dictionary<string, string[]> dimensions)
-        {
-            IEnumerable<Dictionary<string, string>> AddDimension(IEnumerable<Dictionary<string, string>> values, string key)
-            {
-                return values.SelectMany(d => dimensions[key], (d2, v) => new Dictionary<string, string>(d2) { { key, v } });
-            }
-            return dimensions.Keys.Aggregate(Enumerable.Repeat(new Dictionary<string, string>(), 1), AddDimension);
-        }
-
-        private static Dictionary<string, string> ExpandDictionaryTemplate(Dictionary<string, string> dict, Dictionary<string, string> variables)
-            => MapValues(dict, v => ExpandTemplate(v, variables));
-
-        private static string ExpandTemplate(string template, Dictionary<string, string> variables)
-        {
-            if (string.IsNullOrWhiteSpace(template)) return template;
-            var result = template;
-            foreach (var kvp in variables)
-            {
-                result = result.Replace("${" + kvp.Key + "}", kvp.Value);
-                result = result.Replace("${" + kvp.Key.ToLowerInvariant() + "}", kvp.Value);
-            }
-            return result;
-        }
-
-        private static string ExpandEnv(string template)
-            => string.IsNullOrWhiteSpace(template)
-                ? template
-                : Environment.ExpandEnvironmentVariables(template);
-
-        private static Dictionary<string, string> ExpandEnv(Dictionary<string, string> dict)
-            => MapValues(dict, ExpandEnv);
-
-        private static string FormatArguments(IEnumerable<string> arguments)
-            => arguments != null
-                ? CommandLine.FormatArgumentList([.. arguments.Select(ExpandEnv)])
-                : null;
-
-        private static Dictionary<TKey, TValue> MapValues<TKey, TValue>(
-            Dictionary<TKey, TValue> dict, Func<TValue, TValue> f)
-        {
-            if (dict == null) return [];
-            var result = new Dictionary<TKey, TValue>(dict);
-            foreach (var kvp in dict)
-            {
-                result[kvp.Key] = f(kvp.Value);
-            }
-            return result;
-        }
-
-        private static Dictionary<TKey, TValue> Merge<TKey, TValue>(params IDictionary<TKey, TValue>[] dicts)
-        {
-            var result = new Dictionary<TKey, TValue>();
-            foreach (var d in dicts)
-            {
-                if (d is null) continue;
-                foreach (var kvp in d)
-                {
-                    result[kvp.Key] = kvp.Value;
-                }
-            }
-            return result;
         }
     }
 }
