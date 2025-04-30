@@ -5,6 +5,8 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
+using Mastersign.DashOps.Model_v2;
+using static Mastersign.DashOps.Model_v2.Helper;
 
 namespace Mastersign.DashOps
 {
@@ -23,6 +25,30 @@ namespace Mastersign.DashOps
         private const int LOG_INDENT = 18;
 
         public bool PrintExecutionInfo => !NoExecutionInfo;
+
+        public void UpdateWith(
+            WebMonitor settings, 
+            IReadOnlyList<AutoMonitorSettings> autoSettings, 
+            DefaultMonitorSettings defaults, 
+            IReadOnlyDictionary<string, string> variables)
+        {
+            base.UpdateWith(settings, autoSettings, defaults, variables);
+
+            Url = ExpandTemplate(settings.Url, variables);
+            Headers = ExpandDictionaryTemplate(
+                CoalesceValues([settings.Headers, .. autoSettings.Select(s => s.Headers), defaults.Headers]),
+                variables);
+            Timeout = TimeSpan.FromSeconds(
+                Coalesce([settings.HttpTimeout, .. autoSettings.Select(s => s.HttpTimeout), defaults.HttpTimeout]));
+            ServerCertificateHash =
+                Coalesce([settings.ServerCertificateHash, .. autoSettings.Select(s => s.ServerCertificateHash), defaults.ServerCertificateHash]);
+            NoTlsVerify = Coalesce([settings.NoTlsVerify, .. autoSettings.Select(s => s.NoTlsVerify), defaults.NoTlsVerify]);
+            StatusCodes = Coalesce([
+                settings.StatusCodes,
+                .. autoSettings.Select(s => s.StatusCodes),
+                defaults.StatusCodes,
+                [200, 201, 202, 203, 204]]);
+        }
 
         public override Task<bool> Check(DateTime startTime)
         {

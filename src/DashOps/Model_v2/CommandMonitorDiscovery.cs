@@ -2,20 +2,20 @@
 
 namespace Mastersign.DashOps.Model_v2;
 
-partial class CommandActionDiscovery
+partial class CommandMonitorDiscovery
 {
-    private const string FILE_FACET = "file";
+    private const string FILE_VARIABLE = "file";
 
-    public MatchableAction CreateMatchable(IReadOnlyDictionary<string, string> discoveryFacets, string filePath)
+    public MatchableMonitor CreateMatchable(IReadOnlyDictionary<string, string> discoveryVariables, string filePath)
     {
-        var fileVariable = new Dictionary<string, string> { { FILE_FACET, filePath } };
-        var facets = CoalesceValues([Facets, fileVariable, discoveryFacets]);
+        var fileVariable = new Dictionary<string, string> { { FILE_VARIABLE, filePath } };
+        var variables = CoalesceValues([fileVariable, discoveryVariables]);
 
         string cmd;
         if (!string.IsNullOrWhiteSpace(Interpreter))
         {
             // custom interpreter for discovered files
-            cmd = ExpandEnv(ExpandTemplate(Interpreter, facets));
+            cmd = ExpandEnv(ExpandTemplate(Interpreter, variables));
         }
         else
         {
@@ -23,19 +23,19 @@ partial class CommandActionDiscovery
             cmd = filePath;
         }
 
-        return new MatchableAction
+        return new MatchableMonitor
         {
-            Title = ExpandTemplate(Title, facets),
+            Title = ExpandTemplate(Title, variables),
             Command = cmd,
+            Variables = variables,
             Tags = Tags ?? [],
-            Facets = facets,
         };
     }
 
-    public ActionView CreateView(DefaultActionSettings defaults, IReadOnlyList<AutoActionSettings> autoSettings, IReadOnlyDictionary<string, string> discoveryFacets, string filePath)
+    public CommandMonitorView CreateView(DefaultMonitorSettings defaults, IReadOnlyList<AutoMonitorSettings> autoSettings, IReadOnlyDictionary<string, string> discoveryVariables, string filePath)
     {
-        var fileVariable = new Dictionary<string, string> { { FILE_FACET, filePath } };
-        var facets = CoalesceValues([Facets, fileVariable, discoveryFacets]);
+        var fileVariable = new Dictionary<string, string> { { FILE_VARIABLE, filePath } };
+        var variables = CoalesceValues([fileVariable, discoveryVariables]);
 
         string cmd;
         string cmdArgs;
@@ -43,7 +43,7 @@ partial class CommandActionDiscovery
         {
             // custom interpreter for discovered files
 
-            cmd = ExpandEnv(ExpandTemplate(Interpreter, facets));
+            cmd = ExpandEnv(ExpandTemplate(Interpreter, variables));
             if (Arguments is null)
             {
                 cmdArgs = FormatArguments([filePath]);
@@ -52,7 +52,7 @@ partial class CommandActionDiscovery
             {
                 cmdArgs = FormatArguments(Arguments
                     // expand facets
-                    .Select(a => ExpandTemplate(a, facets))
+                    .Select(a => ExpandTemplate(a, variables))
                     // expand CMD-style environment variables
                     .Select(ExpandEnv));
             }
@@ -64,19 +64,17 @@ partial class CommandActionDiscovery
             cmd = filePath;
             cmdArgs = FormatArguments(Arguments?
                 // expand facets
-                .Select(a => ExpandTemplate(a, facets))
+                .Select(a => ExpandTemplate(a, variables))
                 // expand CMD-style environment variables
                 .Select(ExpandEnv));
         }
 
-        var view = new ActionView
+        var view = new CommandMonitorView
         {
-            Title = ExpandTemplate(Title, facets),
-
             Command = cmd,
             Arguments = cmdArgs,
         };
-        view.UpdateWith(this, autoSettings, defaults, facets);
+        view.UpdateWith(this, autoSettings, defaults, variables);
         view.UpdateStatusFromLogFile();
 
         return view;

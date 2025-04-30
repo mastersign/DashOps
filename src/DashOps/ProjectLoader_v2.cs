@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using Mastersign.DashOps.Model_v2;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -205,8 +206,7 @@ namespace Mastersign.DashOps
             if (Project.ActionPatterns != null) AddActionViews(Project.ActionPatterns.SelectMany(ExpandActionPattern));
 
             ProjectView.IsMonitoringPaused = Project.PauseMonitoring;
-            var defaultMonitorInterval = new TimeSpan(0, 0, monitorDefaults.Interval);
-            var defaultWebMonitorTimeout = new TimeSpan(0, 0, monitorDefaults.HttpTimeout);
+
             void AddMonitorViews(IEnumerable<MonitorView> monitorViews)
             {
                 foreach (var monitorView in monitorViews) ProjectView.MonitorViews.Add(monitorView);
@@ -216,22 +216,6 @@ namespace Mastersign.DashOps
             if (Project.MonitorPatterns != null) AddMonitorViews(Project.MonitorPatterns.SelectMany(ExpandCommandMonitorPattern));
             if (Project.WebMonitors != null) AddMonitorViews(Project.WebMonitors.Select(MonitorViewFromWebMonitor));
             if (Project.WebMonitorPatterns != null) AddMonitorViews(Project.WebMonitorPatterns.SelectMany(ExpandWebMonitorPattern));
-            foreach (var monitorView in ProjectView.MonitorViews)
-            {
-                monitorView.Logs = BuildMonitorLogDirPath(monitorView.Logs, monitorView.NoLogs);
-                var logInfo = monitorView.GetLastLogFileInfo();
-                if (logInfo != null && logInfo.HasResult)
-                {
-                    monitorView.LastExecutionResult = logInfo.Success;
-                    monitorView.HasLastExecutionResult = true;
-                }
-
-                if (monitorView.Interval < TimeSpan.Zero) monitorView.Interval = defaultMonitorInterval;
-                if (monitorView is WebMonitorView webMonitorView)
-                {
-                    if (webMonitorView.Timeout < TimeSpan.Zero) webMonitorView.Timeout = defaultWebMonitorTimeout;
-                }
-            }
 
             var tagsPerspective = ProjectView.AddTagsPerspective();
             var facetPerspectives = new Dictionary<string, PerspectiveView>(StringComparer.InvariantCultureIgnoreCase);
@@ -268,25 +252,11 @@ namespace Mastersign.DashOps
             }
         }
 
-        private string BuildLogDirPath(string logs, string defaultLogs, bool noLogs)
-        {
-            if (noLogs) return null;
-            logs = logs ?? defaultLogs;
-            if (logs != null && !Path.IsPathRooted(logs))
-            {
-                logs = Path.Combine(Environment.CurrentDirectory, logs);
-            }
-            return logs;
-        }
+        private IEnumerable<AutoActionSettings> AutoSettingsFor(MatchableAction matchable)
+            => Project.AutoSettings.ForActions.Where(s => s.Match(matchable));
 
-        private string BuildActionLogDirPath(string logs, bool noLogs)
-            => BuildLogDirPath(logs, Project.Defaults.ForActions.Logs, noLogs);
-
-        private string BuildMonitorLogDirPath(string logs, bool noLogs)
-            => BuildLogDirPath(logs, Project.Defaults.ForMonitors.Logs, noLogs);
-
-        private IEnumerable<AutoActionSettings> AutoSettingsFor(MatchableAction action)
-            => Project.AutoSettings.ForActions.Where(a => a.Match(action));
+        private IEnumerable<AutoMonitorSettings> AutoSettingsFor(MatchableMonitor matchable)
+            => Project.AutoSettings.ForMonitors.Where(s => s.Match(matchable));
 
         private void CreateFacetViews()
         {
@@ -368,32 +338,9 @@ namespace Mastersign.DashOps
 
         private MonitorView MonitorViewFromCommandMonitor(CommandMonitor monitor)
         {
-            var defaults = Project.Defaults.ForMonitors;
-            return new CommandMonitorView
-            {
-                Title = monitor.Title,
-                Logs = ExpandEnv(monitor.Logs ?? defaults.Logs),
-                NoLogs = monitor.NoLogs ?? defaults.NoLogs,
-                NoExecutionInfo = monitor.NoExecutionInfo ?? defaults.NoExecutionInfo,
-                Deactivated = monitor.Deactivated ?? defaults.Deactivated,
-                Interval = new TimeSpan(0, 0, monitor.Interval ?? defaults.Interval),
-                UsePowerShellCore = monitor.UsePowerShellCore ?? defaults.UsePowerShellCore,
-                PowerShellExe = !string.IsNullOrWhiteSpace(monitor.PowerShellExe)
-                            ? ExpandEnv(monitor.PowerShellExe)
-                            : ExpandEnv(defaults.PowerShellExe),
-                UsePowerShellProfile = monitor.UsePowerShellProfile ?? defaults.UsePowerShellProfile,
-                PowerShellExecutionPolicy = monitor.PowerShellExecutionPolicy ?? defaults.PowerShellExecutionPolicy,
-                Command = ExpandEnv(monitor.Command),
-                Arguments = FormatArguments(monitor.Arguments?.Select(ExpandEnv)),
-                WorkingDirectory = BuildAbsolutePath(monitor.WorkingDirectory ?? defaults.WorkingDirectory),
-                Environment = Merge(defaults.Environment, monitor.Environment),
-                ExePaths = (monitor.ExePaths ?? defaults.ExePaths ?? [])
-                            .Select(ExpandEnv)
-                            .ToArray(),
-                ExitCodes = monitor.ExitCodes ?? defaults.ExitCodes ?? [0],
-                RequiredPatterns = BuildTextPatterns(monitor.RequiredPatterns ?? defaults.RequiredPatterns),
-                ForbiddenPatterns = BuildTextPatterns(monitor.ForbiddenPatterns ?? defaults.ForbiddenPatterns),
-            };
+            var matchableMonitor = monitor.CreateMatchable();
+            var autoSettings = AutoSettingsFor(matchableMonitor).ToList();
+            return monitor.CreateView(Project.Defaults.ForMonitors, autoSettings);
         }
 
         private IEnumerable<MonitorView> DiscoverMonitors(CommandMonitorDiscovery monitorDiscovery)
@@ -430,137 +377,24 @@ namespace Mastersign.DashOps
                 variables[groupName] = g.Value;
             }
 
-            string cmd;
-            string cmdArgs;
-            var fileVariable = new Dictionary<string, string> { { "File", file } };
-            if (!string.IsNullOrWhiteSpace(monitorDiscovery.Interpreter))
-            {
-                // custom interpreter for discovered files
-
-                cmd = ExpandEnv(ExpandTemplate(monitorDiscovery.Interpreter, variables));
-                if (monitorDiscovery.Arguments is null)
-                {
-                    cmdArgs = FormatArguments([file]);
-                }
-                else
-                {
-                    cmdArgs = FormatArguments(monitorDiscovery.Arguments
-                        // expand ${File} and ${file} into discovered filename 
-                        .Select(a => ExpandTemplate(a, fileVariable))
-                        // expand group names from Regex match
-                        .Select(a => ExpandTemplate(a, variables))
-                        // expand CMD-style environment variables
-                        .Select(ExpandEnv));
-                }
-            }
-            else
-            {
-                // discovered file is used as command itself
-
-                cmd = file;
-                cmdArgs = FormatArguments(monitorDiscovery.Arguments?
-                    // expand group names from Regex match
-                    .Select(a => ExpandTemplate(a, variables))
-                    // expand CMD-style environment variables
-                    .Select(ExpandEnv));
-            }
-
-            var defaults = Project.Defaults.ForMonitors;
-            return new CommandMonitorView
-            {
-                Title = ExpandTemplate(monitorDiscovery.Title, variables),
-                Logs = ExpandEnv(ExpandTemplate(monitorDiscovery.Logs ?? defaults.Logs, variables)),
-                NoLogs = monitorDiscovery.NoLogs ?? defaults.NoLogs,
-                NoExecutionInfo = monitorDiscovery.NoExecutionInfo ?? defaults.NoExecutionInfo,
-                Deactivated = monitorDiscovery.Deactivated ?? defaults.Deactivated,
-                Interval = new TimeSpan(0, 0, monitorDiscovery.Interval ?? defaults.Interval),
-                UsePowerShellCore = monitorDiscovery.UsePowerShellCore ?? defaults.UsePowerShellCore,
-                PowerShellExe = !string.IsNullOrWhiteSpace(monitorDiscovery.PowerShellExe)
-                    ? ExpandEnv(ExpandTemplate(monitorDiscovery.PowerShellExe, variables))
-                    : ExpandEnv(ExpandTemplate(defaults.PowerShellExe, variables)),
-                UsePowerShellProfile = monitorDiscovery.UsePowerShellProfile ?? defaults.UsePowerShellProfile,
-                PowerShellExecutionPolicy = !string.IsNullOrWhiteSpace(monitorDiscovery.PowerShellExecutionPolicy)
-                    ? ExpandTemplate(monitorDiscovery.PowerShellExecutionPolicy, variables)
-                    : ExpandTemplate(defaults.PowerShellExecutionPolicy, variables),
-                Command = cmd,
-                Arguments = cmdArgs,
-                WorkingDirectory = BuildAbsolutePath(
-ExpandEnv(ExpandTemplate(monitorDiscovery.WorkingDirectory, variables))),
-                Environment = ExpandEnv(
-ExpandDictionaryTemplate(
-ExpandDictionaryTemplate(
-Merge(defaults.Environment, monitorDiscovery.Environment ?? []),
-                            fileVariable),
-                        variables)),
-                ExePaths = (monitorDiscovery.ExePaths ?? defaults.ExePaths ?? [])
-                    .Select(p => ExpandTemplate(p, variables))
-                    .Select(ExpandEnv)
-                    .ToArray(),
-                ExitCodes = monitorDiscovery.ExitCodes ?? defaults.ExitCodes ?? [0],
-                RequiredPatterns = BuildTextPatterns(monitorDiscovery.RequiredPatterns ?? defaults.RequiredPatterns),
-                ForbiddenPatterns = BuildTextPatterns(monitorDiscovery.ForbiddenPatterns ?? defaults.ForbiddenPatterns)
-            };
+            var matchableMonitor = monitorDiscovery.CreateMatchable(variables, file);
+            var autoSettings = AutoSettingsFor(matchableMonitor).ToList();
+            return monitorDiscovery.CreateView(Project.Defaults.ForMonitors, autoSettings, variables, file);
         }
 
         private MonitorView MonitorViewFromPatternVariation(
             CommandMonitorPattern monitorPattern, Dictionary<string, string> variables)
         {
-            var defaults = Project.Defaults.ForMonitors;
-            return new CommandMonitorView
-            {
-                Title = ExpandTemplate(monitorPattern.Title, variables),
-                Logs = ExpandEnv(ExpandTemplate(monitorPattern.Logs ?? defaults.Logs, variables)),
-                NoLogs = monitorPattern.NoLogs ?? defaults.NoLogs,
-                NoExecutionInfo = monitorPattern.NoExecutionInfo ?? defaults.NoExecutionInfo,
-                Deactivated = monitorPattern.Deactivated ?? defaults.Deactivated,
-                Interval = new TimeSpan(0, 0, monitorPattern.Interval ?? defaults.Interval),
-                UsePowerShellCore = monitorPattern.UsePowerShellCore ?? defaults.UsePowerShellCore,
-                PowerShellExe = !string.IsNullOrWhiteSpace(monitorPattern.PowerShellExe)
-                            ? ExpandEnv(ExpandTemplate(monitorPattern.PowerShellExe, variables))
-                            : ExpandEnv(ExpandTemplate(defaults.PowerShellExe, variables)),
-                UsePowerShellProfile = monitorPattern.UsePowerShellProfile ?? defaults.UsePowerShellProfile,
-                PowerShellExecutionPolicy = !string.IsNullOrWhiteSpace(monitorPattern.PowerShellExecutionPolicy)
-                            ? ExpandTemplate(monitorPattern.PowerShellExecutionPolicy, variables)
-                            : ExpandTemplate(defaults.PowerShellExecutionPolicy, variables),
-                Command = ExpandEnv(ExpandTemplate(monitorPattern.Command, variables)),
-                Arguments = FormatArguments(
-                            monitorPattern.Arguments?.Select(a => ExpandEnv(ExpandTemplate(a, variables)))),
-                WorkingDirectory = BuildAbsolutePath(
-ExpandEnv(ExpandTemplate(monitorPattern.WorkingDirectory, variables))),
-                Environment = ExpandEnv(
-ExpandDictionaryTemplate(
-Merge(defaults.Environment, monitorPattern.Environment ?? []),
-                                variables)),
-                ExePaths = (monitorPattern.ExePaths ?? defaults.ExePaths ?? [])
-                            .Select(p => ExpandTemplate(p, variables))
-                            .Select(ExpandEnv)
-                            .ToArray(),
-                ExitCodes = monitorPattern.ExitCodes ?? defaults.ExitCodes ?? [0],
-                RequiredPatterns = BuildTextPatterns(monitorPattern.RequiredPatterns ?? defaults.RequiredPatterns),
-                ForbiddenPatterns = BuildTextPatterns(monitorPattern.ForbiddenPatterns ?? defaults.ForbiddenPatterns)
-            };
+            var matchableMonitor = monitorPattern.CreateMatchable(variables);
+            var autoSettings = AutoSettingsFor(matchableMonitor).ToList();
+            return monitorPattern.CreateView(Project.Defaults.ForMonitors, autoSettings, variables);
         }
 
         private MonitorView MonitorViewFromWebMonitor(WebMonitor monitor)
         {
-            var defaults = Project.Defaults.ForMonitors;
-            return new WebMonitorView
-            {
-                Title = monitor.Title,
-                Logs = ExpandEnv(monitor.Logs ?? defaults.Logs),
-                NoLogs = monitor.NoLogs ?? defaults.NoLogs,
-                NoExecutionInfo = monitor.NoExecutionInfo ?? defaults.NoExecutionInfo,
-                Deactivated = monitor.Deactivated ?? defaults.Deactivated,
-                Interval = new TimeSpan(0, 0, monitor.Interval ?? defaults.Interval),
-                Url = monitor.Url,
-                Headers = new Dictionary<string, string>(monitor.Headers ?? []),
-                Timeout = new TimeSpan(0, 0, monitor.HttpTimeout ?? defaults.HttpTimeout),
-                ServerCertificateHash = monitor.ServerCertificateHash,
-                NoTlsVerify = monitor.NoTlsVerify ?? defaults.NoTlsVerify,
-                StatusCodes = monitor.StatusCodes ?? defaults.StatusCodes ?? [200, 201, 202, 203, 204],
-                RequiredPatterns = BuildTextPatterns(monitor.RequiredPatterns ?? defaults.RequiredPatterns),
-                ForbiddenPatterns = BuildTextPatterns(monitor.ForbiddenPatterns ?? defaults.ForbiddenPatterns),
-            };
+            var matchable = monitor.CreateMatchable();
+            var autoSettings = AutoSettingsFor(matchable).ToList();
+            return monitor.CreateView(Project.Defaults.ForMonitors, autoSettings);
         }
 
         private IEnumerable<MonitorView> ExpandWebMonitorPattern(WebMonitorPattern monitorPattern)
@@ -572,24 +406,9 @@ Merge(defaults.Environment, monitorPattern.Environment ?? []),
         private MonitorView MonitorViewFromPatternVariation(
             WebMonitorPattern monitorPattern, Dictionary<string, string> variables)
         {
-            var defaults = Project.Defaults.ForMonitors;
-            return new WebMonitorView
-            {
-                Title = ExpandTemplate(monitorPattern.Title, variables),
-                Logs = ExpandEnv(ExpandTemplate(monitorPattern.Logs ?? defaults.Logs, variables)),
-                NoLogs = monitorPattern.NoLogs ?? defaults.NoLogs,
-                NoExecutionInfo = monitorPattern.NoExecutionInfo ?? defaults.NoExecutionInfo,
-                Deactivated = monitorPattern.Deactivated ?? defaults.Deactivated,
-                Interval = new TimeSpan(0, 0, monitorPattern.Interval ?? defaults.Interval),
-                Url = ExpandTemplate(monitorPattern.Url, variables),
-                Headers = ExpandDictionaryTemplate(monitorPattern.Headers, variables),
-                Timeout = new TimeSpan(0, 0, monitorPattern.HttpTimeout ?? defaults.HttpTimeout),
-                ServerCertificateHash = monitorPattern.ServerCertificateHash,
-                NoTlsVerify = monitorPattern.NoTlsVerify ?? defaults.NoTlsVerify,
-                StatusCodes = monitorPattern.StatusCodes ?? defaults.StatusCodes ?? [200, 201, 202, 203, 204],
-                RequiredPatterns = BuildTextPatterns(monitorPattern.RequiredPatterns ?? defaults.RequiredPatterns),
-                ForbiddenPatterns = BuildTextPatterns(monitorPattern.ForbiddenPatterns ?? defaults.ForbiddenPatterns),
-            };
+            var matchable = monitorPattern.CreateMatchable(variables);
+            var autoSettings = AutoSettingsFor(matchable).ToList();
+            return monitorPattern.CreateView(Project.Defaults.ForMonitors, autoSettings, variables);
         }
     }
 }

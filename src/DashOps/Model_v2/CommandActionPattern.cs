@@ -4,7 +4,7 @@ namespace Mastersign.DashOps.Model_v2;
 
 partial class CommandActionPattern
 {
-    public MatchableAction CreateMatchable(IDictionary<string, string> instanceFacets)
+    public MatchableAction CreateMatchable(IReadOnlyDictionary<string, string> instanceFacets)
     {
         var facets = CoalesceValues([instanceFacets]);
         return new MatchableAction
@@ -16,10 +16,10 @@ partial class CommandActionPattern
         };
     }
 
-    public ActionView CreateView(DefaultActionSettings defaults, IReadOnlyList<AutoActionSettings> autoSettings, IDictionary<string, string> instanceFacets)
+    public ActionView CreateView(DefaultActionSettings defaults, IReadOnlyList<AutoActionSettings> autoSettings, IReadOnlyDictionary<string, string> instanceFacets)
     {
         var facets = instanceFacets;
-        var actionView = new ActionView
+        var view = new ActionView
         {
             Title = ExpandTemplate(Title, facets),
 
@@ -29,9 +29,9 @@ partial class CommandActionPattern
                     .Select(a => ExpandTemplate(a, facets))
                     .Select(ExpandEnv)),
         };
-        actionView.UpdateWith(this, autoSettings, defaults, facets);
-        actionView.UpdateStatusFromLogFile();
+        view.UpdateWith(this, autoSettings, defaults, facets);
+        view.UpdateStatusFromLogFile();
 
-        return actionView;
+        return view;
     }
 }

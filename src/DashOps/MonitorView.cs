@@ -1,5 +1,6 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Diagnostics.Tracing;
+using Mastersign.DashOps.Model_v2;
+using static Mastersign.DashOps.Model_v2.Helper;
 
 namespace Mastersign.DashOps
 {
@@ -65,5 +66,39 @@ namespace Mastersign.DashOps
         public virtual string CommandId => throw new NotImplementedException();
 
         #endregion
+
+        public void UpdateStatusFromLogFile()
+        {
+            var logInfo = this.GetLastLogFileInfo();
+            if (logInfo != null && logInfo.HasResult)
+            {
+                LastExecutionResult = logInfo.Success;
+                HasLastExecutionResult = true;
+            }
+        }
+
+        public void UpdateWith(
+            MonitorBase settings, 
+            IReadOnlyList<AutoMonitorSettings> autoSettings, 
+            DefaultMonitorSettings defaults, 
+            IReadOnlyDictionary<string, string> variables)
+        {
+            Title = ExpandTemplate(settings.Title, variables);
+
+            Interval = TimeSpan.FromSeconds(
+                Coalesce([settings.Interval, .. autoSettings.Select(s => s.Interval), defaults.Interval]));
+            Deactivated = Coalesce([settings.Deactivated, ..autoSettings.Select(s => s.Deactivated), defaults.Deactivated]);
+
+            NoLogs = Coalesce([settings.NoLogs, .. autoSettings.Select(s => s.NoLogs), defaults.NoLogs]);
+            Logs = NoLogs ? null : BuildAbsolutePath(ExpandEnv(ExpandTemplate(
+                Coalesce([settings.Logs, .. autoSettings.Select(s => s.Logs), defaults.Logs]),
+                variables)));
+            NoExecutionInfo = Coalesce([settings.NoExecutionInfo, .. autoSettings.Select(s => s.NoExecutionInfo), defaults.NoExecutionInfo]);
+
+            RequiredPatterns = BuildTextPatterns(
+                Coalesce([settings.RequiredPatterns, .. autoSettings.Select(s => s.RequiredPatterns), defaults.RequiredPatterns]));
+            ForbiddenPatterns = BuildTextPatterns(
+                Coalesce([settings.ForbiddenPatterns, .. autoSettings.Select(s => s.ForbiddenPatterns), defaults.ForbiddenPatterns]));
+        }
     }
 }

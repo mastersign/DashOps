@@ -57,7 +57,7 @@ namespace Mastersign.DashOps
             }
         }
 
-        public void UpdateWith(CommandActionSettings settings, IReadOnlyCollection<AutoActionSettings> autoSettings, DefaultActionSettings defaults, IDictionary<string, string> facets)
+        public void UpdateWith(CommandActionSettings settings, IReadOnlyCollection<AutoActionSettings> autoSettings, DefaultActionSettings defaults, IReadOnlyDictionary<string, string> facets)
         {
             Reassure = Coalesce([settings.Reassure, .. autoSettings.Select(s => s.Reassure), defaults.Reassure]);
             Visible = !Coalesce([settings.Background, .. autoSettings.Select(s => s.Background), defaults.Background]);

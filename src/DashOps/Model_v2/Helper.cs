@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.IO;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.RegularExpressions;
 
 namespace Mastersign.DashOps.Model_v2;
@@ -8,6 +7,15 @@ namespace Mastersign.DashOps.Model_v2;
 static internal class Helper
 {
     public static bool Coalesce(IEnumerable<bool?> values, bool fallback = false)
+    {
+        foreach (var v in values)
+        {
+            if (v.HasValue) return v.Value;
+        }
+        return fallback;
+    }
+
+    public static double Coalesce(IEnumerable<double?> values, double fallback = 0)
     {
         foreach (var v in values)
         {
@@ -55,7 +63,7 @@ static internal class Helper
     public static string[] Unite(IEnumerable<string[]> lists) 
         => [.. lists.Where(l => l is not null).SelectMany(l => l).Distinct()];
 
-    public static Dictionary<TKey, TValue> CoalesceValues<TKey, TValue>(IEnumerable<IDictionary<TKey, TValue>> dicts)
+    public static Dictionary<TKey, TValue> CoalesceValues<TKey, TValue>(IEnumerable<IReadOnlyDictionary<TKey, TValue>> dicts)
     {
         var result = new Dictionary<TKey, TValue>();
         foreach (var d in dicts.Reverse())
@@ -69,7 +77,7 @@ static internal class Helper
         return result;
     }
 
-    public static Dictionary<TKey, TValue> Merge<TKey, TValue>(params IDictionary<TKey, TValue>[] dicts)
+    public static Dictionary<TKey, TValue> Merge<TKey, TValue>(params IReadOnlyDictionary<TKey, TValue>[] dicts)
     {
         var result = new Dictionary<TKey, TValue>();
         foreach (var d in dicts)
@@ -92,7 +100,7 @@ static internal class Helper
         return dimensions.Keys.Aggregate(Enumerable.Repeat(new Dictionary<string, string>(), 1), AddDimension);
     }
 
-    public static Dictionary<string, string> ExpandDictionaryTemplate(IDictionary<string, string> dict, IDictionary<string, string> variables)
+    public static Dictionary<string, string> ExpandDictionaryTemplate(IReadOnlyDictionary<string, string> dict, IReadOnlyDictionary<string, string> variables)
         => MapValues(dict, v => ExpandTemplate(v, variables));
 
     public static string ExpandEnv(string template)
@@ -100,10 +108,10 @@ static internal class Helper
             ? template
             : Environment.ExpandEnvironmentVariables(template);
 
-    public static Dictionary<string, string> ExpandEnv(IDictionary<string, string> dict)
+    public static Dictionary<string, string> ExpandEnv(IReadOnlyDictionary<string, string> dict)
         => MapValues(dict, ExpandEnv);
 
-    public static string ExpandTemplate(string template, IDictionary<string, string> variables)
+    public static string ExpandTemplate(string template, IReadOnlyDictionary<string, string> variables)
     {
         if (string.IsNullOrWhiteSpace(template)) return template;
         var result = template;
@@ -121,13 +129,13 @@ static internal class Helper
             : null;
 
     private static Dictionary<TKey, TValue> MapValues<TKey, TValue>(
-        IDictionary<TKey, TValue> dict, Func<TValue, TValue> f)
+        IReadOnlyDictionary<TKey, TValue> dict, Func<TValue, TValue> f)
     {
         if (dict == null) return [];
-        var result = new Dictionary<TKey, TValue>(dict);
+        var result = new Dictionary<TKey, TValue>();
         foreach (var kvp in dict)
         {
-            result[kvp.Key] = f(kvp.Value);
+            result.Add(kvp.Key, f(kvp.Value));
         }
         return result;
     }

@@ -19,7 +19,7 @@ partial class CommandAction
     public ActionView CreateView(DefaultActionSettings defaults, IReadOnlyList<AutoActionSettings> autoSettings)
     {
         var facets = Facets ?? [];
-        var actionView = new ActionView
+        var view = new ActionView
         {
             Title = Title,
 
@@ -29,9 +29,9 @@ partial class CommandAction
                     .Select(a => ExpandTemplate(a, facets))
                     .Select(ExpandEnv)),
         };
-        actionView.UpdateWith(this, autoSettings, defaults, facets);
-        actionView.UpdateStatusFromLogFile();
+        view.UpdateWith(this, autoSettings, defaults, facets);
+        view.UpdateStatusFromLogFile();
 
-        return actionView;
+        return view;
     }
 }

@@ -2,19 +2,12 @@
 
 partial class ActionMatcher
 {
-    private bool MatchString(string value)
-        => !string.IsNullOrWhiteSpace(value) &&
-           (Pattern != null
-               ? System.Text.RegularExpressions.Regex.IsMatch(value, Pattern)
-               : string.Equals(value, Value));
-
-
-    public bool Match(MatchableAction actionView) => Mode switch
+    public bool Match(MatchableAction matchable) => Mode switch
     {
-        ActionMatchMode.Title => MatchString(actionView.Title),
-        ActionMatchMode.Command => MatchString(actionView.Command),
-        ActionMatchMode.Facet => MatchString(actionView.GetFacetValue(Facet)),
-        ActionMatchMode.Tag => actionView.Tags.Any(MatchString),
+        ActionMatchMode.Title => MatchString(matchable.Title),
+        ActionMatchMode.Command => MatchString(matchable.Command),
+        ActionMatchMode.Facet => MatchString(matchable.GetFacetValue(Facet)),
+        ActionMatchMode.Tag => matchable.Tags.Any(MatchString),
         _ => throw new ArgumentOutOfRangeException(),
     };
 }

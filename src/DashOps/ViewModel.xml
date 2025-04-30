@@ -76,6 +76,7 @@
 
     <Class name="MonitorView">
       <Property name="Title" />
+      <Property name="Tags" type="string[]" />
       <Property name="Logs" />
       <Property name="NoLogs" type="bool" />
       <Property name="NoExecutionInfo" type="bool" />

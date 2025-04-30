@@ -2,6 +2,6 @@
 
 partial class MatchableAction
 {
-    public string GetFacetValue(string facetName)
-        => Facets.TryGetValue(facetName, out var facetValue) ? facetValue : null;
+    public string GetFacetValue(string name)
+        => Facets.TryGetValue(name, out var v) ? v : null;
 }

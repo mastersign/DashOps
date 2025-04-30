@@ -1113,6 +1113,7 @@ namespace Mastersign.DashOps
     {
         public MonitorView()
         {
+            this._tags = new string[0];
             this._requiredPatterns = new global::System.Text.RegularExpressions.Regex[0];
             this._forbiddenPatterns = new global::System.Text.RegularExpressions.Regex[0];
         }
@@ -1159,6 +1160,38 @@ namespace Mastersign.DashOps
                 }
                 _title = value;
                 this.OnTitleChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property Tags
+        
+        private string[] _tags;
+        
+        public event EventHandler TagsChanged;
+        
+        protected virtual void OnTagsChanged()
+        {
+            EventHandler handler = TagsChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Tags");
+        }
+        
+        public virtual string[] Tags
+        {
+            get { return _tags; }
+            set
+            {
+                if ((value == _tags))
+                {
+                    return;
+                }
+                _tags = value;
+                this.OnTagsChanged();
             }
         }
         

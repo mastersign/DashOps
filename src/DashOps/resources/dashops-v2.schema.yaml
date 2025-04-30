@@ -15,9 +15,7 @@ $defs:
 
   Tags:
     title: Tags
-    description: >-
-      A list of tags.
-      Tags group actions together.
+    description: A list of tags
     type: array
     items:
       type: string
@@ -600,6 +598,8 @@ $defs:
 
           In discovered monitors and monitor patterns, placeholder like ${var} are replaced by variable values.
         type: string
+      tags:
+        $ref: '#/$defs/Tags'
 
   CommandMonitorBase:
     allOf:
