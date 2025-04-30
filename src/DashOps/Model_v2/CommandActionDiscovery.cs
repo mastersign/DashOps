@@ -8,7 +8,6 @@ partial class CommandActionDiscovery
 
     public MatchableAction CreateMatchable(IDictionary<string, string> discoveryFacets, string filePath)
     {
-        var tags = Tags ?? [];
         var fileVariable = new Dictionary<string, string> { { FILE_FACET, filePath } };
         var facets = CoalesceValues([Facets, fileVariable, discoveryFacets]);
 
@@ -28,7 +27,7 @@ partial class CommandActionDiscovery
         {
             Title = ExpandTemplate(Title, facets),
             Command = cmd,
-            Tags = tags,
+            Tags = Tags ?? [],
             Facets = facets,
         };
     }
@@ -36,7 +35,7 @@ partial class CommandActionDiscovery
     public ActionView CreateView(DefaultActionSettings defaults, IReadOnlyList<AutoActionSettings> autoSettings, IDictionary<string, string> discoveryFacets, string filePath)
     {
         var fileVariable = new Dictionary<string, string> { { FILE_FACET, filePath } };
-        var stableFacets = CoalesceValues([Facets, fileVariable, discoveryFacets]);
+        var facets = CoalesceValues([Facets, fileVariable, discoveryFacets]);
 
         string cmd;
         string cmdArgs;
@@ -44,7 +43,7 @@ partial class CommandActionDiscovery
         {
             // custom interpreter for discovered files
 
-            cmd = ExpandEnv(ExpandTemplate(Interpreter, stableFacets));
+            cmd = ExpandEnv(ExpandTemplate(Interpreter, facets));
             if (Arguments is null)
             {
                 cmdArgs = FormatArguments([filePath]);
@@ -53,7 +52,7 @@ partial class CommandActionDiscovery
             {
                 cmdArgs = FormatArguments(Arguments
                     // expand facets
-                    .Select(a => ExpandTemplate(a, stableFacets))
+                    .Select(a => ExpandTemplate(a, facets))
                     // expand CMD-style environment variables
                     .Select(ExpandEnv));
             }
@@ -65,70 +64,19 @@ partial class CommandActionDiscovery
             cmd = filePath;
             cmdArgs = FormatArguments(Arguments?
                 // expand facets
-                .Select(a => ExpandTemplate(a, stableFacets))
+                .Select(a => ExpandTemplate(a, facets))
                 // expand CMD-style environment variables
                 .Select(ExpandEnv));
         }
 
-        var tags = Unite([Tags, .. autoSettings.Select(s => s.Tags)]);
-        var facets = CoalesceValues([stableFacets, .. autoSettings.Select(s => s.Facets)]);
-
-        var noLogs = Coalesce([NoLogs, .. autoSettings.Select(s => s.NoLogs), defaults.NoLogs]);
-
         var actionView = new ActionView
         {
-            Title = ExpandTemplate(Title, stableFacets),
-
-            Reassure = Coalesce([Reassure, .. autoSettings.Select(s => s.Reassure), defaults.Reassure]),
-            Visible = !Coalesce([Background, .. autoSettings.Select(s => s.Background), defaults.Background]),
-            KeepOpen = Coalesce([KeepOpen, .. autoSettings.Select(s => s.KeepOpen), defaults.KeepOpen]),
-            AlwaysClose = Coalesce([AlwaysClose, .. autoSettings.Select(s => s.AlwaysClose), defaults.AlwaysClose]),
-
-            Logs = noLogs ? null : BuildAbsolutePath(ExpandEnv(ExpandTemplate(
-                Coalesce([Logs, .. autoSettings.Select(s => s.Logs), defaults.Logs]),
-                stableFacets))),
-            NoLogs = noLogs,
-            NoExecutionInfo = Coalesce([NoExecutionInfo, .. autoSettings.Select(s => s.NoExecutionInfo), defaults.NoExecutionInfo]),
+            Title = ExpandTemplate(Title, facets),
 
             Command = cmd,
             Arguments = cmdArgs,
-
-            WorkingDirectory = BuildAbsolutePath(ExpandEnv(ExpandTemplate(
-                Coalesce([WorkingDirectory, .. autoSettings.Select(s => s.WorkingDirectory), defaults.WorkingDirectory]),
-                stableFacets))),
-            Environment = ExpandEnv(
-                ExpandDictionaryTemplate(
-                    CoalesceValues([Environment, .. autoSettings.Select(s => s.Environment), defaults.Environment]),
-                    stableFacets)),
-            ExePaths = Coalesce([ExePaths, .. autoSettings.Select(s => s.ExePaths), defaults.ExePaths])
-                .Select(p => ExpandTemplate(p, stableFacets))
-                .Select(ExpandEnv)
-                .Select(BuildAbsolutePath)
-                .Where(p => !string.IsNullOrWhiteSpace(p))
-                .ToArray(),
-            ExitCodes = Coalesce([ExitCodes, .. autoSettings.Select(s => s.ExitCodes), defaults.ExitCodes, [0]]),
-
-            UsePowerShellCore =
-                Coalesce([UsePowerShellCore, .. autoSettings.Select(s => s.UsePowerShellCore), defaults.UsePowerShellCore]),
-            PowerShellExe = BuildAbsolutePath(ExpandEnv(ExpandTemplate(
-                CoalesceWhitespace([PowerShellExe, .. autoSettings.Select(s => s.PowerShellExe), defaults.PowerShellExe]),
-                stableFacets))),
-            UsePowerShellProfile =
-                Coalesce([UsePowerShellProfile, .. autoSettings.Select(s => s.UsePowerShellProfile), defaults.UsePowerShellProfile]),
-            PowerShellExecutionPolicy =
-                CoalesceWhitespace([PowerShellExecutionPolicy, .. autoSettings.Select(s => s.PowerShellExecutionPolicy), defaults.PowerShellExecutionPolicy]),
-
-            UseWindowsTerminal =
-                Coalesce([UseWindowsTerminal, .. autoSettings.Select(s => s.UseWindowsTerminal), defaults.UseWindowsTerminal]),
-            WindowsTerminalArguments = FormatArguments(
-                Coalesce([WindowsTerminalArgs, .. autoSettings.Select(s => s.WindowsTerminalArgs), defaults.WindowsTerminalArgs])
-                    .Select(a => ExpandTemplate(a, stableFacets))
-                    .Select(ExpandEnv)),
-
-            Tags = tags,
-            Facets = facets,
         };
-
+        actionView.UpdateWith(this, autoSettings, defaults, facets);
         actionView.UpdateStatusFromLogFile();
 
         return actionView;
