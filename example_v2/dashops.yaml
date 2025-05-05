@@ -37,6 +37,11 @@ auto-settings:
           value: Localhost
       reassure: true
       use-windows-terminal: false
+  for-monitors:
+    - include:
+        - mode: title
+          pattern: ^.*Mastersign.*$
+      deactivated: true
 
 actions:
   - title: List content of program files directory
@@ -131,4 +136,3 @@ web-monitor-patterns:
       X-DashOps-Monitor-No: ${no}
     variables:
       no: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-    deactivated: true
