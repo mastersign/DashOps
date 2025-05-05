@@ -373,70 +373,36 @@ $defs:
       - command
       - facets
 
-  # PoorActionPredicate:
-  #   type: object
-  #   properties:
-  #     mode:
-  #       title: Match Mode
-  #       type: string
-  #       enum:
-  #         - description
-  #         - command
-  #         - facet
-  #         - tag
-  #     pattern:
-  #       title: Description Pattern
-  #       description: |-
-  #         A regular expression matched according to the mode.
-
-  #         If value is set, it has priority, and the pattern is ignored.
-  #       type: string
-  #     value:
-  #       title: Description Value
-  #       description: |-
-  #         An string compared according to the mode.
-
-  #         Has priority over pattern.
-  #       type: string
-  #     facet:
-  #       title: Facet
-  #       description: |-
-  #         A facet to match against.
-  #         Is ignored, if the predicate is not in facet mode.
-  #       type: string
-  #   required:
-  #     - mode
-
   ActionPredicate:
     oneOf:
-      - title: Description Regex Predicate
+      - title: Title Regex Predicate
         description: |-
-          A regular expression to match against the description of actions.
+          A regular expression to match against the title of actions.
 
-          Is true, if the pattern matches the description of the action.
+          Is true, if the pattern matches the title of the action.
         type: object
         properties:
           mode:
-            const: description
+            const: title
           pattern:
-            title: Description Pattern
-            description: A regular expression matched against the description of the action
+            title: Title Pattern
+            description: A regular expression matched against the title of the action
             type: string
         required:
           - mode
           - pattern
-      - title: Description String Predicate
+      - title: Title String Predicate
         description: |-
-          A constant string to compare to the description of actions.
+          A constant string to compare to the title of actions.
 
-          Is true, if the value equals the description of the action.
+          Is true, if the value equals the title of the action.
         type: object
         properties:
           mode:
-            const: description
+            const: title
           value:
-            title: Description Value
-            description: An exact description compared with the description of the action
+            title: Title Value
+            description: An exact title compared with the title of the action
             type: string
         required:
           - mode
@@ -475,7 +441,7 @@ $defs:
           - value
       - title: Facet Regex Predicate
         description: |-
-          A reguölar expression to match against the facets of actions.
+          A regular expression to match against the facets of actions.
 
           Is true, if the pattern matches the value of the given facet.
         type: object
@@ -671,7 +637,7 @@ $defs:
       arguments:
         title: Command Line Arguments
         description: |-
-          The command line arguments of the action.
+          The command line arguments of the monitor.
 
           The placeholder ${file} is replaced by the absolute path of the discovered file.
           Placeholders like ${var} are replaced by the variable value.
