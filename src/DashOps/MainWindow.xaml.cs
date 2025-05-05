@@ -4,6 +4,7 @@ using System.Windows.Navigation;
 using Mastersign.DashOps.Pages;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
+using Screen = System.Windows.Forms.Screen;
 
 namespace Mastersign.DashOps
 {
@@ -12,7 +13,7 @@ namespace Mastersign.DashOps
     /// </summary>
     public partial class MainWindow : FluentWindow
     {
-        private static App CurrentApp => (App)System.Windows.Application.Current;
+        private static App CurrentApp => (App)Application.Current;
 
         public MainWindow()
         {
@@ -25,10 +26,54 @@ namespace Mastersign.DashOps
 
                 DataContext = CurrentApp?.ProjectLoader?.ProjectView;
 
+                SetWindowPosition();
+
                 navigationViewMain.Navigate(typeof(MainPage));
             };
 
             StateChanged += WindowStateChangedHandler;
+        }
+
+        private void SetWindowPosition()
+        {
+            var ws = CurrentApp.ProjectLoader.ProjectView?.MainWindow;
+            if (ws is null) return;
+
+            var screen = ws.ScreenNo.HasValue && ws.ScreenNo.Value >= 0 && ws.ScreenNo.Value < Screen.AllScreens.Length
+                ? Screen.AllScreens[ws.ScreenNo.Value]
+                : Screen.PrimaryScreen;
+
+            if (ws.Mode == WindowMode.Fixed)
+            {
+                var x = screen.WorkingArea.Left + ws.Left ?? 0;
+                var y = screen.WorkingArea.Top + ws.Top ?? 0;
+                Left = x;
+                Top = y;
+                Width = Math.Min(screen.WorkingArea.Width - x, ws.Width ?? 1024);
+                Height = Math.Min(screen.WorkingArea.Height - y, ws.Height ?? 720);
+            }
+            else if (ws.Mode == WindowMode.Auto)
+            {
+                Left = screen.WorkingArea.Left;
+                Top = screen.WorkingArea.Top;
+                Width = ws.Width ?? screen.WorkingArea.Width switch
+                {
+                    > 2560 => 1024,
+                    > 1600 => screen.WorkingArea.Width / 2,
+                    > 1024 => 1024,
+                    _ => screen.WorkingArea.Width,
+                };
+                Height = ws.Height ?? screen.WorkingArea.Height switch
+                {
+                    > 1280 => 720,
+                    _ => screen.WorkingArea.Height,
+                };
+            }
+            else
+            {
+                if (ws.Width.HasValue) Width = ws.Width.Value;
+                if (ws.Height.HasValue) Height = ws.Height.Value;
+            }
         }
 
         private void WatchSystemTheme()

@@ -27,6 +27,13 @@ namespace Mastersign.DashOps.Model_v2
         Tag,
     }
     
+    public enum WindowMode
+    {
+        Default = 0,
+        Fixed = 1,
+        Auto = 2,
+    }
+    
     public partial class DefaultActionSettings
     {
         public DefaultActionSettings()
@@ -3724,6 +3731,151 @@ namespace Mastersign.DashOps.Model_v2
         #endregion
     }
     
+    public partial class WindowSettings
+    {
+        public WindowSettings()
+        {
+            this._mode = DEF_MODE;
+        }
+        
+        #region String Representation
+        
+        public override string ToString()
+        {
+            return this.ToString(CultureInfo.CurrentUICulture);
+        }
+        
+        public virtual string ToString(IFormatProvider formatProvider)
+        {
+            return (this.GetType().FullName + @": " + (
+                (global::System.Environment.NewLine + @"    Mode = " + _mode.ToString().Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ScreenNo = " + (!ReferenceEquals(_screenNo, null) ? _screenNo.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Left = " + (!ReferenceEquals(_left, null) ? _left.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Top = " + (!ReferenceEquals(_top, null) ? _top.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Width = " + (!ReferenceEquals(_width, null) ? _width.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Height = " + (!ReferenceEquals(_height, null) ? _height.ToString() : @"null").Replace("\n", "\n    "))));
+        }
+        
+        #endregion
+        
+        #region Property Mode
+        
+        private WindowMode _mode;
+        
+        private const WindowMode DEF_MODE = WindowMode.Default;
+        
+        [DefaultValue(DEF_MODE)]
+        public virtual WindowMode Mode
+        {
+            get { return _mode; }
+            set
+            {
+                if ((value == _mode))
+                {
+                    return;
+                }
+                _mode = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property ScreenNo
+        
+        private int? _screenNo;
+        
+        public virtual int? ScreenNo
+        {
+            get { return _screenNo; }
+            set
+            {
+                if ((value == _screenNo))
+                {
+                    return;
+                }
+                _screenNo = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Left
+        
+        private int? _left;
+        
+        public virtual int? Left
+        {
+            get { return _left; }
+            set
+            {
+                if ((value == _left))
+                {
+                    return;
+                }
+                _left = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Top
+        
+        private int? _top;
+        
+        public virtual int? Top
+        {
+            get { return _top; }
+            set
+            {
+                if ((value == _top))
+                {
+                    return;
+                }
+                _top = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Width
+        
+        private int? _width;
+        
+        public virtual int? Width
+        {
+            get { return _width; }
+            set
+            {
+                if ((value == _width))
+                {
+                    return;
+                }
+                _width = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Height
+        
+        private int? _height;
+        
+        public virtual int? Height
+        {
+            get { return _height; }
+            set
+            {
+                if ((value == _height))
+                {
+                    return;
+                }
+                _height = value;
+            }
+        }
+        
+        #endregion
+    }
+    
     public partial class Project
     {
         public Project()
@@ -3842,6 +3994,8 @@ namespace Mastersign.DashOps.Model_v2
             return (this.GetType().FullName + @": " + (
                 (global::System.Environment.NewLine + @"    Version = " + (!ReferenceEquals(_version, null) ? _version.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(_title, null) ? _title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    MainWindow = " + (!ReferenceEquals(_mainWindow, null) ? _mainWindow.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    EditorWindow = " + (!ReferenceEquals(_editorWindow, null) ? _editorWindow.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Perspectives = " + (!ReferenceEquals(_perspectives, null) ? (_perspectives.Count.ToString() + @" items" + __collection_Perspectives.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    StartupPerspective = " + (!ReferenceEquals(_startupPerspective, null) ? _startupPerspective.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    StartupSelection = " + (!ReferenceEquals(_startupSelection, null) ? _startupSelection.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
@@ -3893,6 +4047,44 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _title = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property MainWindow
+        
+        private WindowSettings _mainWindow;
+        
+        public virtual WindowSettings MainWindow
+        {
+            get { return _mainWindow; }
+            set
+            {
+                if ((value == _mainWindow))
+                {
+                    return;
+                }
+                _mainWindow = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property EditorWindow
+        
+        private WindowSettings _editorWindow;
+        
+        public virtual WindowSettings EditorWindow
+        {
+            get { return _editorWindow; }
+            set
+            {
+                if ((value == _editorWindow))
+                {
+                    return;
+                }
+                _editorWindow = value;
             }
         }
         

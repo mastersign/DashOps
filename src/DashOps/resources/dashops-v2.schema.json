@@ -4,6 +4,55 @@
   "title": "DashOps Project v2",
   "description": "The file format for DashOps projects",
   "$defs": {
+    "WindowSettings": {
+      "title": "Window Settings",
+      "description": "Specifies the initial position of a window",
+      "type": "object",
+      "properties": {
+        "mode": {
+          "title": "Positioning Mode",
+          "description": "The positioning mode for the window",
+          "type": "string",
+          "enum": [
+            "default",
+            "fixed",
+            "auto"
+          ]
+        },
+        "screen-no": {
+          "title": "Screen Number",
+          "description": "The number of the screen to position the window on",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer"
+            }
+          ]
+        },
+        "left": {
+          "title": "Left",
+          "description": "The fixed X-position of the left window edge",
+          "type": "number"
+        },
+        "top": {
+          "title": "Top",
+          "description": "The fixed Y-position if the top window edge",
+          "type": "number"
+        },
+        "width": {
+          "title": "Width",
+          "description": "The width of the window",
+          "type": "number"
+        },
+        "height": {
+          "title": "Height",
+          "description": "The height of the window",
+          "type": "number"
+        }
+      }
+    },
     "CommandLineArguments": {
       "type": "array",
       "items": {
@@ -84,7 +133,7 @@
             {
               "type": "array",
               "items": {
-                "type": "number"
+                "type": "integer"
               }
             }
           ]
@@ -173,7 +222,7 @@
             {
               "type": "array",
               "items": {
-                "type": "number"
+                "type": "integer"
               }
             }
           ]
@@ -1151,6 +1200,16 @@
       "title": "Project Title",
       "description": "A descriptive title for the project",
       "type": "string"
+    },
+    "main-window": {
+      "title": "Main Window Settings",
+      "description": "Settings for the main DashOps window",
+      "$ref": "#/$defs/WindowSettings"
+    },
+    "editor-window": {
+      "title": "Editor Window Settings",
+      "description": "Settings for the configuration editor window",
+      "$ref": "#/$defs/WindowSettings"
     },
     "perspectives": {
       "title": "Perspectives",

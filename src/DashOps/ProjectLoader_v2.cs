@@ -174,6 +174,16 @@ namespace Mastersign.DashOps
             }
         }
 
+        private void TransferWindowSettings(WindowSettings target, Model_v2.WindowSettings source)
+        {
+            target.Mode = (WindowMode)(source?.Mode ?? Model_v2.WindowMode.Default);
+            target.ScreenNo = source?.ScreenNo;
+            target.Left = source?.Left;
+            target.Top = source?.Top;
+            target.Width = source?.Width;
+            target.Height = source?.Height;
+        }
+
         private void UpdateProjectView()
         {
             ProjectView.ActionViews.Clear();
@@ -183,6 +193,11 @@ namespace Mastersign.DashOps
             ProjectView.FormatVersion = Project?.Version ?? "0.0";
             ProjectView.Title = Project?.Title ?? "Unknown";
             if (Project == null) return;
+
+            ProjectView.MainWindow ??= new();
+            TransferWindowSettings(ProjectView.MainWindow, Project.MainWindow);
+            ProjectView.EditorWindow ??= new();
+            TransferWindowSettings(ProjectView.EditorWindow, Project.EditorWindow);
 
             var actionDefaults = Project.Defaults.ForActions;
             var monitorDefaults = Project.Defaults.ForMonitors;

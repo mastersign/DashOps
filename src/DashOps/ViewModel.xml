@@ -120,10 +120,29 @@
       <Property name="Value" immutable="true" />
     </Class>
 
+    <Enum name="WindowMode">
+      <Member name="Default" value="0" />
+      <Member name="Fixed" value="1" />
+      <Member name="Auto" value="2" />
+    </Enum>
+
+    <Class name="WindowSettings">
+      <Property name="Mode" type="WindowMode">
+        <DefaultValue>Default</DefaultValue>
+      </Property>
+      <Property name="ScreenNo" type="int?" />
+      <Property name="Left" type="int?" />
+      <Property name="Top" type="int?" />
+      <Property name="Width" type="int?" />
+      <Property name="Height" type="int?" />
+    </Class>
+
     <Class name="ProjectView">
       <CustomInitializer>Initialize</CustomInitializer>
       <Property name="FormatVersion" />
       <Property name="Title" />
+      <Property name="MainWindow" type="WindowSettings" />
+      <Property name="EditorWindow" type="WindowSettings" />
       <Property name="ActionViews" isCollection="true" type="ActionView" defaultInitialization="true" immutable="true" />
       <Property name="Perspectives" isCollection="true" type="PerspectiveView" defaultInitialization="true" immutable="true" />
       <Property name="CurrentPerspective" type="PerspectiveView" />

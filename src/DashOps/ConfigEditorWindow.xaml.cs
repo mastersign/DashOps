@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.IO;
 using System.Reflection;
+using Screen = System.Windows.Forms.Screen;
 using UI = Wpf.Ui.Controls;
 
 namespace Mastersign.DashOps;
@@ -8,17 +9,19 @@ namespace Mastersign.DashOps;
 public partial class ConfigEditorWindow : UI.FluentWindow
 {
     private static ConfigEditorWindow instance;
+    private static bool isExiting;
 
     public static void Open(string title, string filename, string schemaName)
     {
-        if (instance is null) 
-        { 
-            instance = new(); 
+        if (instance is null)
+        {
+            instance = new();
         }
         instance.Title = title;
         instance.filename = filename;
         instance.schemaName = schemaName;
 
+        instance.SetWindowPosition();
         instance.Show();
         if (instance.WindowState == WindowState.Minimized)
         {
@@ -26,8 +29,64 @@ public partial class ConfigEditorWindow : UI.FluentWindow
         }
     }
 
+    private void SetWindowPosition()
+    {
+        var ws = ((App)Application.Current).ProjectLoader.ProjectView?.EditorWindow;
+        if (ws is null) return;
+
+        var screen = ws.ScreenNo.HasValue && ws.ScreenNo.Value >= 0 && ws.ScreenNo.Value < Screen.AllScreens.Length
+            ? Screen.AllScreens[ws.ScreenNo.Value]
+            : Screen.PrimaryScreen;
+
+        var mainWindow = Application.Current.MainWindow;
+
+        if (ws.Mode == WindowMode.Fixed)
+        {
+            var x = screen.WorkingArea.Left + ws.Left ?? 0;
+            var y = screen.WorkingArea.Top + ws.Top ?? 0;
+            Left = x;
+            Top = y;
+            if (ws.Width.HasValue) Width = Math.Min(screen.WorkingArea.Width - x, ws.Width.Value);
+            if (ws.Height.HasValue) Height = Math.Min(screen.WorkingArea.Height - y, ws.Height.Value);
+        }
+        else if (ws.Mode == WindowMode.Auto)
+        {
+            var screen2 = Screen.FromPoint(new System.Drawing.Point(
+                (int)mainWindow.Left + (int)mainWindow.Width, 
+                (int)mainWindow.Top));
+            var sx = screen2.WorkingArea.Left + screen2.WorkingArea.Width - (int)mainWindow.Left - (int)mainWindow.Width;
+            var w = Math.Min(sx, ws.Width ?? 800);
+            if (w >= 540)
+            {
+                Left = mainWindow.Left + mainWindow.Width;
+                Top = mainWindow.Top;
+                Width = w;
+                Height = Math.Min(screen2.WorkingArea.Height - (int)mainWindow.Top, ws.Height ?? 960);
+            }
+            else
+            {
+                Left = screen.WorkingArea.Left;
+                Top = screen.WorkingArea.Top;
+                Width = Math.Min(screen.WorkingArea.Width, ws.Width ?? 800);
+                Height = ws.Height.HasValue
+                    ? Math.Min(screen.WorkingArea.Height, ws.Height.Value)
+                    : screen.WorkingArea.Height switch
+                        {
+                            > 1280 => 960,
+                            _ => screen.WorkingArea.Height,
+                        };
+            }
+        }
+        else
+        {
+            if (ws.Width.HasValue) Width = ws.Width.Value;
+            if (ws.Height.HasValue) Height = ws.Height.Value;
+        }
+    }
+
     public static void CloseInstance()
     {
+        isExiting = true;
         instance?.Close();
     }
 
@@ -57,7 +116,7 @@ public partial class ConfigEditorWindow : UI.FluentWindow
 
         await editor.LoadTextAsync(
             File.ReadAllText(filename, Encoding.UTF8),
-            "yaml", 
+            "yaml",
             Path.GetFileName(filename));
 
         editor.Visibility = Visibility.Visible;
@@ -73,6 +132,11 @@ public partial class ConfigEditorWindow : UI.FluentWindow
 
     private async void WindowClosingHandler(object sender, CancelEventArgs e)
     {
+        if (!isExiting)
+        {
+            e.Cancel = true;
+            Visibility = Visibility.Collapsed;
+        }
         await Save();
     }
 

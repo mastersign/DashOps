@@ -9,7 +9,7 @@
         xmlns:local="clr-namespace:Mastersign.DashOps"
         mc:Ignorable="d"
         Title="WinJockey Configuration Editor"
-        Height="720" Width="920"
+        Height="960" Width="800"
         Closing="WindowClosingHandler">
 
     <ui:FluentWindow.CommandBindings>

@@ -10,10 +10,11 @@
     xmlns:local="clr-namespace:Mastersign.DashOps"
     xmlns:res="clr-namespace:Mastersign.DashOps.Properties.Resources"
     xmlns:pages="clr-namespace:Mastersign.DashOps.Pages"
+    mc:Ignorable="d"
+    Icon="/icon.ico"
     Title="{Binding WindowTitle}"
-    Height="450" Width="800" Icon="/icon.ico"
     ExtendsContentIntoTitleBar="True"
-    mc:Ignorable="d" 
+    Height="720" Width="1024"
     SizeChanged="SizeChangedHandler"
     Closing="ClosingHandler"
     >

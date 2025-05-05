@@ -1,9 +1,12 @@
 version: '2.0'
 title: Test Project v2
 
-pause-monitoring: true
+main-window:
+  mode: default
+editor-window:
+  mode: auto
 
-# demo exec-paths
+pause-monitoring: true
 
 perspectives:
   - facet: host

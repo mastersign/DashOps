@@ -20,6 +20,13 @@ namespace Mastersign.DashOps
         FailedWithoutLogFile,
     }
     
+    public enum WindowMode
+    {
+        Default = 0,
+        Fixed = 1,
+        Auto = 2,
+    }
+    
     public partial class ActionView : INotifyPropertyChanged
     {
         public ActionView()
@@ -2215,6 +2222,224 @@ namespace Mastersign.DashOps
         #endregion
     }
     
+    public partial class WindowSettings : INotifyPropertyChanged
+    {
+        public WindowSettings()
+        {
+            this._mode = DEF_MODE;
+        }
+        
+        #region Change Tracking
+        
+        public event PropertyChangedEventHandler PropertyChanged;
+        
+        protected virtual void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
+        
+        #endregion
+        
+        #region Property Mode
+        
+        private WindowMode _mode;
+        
+        public event EventHandler ModeChanged;
+        
+        protected virtual void OnModeChanged()
+        {
+            EventHandler handler = ModeChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Mode");
+        }
+        
+        private const WindowMode DEF_MODE = WindowMode.Default;
+        
+        [DefaultValue(DEF_MODE)]
+        public virtual WindowMode Mode
+        {
+            get { return _mode; }
+            set
+            {
+                if ((value == _mode))
+                {
+                    return;
+                }
+                _mode = value;
+                this.OnModeChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property ScreenNo
+        
+        private int? _screenNo;
+        
+        public event EventHandler ScreenNoChanged;
+        
+        protected virtual void OnScreenNoChanged()
+        {
+            EventHandler handler = ScreenNoChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"ScreenNo");
+        }
+        
+        public virtual int? ScreenNo
+        {
+            get { return _screenNo; }
+            set
+            {
+                if ((value == _screenNo))
+                {
+                    return;
+                }
+                _screenNo = value;
+                this.OnScreenNoChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property Left
+        
+        private int? _left;
+        
+        public event EventHandler LeftChanged;
+        
+        protected virtual void OnLeftChanged()
+        {
+            EventHandler handler = LeftChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Left");
+        }
+        
+        public virtual int? Left
+        {
+            get { return _left; }
+            set
+            {
+                if ((value == _left))
+                {
+                    return;
+                }
+                _left = value;
+                this.OnLeftChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property Top
+        
+        private int? _top;
+        
+        public event EventHandler TopChanged;
+        
+        protected virtual void OnTopChanged()
+        {
+            EventHandler handler = TopChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Top");
+        }
+        
+        public virtual int? Top
+        {
+            get { return _top; }
+            set
+            {
+                if ((value == _top))
+                {
+                    return;
+                }
+                _top = value;
+                this.OnTopChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property Width
+        
+        private int? _width;
+        
+        public event EventHandler WidthChanged;
+        
+        protected virtual void OnWidthChanged()
+        {
+            EventHandler handler = WidthChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Width");
+        }
+        
+        public virtual int? Width
+        {
+            get { return _width; }
+            set
+            {
+                if ((value == _width))
+                {
+                    return;
+                }
+                _width = value;
+                this.OnWidthChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property Height
+        
+        private int? _height;
+        
+        public event EventHandler HeightChanged;
+        
+        protected virtual void OnHeightChanged()
+        {
+            EventHandler handler = HeightChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Height");
+        }
+        
+        public virtual int? Height
+        {
+            get { return _height; }
+            set
+            {
+                if ((value == _height))
+                {
+                    return;
+                }
+                _height = value;
+                this.OnHeightChanged();
+            }
+        }
+        
+        #endregion
+    }
+    
     public partial class ProjectView : INotifyPropertyChanged
     {
         public ProjectView()
@@ -2307,6 +2532,70 @@ namespace Mastersign.DashOps
                 }
                 _title = value;
                 this.OnTitleChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property MainWindow
+        
+        private WindowSettings _mainWindow;
+        
+        public event EventHandler MainWindowChanged;
+        
+        protected virtual void OnMainWindowChanged()
+        {
+            EventHandler handler = MainWindowChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"MainWindow");
+        }
+        
+        public virtual WindowSettings MainWindow
+        {
+            get { return _mainWindow; }
+            set
+            {
+                if ((value == _mainWindow))
+                {
+                    return;
+                }
+                _mainWindow = value;
+                this.OnMainWindowChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property EditorWindow
+        
+        private WindowSettings _editorWindow;
+        
+        public event EventHandler EditorWindowChanged;
+        
+        protected virtual void OnEditorWindowChanged()
+        {
+            EventHandler handler = EditorWindowChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"EditorWindow");
+        }
+        
+        public virtual WindowSettings EditorWindow
+        {
+            get { return _editorWindow; }
+            set
+            {
+                if ((value == _editorWindow))
+                {
+                    return;
+                }
+                _editorWindow = value;
+                this.OnEditorWindowChanged();
             }
         }
         
