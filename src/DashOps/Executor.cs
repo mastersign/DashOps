@@ -54,6 +54,13 @@ namespace Mastersign.DashOps
                         executable.PreliminaryLogFileName(timestamp))
                     : null;
 
+            if (logfile != null)
+            {
+                if (!File.Exists(logfile))
+                {
+                    File.Create(logfile).Dispose();
+                }
+            }
             if (executable.UseWindowsTerminal)
             {
                 StartProcessWithWindowsTerminal(executable, timestamp, logfile, onExit);
