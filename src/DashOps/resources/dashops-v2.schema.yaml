@@ -712,6 +712,250 @@ $defs:
       - url
       - variables
 
+  MonitorPredicate:
+    oneOf:
+      - title: Title Regex Predicate
+        description: |-
+          A regular expression to match against the title of monitors.
+
+          Is true, if the pattern matches the title of the monitor.
+        type: object
+        properties:
+          mode:
+            const: title
+          pattern:
+            title: Title Pattern
+            description: A regular expression matched against the title of the monitor
+            type: string
+        required:
+          - mode
+          - pattern
+      - title: Title String Predicate
+        description: |-
+          A constant string to compare to the title of monitors.
+
+          Is true, if the value equals the title of the monitor.
+        type: object
+        properties:
+          mode:
+            const: title
+          value:
+            title: Title Value
+            description: An exact title compared with the title of the monitor
+            type: string
+        required:
+          - mode
+          - value
+      - title: Command Regex Predicate
+        description: |-
+          A regular expression to match against the command of monitors.
+
+          Is false, if the monitor is not a command monitor.
+          Is true, if the pattern matches the command of the monitor.
+        type: object
+        properties:
+          mode:
+            const: command
+          pattern:
+            title: Command Pattern
+            description: A regular expression matched against the command of the monitor
+            type: string
+        required:
+          - mode
+          - pattern
+      - title: Command String Predicate
+        description: |-
+          A constant string to compare to the command of monitors.
+
+          Is false, if the monitor is not a command monitor.
+          Is true, if the value equals the command of the monitor.
+        type: object
+        properties:
+          mode:
+            const: command
+          value:
+            title: Command Value
+            description: An exact command compared with the command of the monitor
+            type: string
+        required:
+          - mode
+          - value
+      - title: URL Regex Predicate
+        description: |-
+          A regular expression to match against the URL of monitors.
+
+          Is false, if the monitor is not a web monitor.
+          Is true, if the pattern matches the URL of the monitor.
+        type: object
+        properties:
+          mode:
+            const: url
+          pattern:
+            title: URL Pattern
+            description: A regular expression matched against the URL of the monitor
+            type: string
+        required:
+          - mode
+          - pattern
+      - title: URL String Predicate
+        description: |-
+          A constant string to compare to the URL of monitors.
+
+          Is false, if the monitor is not a web monitor.
+          Is true, if the value equals the URL of the monitor.
+        type: object
+        properties:
+          mode:
+            const: url
+          value:
+            title: URL Value
+            description: An exact URL compared with the URL of the monitor
+            type: string
+        required:
+          - mode
+          - value
+      - title: Header Regex Predicate
+        description: |-
+          A regular expression to match against the HTTP headers of monitors.
+
+          Is false, if the monitor is not a web monitor.
+          Is true, if the pattern matches the value of the given header.
+        type: object
+        properties:
+          mode:
+            const: header
+          header:
+            title: HTTP Header
+            description: The name of the header to match against
+            type: string
+          pattern:
+            title: Header Pattern
+            description: A regular expression matched against the header value
+            type: string
+        required:
+          - mode
+          - pattern
+      - title: Header String Predicate
+        description: |-
+          A constant string to compare to the HTTP headers of monitors.
+
+          Is false, if the monitor is not a web monitor.
+          Is true, if the value equals the value of the given header.
+        type: object
+        properties:
+          mode:
+            const: header
+          header:
+            title: HTTP Header
+            description: The name of the header to match against
+            type: string
+          value:
+            title: Header Value
+            description: The exact header value to compare
+            type: string
+        required:
+          - mode
+          - value
+      - title: Variable Regex Predicate
+        description: |-
+          A regular expression to match against the variables of monitors.
+
+          Is true, if the pattern matches the value of the given variable.
+        type: object
+        properties:
+          mode:
+            const: variable
+          variable:
+            title: Variable
+            description: The variable to match against
+            type: string
+          pattern:
+            title: Variable Pattern
+            description: A regular expression matched against the variable value
+            type: string
+        required:
+          - mode
+          - pattern
+      - title: Variable String Predicate
+        description: |-
+          A constant string to compare to the variables of monitors.
+
+          Is true, if the value equals the value of the given variable.
+        type: object
+        properties:
+          mode:
+            const: variable
+          variable:
+            title: Variable
+            description: The variable to match against
+            type: string
+          value:
+            title: Variable Value
+            description: The exact variable value to compare
+            type: string
+        required:
+          - mode
+          - value
+      - title: Tag Regex Predicate
+        description: |-
+          A regular expression to match against the tags of monitors.
+
+          Is true, if the pattern matches one of the tags of the monitor.
+        type: object
+        properties:
+          mode:
+            const: tag
+          pattern:
+            title: Tag Pattern
+            description: A regular expression matched against the tags of the monitor
+            type: string
+        required:
+          - mode
+          - pattern
+      - title: Tag String Predicate
+        description: |-
+          A constant string to compare to the tags of monitors.
+
+          Is true, if the value equals one of the tags of the monitor.
+        type: object
+        properties:
+          mode:
+            const: tag
+          value:
+            title: Tag
+            description: The exact tag to compare
+            type: string
+        required:
+          - mode
+          - value
+
+  AutoMonitorSettings:
+    title: Auto Monitor Settings
+    description: Apply these settings automatically to matching monitors
+    allOf:
+      - $ref: '#/$defs/MonitorSettings'
+      - $ref: '#/$defs/LoggingSettings'
+      - $ref: '#/$defs/CommandSettings'
+      - $ref: '#/$defs/HttpRequestSettings'
+    type: object
+    properties:
+      include:
+        title: Include Predicates
+        description: >-
+          Apply the settings only to monitors, that match ALL of the predicates in this list.
+          If the list is empty, all monitors are included.
+        type: array
+        items:
+          $ref: '#/$defs/MonitorPredicate'
+      exclude:
+        title: Exclude Predicates
+        description: >-
+          Apply the settings only to monitors, that match NONE of the predicates in this list.
+          If the list is empty, no monitors are excluded.
+        type: array
+        items:
+          $ref: '#/$defs/MonitorPredicate'
+
 type: object
 properties:
   version:
@@ -772,6 +1016,12 @@ properties:
         type: array
         items:
           $ref: '#/$defs/AutoActionSettings'
+      for-monitors:
+        title: Auto Monitor Settings
+        description: A number automatically applied settings for monitors
+        type: array
+        items:
+          $ref: '#/$defs/AutoMonitorSettings'
 
   actions:
     title: Actions
