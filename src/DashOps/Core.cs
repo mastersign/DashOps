@@ -1,6 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using UI = Wpf.Ui.Controls;
+﻿using UI = Wpf.Ui.Controls;
 
 namespace Mastersign.DashOps
 {

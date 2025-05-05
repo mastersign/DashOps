@@ -1,6 +1,4 @@
-﻿using System.Windows.Controls;
-
-namespace Mastersign.DashOps;
+﻿namespace Mastersign.DashOps;
 
 public partial class WebMonitorInfoControl : UserControl
 {

@@ -13,7 +13,6 @@
     <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
     <BaseOutputPath>..\..\bin</BaseOutputPath>
     
-    <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Mastersign.DashOps</RootNamespace>
 
     <Version>2.0.0-dev</Version>

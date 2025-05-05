@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel;
 using System.IO;
 using System.Reflection;
-using System.Text;
-using System.Windows;
 using UI = Wpf.Ui.Controls;
 
 namespace Mastersign.DashOps;
