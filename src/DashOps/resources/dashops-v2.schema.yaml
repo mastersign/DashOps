@@ -652,9 +652,17 @@ $defs:
     title: Command Monitor Pattern
     description: A pattern for generating a multi-dimensional field of command monitors
     allOf:
-      - $ref: '#/$defs/CommandMonitor'
+      - $ref: '#/$defs/CommandMonitorBase'
     type: object
     properties:
+      command:
+        title: Command
+        description: |-
+          The command of the monitor.
+
+          The command is executed inside of a PowerShell session.
+          Environment variables in CMD syntax like %AppData% are expanded.
+        type: string
       variables:
         title: Variables
         description: A list of values for a number of variables
