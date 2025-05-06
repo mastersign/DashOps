@@ -148,6 +148,7 @@
       <Property name="CurrentPerspective" type="PerspectiveView" />
       <Property name="MonitorViews" isCollection="true" type="MonitorView" defaultInitialization="true" immutable="true" />
       <Property name="IsMonitoringPaused" type="bool" />
+      <Property name="ShowMonitorPanel" type="bool" />
     </Class>
 
   </Types>

@@ -3995,6 +3995,7 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Version = " + (!ReferenceEquals(_version, null) ? _version.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Title = " + (!ReferenceEquals(_title, null) ? _title.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    MainWindow = " + (!ReferenceEquals(_mainWindow, null) ? _mainWindow.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    MonitorPanel = " + (!ReferenceEquals(_monitorPanel, null) ? _monitorPanel.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    EditorWindow = " + (!ReferenceEquals(_editorWindow, null) ? _editorWindow.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Perspectives = " + (!ReferenceEquals(_perspectives, null) ? (_perspectives.Count.ToString() + @" items" + __collection_Perspectives.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    StartupPerspective = " + (!ReferenceEquals(_startupPerspective, null) ? _startupPerspective.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
@@ -4066,6 +4067,25 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _mainWindow = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property MonitorPanel
+        
+        private bool? _monitorPanel;
+        
+        public virtual bool? MonitorPanel
+        {
+            get { return _monitorPanel; }
+            set
+            {
+                if ((value == _monitorPanel))
+                {
+                    return;
+                }
+                _monitorPanel = value;
             }
         }
         

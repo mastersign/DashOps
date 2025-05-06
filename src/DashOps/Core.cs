@@ -41,8 +41,15 @@ namespace Mastersign.DashOps
         public static void ToggleMonitorsPaused()
         {
             var projectView = App.Instance?.ProjectLoader?.ProjectView;
-            if (projectView == null) return;
+            if (projectView is null) return;
             projectView.IsMonitoringPaused = !projectView.IsMonitoringPaused;
+        }
+
+        public static void ToggleMonitorPanel()
+        {
+            var projectView = App.Instance?.ProjectLoader?.ProjectView;
+            if (projectView is null) return;
+            projectView.ShowMonitorPanel = !projectView.ShowMonitorPanel;
         }
 
         private static bool Reassure(ActionView action)

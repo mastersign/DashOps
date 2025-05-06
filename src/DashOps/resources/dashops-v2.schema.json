@@ -1206,6 +1206,18 @@
       "description": "Settings for the main DashOps window",
       "$ref": "#/$defs/WindowSettings"
     },
+    "monitor-panel": {
+      "title": "Monitor Panel",
+      "description": "A switch to show or hide the monitor panel on start-up.\n\nThe default behavior is to hide the panel if the project contains no monitors, and show the panel if at least one monitor exists.",
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "boolean"
+        }
+      ]
+    },
     "editor-window": {
       "title": "Editor Window Settings",
       "description": "Settings for the configuration editor window",

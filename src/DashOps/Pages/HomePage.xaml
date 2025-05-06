@@ -108,8 +108,6 @@
                     Text="{Binding MonitorViews.Count}" />
             </Grid>
 
-            <local:MonitoringPanel Margin="0,8,16,0" />
-
         </StackPanel>
 
     </Grid>

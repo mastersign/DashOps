@@ -6,6 +6,7 @@
         {
             FormatVersion = "2.0";
             Title = "Design Time Project View";
+            ShowMonitorPanel = true;
             AddFacetPerspective("host", "Hosts");
             AddFacetPerspective("service", "Services");
             AddFacetPerspective("verb", "Verbs");

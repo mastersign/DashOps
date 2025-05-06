@@ -15,6 +15,9 @@ namespace Mastersign.DashOps
         public static readonly DelegateCommand ToggleMonitorsPaused
             = new(Core.ToggleMonitorsPaused, () => App.Instance?.ProjectLoader?.ProjectView != null);
 
+        public static readonly DelegateCommand ToggleMonitorPanel
+            = new(Core.ToggleMonitorPanel, () => App.Instance?.ProjectLoader?.ProjectView != null);
+
         public static RoutedUICommand SwitchPerspective { get; }
             = new(Common.Command_SwitchPerspective, nameof(SwitchPerspective), typeof(DashOpsCommands));
 

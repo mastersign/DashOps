@@ -232,6 +232,8 @@ namespace Mastersign.DashOps
             if (Project.WebMonitors != null) AddMonitorViews(Project.WebMonitors.Select(MonitorViewFromWebMonitor));
             if (Project.WebMonitorPatterns != null) AddMonitorViews(Project.WebMonitorPatterns.SelectMany(ExpandWebMonitorPattern));
 
+            ProjectView.ShowMonitorPanel = Project.MonitorPanel ?? ProjectView.MonitorViews.Count > 0;
+
             var tagsPerspective = ProjectView.AddTagsPerspective();
             var facetPerspectives = new Dictionary<string, PerspectiveView>(StringComparer.InvariantCultureIgnoreCase);
             foreach (var perspective in Project.Perspectives)

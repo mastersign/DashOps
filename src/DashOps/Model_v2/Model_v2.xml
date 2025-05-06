@@ -314,6 +314,7 @@
       <Property name="Title" />
 
       <Property name="MainWindow" type="WindowSettings" />
+      <Property name="MonitorPanel" type="bool?" />
       <Property name="EditorWindow" type="WindowSettings" />
 
       <Property name="Perspectives" type="FacetPerspective" isCollection="true" defaultInitialization="true" />

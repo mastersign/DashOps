@@ -17,7 +17,13 @@
     >
 
     <Page.Resources>
-        <tools:BooleanToVisibilityConverter x:Key="Bool2Visibility" Invisible="Collapsed" />
+        <tools:BooleanToVisibilityConverter x:Key="Bool2Visibility" />
+        <tools:BooleanToVisibilityConverter x:Key="InvertedBool2Visibility" Invert="True" />
+        <tools:ValueConverterGroup x:Key="MonitorCount2Visibility">
+            <tools:IntegerComparisonConverter Comparator="GreaterThen" Value="0" />
+            <tools:BooleanToVisibilityConverter />
+        </tools:ValueConverterGroup>
+        <tools:BooleanToIntegerConverter x:Key="Boolean2ActionListColumnSpan" IfTrue="1" IfFalse="3" />
 
         <Style x:Key="RegionStyle" TargetType="{x:Type Border}">
             <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -35,7 +41,7 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        
+
         <Style x:Key="PlayPauseButtonStyle" TargetType="{x:Type ui:Button}"
                BasedOn="{StaticResource DefaultUiButtonStyle}">
             <Style.Triggers>
@@ -47,7 +53,7 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        
+
         <Style x:Key="ActionButtonStyle" TargetType="{x:Type ui:Button}"
                BasedOn="{StaticResource DefaultUiButtonStyle}">
             <Setter Property="Margin" Value="0,0,0,8" />
@@ -56,7 +62,7 @@
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         </Style>
-        
+
         <Style x:Key="ActionAddButtonStyle" TargetType="{x:Type ui:Button}"
                BasedOn="{StaticResource DefaultUiButtonStyle}">
             <Setter Property="Margin" Value="4,0,0,0" />
@@ -100,19 +106,21 @@
         </Style>
 
     </Page.Resources>
-    
+
     <Page.CommandBindings>
     </Page.CommandBindings>
 
-    <Grid Margin="0,0,20,0">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition/>
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="5*"/>
-            <ColumnDefinition Width="2*" MaxWidth="250"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="1*" MaxWidth="150"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
@@ -136,24 +144,39 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        
+
         <StackPanel x:Name="MonitorControl"
                 Grid.Row="0" Grid.Column="3" Orientation="Horizontal"
-                Margin="20,16,0,20">
+                Margin="0,16,20,20" Grid.ColumnSpan="1" FlowDirection="RightToLeft">
             <ui:Button
-                    Padding="6,4"
-                    Command="local:DashOpsCommands.ToggleMonitorsPaused"
-                    Style="{StaticResource PlayPauseButtonStyle}"
-                    Visibility="{Binding HasMonitors, Converter={StaticResource Bool2Visibility}}"/>
+                    Padding="6,4" Margin="0,0,4,0"
+                    Icon="{ui:SymbolIcon FontSize=20, Symbol=PanelRightContract20}"
+                    Command="local:DashOpsCommands.ToggleMonitorPanel"
+                    Visibility="{Binding ShowMonitorPanel, Converter={StaticResource Bool2Visibility}}" />
             <ui:Button
-                    Padding="6,4" Margin="4,0,0,0"
+                    Padding="6,4" Margin="0,0,4,0"
+                    Icon="{ui:SymbolIcon FontSize=20, Symbol=PanelRightExpand20}"
+                    Command="local:DashOpsCommands.ToggleMonitorPanel"
+                    Visibility="{Binding ShowMonitorPanel, Converter={StaticResource InvertedBool2Visibility}}" />
+
+            <ui:Button
+                    Padding="6,4" Margin="0,0,4,0"
+                    Command="local:DashOpsCommands.EditProject"
+                    Icon="{ui:SymbolIcon FontSize=20, Symbol=EditSettings20}"/>
+            <ui:Button
+                    Padding="6,4" Margin="0,0,4,0"
                     Command="local:DashOpsCommands.RefreshProject"
                     Icon="{ui:SymbolIcon FontSize=20, Symbol=ArrowClockwise20}"/>
+            <ui:Button
+                    Padding="6,4" Margin="0,0,4,0"
+                    Command="local:DashOpsCommands.ToggleMonitorsPaused"
+                    Style="{StaticResource PlayPauseButtonStyle}"
+                    Visibility="{Binding MonitorViews.Count, Converter={StaticResource MonitorCount2Visibility}}"/>
         </StackPanel>
-        
-        <Border x:Name="ActionSubsetBorder" 
+
+        <Border x:Name="ActionSubsetSection" 
                 Grid.Column="0" Grid.Row="1" SnapsToDevicePixels="True"
-                Margin="20,0,0,20" Padding="0"
+                Margin="20,0,0,0" Padding="0"
                 Style="{StaticResource RegionStyle}">
             <Border.OpacityMask>
                 <VisualBrush>
@@ -168,17 +191,18 @@
                     </VisualBrush.Visual>
                 </VisualBrush>
             </Border.OpacityMask>
-            
-            <ListBox x:Name="ActionSubsets"
+
+            <ListBox x:Name="ActionSubsetList"
                     BorderThickness="0" Margin="0" Padding="0"
                     ItemsSource="{Binding CurrentPerspective.Subsets}"
                     SelectedItem="{Binding CurrentPerspective.CurrentSubset}">
             </ListBox>
         </Border>
-        
-        <ItemsControl
+
+        <ItemsControl x:Name="ActionList"
                 Grid.Row="1" Grid.Column="1"
-                Margin="10,1,2,20"
+                Grid.ColumnSpan="{Binding ShowMonitorPanel, Converter={StaticResource Boolean2ActionListColumnSpan}}"
+                Margin="10,1,2,0"
                 ItemsSource="{Binding CurrentPerspective.CurrentSubset.Actions}">
             <ItemsControl.Style>
                 <Style TargetType="ItemsControl" BasedOn="{StaticResource VirtualizedScrollableItemsControl}">
@@ -191,7 +215,7 @@
             </ItemsControl.Style>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="0,0,16,0">
+                    <Grid Margin="0,0,18,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
@@ -279,11 +303,10 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <Border
-                Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" 
-                Margin="0,0,0,20" Padding="6,14,0,8" 
+        <Border x:Name="MonitorSection"
+                Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Padding="6,14,0,8" Margin="0,0,19,0"
                 Style="{StaticResource RegionStyle}"
-                Visibility="{Binding HasMonitors, Converter={StaticResource Bool2Visibility}}">
+                Visibility="{Binding ShowMonitorPanel, Converter={StaticResource Bool2Visibility}}">
             <ScrollViewer>
                 <ItemsControl x:Name="Monitors"
                         Grid.IsSharedSizeScope="True"
@@ -328,5 +351,10 @@
                 </ItemsControl>
             </ScrollViewer>
         </Border>
+
+        <local:MonitoringPanel
+                x:Name="MonitoringPanel"
+                Grid.Row="3" Grid.ColumnSpan="4" Margin="20,0,0,13"
+                Visibility="{Binding MonitorViews.Count, Converter={StaticResource MonitorCount2Visibility}}"/>
     </Grid>
 </Page>

@@ -3,6 +3,7 @@ title: Test Project v2
 
 main-window:
   mode: default
+monitor-panel: false
 editor-window:
   mode: auto
 

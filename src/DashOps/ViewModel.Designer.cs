@@ -2697,6 +2697,38 @@ namespace Mastersign.DashOps
         }
         
         #endregion
+        
+        #region Property ShowMonitorPanel
+        
+        private bool _showMonitorPanel;
+        
+        public event EventHandler ShowMonitorPanelChanged;
+        
+        protected virtual void OnShowMonitorPanelChanged()
+        {
+            EventHandler handler = ShowMonitorPanelChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"ShowMonitorPanel");
+        }
+        
+        public virtual bool ShowMonitorPanel
+        {
+            get { return _showMonitorPanel; }
+            set
+            {
+                if ((value == _showMonitorPanel))
+                {
+                    return;
+                }
+                _showMonitorPanel = value;
+                this.OnShowMonitorPanelChanged();
+            }
+        }
+        
+        #endregion
     }
     
     #endregion
