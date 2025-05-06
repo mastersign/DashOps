@@ -61,6 +61,33 @@ namespace Mastersign.DashOps.Properties.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Actions: ähnelt.
+        /// </summary>
+        public static string ActionCount_Caption {
+            get {
+                return ResourceManager.GetString("ActionCount_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Monitors: ähnelt.
+        /// </summary>
+        public static string MonitorCount_Caption {
+            get {
+                return ResourceManager.GetString("MonitorCount_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Perspectives: ähnelt.
+        /// </summary>
+        public static string PerspectiveCount_Caption {
+            get {
+                return ResourceManager.GetString("PerspectiveCount_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Project Format: ähnelt.
         /// </summary>
         public static string ProjectFormatVersion_Caption {
