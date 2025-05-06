@@ -4,8 +4,8 @@ using System.Windows.Data;
 
 namespace Mastersign.WpfTools
 {
-    [ValueConversion(typeof(bool), typeof(string))]
-    public sealed class InverseBooleanConverter : IValueConverter
+    [ValueConversion(typeof(bool), typeof(bool))]
+    public sealed class NegateConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
