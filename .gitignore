@@ -1,11 +1,13 @@
-/bin
-/release
-/tmp
 obj/
+bin/
 
 .vs/
 *.suo
 *.cache
+
+/release
+/tmp
+/examples/*/logs/
 
 /src/packages/
 /auto/nuget.exe

@@ -1,0 +1,16 @@
+version: "2.0"
+title: My Project Dashboard
+
+perspectives:
+  - facet: target
+    caption: Targets
+  - facet: verb
+    caption: Verbs
+
+actions:
+  - title: '${verb} ${target}'
+    command: dotnet
+    arguments: [build]
+    facets:
+      verb: Build
+      target: Project

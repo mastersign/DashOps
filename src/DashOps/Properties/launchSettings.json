@@ -2,16 +2,20 @@
   "profiles": {
     "DashOps Format v1": {
       "commandName": "Project",
-      "workingDirectory": "..\\..\\example_v1"
+      "workingDirectory": "..\\..\\examples\\format_v1"
     },
     "DashOps Format v2": {
       "commandName": "Project",
-      "workingDirectory": "..\\..\\example_v2"
+      "workingDirectory": "..\\..\\examples\\format_v2"
     },
     "DashOps Format v2 JSON": {
       "commandName": "Project",
       "commandLineArgs": "dashops.json",
-      "workingDirectory": "..\\..\\example_v2"
+      "workingDirectory": "..\\..\\examples\\format_v2"
+    },
+    "Minimal from Readme": {
+      "commandName": "Project",
+      "workingDirectory": "..\\..\\examples\\readme"
     }
   }
 }

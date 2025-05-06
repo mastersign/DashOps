@@ -1,7 +1,0 @@
-{
-  "yaml.schemas": {
-    "../src/DashOps/resources/dashops-v2.schema.json": [
-      "dashops.yaml"
-    ]
-  }
-}
