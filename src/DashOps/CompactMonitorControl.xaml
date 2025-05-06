@@ -9,10 +9,13 @@
              d:DesignHeight="16" d:DesignWidth="16"
              d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:DesignTimeCommandMonitorView}}"
              >
-    <Button Click="ClickHandler" MouseDoubleClick="DoubleClickHandler" Focusable="False">
+    <Button Focusable="False"
+            Click="ClickHandler" 
+            ToolTip="{Binding Title}"
+            MouseDoubleClick="DoubleClickHandler">
         <Button.Template>
             <ControlTemplate>
-                <ui:SymbolIcon Style="{StaticResource CompactMonitorStatusIconStyle}" FontSize="16" ToolTip="{Binding DataContext.Title}" />
+                <ui:SymbolIcon Style="{StaticResource CompactMonitorStatusIconStyle}" FontSize="16" />
             </ControlTemplate>
         </Button.Template>
     </Button>
