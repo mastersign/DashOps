@@ -24,6 +24,10 @@
             <tools:BooleanToVisibilityConverter />
         </tools:ValueConverterGroup>
         <tools:BooleanToIntegerConverter x:Key="Boolean2ActionListColumnSpan" IfTrue="1" IfFalse="3" />
+        <tools:ValueConverterGroup x:Key="MonitorCount2SpacerRowHeight">
+            <tools:IntegerComparisonConverter Comparator="GreaterThen" Value="0" />
+            <tools:BooleanToIntegerConverter IfTrue="10" IfFalse="20" />
+        </tools:ValueConverterGroup>
 
         <Style x:Key="RegionStyle" TargetType="{x:Type Border}">
             <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -114,7 +118,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
-            <RowDefinition Height="10" />
+            <RowDefinition Height="{Binding MonitorViews.Count, Converter={StaticResource MonitorCount2SpacerRowHeight}}" />
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
