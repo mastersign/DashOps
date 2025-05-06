@@ -32,6 +32,7 @@ namespace Mastersign.DashOps
             };
 
             StateChanged += WindowStateChangedHandler;
+            Core.MainWindow = this;
         }
 
         private void SetWindowPosition()
