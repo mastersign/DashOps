@@ -9,7 +9,7 @@ partial class CommandAction
         var facets = CoalesceValues([Facets]);
         return new MatchableAction
         {
-            Title = Title,
+            Title = ExpandTemplate(Title, facets),
             Command = ExpandEnv(ExpandTemplate(Command, facets)),
             Tags = Tags ?? [],
             Facets = facets,
@@ -21,7 +21,7 @@ partial class CommandAction
         var facets = Facets ?? [];
         var view = new ActionView
         {
-            Title = Title,
+            Title = ExpandTemplate(Title, facets),
 
             Command = ExpandEnv(ExpandTemplate(Command, facets)),
             Arguments = FormatArguments(
