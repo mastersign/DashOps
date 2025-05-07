@@ -530,7 +530,7 @@ namespace Mastersign.DashOps
                 NoLogs = monitor.NoLogs,
                 Interval = new TimeSpan(0, 0, monitor.Interval),
                 Url = monitor.Url,
-                Headers = monitor.Headers,
+                Headers = monitor.Headers ?? [],
                 Timeout = new TimeSpan(0, 0, monitor.Timeout),
                 ServerCertificateHash = monitor.ServerCertificateHash,
                 NoTlsVerify = monitor.NoTlsVerify,
