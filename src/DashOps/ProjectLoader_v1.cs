@@ -219,7 +219,11 @@ namespace Mastersign.DashOps
 
             ProjectView.ShowMonitorPanel = ProjectView.MonitorViews.Count > 0;
 
-            ProjectView.AddTagsPerspective();
+            var anyTags = ProjectView.ActionViews.SelectMany(a => a.Tags).Any();
+            if (anyTags)
+            {
+                ProjectView.AddTagsPerspective();
+            }
             foreach (var facet in DEF_PERSPECTIVES)
             {
                 ProjectView.AddFacetPerspective(facet);

@@ -235,7 +235,9 @@ namespace Mastersign.DashOps
 
             ProjectView.ShowMonitorPanel = Project.MonitorPanel ?? ProjectView.MonitorViews.Count > 0;
 
-            var tagsPerspective = ProjectView.AddTagsPerspective();
+            var anyTags = ProjectView.ActionViews.SelectMany(a => a.Tags).Any();
+
+            var tagsPerspective = anyTags ? ProjectView.AddTagsPerspective() : null;
             var facetPerspectives = new Dictionary<string, PerspectiveView>(StringComparer.InvariantCultureIgnoreCase);
             foreach (var perspective in Project.Perspectives)
             {
@@ -247,7 +249,7 @@ namespace Mastersign.DashOps
 
             if (!string.IsNullOrEmpty(Project.StartupPerspective))
             {
-                if (Project.StartupPerspective.Equals("Tags", StringComparison.InvariantCultureIgnoreCase))
+                if (anyTags && Project.StartupPerspective.Equals("Tags", StringComparison.InvariantCultureIgnoreCase))
                 {
                     ProjectView.CurrentPerspective = tagsPerspective;
                 }
