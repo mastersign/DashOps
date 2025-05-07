@@ -301,13 +301,13 @@ namespace Mastersign.DashOps
             {
                 psLines.Add($"$t0 = New-Object System.DateTime ({timestamp.Ticks})");
                 psLines.Add("$tsf = \"yyyy-MM-dd HH:mm:ss\"");
-                psLines.Add("echo \"Process ID: $pid\"");
+                psLines.Add("Write-Output \"Process ID: $pid\"");
             }
             if (pidPipeName != null)
             {
                 if (executable.PrintExecutionInfo)
                 {
-                    psLines.Add($"echo \"PID Pipe:   {pidPipeName}\"");
+                    psLines.Add($"Write-Output \"PID Pipe:   {pidPipeName}\"");
                 }
                 psLines.Add("$pidData = [System.BitConverter]::GetBytes($pid)");
                 psLines.Add("try {");
@@ -323,30 +323,30 @@ namespace Mastersign.DashOps
             }
             if (executable.PrintExecutionInfo)
             {
-                psLines.Add($"echo \"Directory:  {executable.WorkingDirectory}\"");
-                psLines.Add($"echo \"Command:    {executable.Command}\"");
+                psLines.Add($"Write-Output \"Directory:  {executable.WorkingDirectory}\"");
+                psLines.Add($"Write-Output \"Command:    {executable.Command}\"");
                 if (!string.IsNullOrWhiteSpace(executable.Arguments))
-                    psLines.Add($"echo \"Arguments:  {executable.Arguments.Replace("\"", "`\"")}\"");
-                psLines.Add($"echo \"Start:      $($t0.toString($tsf))\"");
-                psLines.Add("echo \"--------------------------------------------------------------------------------\"");
-                psLines.Add("echo \"\"");
+                    psLines.Add($"Write-Output \"Arguments:  {executable.Arguments.Replace("\"", "`\"")}\"");
+                psLines.Add($"Write-Output \"Start:      $($t0.toString($tsf))\"");
+                psLines.Add("Write-Output \"--------------------------------------------------------------------------------\"");
+                psLines.Add("Write-Output \"\"");
             }
             psLines.Add($"& \"{executable.Command}\" {executable.Arguments}");
             psLines.Add("if ($LastExitCode -eq $null) {");
-            psLines.Add("  if ($?) { $ec = 0 } else { $ec = 1; echo \"\"; Write-Warning \"Command failed.\" }");
+            psLines.Add("  if ($?) { $ec = 0 } else { $ec = 1; Write-Output \"\"; Write-Warning \"Command failed.\" }");
             psLines.Add("  $allowed = @(0)");
             psLines.Add("} else {");
             psLines.Add("  $ec = $LastExitCode");
             psLines.Add("  $allowed = @(" + string.Join(",", executable.ExitCodes) + ")");
-            psLines.Add("  if (!($ec -in $allowed)) { echo \"\"; Write-Warning \"Exit Code: $ec\" } else { echo \"\"; echo \"Exit Code: $ec\" }");
+            psLines.Add("  if (!($ec -in $allowed)) { Write-Output \"\"; Write-Warning \"Exit Code: $ec\" } else { Write-Output \"\"; Write-Output \"Exit Code: $ec\" }");
             psLines.Add("}");
             if (executable.PrintExecutionInfo)
             {
                 psLines.Add("$t = [DateTime]::Now");
-                psLines.Add("echo \"\"");
-                psLines.Add("echo \"--------------------------------------------------------------------------------\"");
-                psLines.Add($"echo \"End:        $($t::Now.toString($tsf))\"");
-                psLines.Add($"echo \"Duration:   $(($t - $t0).ToString())\"");
+                psLines.Add("Write-Output \"\"");
+                psLines.Add("Write-Output \"--------------------------------------------------------------------------------\"");
+                psLines.Add($"Write-Output \"End:        $($t::Now.toString($tsf))\"");
+                psLines.Add($"Write-Output \"Duration:   $(($t - $t0).ToString())\"");
             }
             if (logfile != null)
             {
@@ -356,13 +356,13 @@ namespace Mastersign.DashOps
             {
                 if (executable.KeepOpen)
                 {
-                    psLines.Add("echo \"Press any key to continue...\"");
+                    psLines.Add("Write-Output \"Press any key to continue...\"");
                     psLines.Add("$_ = $Host.UI.RawUI.ReadKey()");
                 }
                 else if (!executable.AlwaysClose)
                 {
                     psLines.Add("if (!($ec -in $allowed)) {");
-                    psLines.Add("  echo \"Press any key to continue...\"");
+                    psLines.Add("  Write-Output \"Press any key to continue...\"");
                     psLines.Add("  $_ = $Host.UI.RawUI.ReadKey()");
                     psLines.Add("}");
                 }
