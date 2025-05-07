@@ -13,7 +13,11 @@
       "commandLineArgs": "dashops.json",
       "workingDirectory": "..\\..\\examples\\format_v2"
     },
-    "Minimal from Readme": {
+    "DashOps Python Example": {
+      "commandName": "Project",
+      "workingDirectory": "..\\..\\examples\\python"
+    },
+    "DashOps Readme Example": {
       "commandName": "Project",
       "workingDirectory": "..\\..\\examples\\readme"
     }

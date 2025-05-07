@@ -1,0 +1,34 @@
+version: "2.0"
+title: A Python Project Example
+
+editor-window:
+  mode: auto
+
+perspectives:
+  - facet: target
+    caption: Targets
+  - facet: verb
+    caption: Verbs
+
+startup-perspective: target
+startup-selection: project
+
+defaults:
+  interpreter: python.exe
+  arguments: [-B, '${file}', '${verb}', '${target}']
+  no-execution-info: true
+  for-actions:
+    keep-open: true
+
+auto-settings:
+  for-actions:
+    - include:
+        - mode: facet
+          facet: verb
+          value: clean
+      reassure: true
+
+action-discovery:
+  - title: '${verb} ${target}'
+    base-path: scripts
+    path-pattern: '^(?<verb>.+?)_(?<target>.+).py$'
