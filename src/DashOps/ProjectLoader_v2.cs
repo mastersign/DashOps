@@ -206,13 +206,12 @@ namespace Mastersign.DashOps
             var monitorDefaults = Project.Defaults.ForMonitors;
 
             if (string.IsNullOrWhiteSpace(commonDefaults.Logs)) commonDefaults.Logs = DEFAULT_LOG_DIR;
-            var defaultActionLogDir = ExpandEnv(CoalesceWhitespace([actionDefaults.Logs, commonDefaults.Logs]));
+            var defaultActionLogDir = ExpandEnv(CoalesceWhitespace([actionDefaults?.Logs, commonDefaults.Logs]));
             AsureRelativeDirectory(defaultActionLogDir);
-            var defaultMonitorLogDir = ExpandEnv(CoalesceWhitespace([monitorDefaults.Logs, commonDefaults.Logs]));
+            var defaultMonitorLogDir = ExpandEnv(CoalesceWhitespace([monitorDefaults?.Logs, commonDefaults.Logs]));
             AsureRelativeDirectory(defaultMonitorLogDir);
 
-            if (string.IsNullOrWhiteSpace(actionDefaults.WorkingDirectory)) actionDefaults.WorkingDirectory = ".";
-            if (string.IsNullOrWhiteSpace(monitorDefaults.WorkingDirectory)) monitorDefaults.WorkingDirectory = ".";
+            if (string.IsNullOrWhiteSpace(commonDefaults.WorkingDirectory)) commonDefaults.WorkingDirectory = ".";
 
             void AddActionViews(IEnumerable<ActionView> actionViews)
             {
