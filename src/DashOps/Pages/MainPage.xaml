@@ -152,16 +152,18 @@
         <StackPanel x:Name="MonitorControl"
                 Grid.Row="0" Grid.Column="3" Orientation="Horizontal"
                 Margin="0,16,20,20" Grid.ColumnSpan="1" FlowDirection="RightToLeft">
-            <ui:Button
-                    Padding="6,4" Margin="0,0,4,0"
-                    Icon="{ui:SymbolIcon FontSize=20, Symbol=PanelRightContract20}"
-                    Command="local:DashOpsCommands.ToggleMonitorPanel"
-                    Visibility="{Binding ShowMonitorPanel, Converter={StaticResource Bool2Visibility}}" />
-            <ui:Button
-                    Padding="6,4" Margin="0,0,4,0"
-                    Icon="{ui:SymbolIcon FontSize=20, Symbol=PanelRightExpand20}"
-                    Command="local:DashOpsCommands.ToggleMonitorPanel"
-                    Visibility="{Binding ShowMonitorPanel, Converter={StaticResource InvertedBool2Visibility}}" />
+            <Grid Visibility="{Binding MonitorViews.Count, Converter={StaticResource MonitorCount2Visibility}}">
+                <ui:Button
+                        Padding="6,4" Margin="0,0,4,0"
+                        Icon="{ui:SymbolIcon FontSize=20, Symbol=PanelRightContract20}"
+                        Command="local:DashOpsCommands.ToggleMonitorPanel"
+                        Visibility="{Binding ShowMonitorPanel, Converter={StaticResource Bool2Visibility}}" />
+                <ui:Button
+                        Padding="6,4" Margin="0,0,4,0"
+                        Icon="{ui:SymbolIcon FontSize=20, Symbol=PanelRightExpand20}"
+                        Command="local:DashOpsCommands.ToggleMonitorPanel"
+                        Visibility="{Binding ShowMonitorPanel, Converter={StaticResource InvertedBool2Visibility}}" />
+            </Grid>
 
             <ui:Button
                     Padding="6,4" Margin="0,0,4,0"
