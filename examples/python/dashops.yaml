@@ -15,10 +15,12 @@ startup-selection: project
 
 defaults:
   interpreter: python.exe
-  arguments: [-B, '${file}', '${verb}', '${target}']
+  arguments: [-B, '"${file}"', '${verb}', '${target}']
   no-execution-info: true
   for-actions:
     keep-open: true
+    use-windows-terminal: true
+    windows-terminal-args: ["--window", "dashops-example-python"]
 
 auto-settings:
   for-actions:
