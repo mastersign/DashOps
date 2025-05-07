@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:tools="clr-namespace:Mastersign.WpfTools"
+             xmlns:res="clr-namespace:Mastersign.DashOps.Properties.Resources"
              xmlns:local="clr-namespace:Mastersign.DashOps"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="720"
@@ -12,6 +13,10 @@
    
     <UserControl.Resources>
         <tools:BooleanToVisibilityConverter x:Key="Bool2Visibility" Invisible="Collapsed" />
+        <tools:ValueConverterGroup x:Key="EmptyHintVisibility">
+            <tools:IntegerComparisonConverter Comparator="EqualTo" Value="0" />
+            <tools:BooleanToVisibilityConverter />
+        </tools:ValueConverterGroup>
     </UserControl.Resources>
 
     <ScrollViewer 
@@ -23,7 +28,8 @@
                 Margin="0,0,16,0"
                 Orientation="Vertical" Grid.IsSharedSizeScope="True">
 
-            <TextBlock Style="{StaticResource Headline}">Action</TextBlock>
+            <TextBlock Style="{StaticResource Headline}"
+                Text="{x:Static res:InfoControl.Action}" />
             
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -41,8 +47,8 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0" Style="{StaticResource Caption}">
-                    Title:</TextBlock>
+                <TextBlock Grid.Row="0" Style="{StaticResource Caption}"
+                    Text="{x:Static res:InfoControl.Title_Caption}"/>
                 <TextBlock Grid.Row="0" Style="{StaticResource ListValue}"
                     FontWeight="DemiBold"
                     Text="{Binding Title}" />
@@ -52,41 +58,41 @@
                     FontSize="20" Symbol="Shield20" Filled="False"
                     Visibility="{Binding Reassure, Converter={StaticResource Bool2Visibility}}"/>
 
-                <TextBlock Grid.Row="1" Style="{StaticResource Caption}">
-                    ID:</TextBlock>
+                <TextBlock Grid.Row="1" Style="{StaticResource Caption}"
+                    Text="{x:Static res:InfoControl.CommandId_Caption}"/>
                 <TextBlock Grid.Row="1" Style="{StaticResource ListValueCode}"
                     Text="{Binding CommandId}" />
                 <local:CopyButton Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" Margin="0,0,0,0"
                     CopyText="{Binding CommandId}" />
 
-                <TextBlock Grid.Row="2" Style="{StaticResource Caption}">
-                    Command:</TextBlock>
+                <TextBlock Grid.Row="2" Style="{StaticResource Caption}"
+                    Text="{x:Static res:InfoControl.Command_Caption}"/>
                 <TextBlock Grid.Row="2" Style="{StaticResource ListValueCode}"
                     Text="{Binding Command}" />
                 <local:CopyButton Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" Margin="0,0,0,0"
                     CopyText="{Binding Command}" />
 
-                <TextBlock Grid.Row="3" Style="{StaticResource Caption}">
-                    Arguments:</TextBlock>
+                <TextBlock Grid.Row="3" Style="{StaticResource Caption}"
+                    Text="{x:Static res:InfoControl.Arguments_Caption}" />
                 <TextBlock Grid.Row="3" Style="{StaticResource ListValueCode}"
                     Text="{Binding Arguments}" />
                 <local:CopyButton Grid.Row="3" Grid.Column="2" VerticalAlignment="Top" Margin="0,0,0,0"
                     CopyText="{Binding Arguments}" />
 
-                <TextBlock Grid.Row="4" Style="{StaticResource Caption}">
-                    Working Dir:</TextBlock>
+                <TextBlock Grid.Row="4" Style="{StaticResource Caption}"
+                    Text="{x:Static res:InfoControl.WorkingDirectory_Caption}"/>
                 <TextBlock Grid.Row="4" Style="{StaticResource ListValueCode}"
                     Text="{Binding WorkingDirectory}" />
                 <local:CopyButton Grid.Row="4" Grid.Column="2" VerticalAlignment="Top" Margin="0,0,0,0"
                     CopyText="{Binding WorkingDirectory}" />
 
-                <TextBlock Grid.Row="5" Style="{StaticResource Caption}">
-                    Success Exit Codes:</TextBlock>
+                <TextBlock Grid.Row="5" Style="{StaticResource Caption}"
+                    Text="{x:Static res:InfoControl.ExitCodes_Caption}"/>
                 <TextBlock Grid.Row="5" Style="{StaticResource ListValue}"
                     Text="{Binding ExitCodesFormatted}" />
 
-                <TextBlock Grid.Row="6" Style="{StaticResource Caption}">
-                    Logging:</TextBlock>
+                <TextBlock Grid.Row="6" Style="{StaticResource Caption}"
+                    Text="{x:Static res:InfoControl.Logging_Caption}"/>
                 <ui:SymbolIcon
                         Grid.Row="6" Grid.Column="1" Margin="16,8,0,4"
                         HorizontalAlignment="Left"
@@ -113,7 +119,8 @@
                 
             </Grid>
 
-            <TextBlock Style="{StaticResource Headline}">Tags</TextBlock>
+            <TextBlock Style="{StaticResource Headline}"
+                Text="{x:Static res:InfoControl.Tags_Title}"/>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Caption" />
@@ -123,6 +130,11 @@
                 <Grid.RowDefinitions>
                     <RowDefinition />
                 </Grid.RowDefinitions>
+                <TextBlock
+                        Grid.Column="1"
+                        Style="{StaticResource HintListValue}" 
+                        Visibility="{Binding Tags.Length, Converter={StaticResource EmptyHintVisibility}}"
+                        Text="{x:Static res:InfoControl.Tags_Empty_Hint}"/>
                 <ItemsControl 
                         Grid.Column="1" Margin="16,8,0,4"
                         ItemsSource="{Binding Tags}">
@@ -145,7 +157,8 @@
                 </ItemsControl>
             </Grid>
 
-            <TextBlock Style="{StaticResource Headline}">Facets</TextBlock>
+            <TextBlock Style="{StaticResource Headline}"
+                Text="{x:Static res:InfoControl.Facets_Title}"/>
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -156,7 +169,11 @@
                 <Grid.RowDefinitions>
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                
+                <TextBlock
+                        Grid.Column="1"
+                        Style="{StaticResource HintListValue}" 
+                        Visibility="{Binding FacetViews.Count, Converter={StaticResource EmptyHintVisibility}}"
+                        Text="{x:Static res:InfoControl.Facets_Empty_Hint}"/>
                 <ItemsControl
                         Grid.Column="1" Margin="16,8,0,4"
                         ItemsSource="{Binding FacetViews}">

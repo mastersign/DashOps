@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Windows;
 using Wpf.Ui.Appearance;
 using static Mastersign.DashOps.UserInteraction;
 

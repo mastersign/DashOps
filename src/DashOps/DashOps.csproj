@@ -52,18 +52,6 @@
       <Generator>Scaleton Code Generator</Generator>
       <LastGenOutput>Model_v1.Designer.cs</LastGenOutput>
     </Resource>
-    
-    <Compile Update="WebMonitorInfoControl.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    
-    <Compile Update="CommandMonitorInfoControl.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    
-    <Compile Update="CompactActionInfoControl.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Model_v1\Model_v1.Designer.cs">
       <DependentUpon>Model_v1.xml</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -109,6 +97,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>HomePage.resx</DependentUpon>
     </Compile>
+    <Compile Update="Properties\Resources\InfoControl.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>InfoControl.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -123,6 +116,10 @@
     <EmbeddedResource Update="Properties\Resources\HomePage.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>HomePage.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources\InfoControl.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>InfoControl.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   

@@ -56,6 +56,11 @@
            BasedOn="{StaticResource ListValue}">
         <Setter Property="Margin" Value="0,8,0,4" />
     </Style>
+    <Style x:Key="HintListValue" TargetType="TextBlock"
+           BasedOn="{StaticResource ListValue}">
+
+        <Setter Property="FontStyle" Value="Italic" />
+    </Style>
     <Style x:Key="HighlightedListValue" TargetType="TextBlock"
            BasedOn="{StaticResource ListValue}">
 

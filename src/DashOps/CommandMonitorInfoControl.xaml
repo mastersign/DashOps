@@ -4,10 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:tools="clr-namespace:Mastersign.WpfTools"
+             xmlns:res="clr-namespace:Mastersign.DashOps.Properties.Resources"
              xmlns:local="clr-namespace:Mastersign.DashOps"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="720"
+             d:DesignHeight="640" d:DesignWidth="720"
              d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:DesignTimeCommandMonitorView}}">
+
+    <UserControl.Resources>
+        <tools:ValueConverterGroup x:Key="EmptyHintVisibility">
+            <tools:IntegerComparisonConverter Comparator="EqualTo" Value="0" />
+            <tools:BooleanToVisibilityConverter />
+        </tools:ValueConverterGroup>
+    </UserControl.Resources>
 
     <ScrollViewer 
             HorizontalScrollBarVisibility="Disabled"
@@ -18,7 +27,8 @@
                 Margin="0,0,16,0"
                 Orientation="Vertical" Grid.IsSharedSizeScope="True">
 
-            <TextBlock Style="{StaticResource Headline}">Command Monitor</TextBlock>
+            <TextBlock Style="{StaticResource Headline}"
+                Text="{x:Static res:InfoControl.CommandMonitor}" />
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -39,8 +49,8 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0" Style="{StaticResource Caption}">
-                    Title:</TextBlock>
+                <TextBlock Grid.Row="0" Style="{StaticResource Caption}"
+                    Text="{x:Static res:InfoControl.Title_Caption}"/>
                 <TextBlock Grid.Row="0" Style="{StaticResource ListValue}"
                     FontWeight="DemiBold"
                     Text="{Binding Title}" />
@@ -50,15 +60,15 @@
                     Style="{StaticResource MonitorStatusIconStyle}"
                     MouseUp="CheckMonitorHandler"/>
 
-                <TextBlock Grid.Row="1" Style="{StaticResource Caption}">
-                    ID:</TextBlock>
+                <TextBlock Grid.Row="1" Style="{StaticResource Caption}"
+                    Text="{x:Static res:InfoControl.CommandId_Caption}"/>
                 <TextBlock Grid.Row="1" Style="{StaticResource ListValueCode}"
                     Text="{Binding CommandId}" />
                 <local:CopyButton Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" Margin="0,0,0,0"
                     CopyText="{Binding CommandId}" />
 
-                <TextBlock Grid.Row="2" Style="{StaticResource Caption}">
-                    Active:</TextBlock>
+                <TextBlock Grid.Row="2" Style="{StaticResource Caption}" 
+                    Text="{x:Static res:InfoControl.Active_Caption}"/>
                 <ui:SymbolIcon
                         Grid.Row="2" Grid.Column="1" Margin="16,8,0,4"
                         HorizontalAlignment="Left"
@@ -82,47 +92,47 @@
                         </Style>
                     </ui:SymbolIcon.Style>
                 </ui:SymbolIcon>
-                
-                <TextBlock Grid.Row="3" Style="{StaticResource Caption}">
-                    Interval:</TextBlock>
+
+                <TextBlock Grid.Row="3" Style="{StaticResource Caption}"
+                    Text="{x:Static res:InfoControl.Interval_Caption}"/>
                 <TextBlock Grid.Row="3" Style="{StaticResource ListValue}"
                     Text="{Binding Interval}" />
 
-                <TextBlock Grid.Row="4" Style="{StaticResource Caption}">
-                    Command:</TextBlock>
+                <TextBlock Grid.Row="4" Style="{StaticResource Caption}"
+                    Text="{x:Static res:InfoControl.Command_Caption}"/>
                 <TextBlock Grid.Row="4" Style="{StaticResource ListValueCode}"
                     Text="{Binding Command}" />
                 <local:CopyButton Grid.Row="4" Grid.Column="2" VerticalAlignment="Top" Margin="0,0,0,0"
                     CopyText="{Binding Command}" />
 
-                <TextBlock Grid.Row="5" Style="{StaticResource Caption}">
-                    Arguments:</TextBlock>
+                <TextBlock Grid.Row="5" Style="{StaticResource Caption}"
+                    Text="{x:Static res:InfoControl.Arguments_Caption}" />
                 <TextBlock Grid.Row="5" Style="{StaticResource ListValueCode}"
                     Text="{Binding Arguments}" />
                 <local:CopyButton Grid.Row="5" Grid.Column="2" VerticalAlignment="Top" Margin="0,0,0,0"
                     CopyText="{Binding Arguments}" />
 
-                <TextBlock Grid.Row="6" Style="{StaticResource Caption}">
-                    Working Dir:</TextBlock>
+                <TextBlock Grid.Row="6" Style="{StaticResource Caption}"
+                    Text="{x:Static res:InfoControl.WorkingDirectory_Caption}"/>
                 <TextBlock Grid.Row="6" Style="{StaticResource ListValueCode}"
                     Text="{Binding WorkingDirectory}" />
                 <local:CopyButton Grid.Row="6" Grid.Column="2" VerticalAlignment="Top" Margin="0,0,0,0"
                     CopyText="{Binding WorkingDirectory}" />
 
-                <TextBlock Grid.Row="7" Style="{StaticResource Caption}">
-                    Success Exit Codes:</TextBlock>
+                <TextBlock Grid.Row="7" Style="{StaticResource Caption}"
+                    Text="{x:Static res:InfoControl.ExitCodes_Caption}"/>
                 <TextBlock Grid.Row="7" Style="{StaticResource ListValue}"
                     Text="{Binding ExitCodesFormatted}" />
 
-                <TextBlock Grid.Row="8" Style="{StaticResource Caption}">
-                    Patterns:</TextBlock>
+                <TextBlock Grid.Row="8" Style="{StaticResource Caption}"
+                    Text="{x:Static res:InfoControl.Patterns_Caption}"/>
                 <TextBlock Grid.Row="8" Style="{StaticResource ListValue}">
                     <Run Text="{Binding RequiredPatternCount, Mode=OneTime}" /><Run>&#x00A0;Required,</Run>
                     <Run Text="{Binding ForbiddenPatternCount, Mode=OneTime}" /><Run>&#x00A0;Forbidden</Run>
                 </TextBlock>
 
-                <TextBlock Grid.Row="9" Style="{StaticResource Caption}">
-                    Logging:</TextBlock>
+                <TextBlock Grid.Row="9" Style="{StaticResource Caption}"
+                    Text="{x:Static res:InfoControl.Logging_Caption}"/>
                 <ui:SymbolIcon
                         Grid.Row="9" Grid.Column="1" Margin="16,8,0,4"
                         HorizontalAlignment="Left"
@@ -146,7 +156,45 @@
                         </Style>
                     </ui:SymbolIcon.Style>
                 </ui:SymbolIcon>
+                
+            </Grid>
 
+            <TextBlock Style="{StaticResource Headline}"
+                Text="{x:Static res:InfoControl.Tags_Title}"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Caption" />
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="CopyButtons" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock
+                        Grid.Column="1"
+                        Style="{StaticResource HintListValue}" 
+                        Visibility="{Binding Tags.Length, Converter={StaticResource EmptyHintVisibility}}"
+                        Text="{x:Static res:InfoControl.Tags_Empty_Hint}"/>
+                <ItemsControl 
+                        Grid.Column="1" Margin="16,8,0,4"
+                        ItemsSource="{Binding Tags}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border 
+                                    CornerRadius="10" Height="20" Margin="0,0,10,0" Padding="8,0,8,2"
+                                    Background="{ui:ThemeResource SystemAccentColorPrimaryBrush}">
+                                <TextBlock Text="{Binding}" 
+                                           Foreground="{ui:ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                                           FontSize="13"/>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
 
         </StackPanel>

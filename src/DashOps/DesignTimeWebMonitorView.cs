@@ -38,5 +38,7 @@ internal class DesignTimeWebMonitorView : WebMonitorView
             + DateTime.Now.ToString("yyyyMMdd_HHmmss")
             + "_" + CommandId
             + "_OK_200.log";
+
+        Tags = [];
     }
 }

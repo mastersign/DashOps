@@ -42,5 +42,7 @@ internal class DesignTimeCommandMonitorView : CommandMonitorView
             + DateTime.Now.ToString("yyyyMMdd_HHmmss")
             + "_" + CommandId
             + ".log";
+
+        Tags = ["development", "EXAMPLE"];
     }
 }
