@@ -28,6 +28,8 @@
       <Property name="NoLogs" type="bool?" />
       <Property name="NoExecutionInfo" type="bool?" />
 
+      <Property name="Interpreter" />
+      <Property name="Arguments" type="string[]" defaultInitialization="false" />
       <Property name="WorkingDirectory" />
       <Property name="Environment" type="dict" />
       <Property name="ExePaths" type="string[]" defaultInitialization="false" />
@@ -121,7 +123,9 @@
     <Class name="AutoActionSettings" baseType="CommandActionSettings">
       <Property name="Include" type="ActionMatcher" isCollection="true" />
       <Property name="Exclude" type="ActionMatcher" isCollection="true" />
-      
+
+      <Property name="Interpreter" />
+      <Property name="Arguments" type="string[]" defaultInitialization="false" />
       <Property name="Facets" type="dict" />
       <Property name="Tags" type="string[]" defaultInitialization="false" />
     </Class>
@@ -147,6 +151,8 @@
       <Property name="NoTlsVerify" type="bool" />
       <Property name="StatusCodes" type="int[]" defaultInitialization="false" />
 
+      <Property name="Interpreter" />
+      <Property name="Arguments" type="string[]" defaultInitialization="false" />
       <Property name="WorkingDirectory" />
       <Property name="Environment" type="dict" />
       <Property name="ExePaths" type="string[]" defaultInitialization="false" />
@@ -255,10 +261,13 @@
       <Property name="RequiredPatterns" type="string[]" />
       <Property name="ForbiddenPatterns" type="string[]" />
 
+      <Property name="Interpreter" />
+      <Property name="Arguments" type="string[]" defaultInitialization="false" />
       <Property name="WorkingDirectory" />
       <Property name="Environment" type="dict" />
       <Property name="ExePaths" type="string[]" defaultInitialization="false" />
       <Property name="ExitCodes" type="int[]" defaultInitialization="false" />
+      
       <Property name="UsePowerShellCore" type="bool?" />
       <Property name="PowerShellExe" />
       <Property name="UsePowerShellProfile" type="bool?" />
@@ -282,6 +291,8 @@
       <Property name="NoLogs" type="bool?" />
       <Property name="NoExecutionInfo" type="bool?" />
 
+      <Property name="Interpreter" />
+      <Property name="Arguments" type="string[]" defaultInitialization="false" />
       <Property name="WorkingDirectory" />
       <Property name="Environment" type="dict" />
       <Property name="ExePaths" type="string[]" defaultInitialization="false" />

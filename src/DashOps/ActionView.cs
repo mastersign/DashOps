@@ -66,15 +66,15 @@ namespace Mastersign.DashOps
         {
             Facets = CoalesceValues([facets, .. autoSettings.Select(s => Facets)]);
 
-            Reassure = Coalesce([settings.Reassure, .. autoSettings.Select(s => s.Reassure), actionDefaults.Reassure]);
-            Visible = !Coalesce([settings.Background, .. autoSettings.Select(s => s.Background), actionDefaults.Background]);
-            KeepOpen = Coalesce([settings.KeepOpen, .. autoSettings.Select(s => s.KeepOpen), actionDefaults.KeepOpen]);
-            AlwaysClose = Coalesce([settings.AlwaysClose, .. autoSettings.Select(s => s.AlwaysClose), actionDefaults.AlwaysClose]);
+            Reassure = Coalesce([settings.Reassure, .. autoSettings.Select(s => s.Reassure), actionDefaults?.Reassure]);
+            Visible = !Coalesce([settings.Background, .. autoSettings.Select(s => s.Background), actionDefaults?.Background]);
+            KeepOpen = Coalesce([settings.KeepOpen, .. autoSettings.Select(s => s.KeepOpen), actionDefaults?.KeepOpen]);
+            AlwaysClose = Coalesce([settings.AlwaysClose, .. autoSettings.Select(s => s.AlwaysClose), actionDefaults?.AlwaysClose]);
 
             NoLogs = Coalesce([
                 settings.NoLogs, 
                 .. autoSettings.Select(s => s.NoLogs),
-                actionDefaults.NoLogs, 
+                actionDefaults?.NoLogs, 
                 commonDefaults.NoLogs,
             ]);
 
@@ -82,7 +82,7 @@ namespace Mastersign.DashOps
                 Coalesce([
                     settings.Logs, 
                     .. autoSettings.Select(s => s.Logs), 
-                    actionDefaults.Logs, 
+                    actionDefaults?.Logs, 
                     commonDefaults.Logs,
                 ]),
                 facets)));
@@ -90,7 +90,7 @@ namespace Mastersign.DashOps
             NoExecutionInfo = Coalesce([
                 settings.NoExecutionInfo, 
                 .. autoSettings.Select(s => s.NoExecutionInfo),
-                actionDefaults.NoExecutionInfo,
+                actionDefaults?.NoExecutionInfo,
                 commonDefaults.NoExecutionInfo,
             ]);
 
@@ -98,7 +98,7 @@ namespace Mastersign.DashOps
                 Coalesce([
                     settings.WorkingDirectory,
                     .. autoSettings.Select(s => s.WorkingDirectory),
-                    actionDefaults.WorkingDirectory,
+                    actionDefaults?.WorkingDirectory,
                     commonDefaults.WorkingDirectory,
                 ]),
                 facets)));
@@ -107,7 +107,7 @@ namespace Mastersign.DashOps
                 CoalesceValues([
                     settings.Environment, 
                     .. autoSettings.Select(s => s.Environment), 
-                    actionDefaults.Environment,
+                    actionDefaults?.Environment,
                     commonDefaults.Environment,
                 ]),
                 facets));
@@ -115,7 +115,7 @@ namespace Mastersign.DashOps
             ExePaths = Coalesce([
                 settings.ExePaths, 
                 .. autoSettings.Select(s => s.ExePaths),
-                actionDefaults.ExePaths, 
+                actionDefaults?.ExePaths, 
                 commonDefaults.ExePaths,
             ])
                 .Select(p => ExpandTemplate(p, facets))
@@ -127,7 +127,7 @@ namespace Mastersign.DashOps
             ExitCodes = Coalesce([
                 settings.ExitCodes, 
                 .. autoSettings.Select(s => s.ExitCodes),
-                actionDefaults.ExitCodes,
+                actionDefaults?.ExitCodes,
                 commonDefaults.ExitCodes,
                 [0],
             ]);
@@ -136,7 +136,7 @@ namespace Mastersign.DashOps
                 Coalesce([
                     settings.UsePowerShellCore, 
                     .. autoSettings.Select(s => s.UsePowerShellCore),
-                    actionDefaults.UsePowerShellCore, 
+                    actionDefaults?.UsePowerShellCore, 
                     commonDefaults.UsePowerShellCore,
                 ]);
 
@@ -144,7 +144,7 @@ namespace Mastersign.DashOps
                 CoalesceWhitespace([
                     settings.PowerShellExe, 
                     .. autoSettings.Select(s => s.PowerShellExe),
-                    actionDefaults.PowerShellExe,
+                    actionDefaults?.PowerShellExe,
                     commonDefaults.PowerShellExe,
                 ]),
                 facets)));
@@ -153,7 +153,7 @@ namespace Mastersign.DashOps
                 Coalesce([
                     settings.UsePowerShellProfile,
                     .. autoSettings.Select(s => s.UsePowerShellProfile),
-                    actionDefaults.UsePowerShellProfile,
+                    actionDefaults?.UsePowerShellProfile,
                     commonDefaults.UsePowerShellProfile,
                 ]);
 
@@ -161,7 +161,7 @@ namespace Mastersign.DashOps
                 CoalesceWhitespace([
                     settings.PowerShellExecutionPolicy, 
                     .. autoSettings.Select(s => s.PowerShellExecutionPolicy),
-                    actionDefaults.PowerShellExecutionPolicy,
+                    actionDefaults?.PowerShellExecutionPolicy,
                     commonDefaults.PowerShellExecutionPolicy,
                 ]);
 
@@ -169,14 +169,14 @@ namespace Mastersign.DashOps
                 Coalesce([
                     settings.UseWindowsTerminal, 
                     .. autoSettings.Select(s => s.UseWindowsTerminal),
-                    actionDefaults.UseWindowsTerminal,
+                    actionDefaults?.UseWindowsTerminal,
                 ]);
 
             WindowsTerminalArguments = FormatArguments(
                 Coalesce([
                     settings.WindowsTerminalArgs, 
                     .. autoSettings.Select(s => s.WindowsTerminalArgs), 
-                    actionDefaults.WindowsTerminalArgs,
+                    actionDefaults?.WindowsTerminalArgs,
                 ])
                     .Select(a => ExpandTemplate(a, facets))
                     .Select(ExpandEnv));

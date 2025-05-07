@@ -10,9 +10,9 @@ partial class CommandMonitorPattern
         return new MatchableMonitor
         {
             Title = ExpandTemplate(Title, variables),
-            Command = ExpandEnv(ExpandTemplate(Command, variables)),
-            Variables = variables,
             Tags = Tags ?? [],
+            Variables = variables,
+            Command = ExpandEnv(ExpandTemplate(Command, variables)),
         };
     }
 
@@ -30,7 +30,12 @@ partial class CommandMonitorPattern
 
             Command = ExpandEnv(ExpandTemplate(Command, variables)),
             Arguments = FormatArguments(
-                Arguments?
+                Coalesce([
+                    Arguments,
+                    ..autoSettings.Select(s => s.Arguments),
+                    monitorDefaults?.Arguments,
+                    commonDefaults.Arguments,
+                ])?
                     .Select(a => ExpandTemplate(a, variables))
                     .Select(ExpandEnv)),
         };

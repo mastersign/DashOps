@@ -6,16 +6,26 @@ partial class CommandActionDiscovery
 {
     private const string FILE_FACET = "file";
 
-    public MatchableAction CreateMatchable(IReadOnlyDictionary<string, string> discoveryFacets, string filePath)
+    public MatchableAction CreateMatchable(
+        DefaultActionSettings actionDefaults,
+        DefaultSettings commonDefaults,
+        IReadOnlyDictionary<string, string> discoveryFacets,
+        string filePath)
     {
         var fileVariable = new Dictionary<string, string> { { FILE_FACET, filePath } };
         var facets = CoalesceValues([Facets, fileVariable, discoveryFacets]);
 
+        var interpreter = Coalesce([
+            Interpreter,
+            actionDefaults?.Interpreter,
+            commonDefaults.Interpreter,
+        ]);
+
         string cmd;
-        if (!string.IsNullOrWhiteSpace(Interpreter))
+        if (!string.IsNullOrWhiteSpace(interpreter))
         {
             // custom interpreter for discovered files
-            cmd = ExpandEnv(ExpandTemplate(Interpreter, facets));
+            cmd = ExpandEnv(ExpandTemplate(interpreter, facets));
         }
         else
         {
@@ -26,15 +36,15 @@ partial class CommandActionDiscovery
         return new MatchableAction
         {
             Title = ExpandTemplate(Title, facets),
-            Command = cmd,
             Tags = Tags ?? [],
             Facets = facets,
+            Command = cmd,
         };
     }
 
     public ActionView CreateView(
         IReadOnlyList<AutoActionSettings> autoSettings,
-        DefaultActionSettings defaults,
+        DefaultActionSettings actionDefaults,
         DefaultSettings commonDefaults,
         IReadOnlyDictionary<string, string> discoveryFacets,
         string filePath)
@@ -42,20 +52,34 @@ partial class CommandActionDiscovery
         var fileVariable = new Dictionary<string, string> { { FILE_FACET, filePath } };
         var facets = CoalesceValues([Facets, fileVariable, discoveryFacets]);
 
+        var interpreter = Coalesce([
+            Interpreter,
+            .. autoSettings.Select(s => s.Interpreter),
+            actionDefaults?.Interpreter,
+            commonDefaults.Interpreter,
+        ]);
+
+        var arguments = Coalesce([
+            Arguments,
+            ..autoSettings.Select(s => s.Arguments),
+            actionDefaults?.Arguments,
+            commonDefaults.Arguments,
+        ]);
+
         string cmd;
         string cmdArgs;
-        if (!string.IsNullOrWhiteSpace(Interpreter))
+        if (!string.IsNullOrWhiteSpace(interpreter))
         {
             // custom interpreter for discovered files
 
-            cmd = ExpandEnv(ExpandTemplate(Interpreter, facets));
-            if (Arguments is null)
+            cmd = ExpandEnv(ExpandTemplate(interpreter, facets));
+            if (arguments is null)
             {
                 cmdArgs = FormatArguments([filePath]);
             }
             else
             {
-                cmdArgs = FormatArguments(Arguments
+                cmdArgs = FormatArguments(arguments
                     // expand facets
                     .Select(a => ExpandTemplate(a, facets))
                     // expand CMD-style environment variables
@@ -67,11 +91,12 @@ partial class CommandActionDiscovery
             // discovered file is used as command itself
 
             cmd = filePath;
-            cmdArgs = FormatArguments(Arguments?
-                // expand facets
-                .Select(a => ExpandTemplate(a, facets))
-                // expand CMD-style environment variables
-                .Select(ExpandEnv));
+            cmdArgs = FormatArguments(
+                arguments?
+                    // expand facets
+                    .Select(a => ExpandTemplate(a, facets))
+                    // expand CMD-style environment variables
+                    .Select(ExpandEnv));
         }
 
         var view = new ActionView
@@ -82,7 +107,7 @@ partial class CommandActionDiscovery
             Command = cmd,
             Arguments = cmdArgs,
         };
-        view.UpdateWith(this, autoSettings, defaults, commonDefaults, facets);
+        view.UpdateWith(this, autoSettings, actionDefaults, commonDefaults, facets);
         view.UpdateStatusFromLogFile();
 
         return view;

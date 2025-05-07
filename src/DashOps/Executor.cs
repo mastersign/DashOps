@@ -11,6 +11,8 @@ namespace Mastersign.DashOps
             public readonly Action<ExecutionResult> OnExit = onExit;
         }
 
+        private const string DEFAULT_EXECUTION_POLICY = "RemoteSigned";
+
         private readonly Dictionary<Process, Execution> runningProcesses = [];
 
         private readonly InterProcessConnector interProcessConnector = new();
@@ -373,7 +375,7 @@ namespace Mastersign.DashOps
             psArgsBuilder.Append("-NoLogo");
             if (!executable.UsePowerShellProfile) psArgsBuilder.Append(" -NoProfile");
             psArgsBuilder.Append(" -ExecutionPolicy ");
-            psArgsBuilder.Append(executable.PowerShellExecutionPolicy);
+            psArgsBuilder.Append(executable.PowerShellExecutionPolicy ?? DEFAULT_EXECUTION_POLICY);
             psArgsBuilder.Append(" -EncodedCommand ");
             psArgsBuilder.Append(encodedCmd);
             return psArgsBuilder.ToString();

@@ -40,7 +40,7 @@ namespace Mastersign.DashOps
                 CoalesceValues([
                     settings.Headers,
                     .. autoSettings.Select(s => s.Headers),
-                    monitorDefaults.Headers,
+                    monitorDefaults?.Headers,
                 ]),
                 variables);
 
@@ -48,26 +48,26 @@ namespace Mastersign.DashOps
                 Coalesce([
                     settings.HttpTimeout, 
                     .. autoSettings.Select(s => s.HttpTimeout), 
-                    monitorDefaults.HttpTimeout,
+                    monitorDefaults?.HttpTimeout,
                 ]));
 
             ServerCertificateHash =
                 Coalesce([
                     settings.ServerCertificateHash,
                     .. autoSettings.Select(s => s.ServerCertificateHash),
-                    monitorDefaults.ServerCertificateHash,
+                    monitorDefaults?.ServerCertificateHash,
                 ]);
             
             NoTlsVerify = Coalesce([
                 settings.NoTlsVerify, 
                 .. autoSettings.Select(s => s.NoTlsVerify), 
-                monitorDefaults.NoTlsVerify,
+                monitorDefaults?.NoTlsVerify,
             ]);
             
             StatusCodes = Coalesce([
                 settings.StatusCodes,
                 .. autoSettings.Select(s => s.StatusCodes),
-                monitorDefaults.StatusCodes,
+                monitorDefaults?.StatusCodes,
                 [200, 201, 202, 203, 204]]);
         }
 

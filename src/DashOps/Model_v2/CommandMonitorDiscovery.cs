@@ -6,16 +6,26 @@ partial class CommandMonitorDiscovery
 {
     private const string FILE_VARIABLE = "file";
 
-    public MatchableMonitor CreateMatchable(IReadOnlyDictionary<string, string> discoveryVariables, string filePath)
+    public MatchableMonitor CreateMatchable(
+        DefaultMonitorSettings monitorDefaults,
+        DefaultSettings commonDefaults,
+        IReadOnlyDictionary<string, string> discoveryVariables,
+        string filePath)
     {
         var fileVariable = new Dictionary<string, string> { { FILE_VARIABLE, filePath } };
         var variables = CoalesceValues([fileVariable, discoveryVariables]);
 
+        var interpreter = Coalesce([
+            Interpreter,
+            monitorDefaults?.Interpreter,
+            commonDefaults.Interpreter,
+        ]);
+
         string cmd;
-        if (!string.IsNullOrWhiteSpace(Interpreter))
+        if (!string.IsNullOrWhiteSpace(interpreter))
         {
             // custom interpreter for discovered files
-            cmd = ExpandEnv(ExpandTemplate(Interpreter, variables));
+            cmd = ExpandEnv(ExpandTemplate(interpreter, discoveryVariables));
         }
         else
         {
@@ -26,9 +36,9 @@ partial class CommandMonitorDiscovery
         return new MatchableMonitor
         {
             Title = ExpandTemplate(Title, variables),
-            Command = cmd,
-            Variables = variables,
             Tags = Tags ?? [],
+            Variables = variables,
+            Command = cmd,
         };
     }
 
@@ -42,20 +52,34 @@ partial class CommandMonitorDiscovery
         var fileVariable = new Dictionary<string, string> { { FILE_VARIABLE, filePath } };
         var variables = CoalesceValues([fileVariable, discoveryVariables]);
 
+        var interpreter = Coalesce([
+            Interpreter,
+            .. autoSettings.Select(s => s.Interpreter),
+            monitorDefaults?.Interpreter,
+            commonDefaults.Interpreter,
+        ]);
+
+        var arguments = Coalesce([
+            Arguments,
+            ..autoSettings.Select(s => s.Arguments),
+            monitorDefaults?.Arguments,
+            commonDefaults.Arguments,
+        ]);
+
         string cmd;
         string cmdArgs;
-        if (!string.IsNullOrWhiteSpace(Interpreter))
+        if (!string.IsNullOrWhiteSpace(interpreter))
         {
             // custom interpreter for discovered files
 
-            cmd = ExpandEnv(ExpandTemplate(Interpreter, variables));
-            if (Arguments is null)
+            cmd = ExpandEnv(ExpandTemplate(interpreter, variables));
+            if (arguments is null)
             {
                 cmdArgs = FormatArguments([filePath]);
             }
             else
             {
-                cmdArgs = FormatArguments(Arguments
+                cmdArgs = FormatArguments(arguments
                     // expand facets
                     .Select(a => ExpandTemplate(a, variables))
                     // expand CMD-style environment variables
@@ -67,7 +91,7 @@ partial class CommandMonitorDiscovery
             // discovered file is used as command itself
 
             cmd = filePath;
-            cmdArgs = FormatArguments(Arguments?
+            cmdArgs = FormatArguments(arguments?
                 // expand facets
                 .Select(a => ExpandTemplate(a, variables))
                 // expand CMD-style environment variables

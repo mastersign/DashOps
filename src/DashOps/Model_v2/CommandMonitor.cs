@@ -9,9 +9,9 @@ partial class CommandMonitor
         return new MatchableMonitor
         {
             Title = Title,
-            Command = ExpandEnv(Command),
-            Variables = [],
             Tags = Tags ?? [],
+            Variables = [],
+            Command = ExpandEnv(Command),
         };
     }
 
@@ -27,7 +27,14 @@ partial class CommandMonitor
             Tags = Unite([Tags]),
 
             Command = ExpandEnv(Command),
-            Arguments = FormatArguments(Arguments?.Select(ExpandEnv)),
+            Arguments = FormatArguments(
+                Coalesce([
+                    Arguments,
+                    ..autoSettings.Select(s => s.Arguments),
+                    monitorDefaults?.Arguments,
+                    commonDefaults.Arguments,
+                ])?
+                    .Select(ExpandEnv)),
         };
         view.UpdateWith(this, autoSettings, monitorDefaults, commonDefaults, NO_VARIABLES);
         view.UpdateStatusFromLogFile();

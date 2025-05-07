@@ -9,10 +9,10 @@ partial class WebMonitor
         return new MatchableMonitor
         {
             Title = Title,
+            Tags = Tags ?? [],
             Url = Url,
             Headers = Headers,
             Variables = [],
-            Tags = Tags ?? [],
         };
     }
 

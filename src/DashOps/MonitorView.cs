@@ -90,19 +90,19 @@ namespace Mastersign.DashOps
                 Coalesce([
                     settings.Interval, 
                     .. autoSettings.Select(s => s.Interval),
-                    monitorDefaults.Interval,
+                    monitorDefaults?.Interval,
                 ]));
 
             Deactivated = Coalesce([
                 settings.Deactivated, 
                 ..autoSettings.Select(s => s.Deactivated),
-                monitorDefaults.Deactivated,
+                monitorDefaults?.Deactivated,
             ]);
 
             NoLogs = Coalesce([
                 settings.NoLogs, 
                 .. autoSettings.Select(s => s.NoLogs),
-                monitorDefaults.NoLogs,
+                monitorDefaults?.NoLogs,
                 commonDefaults.NoLogs,
             ]);
 
@@ -110,7 +110,7 @@ namespace Mastersign.DashOps
                 Coalesce([
                     settings.Logs, 
                     .. autoSettings.Select(s => s.Logs),
-                    monitorDefaults.Logs,
+                    monitorDefaults?.Logs,
                     commonDefaults.Logs,
                 ]),
                 variables)));
@@ -118,7 +118,7 @@ namespace Mastersign.DashOps
             NoExecutionInfo = Coalesce([
                 settings.NoExecutionInfo,  
                 .. autoSettings.Select(s => s.NoExecutionInfo), 
-                monitorDefaults.NoExecutionInfo,
+                monitorDefaults?.NoExecutionInfo,
                 commonDefaults.NoExecutionInfo,
             ]);
 
@@ -126,14 +126,14 @@ namespace Mastersign.DashOps
                 Coalesce([
                     settings.RequiredPatterns,
                     .. autoSettings.Select(s => s.RequiredPatterns),
-                    monitorDefaults.RequiredPatterns,
+                    monitorDefaults?.RequiredPatterns,
                 ]));
 
             ForbiddenPatterns = BuildTextPatterns(
                 Coalesce([
                     settings.ForbiddenPatterns, 
                     .. autoSettings.Select(s => s.ForbiddenPatterns),
-                    monitorDefaults.ForbiddenPatterns,
+                    monitorDefaults?.ForbiddenPatterns,
                 ]));
         }
     }

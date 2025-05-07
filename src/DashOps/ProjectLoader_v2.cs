@@ -342,7 +342,7 @@ namespace Mastersign.DashOps
                 discoveryFacets[groupName] = g.Value;
             }
 
-            var matchable = actionDiscovery.CreateMatchable(discoveryFacets, file);
+            var matchable = actionDiscovery.CreateMatchable(Project.Defaults.ForActions, Project.Defaults, discoveryFacets, file);
             var autoSettings = AutoSettingsFor(matchable).ToList();
             return actionDiscovery.CreateView(autoSettings, Project.Defaults.ForActions, Project.Defaults, discoveryFacets, file);
         }
@@ -396,7 +396,7 @@ namespace Mastersign.DashOps
                 variables[groupName] = g.Value;
             }
 
-            var matchableMonitor = monitorDiscovery.CreateMatchable(variables, file);
+            var matchableMonitor = monitorDiscovery.CreateMatchable(Project.Defaults.ForMonitors, Project.Defaults, variables, file);
             var autoSettings = AutoSettingsFor(matchableMonitor).ToList();
             return monitorDiscovery.CreateView(autoSettings, Project.Defaults.ForMonitors, Project.Defaults, variables, file);
         }

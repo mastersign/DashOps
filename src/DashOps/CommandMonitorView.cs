@@ -72,7 +72,7 @@ namespace Mastersign.DashOps
                 Coalesce([
                     settings.WorkingDirectory, 
                     .. autoSettings.Select(s => s.WorkingDirectory),
-                    monitorDefaults.WorkingDirectory,
+                    monitorDefaults?.WorkingDirectory,
                     commonDefaults.WorkingDirectory,
                 ]),
                 variables)));
@@ -81,7 +81,7 @@ namespace Mastersign.DashOps
                 CoalesceValues([
                     settings.Environment, 
                     .. autoSettings.Select(s => s.Environment),
-                    monitorDefaults.Environment,
+                    monitorDefaults?.Environment,
                     commonDefaults.Environment,
                 ]),
                 variables));
@@ -89,7 +89,7 @@ namespace Mastersign.DashOps
             ExePaths = Coalesce([
                 settings.ExePaths,
                 .. autoSettings.Select(s => s.ExePaths), 
-                monitorDefaults.ExePaths,
+                monitorDefaults?.ExePaths,
                 commonDefaults.ExePaths,
             ])
                 .Select(p => ExpandTemplate(p, variables))
@@ -101,7 +101,7 @@ namespace Mastersign.DashOps
             ExitCodes = Coalesce([
                 settings.ExitCodes, 
                 .. autoSettings.Select(s => s.ExitCodes), 
-                monitorDefaults.ExitCodes,
+                monitorDefaults?.ExitCodes,
                 commonDefaults.ExitCodes,
                 [0],
             ]);
@@ -110,7 +110,7 @@ namespace Mastersign.DashOps
                 Coalesce([
                     settings.UsePowerShellCore, 
                     .. autoSettings.Select(s => s.UsePowerShellCore),
-                    monitorDefaults.UsePowerShellCore,
+                    monitorDefaults?.UsePowerShellCore,
                     commonDefaults.UsePowerShellCore,
                 ]);
 
@@ -118,7 +118,7 @@ namespace Mastersign.DashOps
                 CoalesceWhitespace([
                     settings.PowerShellExe, 
                     .. autoSettings.Select(s => s.PowerShellExe), 
-                    monitorDefaults.PowerShellExe,
+                    monitorDefaults?.PowerShellExe,
                     commonDefaults.PowerShellExe,
                 ]),
                 variables)));
@@ -127,7 +127,7 @@ namespace Mastersign.DashOps
                 Coalesce([
                     settings.UsePowerShellProfile,
                     .. autoSettings.Select(s => s.UsePowerShellProfile),
-                    monitorDefaults.UsePowerShellProfile,
+                    monitorDefaults?.UsePowerShellProfile,
                     commonDefaults.UsePowerShellProfile,
                 ]);
 
@@ -135,7 +135,7 @@ namespace Mastersign.DashOps
                 CoalesceWhitespace([
                     settings.PowerShellExecutionPolicy, 
                     .. autoSettings.Select(s => s.PowerShellExecutionPolicy), 
-                    monitorDefaults.PowerShellExecutionPolicy,
+                    monitorDefaults?.PowerShellExecutionPolicy,
                     commonDefaults.PowerShellExecutionPolicy,
                 ]);
         }

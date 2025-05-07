@@ -10,10 +10,10 @@ partial class WebMonitorPattern
         return new MatchableMonitor
         {
             Title = ExpandTemplate(Title, variables),
+            Tags = Tags ?? [],
+            Variables = variables,
             Url = ExpandTemplate(Url, variables),
             Headers = ExpandDictionaryTemplate(Headers, variables),
-            Variables = variables,
-            Tags = Tags ?? [],
         };
     }
 

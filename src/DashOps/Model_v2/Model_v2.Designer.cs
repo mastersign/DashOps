@@ -58,6 +58,8 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(_noLogs, null) ? _noLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(_noExecutionInfo, null) ? _noExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Interpreter = " + (!ReferenceEquals(_interpreter, null) ? _interpreter.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(_environment, null) ? _environment.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ExePaths = " + (!ReferenceEquals(_exePaths, null) ? _exePaths.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -200,6 +202,44 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _noExecutionInfo = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Interpreter
+        
+        private string _interpreter;
+        
+        public virtual string Interpreter
+        {
+            get { return _interpreter; }
+            set
+            {
+                if (string.Equals(value, _interpreter))
+                {
+                    return;
+                }
+                _interpreter = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Arguments
+        
+        private string[] _arguments;
+        
+        public virtual string[] Arguments
+        {
+            get { return _arguments; }
+            set
+            {
+                if ((value == _arguments))
+                {
+                    return;
+                }
+                _arguments = value;
             }
         }
         
@@ -1452,6 +1492,8 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    WindowsTerminalArgs = " + (!ReferenceEquals(WindowsTerminalArgs, null) ? WindowsTerminalArgs.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Include = " + (!ReferenceEquals(_include, null) ? (_include.Count.ToString() + @" items" + __collection_Include.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Exclude = " + (!ReferenceEquals(_exclude, null) ? (_exclude.Count.ToString() + @" items" + __collection_Exclude.ToString()) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Interpreter = " + (!ReferenceEquals(_interpreter, null) ? _interpreter.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Facets = " + (!ReferenceEquals(_facets, null) ? _facets.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Tags = " + (!ReferenceEquals(_tags, null) ? _tags.ToString() : @"null").Replace("\n", "\n    "))));
         }
@@ -1491,6 +1533,44 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _exclude = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Interpreter
+        
+        private string _interpreter;
+        
+        public virtual string Interpreter
+        {
+            get { return _interpreter; }
+            set
+            {
+                if (string.Equals(value, _interpreter))
+                {
+                    return;
+                }
+                _interpreter = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Arguments
+        
+        private string[] _arguments;
+        
+        public virtual string[] Arguments
+        {
+            get { return _arguments; }
+            set
+            {
+                if ((value == _arguments))
+                {
+                    return;
+                }
+                _arguments = value;
             }
         }
         
@@ -1567,6 +1647,8 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    ServerCertificateHash = " + (!ReferenceEquals(_serverCertificateHash, null) ? _serverCertificateHash.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoTlsVerify = " + _noTlsVerify.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    StatusCodes = " + (!ReferenceEquals(_statusCodes, null) ? _statusCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Interpreter = " + (!ReferenceEquals(_interpreter, null) ? _interpreter.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(_environment, null) ? _environment.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ExePaths = " + (!ReferenceEquals(_exePaths, null) ? _exePaths.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -1808,6 +1890,44 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _statusCodes = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Interpreter
+        
+        private string _interpreter;
+        
+        public virtual string Interpreter
+        {
+            get { return _interpreter; }
+            set
+            {
+                if (string.Equals(value, _interpreter))
+                {
+                    return;
+                }
+                _interpreter = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Arguments
+        
+        private string[] _arguments;
+        
+        public virtual string[] Arguments
+        {
+            get { return _arguments; }
+            set
+            {
+                if ((value == _arguments))
+                {
+                    return;
+                }
+                _arguments = value;
             }
         }
         
@@ -3080,6 +3200,8 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(_noExecutionInfo, null) ? _noExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(_requiredPatterns, null) ? _requiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(_forbiddenPatterns, null) ? _forbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Interpreter = " + (!ReferenceEquals(_interpreter, null) ? _interpreter.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(_environment, null) ? _environment.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ExePaths = " + (!ReferenceEquals(_exePaths, null) ? _exePaths.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -3263,6 +3385,44 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _forbiddenPatterns = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Interpreter
+        
+        private string _interpreter;
+        
+        public virtual string Interpreter
+        {
+            get { return _interpreter; }
+            set
+            {
+                if (string.Equals(value, _interpreter))
+                {
+                    return;
+                }
+                _interpreter = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Arguments
+        
+        private string[] _arguments;
+        
+        public virtual string[] Arguments
+        {
+            get { return _arguments; }
+            set
+            {
+                if ((value == _arguments))
+                {
+                    return;
+                }
+                _arguments = value;
             }
         }
         
@@ -3596,6 +3756,8 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(_noLogs, null) ? _noLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(_noExecutionInfo, null) ? _noExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Interpreter = " + (!ReferenceEquals(_interpreter, null) ? _interpreter.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Arguments = " + (!ReferenceEquals(_arguments, null) ? _arguments.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(_environment, null) ? _environment.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ExePaths = " + (!ReferenceEquals(_exePaths, null) ? _exePaths.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -3662,6 +3824,44 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _noExecutionInfo = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Interpreter
+        
+        private string _interpreter;
+        
+        public virtual string Interpreter
+        {
+            get { return _interpreter; }
+            set
+            {
+                if (string.Equals(value, _interpreter))
+                {
+                    return;
+                }
+                _interpreter = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Arguments
+        
+        private string[] _arguments;
+        
+        public virtual string[] Arguments
+        {
+            get { return _arguments; }
+            set
+            {
+                if ((value == _arguments))
+                {
+                    return;
+                }
+                _arguments = value;
             }
         }
         

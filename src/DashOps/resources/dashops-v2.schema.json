@@ -54,16 +54,47 @@
       }
     },
     "CommandLineArguments": {
-      "type": "array",
-      "items": {
-        "oneOf": [
-          {
-            "type": "string"
-          },
-          {
-            "type": "number"
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
           }
-        ]
+        }
+      ]
+    },
+    "DefaultCommandLineSettings": {
+      "type": "object",
+      "properties": {
+        "arguments": {
+          "title": "Command Line Arguments",
+          "description": "Default command line arguments.\n\nFor actions, placeholders like ${facet} are replaced by the value of the facet.\nFor monitors, placeholders like ${var} are replaced by the value of the variable.\nEnvironment variables in CMD syntax like %AppData% are expanded.",
+          "allOf": [
+            {
+              "$ref": "#/$defs/CommandLineArguments"
+            }
+          ]
+        }
+      }
+    },
+    "DiscoverySettings": {
+      "type": "object",
+      "properties": {
+        "interpreter": {
+          "title": "Interpreter",
+          "description": "By default, discovered files are treated as PowerShell scripts or executables.\nWith this property, another interpreter like Python can be specified.\n\nIn actions, placeholders like ${facet} are replaced by the value of the facet.\nIn monitors, placeholders like ${var} are replaced by the value of the variable.\nEnvironment variables in CMD syntax like %AppData% are expanded.",
+          "type": "string"
+        }
       }
     },
     "Tags": {
@@ -294,6 +325,12 @@
         },
         {
           "$ref": "#/$defs/CommandSettings"
+        },
+        {
+          "$ref": "#/$defs/DefaultCommandLineSettings"
+        },
+        {
+          "$ref": "#/$defs/DiscoverySettings"
         }
       ],
       "type": "object",
@@ -313,7 +350,13 @@
               "$ref": "#/$defs/CommandSettings"
             },
             {
+              "$ref": "#/$defs/DefaultCommandLineSettings"
+            },
+            {
               "$ref": "#/$defs/InteractiveCommandSettings"
+            },
+            {
+              "$ref": "#/$defs/DiscoverySettings"
             }
           ]
         },
@@ -332,7 +375,13 @@
               "$ref": "#/$defs/CommandSettings"
             },
             {
+              "$ref": "#/$defs/DefaultCommandLineSettings"
+            },
+            {
               "$ref": "#/$defs/HttpRequestSettings"
+            },
+            {
+              "$ref": "#/$defs/DiscoverySettings"
             }
           ]
         }
@@ -403,6 +452,9 @@
       "allOf": [
         {
           "$ref": "#/$defs/CommandActionBase"
+        },
+        {
+          "$ref": "#/$defs/DiscoverySettings"
         }
       ],
       "properties": {
@@ -414,11 +466,6 @@
         "path-pattern": {
           "title": "Path Pattern",
           "description": "A regular expression matching a relative file path below the base path.\n\nCaptured named groups in the expression are treated as facets."
-        },
-        "interpreter": {
-          "title": "Interpreter",
-          "description": "By default the discovered files are treated as PowerShell scripts or executables.\nWith this property, another interpreter can be specified.\n\nPlaceholders like ${facet} are replaced by the facets value.\nEnvironment variables in CMD syntax like %AppData% are expanded.",
-          "type": "string"
         },
         "arguments": {
           "title": "Command Line Arguments",
@@ -666,6 +713,9 @@
           "$ref": "#/$defs/CommandSettings"
         },
         {
+          "$ref": "#/$defs/DefaultCommandLineSettings"
+        },
+        {
           "$ref": "#/$defs/InteractiveCommandSettings"
         }
       ],
@@ -765,6 +815,9 @@
       "allOf": [
         {
           "$ref": "#/$defs/CommandMonitorBase"
+        },
+        {
+          "$ref": "#/$defs/DiscoverySettings"
         }
       ],
       "type": "object",
@@ -777,11 +830,6 @@
         "path-pattern": {
           "title": "Path Pattern",
           "description": "A regular expression matching a relative file path below the base path.\n\nCaptured named groups in the expression are treated as variables."
-        },
-        "interpreter": {
-          "title": "Interpreter",
-          "description": "By default the discovered files are treated as PowerShell scripts or executables.\nWith this property, another interpreter can be specified.\n\nPlaceholders like ${var} are replaced by the variable value.\nEnvironment variables in CMD syntax like %AppData% are expanded.",
-          "type": "string"
         },
         "arguments": {
           "title": "Command Line Arguments",
@@ -1168,6 +1216,9 @@
         },
         {
           "$ref": "#/$defs/CommandSettings"
+        },
+        {
+          "$ref": "#/$defs/DefaultCommandLineSettings"
         },
         {
           "$ref": "#/$defs/HttpRequestSettings"

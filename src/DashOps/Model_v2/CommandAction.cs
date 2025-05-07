@@ -10,13 +10,16 @@ partial class CommandAction
         return new MatchableAction
         {
             Title = ExpandTemplate(Title, facets),
-            Command = ExpandEnv(ExpandTemplate(Command, facets)),
             Tags = Tags ?? [],
             Facets = facets,
+            Command = ExpandEnv(ExpandTemplate(Command, facets)),
         };
     }
 
-    public ActionView CreateView(IReadOnlyList<AutoActionSettings> autoSettings, DefaultActionSettings defaults, DefaultSettings commonDefaults)
+    public ActionView CreateView(
+        IReadOnlyList<AutoActionSettings> autoSettings, 
+        DefaultActionSettings actionDefaults, 
+        DefaultSettings commonDefaults)
     {
         var facets = Facets ?? [];
         var view = new ActionView
@@ -26,11 +29,16 @@ partial class CommandAction
 
             Command = ExpandEnv(ExpandTemplate(Command, facets)),
             Arguments = FormatArguments(
-                Arguments?
+                Coalesce([
+                    Arguments,
+                    ..autoSettings.Select(s => s.Arguments),
+                    actionDefaults?.Arguments,
+                    commonDefaults.Arguments,
+                ])?
                     .Select(a => ExpandTemplate(a, facets))
                     .Select(ExpandEnv)),
         };
-        view.UpdateWith(this, autoSettings, defaults, commonDefaults, facets);
+        view.UpdateWith(this, autoSettings, actionDefaults, commonDefaults, facets);
         view.UpdateStatusFromLogFile();
 
         return view;

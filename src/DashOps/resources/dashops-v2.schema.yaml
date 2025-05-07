@@ -43,11 +43,41 @@ $defs:
         type: number
 
   CommandLineArguments:
-    type: array
-    items:
-      oneOf:
-        - type: string
-        - type: number
+    oneOf:
+      - type: "null"
+      - type: array
+        items:
+          oneOf:
+            - type: string
+            - type: number
+
+  DefaultCommandLineSettings:
+    type: object
+    properties:
+      arguments:
+        title: Command Line Arguments
+        description: |-
+          Default command line arguments.
+
+          For actions, placeholders like ${facet} are replaced by the value of the facet.
+          For monitors, placeholders like ${var} are replaced by the value of the variable.
+          Environment variables in CMD syntax like %AppData% are expanded.
+        allOf:
+          - $ref: '#/$defs/CommandLineArguments'
+
+  DiscoverySettings:
+    type: object
+    properties:
+      interpreter:
+        title: Interpreter
+        description: |-
+          By default, discovered files are treated as PowerShell scripts or executables.
+          With this property, another interpreter like Python can be specified.
+
+          In actions, placeholders like ${facet} are replaced by the value of the facet.
+          In monitors, placeholders like ${var} are replaced by the value of the variable.
+          Environment variables in CMD syntax like %AppData% are expanded.
+        type: string
 
   Tags:
     title: Tags
@@ -260,6 +290,8 @@ $defs:
     allOf:
       - $ref: '#/$defs/LoggingSettings'
       - $ref: '#/$defs/CommandSettings'
+      - $ref: '#/$defs/DefaultCommandLineSettings'
+      - $ref: '#/$defs/DiscoverySettings'
     type: object
     properties:
       for-actions:
@@ -270,7 +302,9 @@ $defs:
           - $ref: '#/$defs/ActionSettings'
           - $ref: '#/$defs/LoggingSettings'
           - $ref: '#/$defs/CommandSettings'
+          - $ref: '#/$defs/DefaultCommandLineSettings'
           - $ref: '#/$defs/InteractiveCommandSettings'
+          - $ref: '#/$defs/DiscoverySettings'
       for-monitors:
         title: Monitor Defaults
         description: A number of default settings for monitors
@@ -279,7 +313,9 @@ $defs:
           - $ref: '#/$defs/MonitorSettings'
           - $ref: '#/$defs/LoggingSettings'
           - $ref: '#/$defs/CommandSettings'
+          - $ref: '#/$defs/DefaultCommandLineSettings'
           - $ref: '#/$defs/HttpRequestSettings'
+          - $ref: '#/$defs/DiscoverySettings'
 
   CommandActionBase:
     allOf:
@@ -334,6 +370,7 @@ $defs:
       An action discovery, which generates an action for each matched file path.
     allOf:
       - $ref: '#/$defs/CommandActionBase'
+      - $ref: '#/$defs/DiscoverySettings'
     properties:
       base-path:
         title: Base Path
@@ -349,15 +386,6 @@ $defs:
           A regular expression matching a relative file path below the base path.
 
           Captured named groups in the expression are treated as facets.
-      interpreter:
-        title: Interpreter
-        description: |-
-          By default the discovered files are treated as PowerShell scripts or executables.
-          With this property, another interpreter can be specified.
-
-          Placeholders like ${facet} are replaced by the facets value.
-          Environment variables in CMD syntax like %AppData% are expanded.
-        type: string
       arguments:
         title: Command Line Arguments
         description: |-
@@ -566,6 +594,7 @@ $defs:
       - $ref: '#/$defs/ActionSettings'
       - $ref: '#/$defs/LoggingSettings'
       - $ref: '#/$defs/CommandSettings'
+      - $ref: '#/$defs/DefaultCommandLineSettings'
       - $ref: '#/$defs/InteractiveCommandSettings'
     type: object
     properties:
@@ -648,6 +677,7 @@ $defs:
       A monitor discovery, which generates a monitor for each matched file path
     allOf:
       - $ref: '#/$defs/CommandMonitorBase'
+      - $ref: '#/$defs/DiscoverySettings'
     type: object
     properties:
       base-path:
@@ -664,15 +694,6 @@ $defs:
           A regular expression matching a relative file path below the base path.
 
           Captured named groups in the expression are treated as variables.
-      interpreter:
-        title: Interpreter
-        description: |-
-          By default the discovered files are treated as PowerShell scripts or executables.
-          With this property, another interpreter can be specified.
-
-          Placeholders like ${var} are replaced by the variable value.
-          Environment variables in CMD syntax like %AppData% are expanded.
-        type: string
       arguments:
         title: Command Line Arguments
         description: |-
@@ -983,6 +1004,7 @@ $defs:
       - $ref: '#/$defs/MonitorSettings'
       - $ref: '#/$defs/LoggingSettings'
       - $ref: '#/$defs/CommandSettings'
+      - $ref: '#/$defs/DefaultCommandLineSettings'
       - $ref: '#/$defs/HttpRequestSettings'
     type: object
     properties:
