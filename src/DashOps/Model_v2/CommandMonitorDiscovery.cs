@@ -71,6 +71,8 @@ partial class CommandMonitorDiscovery
 
         var view = new CommandMonitorView
         {
+            Tags = Unite([Tags]),
+
             Command = cmd,
             Arguments = cmdArgs,
         };

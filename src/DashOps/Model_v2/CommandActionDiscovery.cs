@@ -72,6 +72,7 @@ partial class CommandActionDiscovery
         var view = new ActionView
         {
             Title = ExpandTemplate(Title, facets),
+            Tags = Unite([Tags, .. autoSettings.Select(s => s.Tags)]),
 
             Command = cmd,
             Arguments = cmdArgs,

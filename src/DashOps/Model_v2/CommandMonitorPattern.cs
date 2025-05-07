@@ -22,6 +22,7 @@ partial class CommandMonitorPattern
         var view = new CommandMonitorView
         {
             Title = ExpandTemplate(Title, variables),
+            Tags = Unite([Tags]),
 
             Command = ExpandEnv(ExpandTemplate(Command, variables)),
             Arguments = FormatArguments(

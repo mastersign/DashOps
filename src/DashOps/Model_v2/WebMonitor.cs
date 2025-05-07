@@ -18,7 +18,10 @@ partial class WebMonitor
 
     public WebMonitorView CreateView(DefaultMonitorSettings defaults, IReadOnlyList<AutoMonitorSettings> autoSettings)
     {
-        var monitorView = new WebMonitorView();
+        var monitorView = new WebMonitorView
+        {
+            Tags = Unite([Tags]),
+        };
         monitorView.UpdateWith(this, autoSettings, defaults, NO_VARIABLES);
         monitorView.UpdateStatusFromLogFile();
         return monitorView;

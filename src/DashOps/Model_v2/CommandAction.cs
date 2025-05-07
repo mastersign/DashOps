@@ -22,6 +22,7 @@ partial class CommandAction
         var view = new ActionView
         {
             Title = ExpandTemplate(Title, facets),
+            Tags = Unite([Tags, .. autoSettings.Select(s => s.Tags)]),
 
             Command = ExpandEnv(ExpandTemplate(Command, facets)),
             Arguments = FormatArguments(

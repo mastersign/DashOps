@@ -21,6 +21,8 @@ partial class CommandMonitor
     {
         var view = new CommandMonitorView
         {
+            Tags = Unite([Tags]),
+
             Command = ExpandEnv(Command),
             Arguments = FormatArguments(Arguments?.Select(ExpandEnv)),
         };

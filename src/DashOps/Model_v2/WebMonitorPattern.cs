@@ -19,7 +19,10 @@ partial class WebMonitorPattern
 
     public WebMonitorView CreateView(DefaultMonitorSettings defaults, IReadOnlyList<AutoMonitorSettings> autoSettings, IReadOnlyDictionary<string, string> instanceVariables)
     {
-        var view = new WebMonitorView();
+        var view = new WebMonitorView
+        {
+            Tags = Unite([Tags]),
+        };
         view.UpdateWith(this, autoSettings, defaults, instanceVariables);
         view.UpdateStatusFromLogFile();
         return view;
