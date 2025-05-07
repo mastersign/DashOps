@@ -36,7 +36,7 @@
         <ui:TitleBar Grid.Row="0"
                 Title="{Binding WindowTitle}">
             <ui:TitleBar.Icon>
-                <ui:ImageIcon Source="pack://application:,,,/WpfResources/Logo.png" />
+                <ui:ImageIcon Source="{StaticResource LogoImage16}" />
             </ui:TitleBar.Icon>
         </ui:TitleBar>
 
@@ -69,7 +69,7 @@
 
                     <Image x:Name="imageLogo"
                            Grid.Row="1" Grid.Column="1" Margin="10" MaxHeight="32"
-                           Source="{StaticResource LogoImage}" />
+                           Source="{StaticResource LogoImage32}" />
                 </Grid>
             </ui:NavigationView.Header>
             <ui:NavigationView.MenuItems>
@@ -106,7 +106,7 @@
 
         <tray:NotifyIcon
                     Grid.Row="0"
-                    Icon="{StaticResource LogoImage}"
+                    Icon="{StaticResource LogoImage16}"
                     TooltipText="{x:Static res:Common.WindowTitle}"
                     FocusOnLeftClick="True"
                     MenuOnRightClick="True">

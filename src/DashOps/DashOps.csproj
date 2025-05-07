@@ -27,7 +27,9 @@
   
   <ItemGroup>
     <Resource Include="icon.ico" />
-    <Resource Include="WpfResources\Logo.png" />
+    <Resource Include="WpfResources\icon_16.png" />
+    <Resource Include="WpfResources\icon_32.png" />
+    <Resource Include="WpfResources\icon_64.png" />
     <Resource Include="WpfResources\Segoe Fluent Icons.ttf">
       <Localizable>false</Localizable>
     </Resource>
