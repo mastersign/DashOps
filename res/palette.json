@@ -1,0 +1,22 @@
+
+[
+    { "Name": "Red", "Color": "#F44336", "Background": "#FFFFFF" },
+    { "Name": "Pink", "Color": "#E91E63", "Background": "#030303" },
+    { "Name": "Purple", "Color": "#9C27B0", "Background": "#FFFFFF" },
+    { "Name": "DeepPurple", "Color": "#673AB7", "Background": "#FFFFFF" },
+    { "Name": "Indigo", "Color": "#3F51B5", "Background": "#FFFFFF" },
+    { "Name": "Blue", "Color": "#2196F3", "Background": "#FFFFFF" },
+    { "Name": "LightBlue", "Color": "#03A9F4", "Background": "#030303" },
+    { "Name": "Cyan", "Color": "#00BCD4", "Background": "#030303" },
+    { "Name": "Teal", "Color": "#009688", "Background": "#FFFFFF" },
+    { "Name": "Green", "Color": "#4CAF50", "Background": "#FFFFFF" },
+    { "Name": "LightGreen", "Color": "#8BC34A", "Background": "#303030" },
+    { "Name": "Lime", "Color": "#CDDC39", "Background": "#404040" },
+    { "Name": "Yellow", "Color": "#FFEB3B", "Background": "#404040" },
+    { "Name": "Amber", "Color": "#FFC107", "Background": "#303030" },
+    { "Name": "Orange", "Color": "#FF9800", "Background": "#202020" },
+    { "Name": "DeepOrange", "Color": "#FF5722", "Background": "#FFFFFF" },
+    { "Name": "Brown", "Color": "#795548", "Background": "#FFFFFF" },
+    { "Name": "Grey", "Color": "#9E9E9E", "Background": "#020202" },
+    { "Name": "BlueGrey", "Color": "#607D8B", "Background": "#FFFFFF" }
+]
