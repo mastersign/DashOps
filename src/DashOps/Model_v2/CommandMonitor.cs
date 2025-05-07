@@ -17,7 +17,10 @@ partial class CommandMonitor
 
     private static readonly Dictionary<string, string> NO_VARIABLES = new(0);
 
-    public CommandMonitorView CreateView(DefaultMonitorSettings defaults, IReadOnlyList<AutoMonitorSettings> autoSettings)
+    public CommandMonitorView CreateView(
+        IReadOnlyList<AutoMonitorSettings> autoSettings,
+        DefaultMonitorSettings monitorDefaults,
+        DefaultSettings commonDefaults)
     {
         var view = new CommandMonitorView
         {
@@ -26,7 +29,7 @@ partial class CommandMonitor
             Command = ExpandEnv(Command),
             Arguments = FormatArguments(Arguments?.Select(ExpandEnv)),
         };
-        view.UpdateWith(this, autoSettings, defaults, NO_VARIABLES);
+        view.UpdateWith(this, autoSettings, monitorDefaults, commonDefaults, NO_VARIABLES);
         view.UpdateStatusFromLogFile();
         return view;
     }

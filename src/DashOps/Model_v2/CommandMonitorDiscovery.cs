@@ -32,7 +32,12 @@ partial class CommandMonitorDiscovery
         };
     }
 
-    public CommandMonitorView CreateView(DefaultMonitorSettings defaults, IReadOnlyList<AutoMonitorSettings> autoSettings, IReadOnlyDictionary<string, string> discoveryVariables, string filePath)
+    public CommandMonitorView CreateView(
+        IReadOnlyList<AutoMonitorSettings> autoSettings,
+        DefaultMonitorSettings monitorDefaults,
+        DefaultSettings commonDefaults,
+        IReadOnlyDictionary<string, string> discoveryVariables, 
+        string filePath)
     {
         var fileVariable = new Dictionary<string, string> { { FILE_VARIABLE, filePath } };
         var variables = CoalesceValues([fileVariable, discoveryVariables]);
@@ -76,7 +81,7 @@ partial class CommandMonitorDiscovery
             Command = cmd,
             Arguments = cmdArgs,
         };
-        view.UpdateWith(this, autoSettings, defaults, variables);
+        view.UpdateWith(this, autoSettings, monitorDefaults, commonDefaults, variables);
         view.UpdateStatusFromLogFile();
 
         return view;

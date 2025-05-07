@@ -14,6 +14,8 @@ namespace Mastersign.DashOps
     {
         private static readonly string[] SUPPORTED_VERSIONS = ["2.0"];
 
+        private const string DEFAULT_LOG_DIR = "logs";
+
         public string ProjectPath { get; }
 
         public Project Project { get; private set; }
@@ -199,14 +201,14 @@ namespace Mastersign.DashOps
             ProjectView.EditorWindow ??= new();
             TransferWindowSettings(ProjectView.EditorWindow, Project.EditorWindow);
 
+            var commonDefaults = Project.Defaults;
             var actionDefaults = Project.Defaults.ForActions;
             var monitorDefaults = Project.Defaults.ForMonitors;
 
-            if (string.IsNullOrWhiteSpace(actionDefaults.Logs)) actionDefaults.Logs = "logs";
-            var defaultActionLogDir = ExpandEnv(actionDefaults.Logs);
+            if (string.IsNullOrWhiteSpace(commonDefaults.Logs)) commonDefaults.Logs = DEFAULT_LOG_DIR;
+            var defaultActionLogDir = ExpandEnv(CoalesceWhitespace([actionDefaults.Logs, commonDefaults.Logs]));
             AsureRelativeDirectory(defaultActionLogDir);
-            if (string.IsNullOrWhiteSpace(monitorDefaults.Logs)) monitorDefaults.Logs = "logs";
-            var defaultMonitorLogDir = ExpandEnv(monitorDefaults.Logs);
+            var defaultMonitorLogDir = ExpandEnv(CoalesceWhitespace([monitorDefaults.Logs, commonDefaults.Logs]));
             AsureRelativeDirectory(defaultMonitorLogDir);
 
             if (string.IsNullOrWhiteSpace(actionDefaults.WorkingDirectory)) actionDefaults.WorkingDirectory = ".";
@@ -298,7 +300,7 @@ namespace Mastersign.DashOps
         {
             var matchable = action.CreateMatchable();
             var autoSettings = AutoSettingsFor(matchable).ToList();
-            return action.CreateView(Project.Defaults.ForActions, autoSettings);
+            return action.CreateView(autoSettings, Project.Defaults.ForActions, Project.Defaults);
         }
         
         private IEnumerable<ActionView> DiscoverActions(CommandActionDiscovery actionDiscovery)
@@ -342,7 +344,7 @@ namespace Mastersign.DashOps
 
             var matchable = actionDiscovery.CreateMatchable(discoveryFacets, file);
             var autoSettings = AutoSettingsFor(matchable).ToList();
-            return actionDiscovery.CreateView(Project.Defaults.ForActions, autoSettings, discoveryFacets, file);
+            return actionDiscovery.CreateView(autoSettings, Project.Defaults.ForActions, Project.Defaults, discoveryFacets, file);
         }
 
         private ActionView ActionViewFromPatternVariation(
@@ -350,14 +352,14 @@ namespace Mastersign.DashOps
         {
             var matchableAction = actionPattern.CreateMatchable(facets);
             var autoSettings = AutoSettingsFor(matchableAction).ToList();
-            return actionPattern.CreateView(Project.Defaults.ForActions, autoSettings, facets);
+            return actionPattern.CreateView(autoSettings, Project.Defaults.ForActions, Project.Defaults, facets);
         }
 
         private MonitorView MonitorViewFromCommandMonitor(CommandMonitor monitor)
         {
             var matchableMonitor = monitor.CreateMatchable();
             var autoSettings = AutoSettingsFor(matchableMonitor).ToList();
-            return monitor.CreateView(Project.Defaults.ForMonitors, autoSettings);
+            return monitor.CreateView(autoSettings, Project.Defaults.ForMonitors, Project.Defaults);
         }
 
         private IEnumerable<MonitorView> DiscoverMonitors(CommandMonitorDiscovery monitorDiscovery)
@@ -396,7 +398,7 @@ namespace Mastersign.DashOps
 
             var matchableMonitor = monitorDiscovery.CreateMatchable(variables, file);
             var autoSettings = AutoSettingsFor(matchableMonitor).ToList();
-            return monitorDiscovery.CreateView(Project.Defaults.ForMonitors, autoSettings, variables, file);
+            return monitorDiscovery.CreateView(autoSettings, Project.Defaults.ForMonitors, Project.Defaults, variables, file);
         }
 
         private MonitorView MonitorViewFromPatternVariation(
@@ -404,14 +406,14 @@ namespace Mastersign.DashOps
         {
             var matchableMonitor = monitorPattern.CreateMatchable(variables);
             var autoSettings = AutoSettingsFor(matchableMonitor).ToList();
-            return monitorPattern.CreateView(Project.Defaults.ForMonitors, autoSettings, variables);
+            return monitorPattern.CreateView(autoSettings, Project.Defaults.ForMonitors, Project.Defaults, variables);
         }
 
         private MonitorView MonitorViewFromWebMonitor(WebMonitor monitor)
         {
             var matchable = monitor.CreateMatchable();
             var autoSettings = AutoSettingsFor(matchable).ToList();
-            return monitor.CreateView(Project.Defaults.ForMonitors, autoSettings);
+            return monitor.CreateView(autoSettings, Project.Defaults.ForMonitors, Project.Defaults);
         }
 
         private IEnumerable<MonitorView> ExpandWebMonitorPattern(WebMonitorPattern monitorPattern)
@@ -425,7 +427,7 @@ namespace Mastersign.DashOps
         {
             var matchable = monitorPattern.CreateMatchable(variables);
             var autoSettings = AutoSettingsFor(matchable).ToList();
-            return monitorPattern.CreateView(Project.Defaults.ForMonitors, autoSettings, variables);
+            return monitorPattern.CreateView(autoSettings, Project.Defaults.ForMonitors, Project.Defaults, variables);
         }
     }
 }

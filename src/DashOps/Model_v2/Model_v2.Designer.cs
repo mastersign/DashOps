@@ -38,8 +38,6 @@ namespace Mastersign.DashOps.Model_v2
     {
         public DefaultActionSettings()
         {
-            this._exePaths = new string[0];
-            this._powerShellExecutionPolicy = DEF_POWERSHELLEXECUTIONPOLICY;
             this._windowsTerminalArgs = new string[0];
         }
         
@@ -58,15 +56,15 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    KeepOpen = " + _keepOpen.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    AlwaysClose = " + _alwaysClose.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    NoExecutionInfo = " + _noExecutionInfo.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(_noLogs, null) ? _noLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(_noExecutionInfo, null) ? _noExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(_environment, null) ? _environment.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ExePaths = " + (!ReferenceEquals(_exePaths, null) ? _exePaths.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(_exitCodes, null) ? _exitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    UsePowerShellCore = " + _usePowerShellCore.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellCore = " + (!ReferenceEquals(_usePowerShellCore, null) ? _usePowerShellCore.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    PowerShellExe = " + (!ReferenceEquals(_powerShellExe, null) ? _powerShellExe.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    UsePowerShellProfile = " + _usePowerShellProfile.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellProfile = " + (!ReferenceEquals(_usePowerShellProfile, null) ? _usePowerShellProfile.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    PowerShellExecutionPolicy = " + (!ReferenceEquals(_powerShellExecutionPolicy, null) ? _powerShellExecutionPolicy.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    UseWindowsTerminal = " + _useWindowsTerminal.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    WindowsTerminalArgs = " + (!ReferenceEquals(_windowsTerminalArgs, null) ? _windowsTerminalArgs.ToString() : @"null").Replace("\n", "\n    "))));
@@ -171,9 +169,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property NoLogs
         
-        private bool _noLogs;
+        private bool? _noLogs;
         
-        public virtual bool NoLogs
+        public virtual bool? NoLogs
         {
             get { return _noLogs; }
             set
@@ -190,9 +188,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property NoExecutionInfo
         
-        private bool _noExecutionInfo;
+        private bool? _noExecutionInfo;
         
-        public virtual bool NoExecutionInfo
+        public virtual bool? NoExecutionInfo
         {
             get { return _noExecutionInfo; }
             set
@@ -285,9 +283,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property UsePowerShellCore
         
-        private bool _usePowerShellCore;
+        private bool? _usePowerShellCore;
         
-        public virtual bool UsePowerShellCore
+        public virtual bool? UsePowerShellCore
         {
             get { return _usePowerShellCore; }
             set
@@ -323,9 +321,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property UsePowerShellProfile
         
-        private bool _usePowerShellProfile;
+        private bool? _usePowerShellProfile;
         
-        public virtual bool UsePowerShellProfile
+        public virtual bool? UsePowerShellProfile
         {
             get { return _usePowerShellProfile; }
             set
@@ -344,9 +342,6 @@ namespace Mastersign.DashOps.Model_v2
         
         private string _powerShellExecutionPolicy;
         
-        private const string DEF_POWERSHELLEXECUTIONPOLICY = @"RemoteSigned";
-        
-        [DefaultValue(DEF_POWERSHELLEXECUTIONPOLICY)]
         public virtual string PowerShellExecutionPolicy
         {
             get { return _powerShellExecutionPolicy; }
@@ -1548,8 +1543,6 @@ namespace Mastersign.DashOps.Model_v2
             this._requiredPatterns = new string[0];
             this._forbiddenPatterns = new string[0];
             this._httpTimeout = DEF_HTTPTIMEOUT;
-            this._exePaths = new string[0];
-            this._powerShellExecutionPolicy = DEF_POWERSHELLEXECUTIONPOLICY;
         }
         
         #region String Representation
@@ -1565,8 +1558,8 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Deactivated = " + _deactivated.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Interval = " + _interval.ToString(formatProvider).Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    NoLogs = " + _noLogs.ToString(formatProvider).Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    NoExecutionInfo = " + _noExecutionInfo.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(_noLogs, null) ? _noLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(_noExecutionInfo, null) ? _noExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    RequiredPatterns = " + (!ReferenceEquals(_requiredPatterns, null) ? _requiredPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ForbiddenPatterns = " + (!ReferenceEquals(_forbiddenPatterns, null) ? _forbiddenPatterns.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Headers = " + (!ReferenceEquals(_headers, null) ? _headers.ToString() : @"null").Replace("\n", "\n    ")) + 
@@ -1578,9 +1571,9 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(_environment, null) ? _environment.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ExePaths = " + (!ReferenceEquals(_exePaths, null) ? _exePaths.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(_exitCodes, null) ? _exitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    UsePowerShellCore = " + _usePowerShellCore.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellCore = " + (!ReferenceEquals(_usePowerShellCore, null) ? _usePowerShellCore.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    PowerShellExe = " + (!ReferenceEquals(_powerShellExe, null) ? _powerShellExe.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
-                (global::System.Environment.NewLine + @"    UsePowerShellProfile = " + _usePowerShellProfile.ToString(formatProvider).Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellProfile = " + (!ReferenceEquals(_usePowerShellProfile, null) ? _usePowerShellProfile.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    PowerShellExecutionPolicy = " + (!ReferenceEquals(_powerShellExecutionPolicy, null) ? _powerShellExecutionPolicy.ToString(formatProvider) : @"null").Replace("\n", "\n    "))));
         }
         
@@ -1648,9 +1641,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property NoLogs
         
-        private bool _noLogs;
+        private bool? _noLogs;
         
-        public virtual bool NoLogs
+        public virtual bool? NoLogs
         {
             get { return _noLogs; }
             set
@@ -1667,9 +1660,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property NoExecutionInfo
         
-        private bool _noExecutionInfo;
+        private bool? _noExecutionInfo;
         
-        public virtual bool NoExecutionInfo
+        public virtual bool? NoExecutionInfo
         {
             get { return _noExecutionInfo; }
             set
@@ -1898,9 +1891,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property UsePowerShellCore
         
-        private bool _usePowerShellCore;
+        private bool? _usePowerShellCore;
         
-        public virtual bool UsePowerShellCore
+        public virtual bool? UsePowerShellCore
         {
             get { return _usePowerShellCore; }
             set
@@ -1936,9 +1929,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property UsePowerShellProfile
         
-        private bool _usePowerShellProfile;
+        private bool? _usePowerShellProfile;
         
-        public virtual bool UsePowerShellProfile
+        public virtual bool? UsePowerShellProfile
         {
             get { return _usePowerShellProfile; }
             set
@@ -1957,9 +1950,6 @@ namespace Mastersign.DashOps.Model_v2
         
         private string _powerShellExecutionPolicy;
         
-        private const string DEF_POWERSHELLEXECUTIONPOLICY = @"RemoteSigned";
-        
-        [DefaultValue(DEF_POWERSHELLEXECUTIONPOLICY)]
         public virtual string PowerShellExecutionPolicy
         {
             get { return _powerShellExecutionPolicy; }
@@ -3603,8 +3593,228 @@ namespace Mastersign.DashOps.Model_v2
         public virtual string ToString(IFormatProvider formatProvider)
         {
             return (this.GetType().FullName + @": " + (
+                (global::System.Environment.NewLine + @"    Logs = " + (!ReferenceEquals(_logs, null) ? _logs.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoLogs = " + (!ReferenceEquals(_noLogs, null) ? _noLogs.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    NoExecutionInfo = " + (!ReferenceEquals(_noExecutionInfo, null) ? _noExecutionInfo.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    WorkingDirectory = " + (!ReferenceEquals(_workingDirectory, null) ? _workingDirectory.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Environment = " + (!ReferenceEquals(_environment, null) ? _environment.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ExePaths = " + (!ReferenceEquals(_exePaths, null) ? _exePaths.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    ExitCodes = " + (!ReferenceEquals(_exitCodes, null) ? _exitCodes.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellCore = " + (!ReferenceEquals(_usePowerShellCore, null) ? _usePowerShellCore.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExe = " + (!ReferenceEquals(_powerShellExe, null) ? _powerShellExe.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    UsePowerShellProfile = " + (!ReferenceEquals(_usePowerShellProfile, null) ? _usePowerShellProfile.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    PowerShellExecutionPolicy = " + (!ReferenceEquals(_powerShellExecutionPolicy, null) ? _powerShellExecutionPolicy.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ForActions = " + (!ReferenceEquals(_forActions, null) ? _forActions.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    ForMonitors = " + (!ReferenceEquals(_forMonitors, null) ? _forMonitors.ToString() : @"null").Replace("\n", "\n    "))));
+        }
+        
+        #endregion
+        
+        #region Property Logs
+        
+        private string _logs;
+        
+        public virtual string Logs
+        {
+            get { return _logs; }
+            set
+            {
+                if (string.Equals(value, _logs))
+                {
+                    return;
+                }
+                _logs = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property NoLogs
+        
+        private bool? _noLogs;
+        
+        public virtual bool? NoLogs
+        {
+            get { return _noLogs; }
+            set
+            {
+                if ((value == _noLogs))
+                {
+                    return;
+                }
+                _noLogs = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property NoExecutionInfo
+        
+        private bool? _noExecutionInfo;
+        
+        public virtual bool? NoExecutionInfo
+        {
+            get { return _noExecutionInfo; }
+            set
+            {
+                if ((value == _noExecutionInfo))
+                {
+                    return;
+                }
+                _noExecutionInfo = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property WorkingDirectory
+        
+        private string _workingDirectory;
+        
+        public virtual string WorkingDirectory
+        {
+            get { return _workingDirectory; }
+            set
+            {
+                if (string.Equals(value, _workingDirectory))
+                {
+                    return;
+                }
+                _workingDirectory = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Environment
+        
+        private Dictionary<string, string> _environment;
+        
+        public virtual Dictionary<string, string> Environment
+        {
+            get { return _environment; }
+            set
+            {
+                if ((value == _environment))
+                {
+                    return;
+                }
+                _environment = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property ExePaths
+        
+        private string[] _exePaths;
+        
+        public virtual string[] ExePaths
+        {
+            get { return _exePaths; }
+            set
+            {
+                if ((value == _exePaths))
+                {
+                    return;
+                }
+                _exePaths = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property ExitCodes
+        
+        private int[] _exitCodes;
+        
+        public virtual int[] ExitCodes
+        {
+            get { return _exitCodes; }
+            set
+            {
+                if ((value == _exitCodes))
+                {
+                    return;
+                }
+                _exitCodes = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property UsePowerShellCore
+        
+        private bool? _usePowerShellCore;
+        
+        public virtual bool? UsePowerShellCore
+        {
+            get { return _usePowerShellCore; }
+            set
+            {
+                if ((value == _usePowerShellCore))
+                {
+                    return;
+                }
+                _usePowerShellCore = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property PowerShellExe
+        
+        private string _powerShellExe;
+        
+        public virtual string PowerShellExe
+        {
+            get { return _powerShellExe; }
+            set
+            {
+                if (string.Equals(value, _powerShellExe))
+                {
+                    return;
+                }
+                _powerShellExe = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property UsePowerShellProfile
+        
+        private bool? _usePowerShellProfile;
+        
+        public virtual bool? UsePowerShellProfile
+        {
+            get { return _usePowerShellProfile; }
+            set
+            {
+                if ((value == _usePowerShellProfile))
+                {
+                    return;
+                }
+                _usePowerShellProfile = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property PowerShellExecutionPolicy
+        
+        private string _powerShellExecutionPolicy;
+        
+        public virtual string PowerShellExecutionPolicy
+        {
+            get { return _powerShellExecutionPolicy; }
+            set
+            {
+                if (string.Equals(value, _powerShellExecutionPolicy))
+                {
+                    return;
+                }
+                _powerShellExecutionPolicy = value;
+            }
         }
         
         #endregion

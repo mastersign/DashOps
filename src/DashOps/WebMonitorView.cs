@@ -3,7 +3,6 @@ using System.IO;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Text.RegularExpressions;
 using Mastersign.DashOps.Model_v2;
 using static Mastersign.DashOps.Model_v2.Helper;
@@ -29,24 +28,46 @@ namespace Mastersign.DashOps
         public void UpdateWith(
             WebMonitor settings, 
             IReadOnlyList<AutoMonitorSettings> autoSettings, 
-            DefaultMonitorSettings defaults, 
+            DefaultMonitorSettings monitorDefaults,
+            DefaultSettings commonDefaults,
             IReadOnlyDictionary<string, string> variables)
         {
-            base.UpdateWith(settings, autoSettings, defaults, variables);
+            base.UpdateWith(settings, autoSettings, monitorDefaults, commonDefaults, variables);
 
             Url = ExpandTemplate(settings.Url, variables);
+
             Headers = ExpandDictionaryTemplate(
-                CoalesceValues([settings.Headers, .. autoSettings.Select(s => s.Headers), defaults.Headers]),
+                CoalesceValues([
+                    settings.Headers,
+                    .. autoSettings.Select(s => s.Headers),
+                    monitorDefaults.Headers,
+                ]),
                 variables);
+
             Timeout = TimeSpan.FromSeconds(
-                Coalesce([settings.HttpTimeout, .. autoSettings.Select(s => s.HttpTimeout), defaults.HttpTimeout]));
+                Coalesce([
+                    settings.HttpTimeout, 
+                    .. autoSettings.Select(s => s.HttpTimeout), 
+                    monitorDefaults.HttpTimeout,
+                ]));
+
             ServerCertificateHash =
-                Coalesce([settings.ServerCertificateHash, .. autoSettings.Select(s => s.ServerCertificateHash), defaults.ServerCertificateHash]);
-            NoTlsVerify = Coalesce([settings.NoTlsVerify, .. autoSettings.Select(s => s.NoTlsVerify), defaults.NoTlsVerify]);
+                Coalesce([
+                    settings.ServerCertificateHash,
+                    .. autoSettings.Select(s => s.ServerCertificateHash),
+                    monitorDefaults.ServerCertificateHash,
+                ]);
+            
+            NoTlsVerify = Coalesce([
+                settings.NoTlsVerify, 
+                .. autoSettings.Select(s => s.NoTlsVerify), 
+                monitorDefaults.NoTlsVerify,
+            ]);
+            
             StatusCodes = Coalesce([
                 settings.StatusCodes,
                 .. autoSettings.Select(s => s.StatusCodes),
-                defaults.StatusCodes,
+                monitorDefaults.StatusCodes,
                 [200, 201, 202, 203, 204]]);
         }
 

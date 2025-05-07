@@ -16,7 +16,11 @@ partial class CommandMonitorPattern
         };
     }
 
-    public CommandMonitorView CreateView(DefaultMonitorSettings defaults, IReadOnlyList<AutoMonitorSettings> autoSettings, IReadOnlyDictionary<string, string> instanceVariables)
+    public CommandMonitorView CreateView(
+        IReadOnlyList<AutoMonitorSettings> autoSettings,
+        DefaultMonitorSettings monitorDefaults,
+        DefaultSettings commonDefaults,
+        IReadOnlyDictionary<string, string> instanceVariables)
     {
         var variables = instanceVariables;
         var view = new CommandMonitorView
@@ -30,7 +34,7 @@ partial class CommandMonitorPattern
                     .Select(a => ExpandTemplate(a, variables))
                     .Select(ExpandEnv)),
         };
-        view.UpdateWith(this, autoSettings, defaults, variables);
+        view.UpdateWith(this, autoSettings, monitorDefaults, commonDefaults, variables);
         view.UpdateStatusFromLogFile();
 
         return view;

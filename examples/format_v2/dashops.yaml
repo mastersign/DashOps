@@ -23,13 +23,12 @@ startup-perspective: env
 startup-selection: Test
 
 defaults:
+  logs: test-logs
   for-actions:
-    logs: test-logs
     use-windows-terminal: true
     environment:
       ENV_A: Default Value A
   for-monitors:
-    logs: test-logs
     interval: 10
     http-timeout: 5
 

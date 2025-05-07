@@ -32,7 +32,12 @@ partial class CommandActionDiscovery
         };
     }
 
-    public ActionView CreateView(DefaultActionSettings defaults, IReadOnlyList<AutoActionSettings> autoSettings, IReadOnlyDictionary<string, string> discoveryFacets, string filePath)
+    public ActionView CreateView(
+        IReadOnlyList<AutoActionSettings> autoSettings,
+        DefaultActionSettings defaults,
+        DefaultSettings commonDefaults,
+        IReadOnlyDictionary<string, string> discoveryFacets,
+        string filePath)
     {
         var fileVariable = new Dictionary<string, string> { { FILE_FACET, filePath } };
         var facets = CoalesceValues([Facets, fileVariable, discoveryFacets]);
@@ -77,7 +82,7 @@ partial class CommandActionDiscovery
             Command = cmd,
             Arguments = cmdArgs,
         };
-        view.UpdateWith(this, autoSettings, defaults, facets);
+        view.UpdateWith(this, autoSettings, defaults, commonDefaults, facets);
         view.UpdateStatusFromLogFile();
 
         return view;

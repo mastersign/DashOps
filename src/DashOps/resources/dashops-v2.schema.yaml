@@ -257,6 +257,9 @@ $defs:
   DefaultSettings:
     title: Defaults
     description: A number of default settings for actions and monitors
+    allOf:
+      - $ref: '#/$defs/LoggingSettings'
+      - $ref: '#/$defs/CommandSettings'
     type: object
     properties:
       for-actions:

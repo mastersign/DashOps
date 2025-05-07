@@ -62,34 +62,82 @@ namespace Mastersign.DashOps
         public void UpdateWith(
             CommandMonitor settings, 
             IReadOnlyList<AutoMonitorSettings> autoSettings,
-            DefaultMonitorSettings defaults, 
+            DefaultMonitorSettings monitorDefaults, 
+            DefaultSettings commonDefaults,
             IReadOnlyDictionary<string, string> variables)
         {
-            base.UpdateWith(settings, autoSettings, defaults, variables);
+            base.UpdateWith(settings, autoSettings, monitorDefaults, commonDefaults, variables);
 
             WorkingDirectory = BuildAbsolutePath(ExpandEnv(ExpandTemplate(
-                Coalesce([settings.WorkingDirectory, .. autoSettings.Select(s => s.WorkingDirectory), defaults.WorkingDirectory]),
+                Coalesce([
+                    settings.WorkingDirectory, 
+                    .. autoSettings.Select(s => s.WorkingDirectory),
+                    monitorDefaults.WorkingDirectory,
+                    commonDefaults.WorkingDirectory,
+                ]),
                 variables)));
+
             Environment = ExpandEnv(ExpandDictionaryTemplate(
-                CoalesceValues([settings.Environment, .. autoSettings.Select(s => s.Environment), defaults.Environment]),
+                CoalesceValues([
+                    settings.Environment, 
+                    .. autoSettings.Select(s => s.Environment),
+                    monitorDefaults.Environment,
+                    commonDefaults.Environment,
+                ]),
                 variables));
-            ExePaths = Coalesce([settings.ExePaths, .. autoSettings.Select(s => s.ExePaths), defaults.ExePaths])
+
+            ExePaths = Coalesce([
+                settings.ExePaths,
+                .. autoSettings.Select(s => s.ExePaths), 
+                monitorDefaults.ExePaths,
+                commonDefaults.ExePaths,
+            ])
                 .Select(p => ExpandTemplate(p, variables))
                 .Select(ExpandEnv)
                 .Select(BuildAbsolutePath)
                 .Where(p => !string.IsNullOrWhiteSpace(p))
                 .ToArray();
-            ExitCodes = Coalesce([settings.ExitCodes, .. autoSettings.Select(s => s.ExitCodes), defaults.ExitCodes, [0]]);
+
+            ExitCodes = Coalesce([
+                settings.ExitCodes, 
+                .. autoSettings.Select(s => s.ExitCodes), 
+                monitorDefaults.ExitCodes,
+                commonDefaults.ExitCodes,
+                [0],
+            ]);
 
             UsePowerShellCore =
-                Coalesce([settings.UsePowerShellCore, .. autoSettings.Select(s => s.UsePowerShellCore), defaults.UsePowerShellCore]);
+                Coalesce([
+                    settings.UsePowerShellCore, 
+                    .. autoSettings.Select(s => s.UsePowerShellCore),
+                    monitorDefaults.UsePowerShellCore,
+                    commonDefaults.UsePowerShellCore,
+                ]);
+
             PowerShellExe = BuildAbsolutePath(ExpandEnv(ExpandTemplate(
-                CoalesceWhitespace([settings.PowerShellExe, .. autoSettings.Select(s => s.PowerShellExe), defaults.PowerShellExe]),
+                CoalesceWhitespace([
+                    settings.PowerShellExe, 
+                    .. autoSettings.Select(s => s.PowerShellExe), 
+                    monitorDefaults.PowerShellExe,
+                    commonDefaults.PowerShellExe,
+                ]),
                 variables)));
+
             UsePowerShellProfile =
-                Coalesce([settings.UsePowerShellProfile, .. autoSettings.Select(s => s.UsePowerShellProfile), defaults.UsePowerShellProfile]);
+                Coalesce([
+                    settings.UsePowerShellProfile,
+                    .. autoSettings.Select(s => s.UsePowerShellProfile),
+                    monitorDefaults.UsePowerShellProfile,
+                    commonDefaults.UsePowerShellProfile,
+                ]);
+
             PowerShellExecutionPolicy =
-                CoalesceWhitespace([settings.PowerShellExecutionPolicy, .. autoSettings.Select(s => s.PowerShellExecutionPolicy), defaults.PowerShellExecutionPolicy]);
+                CoalesceWhitespace([
+                    settings.PowerShellExecutionPolicy, 
+                    .. autoSettings.Select(s => s.PowerShellExecutionPolicy), 
+                    monitorDefaults.PowerShellExecutionPolicy,
+                    commonDefaults.PowerShellExecutionPolicy,
+                ]);
         }
     }
 }

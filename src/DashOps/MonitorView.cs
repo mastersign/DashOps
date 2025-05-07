@@ -80,25 +80,61 @@ namespace Mastersign.DashOps
         public void UpdateWith(
             MonitorBase settings, 
             IReadOnlyList<AutoMonitorSettings> autoSettings, 
-            DefaultMonitorSettings defaults, 
+            DefaultMonitorSettings monitorDefaults,
+            DefaultSettings commonDefaults,
             IReadOnlyDictionary<string, string> variables)
         {
             Title = ExpandTemplate(settings.Title, variables);
 
             Interval = TimeSpan.FromSeconds(
-                Coalesce([settings.Interval, .. autoSettings.Select(s => s.Interval), defaults.Interval]));
-            Deactivated = Coalesce([settings.Deactivated, ..autoSettings.Select(s => s.Deactivated), defaults.Deactivated]);
+                Coalesce([
+                    settings.Interval, 
+                    .. autoSettings.Select(s => s.Interval),
+                    monitorDefaults.Interval,
+                ]));
 
-            NoLogs = Coalesce([settings.NoLogs, .. autoSettings.Select(s => s.NoLogs), defaults.NoLogs]);
+            Deactivated = Coalesce([
+                settings.Deactivated, 
+                ..autoSettings.Select(s => s.Deactivated),
+                monitorDefaults.Deactivated,
+            ]);
+
+            NoLogs = Coalesce([
+                settings.NoLogs, 
+                .. autoSettings.Select(s => s.NoLogs),
+                monitorDefaults.NoLogs,
+                commonDefaults.NoLogs,
+            ]);
+
             Logs = NoLogs ? null : BuildAbsolutePath(ExpandEnv(ExpandTemplate(
-                Coalesce([settings.Logs, .. autoSettings.Select(s => s.Logs), defaults.Logs]),
+                Coalesce([
+                    settings.Logs, 
+                    .. autoSettings.Select(s => s.Logs),
+                    monitorDefaults.Logs,
+                    commonDefaults.Logs,
+                ]),
                 variables)));
-            NoExecutionInfo = Coalesce([settings.NoExecutionInfo, .. autoSettings.Select(s => s.NoExecutionInfo), defaults.NoExecutionInfo]);
+
+            NoExecutionInfo = Coalesce([
+                settings.NoExecutionInfo,  
+                .. autoSettings.Select(s => s.NoExecutionInfo), 
+                monitorDefaults.NoExecutionInfo,
+                commonDefaults.NoExecutionInfo,
+            ]);
 
             RequiredPatterns = BuildTextPatterns(
-                Coalesce([settings.RequiredPatterns, .. autoSettings.Select(s => s.RequiredPatterns), defaults.RequiredPatterns]));
+                Coalesce([
+                    settings.RequiredPatterns,
+                    .. autoSettings.Select(s => s.RequiredPatterns),
+                    monitorDefaults.RequiredPatterns,
+                ]));
+
             ForbiddenPatterns = BuildTextPatterns(
-                Coalesce([settings.ForbiddenPatterns, .. autoSettings.Select(s => s.ForbiddenPatterns), defaults.ForbiddenPatterns]));
+                Coalesce([
+                    settings.ForbiddenPatterns, 
+                    .. autoSettings.Select(s => s.ForbiddenPatterns),
+                    monitorDefaults.ForbiddenPatterns,
+                ]));
         }
     }
 }
