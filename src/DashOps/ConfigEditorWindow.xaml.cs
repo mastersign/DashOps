@@ -29,9 +29,11 @@ public partial class ConfigEditorWindow : UI.FluentWindow
         }
     }
 
+    private ProjectView Project => ((App)Application.Current).ProjectLoader.ProjectView;
+
     private void SetWindowPosition()
     {
-        var ws = ((App)Application.Current).ProjectLoader.ProjectView?.EditorWindow;
+        var ws = Project?.EditorWindow;
         if (ws is null) return;
 
         var screen = ws.ScreenNo.HasValue && ws.ScreenNo.Value >= 0 && ws.ScreenNo.Value < Screen.AllScreens.Length
@@ -97,6 +99,17 @@ public partial class ConfigEditorWindow : UI.FluentWindow
     {
         InitializeComponent();
         editor.Visibility = Visibility.Hidden;
+
+        IconManager.LoadIcon(this);
+        var project = Project;
+        if (project != null) {
+            project.ProjectUpdated += ProjectUpdatedHandler;
+        }
+    }
+
+    private void ProjectUpdatedHandler(object sender, EventArgs ea)
+    {
+        IconManager.LoadIcon(this);
     }
 
     private static string GetTextResource(string path)
@@ -136,6 +149,14 @@ public partial class ConfigEditorWindow : UI.FluentWindow
         {
             e.Cancel = true;
             Visibility = Visibility.Collapsed;
+        }
+        else
+        {
+            var project = Project;
+            if (project != null)
+            {
+                project.ProjectUpdated -= ProjectUpdatedHandler;
+            }
         }
         await Save();
     }

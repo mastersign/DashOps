@@ -2601,6 +2601,70 @@ namespace Mastersign.DashOps
         
         #endregion
         
+        #region Property Color
+        
+        private ThemePaletteColor _color;
+        
+        public event EventHandler ColorChanged;
+        
+        protected virtual void OnColorChanged()
+        {
+            EventHandler handler = ColorChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Color");
+        }
+        
+        public virtual ThemePaletteColor Color
+        {
+            get { return _color; }
+            set
+            {
+                if ((value == _color))
+                {
+                    return;
+                }
+                _color = value;
+                this.OnColorChanged();
+            }
+        }
+        
+        #endregion
+        
+        #region Property Theme
+        
+        private ColorTheme _theme;
+        
+        public event EventHandler ThemeChanged;
+        
+        protected virtual void OnThemeChanged()
+        {
+            EventHandler handler = ThemeChanged;
+            if (!ReferenceEquals(handler, null))
+            {
+                handler(this, EventArgs.Empty);
+            }
+            this.OnPropertyChanged(@"Theme");
+        }
+        
+        public virtual ColorTheme Theme
+        {
+            get { return _theme; }
+            set
+            {
+                if ((value == _theme))
+                {
+                    return;
+                }
+                _theme = value;
+                this.OnThemeChanged();
+            }
+        }
+        
+        #endregion
+        
         #region Property ActionViews
         
         private global::System.Collections.ObjectModel.ObservableCollection<ActionView> _actionViews;

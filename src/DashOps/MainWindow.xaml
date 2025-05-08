@@ -17,6 +17,7 @@
     Height="720" Width="1024"
     SizeChanged="SizeChangedHandler"
     Closing="ClosingHandler"
+    DpiChanged="WindowDpiChangedHandler"
     >
 
     <ui:FluentWindow.CommandBindings>
@@ -36,7 +37,7 @@
         <ui:TitleBar Grid.Row="0"
                 Title="{Binding WindowTitle}">
             <ui:TitleBar.Icon>
-                <ui:ImageIcon Source="{StaticResource LogoImage16}" />
+                <ui:ImageIcon Source="{DynamicResource LogoImage16}" />
             </ui:TitleBar.Icon>
         </ui:TitleBar>
 
@@ -47,7 +48,7 @@
                 IsPaneToggleVisible="True"
                 IsPaneOpen="False"
                 IsBackButtonVisible="Collapsed"
-                Navigated="Navigation_Navigated"
+                Navigated="NavigatedHandler"
                 HeaderVisibility="Visible"
                 >
             <ui:NavigationView.Header>
@@ -69,7 +70,7 @@
 
                     <Image x:Name="imageLogo"
                            Grid.Row="1" Grid.Column="1" Margin="10" MaxHeight="32"
-                           Source="{StaticResource LogoImage32}" />
+                           Source="{DynamicResource LogoImage32}" />
                 </Grid>
             </ui:NavigationView.Header>
             <ui:NavigationView.MenuItems>
@@ -106,7 +107,7 @@
 
         <tray:NotifyIcon
                     Grid.Row="0"
-                    Icon="{StaticResource LogoImage16}"
+                    Icon="{DynamicResource LogoImage32}"
                     TooltipText="{x:Static res:Common.WindowTitle}"
                     FocusOnLeftClick="True"
                     MenuOnRightClick="True">

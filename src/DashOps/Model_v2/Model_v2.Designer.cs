@@ -4407,6 +4407,8 @@ namespace Mastersign.DashOps.Model_v2
                 (global::System.Environment.NewLine + @"    MainWindow = " + (!ReferenceEquals(_mainWindow, null) ? _mainWindow.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    MonitorPanel = " + (!ReferenceEquals(_monitorPanel, null) ? _monitorPanel.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    EditorWindow = " + (!ReferenceEquals(_editorWindow, null) ? _editorWindow.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Color = " + (!ReferenceEquals(_color, null) ? _color.ToString() : @"null").Replace("\n", "\n    ")) + 
+                (global::System.Environment.NewLine + @"    Theme = " + (!ReferenceEquals(_theme, null) ? _theme.ToString() : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    Perspectives = " + (!ReferenceEquals(_perspectives, null) ? (_perspectives.Count.ToString() + @" items" + __collection_Perspectives.ToString()) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    StartupPerspective = " + (!ReferenceEquals(_startupPerspective, null) ? _startupPerspective.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
                 (global::System.Environment.NewLine + @"    StartupSelection = " + (!ReferenceEquals(_startupSelection, null) ? _startupSelection.ToString(formatProvider) : @"null").Replace("\n", "\n    ")) + 
@@ -4515,6 +4517,44 @@ namespace Mastersign.DashOps.Model_v2
                     return;
                 }
                 _editorWindow = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Color
+        
+        private ThemePaletteColor? _color;
+        
+        public virtual ThemePaletteColor? Color
+        {
+            get { return _color; }
+            set
+            {
+                if ((value == _color))
+                {
+                    return;
+                }
+                _color = value;
+            }
+        }
+        
+        #endregion
+        
+        #region Property Theme
+        
+        private ColorTheme? _theme;
+        
+        public virtual ColorTheme? Theme
+        {
+            get { return _theme; }
+            set
+            {
+                if ((value == _theme))
+                {
+                    return;
+                }
+                _theme = value;
             }
         }
         

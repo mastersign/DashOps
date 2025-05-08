@@ -2,10 +2,14 @@ version: '2.0'
 title: Test Project v2
 
 main-window:
-  mode: default
+  mode: fixed
+  left: 100
+  top: 100
 monitor-panel: false
 editor-window:
   mode: auto
+color: teal
+theme: system
 
 pause-monitoring: true
 

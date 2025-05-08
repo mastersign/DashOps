@@ -200,6 +200,8 @@ namespace Mastersign.DashOps
             TransferWindowSettings(ProjectView.MainWindow, Project.MainWindow);
             ProjectView.EditorWindow ??= new();
             TransferWindowSettings(ProjectView.EditorWindow, Project.EditorWindow);
+            ProjectView.Color = Project.Color ?? ThemePaletteColor.Default;
+            ProjectView.Theme = Project.Theme ?? ColorTheme.System;
 
             var commonDefaults = Project.Defaults;
             var actionDefaults = Project.Defaults.ForActions;
@@ -270,6 +272,8 @@ namespace Mastersign.DashOps
                                 StringComparison.InvariantCulture));
                 }
             }
+
+            ProjectView.NotifyProjectUpdated();
         }
 
         private IEnumerable<AutoActionSettings> AutoSettingsFor(MatchableAction matchable)

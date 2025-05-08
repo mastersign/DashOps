@@ -1057,6 +1057,40 @@ properties:
     description: Settings for the configuration editor window
     $ref: '#/$defs/WindowSettings'
 
+  color:
+    title: Theme Color
+    description: A primary accent color for the UI
+    type: string
+    enum:
+      - default
+      - red
+      - pink
+      - purple
+      - deeppurple
+      - indigo
+      - blue
+      - lightblue
+      - cyan
+      - teal
+      - green
+      - lightgreen
+      - lime
+      - yellow
+      - amber
+      - orange
+      - deeporange
+      - brown
+      - grey
+      - bluegrey
+  theme:
+    title: Theme
+    description: The color theme for the UI
+    type: string
+    enum:
+      - system
+      - light
+      - dark
+
   perspectives:
     title: Perspectives
     description: A selection of facets, to use as perspectives in the UI

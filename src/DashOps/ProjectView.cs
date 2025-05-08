@@ -39,8 +39,10 @@
             return perspective;
         }
 
-        public string WindowTitle => Properties.Resources.Common.WindowTitle + " - " + Title;
+        public string WindowTitle => Title + " - " + Properties.Resources.Common.WindowTitle;
 
-        public bool HasMonitors => MonitorViews.Count > 0;
+        public event EventHandler ProjectUpdated;
+
+        public void NotifyProjectUpdated() => ProjectUpdated?.Invoke(this, EventArgs.Empty);
     }
 }

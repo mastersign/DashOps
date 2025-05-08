@@ -232,6 +232,8 @@ namespace Mastersign.DashOps
             {
                 ProjectView.AddFacetPerspective(facet);
             }
+
+            ProjectView.NotifyProjectUpdated();
         }
 
         private string BuildLogDirPath(string logs, bool noLogs)

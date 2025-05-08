@@ -8,6 +8,6 @@ bin/
 /release
 /tmp
 /examples/*/logs/
-/res/palette-icons/
+/res/icons/
 /src/packages/
 /auto/nuget.exe

@@ -10,6 +10,8 @@
   <ReferencedTypes>
     <ReferencedType id="dict" name="System.Collections.Generic.Dictionary`2[System.String, System.String]" />
     <ReferencedType id="mdict" name="System.Collections.Generic.Dictionary`2[System.String, System.String[]]" />
+    <ReferencedType id="ThemePaletteColor" name="Mastersign.DashOps.ThemePaletteColor" kind="Enum" />
+    <ReferencedType id="ColorTheme" name="Mastersign.DashOps.ColorTheme" kind="Enum" />
   </ReferencedTypes>
 
   <Configuration modelType="Plain">
@@ -338,6 +340,8 @@
       <Property name="MainWindow" type="WindowSettings" />
       <Property name="MonitorPanel" type="bool?" />
       <Property name="EditorWindow" type="WindowSettings" />
+      <Property name="Color" type="ThemePaletteColor?" />
+      <Property name="Theme" type="ColorTheme?" />
 
       <Property name="Perspectives" type="FacetPerspective" isCollection="true" defaultInitialization="true" />
       <Property name="StartupPerspective" />

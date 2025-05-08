@@ -1,31 +1,35 @@
-﻿using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Navigation;
+﻿using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Mastersign.DashOps.Pages;
 using Wpf.Ui.Appearance;
-using Wpf.Ui.Controls;
 using Screen = System.Windows.Forms.Screen;
+using UI = Wpf.Ui.Controls;
 
 namespace Mastersign.DashOps
 {
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : FluentWindow
+    public partial class MainWindow : UI.FluentWindow
     {
         private static App CurrentApp => (App)Application.Current;
 
         public MainWindow()
         {
             InitializeComponent();
-
+            
             Loaded += (sender, args) =>
             {
-                WatchSystemTheme();
-                ApplicationThemeManager.ApplySystemTheme();
-
-                DataContext = CurrentApp?.ProjectLoader?.ProjectView;
-
+                var project = CurrentApp?.ProjectLoader?.ProjectView;
+                DataContext = project;
+                if (project != null) {
+                    project.ProjectUpdated += (sender, ea) => ApplyTheme();
+                    ApplicationThemeManager.Changed += (theme, accent) => UpdateIcons(
+                        theme == ApplicationTheme.Dark ? ColorTheme.Dark : ColorTheme.Light,
+                        project.Color);
+                }
+                
+                ApplyTheme();
                 SetWindowPosition();
 
                 navigationViewMain.Navigate(typeof(MainPage));
@@ -33,6 +37,63 @@ namespace Mastersign.DashOps
 
             StateChanged += WindowStateChangedHandler;
             Core.MainWindow = this;
+        }
+
+        private void UpdateIcons(ColorTheme theme, ThemePaletteColor color)
+        {
+            IconManager.Initialize(theme, color);
+            IconManager.LoadIcon(this);
+            var resPrefix = "pack://application:,,,/DashOps;component/WpfResources/Icons";
+            var resources = App.Current.Resources;
+            resources["LogoImage16"] = new BitmapImage(new Uri($"{resPrefix}/{color}_{theme}_16.png"));
+            resources["LogoImage32"] = new BitmapImage(new Uri($"{resPrefix}/{color}_{theme}_32.png"));
+            resources["LogoImage64"] = new BitmapImage(new Uri($"{resPrefix}/{color}_{theme}_64.png"));
+        }
+
+        private void ApplyTheme()
+        {
+            var project = DataContext as ProjectView;
+            SystemThemeWatcher.UnWatch(this);
+            var theme = project?.Theme ?? ColorTheme.System;
+            var color = project?.Color ?? ThemePaletteColor.Default;
+            if (theme == ColorTheme.System)
+            {
+                SystemThemeWatcher.Watch(
+                    this,                                              // Window class
+                    UI.WindowBackdropType.Mica,
+                    updateAccents: true  // Whether to change accents automatically
+                );
+                ApplicationThemeManager.ApplySystemTheme(updateAccent: true);
+                theme = SystemThemeManager.GetCachedSystemTheme() == SystemTheme.Dark
+                    ? ColorTheme.Dark
+                    : ColorTheme.Light;
+            }
+            else
+            {
+                ApplicationThemeManager.Apply(theme switch
+                {
+                    ColorTheme.Dark => ApplicationTheme.Dark,
+                    ColorTheme.Light => ApplicationTheme.Light,
+                    _ => ApplicationTheme.Unknown,
+                });
+            }
+            if (color == ThemePaletteColor.Default)
+            {
+                ApplicationAccentColorManager.ApplySystemAccent();
+            }
+            else
+            {
+                var paletteColor = FindResource($"Palette{color}Color");
+                if (paletteColor != null)
+                {
+                    ApplicationAccentColorManager.Apply((Color)paletteColor, theme == ColorTheme.Dark ? ApplicationTheme.Dark : ApplicationTheme.Light);
+                }
+                else
+                {
+                    ApplicationAccentColorManager.ApplySystemAccent();
+                }
+            }
+            //UpdateIcons(theme, color);
         }
 
         private void SetWindowPosition()
@@ -77,25 +138,21 @@ namespace Mastersign.DashOps
             }
         }
 
-        private void WatchSystemTheme()
-        {
-            SystemThemeWatcher.Watch(
-                this,                                  // Window class
-                WindowBackdropType.Mica,
-                updateAccents: true                    // Whether to change accents automatically
-            );
-        }
-
         private void WindowStateChangedHandler(object sender, EventArgs e)
         {
-            ShowInTaskbar = WindowState != WindowState.Minimized;
+            // ShowInTaskbar = WindowState != WindowState.Minimized;
+        }
+
+        private void WindowDpiChangedHandler(object sender, DpiChangedEventArgs e)
+        {
+            
         }
 
         private static readonly string[] pagesWithoutHeader = ["home", "main"];
 
         private Page currentPage;
 
-        private void Navigation_Navigated(NavigationView sender, NavigatedEventArgs e)
+        private void NavigatedHandler(UI.NavigationView sender, UI.NavigatedEventArgs e)
         {
             currentPage = e.Page as Page;
 

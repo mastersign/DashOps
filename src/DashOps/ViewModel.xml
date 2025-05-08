@@ -8,6 +8,8 @@
     <ReferencedType id="regexes" name="System.Text.RegularExpressions.Regex[]" />
     <ReferencedType id="ActionFilter" name="System.Func`2[ActionView,System.Boolean]" kind="Delegate" />
     <ReferencedType id="ActionClassifier" name="System.Func`2[ActionView,System.String[]]" kind="Delegate" />
+    <ReferencedType id="ThemePaletteColor" name="Mastersign.DashOps.ThemePaletteColor" kind="Enum" />
+    <ReferencedType id="ColorTheme" name="Mastersign.DashOps.ColorTheme" kind="Enum" />
   </ReferencedTypes>
   
   <Configuration modelType="ChangeTracking">
@@ -143,6 +145,8 @@
       <Property name="Title" />
       <Property name="MainWindow" type="WindowSettings" />
       <Property name="EditorWindow" type="WindowSettings" />
+      <Property name="Color" type="ThemePaletteColor" />
+      <Property name="Theme" type="ColorTheme" />
       <Property name="ActionViews" isCollection="true" type="ActionView" defaultInitialization="true" immutable="true" />
       <Property name="Perspectives" isCollection="true" type="PerspectiveView" defaultInitialization="true" immutable="true" />
       <Property name="CurrentPerspective" type="PerspectiveView" />
