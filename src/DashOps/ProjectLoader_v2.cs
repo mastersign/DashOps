@@ -58,7 +58,15 @@ namespace Mastersign.DashOps
         {
             var selectedPerspective = ProjectView.CurrentPerspective?.Title;
             var selectedSubset = ProjectView.CurrentPerspective?.CurrentSubset?.Title;
-            LoadProject();
+            try
+            {
+                LoadProject();
+            } 
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                return;
+            }
             UpdateProjectView();
             if (selectedPerspective != null)
             {
