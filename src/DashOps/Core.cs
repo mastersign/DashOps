@@ -7,7 +7,7 @@ namespace Mastersign.DashOps
         public static Window MainWindow { get; set; }
 
         public static void RefreshProject()
-            => App.Instance.ProjectLoader.ReloadProjectAndProjectView();
+            => App.Instance.ProjectLoader?.ReloadProjectAndProjectView();
 
         public static async Task ExecuteAction(ActionView action)
         {

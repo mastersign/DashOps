@@ -20,12 +20,10 @@ namespace Mastersign.DashOps.Pages
     /// </summary>
     public partial class MainPage : Page, IFitPage
     {
-        private App App => Application.Current as App;
-
         public MainPage()
         {
             InitializeComponent();
-            DataContext = App?.ProjectLoader?.ProjectView;
+            DataContext = App.Instance?.ProjectLoader?.ProjectView;
         }
 
         private async void MonitorDoubleClickHandler(object sender, MouseButtonEventArgs e)

@@ -4524,9 +4524,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property Color
         
-        private ThemePaletteColor? _color;
+        private global::Mastersign.WpfUiTools.ThemeAccentColor? _color;
         
-        public virtual ThemePaletteColor? Color
+        public virtual global::Mastersign.WpfUiTools.ThemeAccentColor? Color
         {
             get { return _color; }
             set
@@ -4543,9 +4543,9 @@ namespace Mastersign.DashOps.Model_v2
         
         #region Property Theme
         
-        private ColorTheme? _theme;
+        private global::Mastersign.WpfUiTools.Theme? _theme;
         
-        public virtual ColorTheme? Theme
+        public virtual global::Mastersign.WpfUiTools.Theme? Theme
         {
             get { return _theme; }
             set

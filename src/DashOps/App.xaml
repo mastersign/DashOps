@@ -8,13 +8,20 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Shims.xaml" />
-
                 <ui:ThemesDictionary Theme="Light" />
                 <ui:ControlsDictionary />
+
+                <ResourceDictionary Source="Shims.xaml" />
                 <ResourceDictionary Source="WpfResources/Fonts.xaml" />
                 <ResourceDictionary Source="WpfResources/Resources.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <BitmapImage x:Key="LogoImage16"
+                 UriSource="pack://application:,,,/DashOps;component/Icons/Default_Light_16.png"/>
+            <BitmapImage x:Key="LogoImage32"
+                 UriSource="pack://application:,,,/DashOps;component/Icons/Default_Light_32.png"/>
+            <BitmapImage x:Key="LogoImage64"
+                 UriSource="pack://application:,,,/DashOps;component/Icons/Default_Light_64.png"/>
 
             <Style x:Key="MonitorStatusIconStyle">
                 <!-- does not use TargetType to suppress alleged binding errors -->

@@ -1,6 +1,6 @@
-﻿namespace Mastersign.DashOps;
+﻿namespace Mastersign.WpfUiTools;
 
-public enum ThemePaletteColor
+public enum ThemeAccentColor
 {
     Default,
     Red,

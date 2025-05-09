@@ -3,13 +3,6 @@
                     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
                     xmlns:tools="clr-namespace:Mastersign.WpfTools">
 
-    <BitmapImage x:Key="LogoImage16"
-                 UriSource="pack://application:,,,/DashOps;component/WpfResources/Icons/Default_Light_16.png"/>
-    <BitmapImage x:Key="LogoImage32"
-                 UriSource="pack://application:,,,/DashOps;component/WpfResources/Icons/Default_Light_32.png"/>
-    <BitmapImage x:Key="LogoImage64"
-                 UriSource="pack://application:,,,/DashOps;component/WpfResources/Icons/Default_Light_64.png"/>
-
     <Style x:Key="TextBlockDefaultFontSize" TargetType="TextBlock">
         <Setter Property="FontSize" Value="14" />
     </Style>

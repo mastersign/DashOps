@@ -1,104 +1,40 @@
-﻿using System.Windows.Media;
-using System.Windows.Media.Imaging;
+﻿using System.Diagnostics;
 using Mastersign.DashOps.Pages;
-using Wpf.Ui.Appearance;
 using Screen = System.Windows.Forms.Screen;
 using UI = Wpf.Ui.Controls;
 
 namespace Mastersign.DashOps
 {
-    /// <summary>
-    /// Interaktionslogik für MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : UI.FluentWindow
     {
-        private static App CurrentApp => (App)Application.Current;
-
         public MainWindow()
         {
+            if (App.Instance.SuppressMainWindow)
+            {
+                Visibility = Visibility.Hidden;
+                return;
+            }
+
             InitializeComponent();
-            
+
+            App.Instance.ThemeManager.Register(this);
+
             Loaded += (sender, args) =>
             {
-                var project = CurrentApp?.ProjectLoader?.ProjectView;
+                var project = App.Instance.ProjectLoader?.ProjectView;
                 DataContext = project;
-                if (project != null) {
-                    project.ProjectUpdated += (sender, ea) => ApplyTheme();
-                    ApplicationThemeManager.Changed += (theme, accent) => UpdateIcons(
-                        theme == ApplicationTheme.Dark ? ColorTheme.Dark : ColorTheme.Light,
-                        project.Color);
-                }
-                
-                ApplyTheme();
-                SetWindowPosition();
 
+                App.Instance.ThemeManager.MainWindow = this;
+                SetWindowPosition();
                 navigationViewMain.Navigate(typeof(MainPage));
             };
 
-            StateChanged += WindowStateChangedHandler;
             Core.MainWindow = this;
-        }
-
-        private void UpdateIcons(ColorTheme theme, ThemePaletteColor color)
-        {
-            IconManager.Initialize(theme, color);
-            IconManager.LoadIcon(this);
-            var resPrefix = "pack://application:,,,/DashOps;component/WpfResources/Icons";
-            var resources = App.Current.Resources;
-            resources["LogoImage16"] = new BitmapImage(new Uri($"{resPrefix}/{color}_{theme}_16.png"));
-            resources["LogoImage32"] = new BitmapImage(new Uri($"{resPrefix}/{color}_{theme}_32.png"));
-            resources["LogoImage64"] = new BitmapImage(new Uri($"{resPrefix}/{color}_{theme}_64.png"));
-        }
-
-        private void ApplyTheme()
-        {
-            var project = DataContext as ProjectView;
-            SystemThemeWatcher.UnWatch(this);
-            var theme = project?.Theme ?? ColorTheme.System;
-            var color = project?.Color ?? ThemePaletteColor.Default;
-            if (theme == ColorTheme.System)
-            {
-                SystemThemeWatcher.Watch(
-                    this,                                              // Window class
-                    UI.WindowBackdropType.Mica,
-                    updateAccents: true  // Whether to change accents automatically
-                );
-                ApplicationThemeManager.ApplySystemTheme(updateAccent: true);
-                theme = SystemThemeManager.GetCachedSystemTheme() == SystemTheme.Dark
-                    ? ColorTheme.Dark
-                    : ColorTheme.Light;
-            }
-            else
-            {
-                ApplicationThemeManager.Apply(theme switch
-                {
-                    ColorTheme.Dark => ApplicationTheme.Dark,
-                    ColorTheme.Light => ApplicationTheme.Light,
-                    _ => ApplicationTheme.Unknown,
-                });
-            }
-            if (color == ThemePaletteColor.Default)
-            {
-                ApplicationAccentColorManager.ApplySystemAccent();
-            }
-            else
-            {
-                var paletteColor = FindResource($"Palette{color}Color");
-                if (paletteColor != null)
-                {
-                    ApplicationAccentColorManager.Apply((Color)paletteColor, theme == ColorTheme.Dark ? ApplicationTheme.Dark : ApplicationTheme.Light);
-                }
-                else
-                {
-                    ApplicationAccentColorManager.ApplySystemAccent();
-                }
-            }
-            //UpdateIcons(theme, color);
         }
 
         private void SetWindowPosition()
         {
-            var ws = CurrentApp.ProjectLoader.ProjectView?.MainWindow;
+            var ws = App.Instance.ProjectLoader?.ProjectView?.MainWindow;
             if (ws is null) return;
 
             var screen = ws.ScreenNo.HasValue && ws.ScreenNo.Value >= 0 && ws.ScreenNo.Value < Screen.AllScreens.Length
@@ -141,11 +77,6 @@ namespace Mastersign.DashOps
         private void WindowStateChangedHandler(object sender, EventArgs e)
         {
             // ShowInTaskbar = WindowState != WindowState.Minimized;
-        }
-
-        private void WindowDpiChangedHandler(object sender, DpiChangedEventArgs e)
-        {
-            
         }
 
         private static readonly string[] pagesWithoutHeader = ["home", "main"];
@@ -198,7 +129,7 @@ namespace Mastersign.DashOps
             e.CanExecute = true;
         }
 
-        private ProjectView ProjectView => CurrentApp?.ProjectLoader?.ProjectView;
+        private ProjectView ProjectView => App.Instance?.ProjectLoader?.ProjectView;
 
         private void CommandSwitchPerspectiveHandler(object sender, ExecutedRoutedEventArgs e)
         {
@@ -213,10 +144,11 @@ namespace Mastersign.DashOps
 
         private void CommandEditProjectExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            ConfigEditorWindow.Open(
-                string.Format(Properties.Resources.Common.EditorTitle_1, ProjectView?.Title),
-                (App.Current as App).ProjectLoader.ProjectPath,
-                "dashops-v2");
+            //ConfigEditorWindow.Open(
+            //    string.Format(Properties.Resources.Common.EditorTitle_1, ProjectView?.Title),
+            //    (App.Current as App).ProjectLoader.ProjectPath,
+            //    "dashops-v2");
+            App.Instance.OpenProjectEditor();
         }
     }
 }

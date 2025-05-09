@@ -17,7 +17,7 @@
     Height="720" Width="1024"
     SizeChanged="SizeChangedHandler"
     Closing="ClosingHandler"
-    DpiChanged="WindowDpiChangedHandler"
+    StateChanged="WindowStateChangedHandler"
     >
 
     <ui:FluentWindow.CommandBindings>

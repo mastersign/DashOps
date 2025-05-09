@@ -27,8 +27,8 @@
   
   <ItemGroup>
     <Resource Include="icon.ico" />
-    <Resource Include="WpfResources\Icons\*.ico" />
-    <Resource Include="WpfResources\Icons\*.png" />
+    <Resource Include="Icons\*.ico" />
+    <Resource Include="Icons\*.png" />
     <Resource Include="WpfResources\Segoe Fluent Icons.ttf">
       <Localizable>false</Localizable>
     </Resource>
@@ -125,7 +125,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="WpfResources\Icons\" />
+    <Folder Include="Icons\" />
   </ItemGroup>
   
 </Project>

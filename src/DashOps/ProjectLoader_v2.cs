@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.IO;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using Mastersign.DashOps.Model_v2;
+using Mastersign.WpfUiTools;
+using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 using static Mastersign.DashOps.Model_v2.Helper;
@@ -136,30 +136,32 @@ namespace Mastersign.DashOps
                     Project = _deserializer.Deserialize<Project>(r);
                 }
             }
+            catch (YamlException yamlExc)
+            {
+                var msg = string.Empty;
+                msg += $"{yamlExc.Start} - {yamlExc.End}";
+                msg += Environment.NewLine;
+                msg += yamlExc.Message;
+
+                Exception innerExc = yamlExc.InnerException;
+                while (innerExc is not null)
+                {
+                    msg += Environment.NewLine + innerExc.Message;
+                    innerExc = innerExc.InnerException;
+                }
+                throw new ProjectLoadException(version, msg);
+            }
             catch (Exception exc2)
             {
                 var msg = string.Empty;
-#if DEBUG
-                msg += exc2.ToString();
-#else
                 msg += exc2.Message;
-#endif
+
                 while (exc2.InnerException != null)
                 {
                     exc2 = exc2.InnerException;
-#if DEBUG
-                    msg += Environment.NewLine + exc2.ToString();
-#else
                     msg += Environment.NewLine + exc2.Message;
-#endif
                 }
-                UserInteraction.ShowMessage(
-                    "Loading DashOps Project File" + (version != null ? " - Format " + version : ""),
-                    "An error occurred while loading the project file:"
-                    + Environment.NewLine
-                    + Environment.NewLine
-                    + msg,
-                    symbol: InteractionSymbol.Error);
+                throw new ProjectLoadException(version, msg);
             }
         }
 
@@ -200,8 +202,8 @@ namespace Mastersign.DashOps
             TransferWindowSettings(ProjectView.MainWindow, Project.MainWindow);
             ProjectView.EditorWindow ??= new();
             TransferWindowSettings(ProjectView.EditorWindow, Project.EditorWindow);
-            ProjectView.Color = Project.Color ?? ThemePaletteColor.Default;
-            ProjectView.Theme = Project.Theme ?? ColorTheme.System;
+            ProjectView.Color = Project.Color ?? ThemeAccentColor.Default;
+            ProjectView.Theme = Project.Theme ?? Theme.Auto;
 
             var commonDefaults = Project.Defaults;
             var actionDefaults = Project.Defaults.ForActions;

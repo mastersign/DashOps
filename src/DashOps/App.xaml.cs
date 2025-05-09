@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using Wpf.Ui.Appearance;
+using Mastersign.WpfUiTools;
 using static Mastersign.DashOps.UserInteraction;
 
 namespace Mastersign.DashOps
@@ -11,9 +11,19 @@ namespace Mastersign.DashOps
     /// </summary>
     public partial class App : Application
     {
+        public static Wpf.Ui.UiApplication UI => Wpf.Ui.UiApplication.Current;
         public static App Instance => Current as App;
 
+        private const Theme DEFAULT_THEME = Theme.Auto;
+        private const ThemeAccentColor DEFAULT_ACCENT = ThemeAccentColor.Default;
+
+        private string projectFile;
+
         public IProjectLoader ProjectLoader { get; private set; }
+
+        public bool SuppressMainWindow { get; private set; }
+
+        public ThemeManager ThemeManager { get; private set; }
 
         public Executor Executor { get; private set; }
 
@@ -21,9 +31,15 @@ namespace Mastersign.DashOps
 
         private void ApplicationStartupHandler(object sender, StartupEventArgs e)
         {
-            ApplicationThemeManager.ApplySystemTheme();
+            ThemeManager = new()
+            {
+                AppResources = Resources,
+                ResourceAssembly = Assembly.GetExecutingAssembly(),
+            };
+            ThemeManager.RegisterIconImageResource(16, "LogoImage16");
+            ThemeManager.RegisterIconImageResource(32, "LogoImage32");
+            ThemeManager.RegisterIconImageResource(64, "LogoImage64");
 
-            string projectFile;
             if (e.Args.Length == 1)
             {
                 projectFile = e.Args[0];
@@ -64,8 +80,24 @@ namespace Mastersign.DashOps
                     return;
                 }
             }
-            ProjectLoader = ProjectLoaderFactory.CreateProjectLoaderFor(projectFile, Dispatch, out string version);
-            if (ProjectLoader is null)
+
+            try
+            {
+                ProjectLoader = ProjectLoaderFactory.CreateProjectLoaderFor(projectFile, Dispatch);
+            }
+            catch (ProjectLoadException exc)
+            {
+                SuppressMainWindow = true;
+                ShutdownMode = ShutdownMode.OnExplicitShutdown;
+                ShowMessage(
+                    "Loading DashOps Project File" + (exc.FormatVersion != null ? " - Format " + exc.FormatVersion : ""),
+                    "An error occurred while loading the project file:"
+                    + Environment.NewLine
+                    + Environment.NewLine
+                    + exc.Message,
+                    symbol: InteractionSymbol.Error);
+            }
+            catch (UnsupportedProjectFormatException exc)
             {
                 ShowMessage(
                     "Loading DashOps Project File",
@@ -74,17 +106,70 @@ namespace Mastersign.DashOps
                     + Environment.NewLine
                     + $"Application Version: {GetAppVersion()}"
                     + Environment.NewLine
-                    + $"File Version: {version ?? "unknown"}",
+                    + $"File Version: {exc.FormatVersion ?? "unknown"}",
+                    symbol: InteractionSymbol.Error,
+                    showInTaskbar: true);
+                Shutdown(1);
+                return;
+            }
+            catch (ProjectLoaderFactoryException exc)
+            {
+                ShowMessage(
+                    "Loading DashOps Project File",
+                    "Failed to load project."
+                    + Environment.NewLine
+                    + Environment.NewLine
+                    + exc.Message 
+                    + exc.InnerException is not null 
+                        ? Environment.NewLine + exc.InnerException.Message
+                        : string.Empty,
                     symbol: InteractionSymbol.Error,
                     showInTaskbar: true);
                 Shutdown(1);
                 return;
             }
 
-            Executor = new Executor();
-            MonitorManager = new MonitorManager();
+            ThemeManager.SetTheme(
+                ProjectLoader?.ProjectView?.Theme ?? DEFAULT_THEME,
+                ProjectLoader?.ProjectView?.Color ?? DEFAULT_ACCENT);
 
-            Exit += ApplicationExitHandler;
+            if (ProjectLoader?.ProjectView is not null)
+            {
+                ProjectLoader.ProjectView.ProjectUpdated += (sender, ea) =>
+                {
+                    ThemeManager.SetTheme(
+                        ProjectLoader.ProjectView.Theme,
+                        ProjectLoader.ProjectView.Color);
+                };
+            }
+
+            if (ProjectLoader is not null)
+            {
+                Executor = new Executor();
+                MonitorManager = new MonitorManager();
+
+                Exit += ApplicationExitHandler;
+            } 
+            else
+            {
+                ShutdownMode = ShutdownMode.OnLastWindowClose;
+                OpenProjectEditor(shutdownOnClose: true);
+            }
+        }
+
+        public void OpenProjectEditor(bool shutdownOnClose = false)
+        {
+            var window = ConfigEditorWindow.Open(
+                string.Format(
+                    Mastersign.DashOps.Properties.Resources.Common.EditorTitle_1,
+                    ProjectLoader?.ProjectView?.Title ?? "Unknown"),
+                projectFile,
+                "dashops-v2",
+                lastTime: shutdownOnClose);
+            window.Closed += (sender, ea) =>
+            {
+                Shutdown(2);
+            };
         }
 
         private void ApplicationExitHandler(object sender, ExitEventArgs e)

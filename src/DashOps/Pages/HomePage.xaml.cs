@@ -13,12 +13,10 @@ namespace Mastersign.DashOps.Pages
     /// </summary>
     public partial class HomePage : Page
     {
-        private App App => Application.Current as App;
-
         public HomePage()
         {
             InitializeComponent();
-            DataContext = App?.ProjectLoader?.ProjectView;
+            DataContext = App.Instance?.ProjectLoader?.ProjectView;
         }
 
         private ProjectView ProjectView => (ProjectView)DataContext;
@@ -37,10 +35,6 @@ namespace Mastersign.DashOps.Pages
         {
             e.CanExecute = (e.Parameter as ILogged)?.HasLogFile() ?? false;
         }
-
-
-
-
 
         private async void MonitorDoubleClickHandler(object sender, MouseButtonEventArgs e)
         {

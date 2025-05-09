@@ -1314,6 +1314,7 @@
       "description": "The color theme for the UI",
       "type": "string",
       "enum": [
+        "auto",
         "system",
         "light",
         "dark"

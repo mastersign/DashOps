@@ -11,8 +11,12 @@ public partial class ConfigEditorWindow : UI.FluentWindow
     private static ConfigEditorWindow instance;
     private static bool isExiting;
 
-    public static void Open(string title, string filename, string schemaName)
+    public static Window Open(string title, string filename, string schemaName, bool lastTime = false)
     {
+        if (lastTime)
+        {
+            isExiting = true;
+        }
         if (instance is null)
         {
             instance = new();
@@ -27,9 +31,10 @@ public partial class ConfigEditorWindow : UI.FluentWindow
         {
             instance.WindowState = WindowState.Normal;
         }
+        return instance;
     }
 
-    private ProjectView Project => ((App)Application.Current).ProjectLoader.ProjectView;
+    private ProjectView Project => App.Instance.ProjectLoader?.ProjectView;
 
     private void SetWindowPosition()
     {
@@ -40,7 +45,7 @@ public partial class ConfigEditorWindow : UI.FluentWindow
             ? Screen.AllScreens[ws.ScreenNo.Value]
             : Screen.PrimaryScreen;
 
-        var mainWindow = Application.Current.MainWindow;
+        var mainWindow = App.Instance.MainWindow;
 
         if (ws.Mode == WindowMode.Fixed)
         {
@@ -100,16 +105,14 @@ public partial class ConfigEditorWindow : UI.FluentWindow
         InitializeComponent();
         editor.Visibility = Visibility.Hidden;
 
-        IconManager.LoadIcon(this);
-        var project = Project;
-        if (project != null) {
-            project.ProjectUpdated += ProjectUpdatedHandler;
-        }
-    }
-
-    private void ProjectUpdatedHandler(object sender, EventArgs ea)
-    {
-        IconManager.LoadIcon(this);
+        App.Instance.ThemeManager.Register(this);
+        Loaded += (sender, ea) =>
+        {
+            if (App.Instance.ThemeManager.MainWindow is null)
+            {
+                App.Instance.ThemeManager.MainWindow = this;
+            }
+        };
     }
 
     private static string GetTextResource(string path)
@@ -149,14 +152,6 @@ public partial class ConfigEditorWindow : UI.FluentWindow
         {
             e.Cancel = true;
             Visibility = Visibility.Collapsed;
-        }
-        else
-        {
-            var project = Project;
-            if (project != null)
-            {
-                project.ProjectUpdated -= ProjectUpdatedHandler;
-            }
         }
         await Save();
     }
