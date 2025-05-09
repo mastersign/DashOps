@@ -2,8 +2,11 @@
 $ErrorActionPreference = 'Stop'
 
 $root = $PSScriptRoot
-$trgDir = "$root\icons"
-if (!(Test-Path $trgDir)) { mkdir $trgDir | Out-Null }
+$workDir = "$root\icons"
+$appDir = "$PSScriptRoot\..\src\DashOps"
+$iconDir = "$appDir\Icons"
+
+if (!(Test-Path $workDir)) { mkdir $workDir | Out-Null }
 
 $sizeGroups = Get-Content "$root\sizes.json" | ConvertFrom-Json
 $palette = Get-Content "$root\palette.json" | ConvertFrom-Json
@@ -57,8 +60,8 @@ function renderInColor($name, $c1, $c2, $c3) {
                 continue
             }
 
-            $svgFile = "$trgDir\${name}_${s}.svg"
-            $pngFile = "$trgDir\${name}_${s}.png"
+            $svgFile = "$workDir\${name}_${s}.svg"
+            $pngFile = "$workDir\${name}_${s}.png"
             if (Test-Path $pngFile) { continue }
             Write-Output "Rendering PNG in size ${s}px and color $name"
             $newPNGs = $true
@@ -74,14 +77,14 @@ function renderInColor($name, $c1, $c2, $c3) {
 
     if ($isAppTheme) {
         Write-Output "Combining PNGs into Application ICO"
-        $appIcoFile = "$trgDir\app.ico"
-        magick convert "$trgDir\${name}_*.png" $appIcoFile
+        $appIcoFile = "$workDir\app.ico"
+        magick convert "$workDir\${name}_*.png" $appIcoFile
     }
 
-    $icoFile = "$trgDir\$name.ico"
+    $icoFile = "$workDir\$name.ico"
     if (!$newPNGs -and (Test-Path $icoFile)) { continue }
     Write-Output "Combining PNGs into Window ICO for color $name"
-    $inputFiles =  $windowIcoSizes | ForEach-Object { "$trgDir\${name}_${_}.png" }
+    $inputFiles =  $windowIcoSizes | ForEach-Object { "$workDir\${name}_${_}.png" }
     magick convert @inputFiles $icoFile
 }
 
@@ -103,15 +106,13 @@ foreach ($pc in $palette) {
     renderInColor "$($pc.Name)_Dark" $c1 $c2 $dark
 }
 
-$appDir = "$PSScriptRoot\..\src\DashOps"
-$appPngSizes = 16, 32, 64
-Copy-Item "$trgDir\app.ico" "$appDir\icon.ico"
+Copy-Item "$workDir\app.ico" "$appDir\icon.ico"
 foreach ($pc in $palette) {
     foreach ($theme in @("Light", "Dark")) {
         $name = "$($pc.Name)_${theme}"
-        Copy-Item "$trgDir\${name}.ico" "$appDir\WpfResources\Icons\${name}.ico"
-        foreach ($s in $appPngSizes) {
-            Copy-Item "$trgDir\${name}_${s}.png" "$appDir\WpfResources\Icons\${name}_${s}.png"
+        Copy-Item "$workDir\${name}.ico" "$iconDir\${name}.ico"
+        foreach ($s in $appImageSizes) {
+            Copy-Item "$workDir\${name}_${s}.png" "$iconDir\${name}_${s}.png"
         }
     }
 }
