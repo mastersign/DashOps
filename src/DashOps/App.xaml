@@ -11,7 +11,7 @@
                 <ui:ThemesDictionary Theme="Light" />
                 <ui:ControlsDictionary />
 
-                <ResourceDictionary Source="Shims.xaml" />
+                <ResourceDictionary Source="WpfResources/Shims.xaml" />
                 <ResourceDictionary Source="WpfResources/Fonts.xaml" />
                 <ResourceDictionary Source="WpfResources/Resources.xaml" />
             </ResourceDictionary.MergedDictionaries>
