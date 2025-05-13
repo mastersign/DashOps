@@ -60,7 +60,7 @@ public class ThemeManager
     private Theme selectedTheme = Theme.System;
     private Theme systemTheme = Theme.Light;
     private Theme theme = Theme.Light;
-    
+
     private ThemeAccentColor accentColor = ThemeAccentColor.Default;
 
     public ThemeManager()
@@ -70,16 +70,29 @@ public class ThemeManager
         ApplyTheme();
     }
 
-    private Uri ResourceUri(string path) 
+    public Theme SelectedTheme
+    {
+        get => selectedTheme;
+        set
+        {
+            if (value == selectedTheme) return;
+            selectedTheme = value;
+            SelectedThemeChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    public event EventHandler SelectedThemeChanged;
+
+    private Uri ResourceUri(string path)
         => new($"pack://application:,,,/{ResourceAssemblyName};component/{path}");
 
-    private Uri IconResourceUri(string filename) 
+    private Uri IconResourceUri(string filename)
         => ResourceUri($"{IconBasePath.Trim('/')}/{filename}");
 
     public ImageSource GetIconImage(int size)
         => new BitmapImage(IconResourceUri($"{accentColor}_{theme}_{size}.png"));
 
-    public void RegisterIconImageResource(int size, string name) 
+    public void RegisterIconImageResource(int size, string name)
         => iconImageResourceNames[size] = name;
 
     private void UpdateIconResources()
@@ -107,7 +120,7 @@ public class ThemeManager
         WindowBackgroundManager.UpdateBackground(window, uiTheme, Wpf.Ui.Controls.WindowBackdropType.Mica);
 
         SystemThemeWatcher.UnWatch(window);
-        if (selectedTheme == Theme.System)
+        if (SelectedTheme == Theme.System)
         {
             SystemThemeWatcher.Watch(
                 window,                         // Window class
@@ -152,7 +165,7 @@ public class ThemeManager
     {
         const int WM_SETTINGCHANGE = 0x001A;
         if (msg == WM_SETTINGCHANGE
-            && wParam == IntPtr.Zero 
+            && wParam == IntPtr.Zero
             && Marshal.PtrToStringUni(lParam) == "ImmersiveColorSet")
         {
             SystemThemeChangedHandler();
@@ -200,14 +213,14 @@ public class ThemeManager
 
     private void SelectTheme()
     {
-        selectedTheme = appTheme == Theme.Auto
+        SelectedTheme = appTheme == Theme.Auto
             ? AccentColorThemePreference(accentColor)
             : appTheme;
-        Debug.Assert(selectedTheme == Theme.System || IsRealTheme(selectedTheme));
+        Debug.Assert(SelectedTheme == Theme.System || IsRealTheme(SelectedTheme));
 
-        theme = selectedTheme == Theme.System
+        theme = SelectedTheme == Theme.System
             ? systemTheme
-            : selectedTheme;
+            : SelectedTheme;
         Debug.Assert(IsRealTheme(theme));
     }
 
@@ -221,7 +234,8 @@ public class ThemeManager
         }
         else
         {
-            window.Loaded += (sender, ea) => {
+            window.Loaded += (sender, ea) =>
+            {
                 UpdateWindow(window);
             };
         }
@@ -281,14 +295,14 @@ public class ThemeManager
 
         var uiTheme = UiThemeFrom(theme);
 
-        if (selectedTheme == Theme.System)
+        if (SelectedTheme == Theme.System)
         {
             ApplicationThemeManager.ApplySystemTheme(updateAccent: UseSystemAccent);
         }
         else
         {
             ApplicationThemeManager.Apply(
-                uiTheme, Wpf.Ui.Controls.WindowBackdropType.Mica, 
+                uiTheme, Wpf.Ui.Controls.WindowBackdropType.Mica,
                 updateAccent: UseSystemAccent);
         }
 

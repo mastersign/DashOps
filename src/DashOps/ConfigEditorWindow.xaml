@@ -34,7 +34,6 @@
         <ce:CodeEditor
                 x:Name="editor"
                 Grid.Row="1" Margin="4"
-                
                 EditorReady="EditorReadyHandler">
             <ce:CodeEditor.Configuration>
                 <ce:CodeEditorConfiguration 

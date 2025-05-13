@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.IO;
 using System.Reflection;
+using Mastersign.WpfCodeEditor;
 using Screen = System.Windows.Forms.Screen;
 using UI = Wpf.Ui.Controls;
 
@@ -100,19 +101,38 @@ public partial class ConfigEditorWindow : UI.FluentWindow
     private string schemaName;
     private string filename;
 
+    private static ColorScheme ColorSchemeFromAppTheme(WpfUiTools.Theme theme)
+        => theme switch
+        {
+            WpfUiTools.Theme.Light => ColorScheme.Light,
+            WpfUiTools.Theme.Dark => ColorScheme.Dark,
+            _ => ColorScheme.Auto,
+        };
+
     public ConfigEditorWindow()
     {
         InitializeComponent();
         editor.Visibility = Visibility.Hidden;
-
+        editor.Configuration.Theme = ColorSchemeFromAppTheme(App.Instance.ThemeManager.SelectedTheme);
         App.Instance.ThemeManager.Register(this);
         Loaded += (sender, ea) =>
         {
+            App.Instance.ThemeManager.SelectedThemeChanged += SelectedThemeChangedHandler;
             if (App.Instance.ThemeManager.MainWindow is null)
             {
                 App.Instance.ThemeManager.MainWindow = this;
             }
         };
+        Unloaded += (sender, ea) =>
+        {
+            App.Instance.ThemeManager.SelectedThemeChanged -= SelectedThemeChangedHandler;
+        };
+    }
+
+    private void SelectedThemeChangedHandler(object sender, EventArgs e)
+    {
+        editor.Configuration.Theme = ColorSchemeFromAppTheme(App.Instance.ThemeManager.SelectedTheme);
+        editor.UpdateColorScheme();
     }
 
     private static string GetTextResource(string path)

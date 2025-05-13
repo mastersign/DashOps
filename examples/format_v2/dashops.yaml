@@ -9,7 +9,7 @@ monitor-panel: false
 editor-window:
   mode: auto
 color: teal
-theme: system
+theme: auto
 
 pause-monitoring: true
 
