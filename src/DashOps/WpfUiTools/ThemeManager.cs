@@ -253,6 +253,11 @@ public class ThemeManager
     {
         this.appTheme = theme;
         this.accentColor = accentColor;
+        Refresh();
+    }
+
+    public void Refresh()
+    {
         ApplyTheme();
         foreach (var window in windows)
         {

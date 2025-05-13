@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Mastersign.DashOps.Pages;
+﻿using Mastersign.DashOps.Pages;
 using Screen = System.Windows.Forms.Screen;
 using UI = Wpf.Ui.Controls;
 
@@ -25,6 +24,7 @@ namespace Mastersign.DashOps
                 DataContext = project;
 
                 App.Instance.ThemeManager.MainWindow = this;
+                App.Instance.ThemeManager.Refresh();
                 SetWindowPosition();
                 navigationViewMain.Navigate(typeof(MainPage));
             };
