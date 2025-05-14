@@ -6,6 +6,7 @@ bin/
 *.cache
 
 /release
+/setup
 /tmp
 /examples/*/logs/
 /res/icons/

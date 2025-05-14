@@ -1,0 +1,51 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+
+  <Package
+    Id="Mastersign.DashOps"
+    Name="DashOps"
+    Manufacturer="Tobias Kiertscher"
+    Scope="perMachine"
+    Version="2.0.0.0"   
+  >
+    <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
+    
+    <MediaTemplate EmbedCab="true" />
+
+    <!-- Product Icon -->
+    <Icon Id="DashOps.ico" SourceFile="Icon.ico" />
+    <Property Id="ARPPRODUCTICON" Value="DashOps.ico" />
+
+    <!-- UI Resources -->
+    <WixVariable Id="WixUILicenseRtf" Value="LICENSE.rtf" />
+    <WixVariable Id="WixUIBannerBmp" Value="Banner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="Dialog.bmp" />
+
+    <!-- Setup UI -->
+    <ui:WixUI
+      Id="WixUI_InstallDir"
+      InstallDirectory="INSTALLFOLDER" />
+    
+    <Feature Id="DashOps"
+             Title="!(loc.Feature_DashOps_Title)"
+             Description="!(loc.Feature_DashOps_Description)"
+             Display="expand"
+             AllowAdvertise="no">
+
+      <ComponentGroupRef Id="ApplicationFiles" />
+      <ComponentGroupRef Id="ApplicationLocalization_de" />
+
+      <Component Id="ApplicationOnPath">
+        <RegistryValue Root="HKCU" Key="Software\Mastersign\DashOps"
+                       Name="DashOpsOnPath" Type="integer" Value="1"
+                       KeyPath="yes"/>
+        <Environment Id="AddApplicationToPath" 
+                     Name="PATH" System="true"
+                     Action="set" Value="[INSTALLFOLDER]" Part="last"
+                     Permanent="false"
+                     />
+      </Component>
+    </Feature>
+
+  </Package>
+</Wix>

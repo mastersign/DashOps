@@ -4,6 +4,7 @@ $ErrorActionPreference = 'Stop'
 $root = $PSScriptRoot
 $workDir = "$root\icons"
 $appDir = "$PSScriptRoot\..\src\DashOps"
+$setupDir = "$PSScriptRoot\..\src\Setup"
 $iconDir = "$appDir\Icons"
 
 if (!(Test-Path $workDir)) { mkdir $workDir | Out-Null }
@@ -107,6 +108,7 @@ foreach ($pc in $palette) {
 }
 
 Copy-Item "$workDir\app.ico" "$appDir\icon.ico"
+Copy-Item "$workDir\app.ico" "$setupDir\icon.ico"
 foreach ($pc in $palette) {
     foreach ($theme in @("Light", "Dark")) {
         $name = "$($pc.Name)_${theme}"

@@ -1,0 +1,14 @@
+﻿<!--
+This file contains the declaration of all the localizable strings.
+-->
+<WixLocalization xmlns="http://wixtoolset.org/schemas/v4/wxl" Culture="de-DE">
+
+  <String Id="DowngradeError" Value="Eine neuere Version von [ProductName] ist bereits installiert." />
+
+  <String Id="Application_DashOps_Name" Value="DashOps"/>
+  <String Id="Application_DashOps_Description" Value="Grafische Benutzeroberfläche für Skriptausführung und Monitoring unter Windows"/>
+
+  <String Id="Feature_DashOps_Title" Value="DashOps"/>
+  <String Id="Feature_DashOps_Description" Value="Grafische Benutzeroberfläche für Skriptausführung und Monitoring unter Windows"/>
+
+</WixLocalization>
