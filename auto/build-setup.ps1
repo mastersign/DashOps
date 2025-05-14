@@ -5,14 +5,12 @@ param (
 
 $rootDir = Resolve-Path "$PSScriptRoot\.."
 $sourceDir = "$rootDir\src"
-$solutionName = "DashOps"
-$solutionFile = "${solutionName}.sln" # relative to source dir
+$projectFile = "Setup\Setup.wixproj" # relative to source dir
 
 Push-Location "$sourceDir"
 
 # Build Solution
-dotnet clean $solutionFile -v $Verbosity -c $Configuration
-dotnet build $solutionFile -v $Verbosity -c $Configuration
+dotnet build $projectFile -v $Verbosity -c $Configuration
 $buildError = $LastExitCode
 
 Pop-Location

@@ -10,9 +10,8 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
-    <Platforms>AnyCPU;x86;x64</Platforms>
+    <Platforms>AnyCPU</Platforms>
     <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
-    <BaseOutputPath>..\..\bin</BaseOutputPath>
     
     <RootNamespace>Mastersign.DashOps</RootNamespace>
 

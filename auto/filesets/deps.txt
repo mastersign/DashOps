@@ -1,3 +1,0 @@
-bin\Release\net48\YamlDotNet.dll
-bin\Release\net48\Wpf.Ui.*
-bin\Release\net48\System.Drawing.Common.dll
