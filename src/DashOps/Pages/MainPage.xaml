@@ -6,13 +6,15 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:tools="clr-namespace:Mastersign.WpfTools"
     xmlns:local="clr-namespace:Mastersign.DashOps"
-    xmlns:local1="clr-namespace:Mastersign.DashOps.Pages"
+    xmlns:vm="clr-namespace:Mastersign.DashOps.ViewModel"
+    xmlns:dtm="clr-namespace:Mastersign.DashOps.DesignTime"
+    xmlns:pages="clr-namespace:Mastersign.DashOps.Pages"
     x:Class="Mastersign.DashOps.Pages.MainPage"
     x:Name="main"
     Title="Main"
     Margin="0,4,0,0"
     mc:Ignorable="d" 
-    d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:DesignTimeProjectView}}"
+    d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type dtm:DesignTimeProjectView}}"
     d:DesignHeight="450" d:DesignWidth="800"
     >
 
@@ -252,29 +254,29 @@
                                                 <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ui:Button}}}" Value="False">
                                                     <Setter Property="ui:IconElement.Foreground" Value="{DynamicResource ButtonForegroundDisabled}" />
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static local:ActionStatus.StartError}">
+                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static vm:ActionStatus.StartError}">
                                                     <Setter Property="ui:IconElement.Foreground" Value="{StaticResource PaletteRedBrush}" />
                                                     <Setter Property="ui:SymbolIcon.Symbol" Value="{x:Static ui:SymbolRegular.DocumentDismiss20}" />
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static local:ActionStatus.Running}">
+                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static vm:ActionStatus.Running}">
                                                     <Setter Property="ui:IconElement.Foreground" Value="{StaticResource PaletteLightBlueBrush}" />
                                                     <Setter Property="ui:SymbolIcon.Symbol" Value="{x:Static ui:SymbolRegular.DocumentSync20}" />
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static local:ActionStatus.Success}">
+                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static vm:ActionStatus.Success}">
                                                     <Setter Property="ui:IconElement.Foreground" Value="{StaticResource PaletteGreenBrush}" />
                                                     <Setter Property="ui:SymbolIcon.Symbol" Value="{x:Static ui:SymbolRegular.DocumentCheckmark20}" />
                                                     <Setter Property="ui:SymbolIcon.Filled" Value="True" />
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static local:ActionStatus.SuccessWithoutLogFile}">
+                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static vm:ActionStatus.SuccessWithoutLogFile}">
                                                     <Setter Property="ui:IconElement.Foreground" Value="{StaticResource PaletteGreenBrush}" />
                                                     <Setter Property="ui:SymbolIcon.Symbol" Value="{x:Static ui:SymbolRegular.DocumentCheckmark20}" />
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static local:ActionStatus.Failed}">
+                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static vm:ActionStatus.Failed}">
                                                     <Setter Property="ui:IconElement.Foreground" Value="{StaticResource PaletteRedBrush}" />
                                                     <Setter Property="ui:SymbolIcon.Symbol" Value="{x:Static ui:SymbolRegular.DocumentError20}" />
                                                     <Setter Property="ui:SymbolIcon.Filled" Value="True" />
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static local:ActionStatus.FailedWithoutLogFile}">
+                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static vm:ActionStatus.FailedWithoutLogFile}">
                                                     <Setter Property="ui:IconElement.Foreground" Value="{StaticResource PaletteRedBrush}" />
                                                     <Setter Property="ui:SymbolIcon.Symbol" Value="{x:Static ui:SymbolRegular.DocumentError20}" />
                                                 </DataTrigger>

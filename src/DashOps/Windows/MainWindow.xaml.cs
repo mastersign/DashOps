@@ -1,8 +1,9 @@
 ﻿using Mastersign.DashOps.Pages;
+using Mastersign.DashOps.ViewModel;
 using Screen = System.Windows.Forms.Screen;
 using UI = Wpf.Ui.Controls;
 
-namespace Mastersign.DashOps
+namespace Mastersign.DashOps.Windows
 {
     public partial class MainWindow : UI.FluentWindow
     {

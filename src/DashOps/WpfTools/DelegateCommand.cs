@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace Mastersign.DashOps
+namespace Mastersign.WpfTools
 {
     #region MVVM Helpers
 

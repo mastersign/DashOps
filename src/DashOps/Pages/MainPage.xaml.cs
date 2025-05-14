@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Mastersign.DashOps.ViewModel;
 
 namespace Mastersign.DashOps.Pages
 {

@@ -1,4 +1,6 @@
-﻿namespace Mastersign.DashOps.Model_v1;
+﻿using Mastersign.DashOps.ViewModel;
+
+namespace Mastersign.DashOps.Model_v1;
 
 partial class ActionMatcher
 {

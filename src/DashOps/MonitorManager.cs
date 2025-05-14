@@ -1,4 +1,5 @@
 ﻿using System.Windows.Threading;
+using Mastersign.DashOps.ViewModel;
 
 namespace Mastersign.DashOps
 {

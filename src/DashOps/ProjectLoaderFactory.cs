@@ -1,4 +1,7 @@
 ﻿using System.IO;
+using Mastersign.DashOps.Exceptions;
+using Mastersign.DashOps.Model_v1;
+using Mastersign.DashOps.Model_v2;
 
 namespace Mastersign.DashOps;
 

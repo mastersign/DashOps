@@ -1,4 +1,5 @@
-﻿using UI = Wpf.Ui.Controls;
+﻿using Mastersign.DashOps.ViewModel;
+using UI = Wpf.Ui.Controls;
 
 namespace Mastersign.DashOps
 {

@@ -1,4 +1,6 @@
-﻿namespace Mastersign.DashOps;
+﻿using Mastersign.DashOps.ViewModel;
+
+namespace Mastersign.DashOps;
 
 public partial class WebMonitorInfoControl : UserControl
 {

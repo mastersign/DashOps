@@ -1,4 +1,4 @@
-﻿namespace Mastersign.DashOps;
+﻿namespace Mastersign.DashOps.Exceptions;
 
 internal class ProjectLoadException : Exception
 {

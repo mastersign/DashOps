@@ -69,11 +69,11 @@
       <AutoGen>True</AutoGen>
     </Compile>
     
-    <Resource Include="ViewModel.xml">
+    <Resource Include="ViewModel\ViewModel.xml">
       <Generator>Scaleton Code Generator</Generator>
       <LastGenOutput>ViewModel.Designer.cs</LastGenOutput>
     </Resource>
-    <Compile Update="ViewModel.Designer.cs">
+    <Compile Update="ViewModel\ViewModel.Designer.cs">
       <DependentUpon>ViewModel.xml</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

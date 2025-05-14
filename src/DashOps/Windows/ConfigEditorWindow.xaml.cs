@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel;
 using System.IO;
 using System.Reflection;
+using Mastersign.DashOps.ViewModel;
 using Mastersign.WpfCodeEditor;
 using Screen = System.Windows.Forms.Screen;
 using UI = Wpf.Ui.Controls;
 
-namespace Mastersign.DashOps;
+namespace Mastersign.DashOps.Windows;
 
 public partial class ConfigEditorWindow : UI.FluentWindow
 {
@@ -137,7 +138,7 @@ public partial class ConfigEditorWindow : UI.FluentWindow
 
     private static string GetTextResource(string path)
     {
-        var ns = typeof(ConfigEditorWindow).Namespace;
+        var ns = typeof(App).Namespace;
         var resPath = ns + "." + path.Replace('/', '.');
         using var s = Assembly.GetExecutingAssembly().GetManifestResourceStream(resPath);
         using var r = new StreamReader(s, Encoding.UTF8);

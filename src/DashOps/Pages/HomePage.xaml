@@ -7,12 +7,13 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:tools="clr-namespace:Mastersign.WpfTools"
     xmlns:local="clr-namespace:Mastersign.DashOps"
+    xmlns:dtm="clr-namespace:Mastersign.DashOps.DesignTime"
     xmlns:res="clr-namespace:Mastersign.DashOps.Properties.Resources"
     Name="home"
     Title="DashOps"
     Margin="32,0,0,0"
     mc:Ignorable="d" 
-    d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:DesignTimeProjectView}}"
+    d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type dtm:DesignTimeProjectView}}"
     d:DesignHeight="450" d:DesignWidth="600"
     >
 

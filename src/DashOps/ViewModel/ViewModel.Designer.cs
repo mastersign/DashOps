@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace Mastersign.DashOps
+namespace Mastersign.DashOps.ViewModel
 {
     #region Scaleton Model Designer generated code
     

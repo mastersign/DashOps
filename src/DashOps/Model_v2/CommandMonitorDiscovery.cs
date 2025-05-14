@@ -1,4 +1,5 @@
-﻿using static Mastersign.DashOps.Model_v2.Helper;
+﻿using Mastersign.DashOps.ViewModel;
+using static Mastersign.DashOps.Model_v2.Helper;
 
 namespace Mastersign.DashOps.Model_v2;
 

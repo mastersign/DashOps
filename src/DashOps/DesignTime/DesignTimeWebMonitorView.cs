@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
+using Mastersign.DashOps.ViewModel;
 
-namespace Mastersign.DashOps;
+namespace Mastersign.DashOps.DesignTime;
 
 internal class DesignTimeWebMonitorView : WebMonitorView
 {
