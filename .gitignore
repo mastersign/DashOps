@@ -9,6 +9,6 @@ bin/
 /setup
 /tmp
 /examples/*/logs/
-/res/icons/
+/artwork/icons/
 /src/packages/
 /auto/nuget.exe
