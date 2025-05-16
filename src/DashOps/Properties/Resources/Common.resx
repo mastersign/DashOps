@@ -179,6 +179,26 @@ File Version: {1}</value>
 
 {0}</value>
   </data>
+  <data name="CommandLine_MultiplePositionals" xml:space="preserve">
+    <value>Only one positional argument is allowed.</value>
+  </data>
+  <data name="CommandLine_Title" xml:space="preserve">
+    <value>Command Line Arguments</value>
+  </data>
+  <data name="CommandLine_InvalidArguments" xml:space="preserve">
+    <value>Invalid command line arguments:
+
+{0}</value>
+  </data>
+  <data name="CommandLine_Help" xml:space="preserve">
+    <value>Command line: DashOps.exe [Options] [&lt;Project File&gt;]
+
+Options:
+-?, -h, /?, --help
+    Show this command line help.
+-p, --preserve-working-dir
+    Do not change the working directory to the project files parent directory.</value>
+  </data>
   <data name="MessageBox_OK" xml:space="preserve">
     <value>OK</value>
   </data>

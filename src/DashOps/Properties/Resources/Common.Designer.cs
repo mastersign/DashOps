@@ -88,6 +88,50 @@ namespace Mastersign.DashOps.Properties.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Command line: DashOps.exe [Options] [&lt;Project File&gt;]
+        ///
+        ///Options:
+        ///-?, -h, /?, --help
+        ///    Show this command line help.
+        ///-p, --preserve-working-dir
+        ///    Do not change the working directory to the project files parent directory. ähnelt.
+        /// </summary>
+        public static string CommandLine_Help {
+            get {
+                return ResourceManager.GetString("CommandLine_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Invalid command line arguments:
+        ///
+        ///{0} ähnelt.
+        /// </summary>
+        public static string CommandLine_InvalidArguments {
+            get {
+                return ResourceManager.GetString("CommandLine_InvalidArguments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Only one positional argument is allowed. ähnelt.
+        /// </summary>
+        public static string CommandLine_MultiplePositionals {
+            get {
+                return ResourceManager.GetString("CommandLine_MultiplePositionals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Command Line Arguments ähnelt.
+        /// </summary>
+        public static string CommandLine_Title {
+            get {
+                return ResourceManager.GetString("CommandLine_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die DashOps - {0} - Editor ähnelt.
         /// </summary>
         public static string EditorTitle_1 {

@@ -179,6 +179,26 @@ Projektformat: {1}</value>
 
 {0}</value>
   </data>
+  <data name="CommandLine_MultiplePositionals" xml:space="preserve">
+    <value>Es ist nur ein Positionsargument  zulässig.</value>
+  </data>
+  <data name="CommandLine_Title" xml:space="preserve">
+    <value>Befehlszeilenargumente</value>
+  </data>
+  <data name="CommandLine_InvalidArguments" xml:space="preserve">
+    <value>Ungültige Befehlszeilenargumente:
+
+{0}</value>
+  </data>
+  <data name="CommandLine_Help" xml:space="preserve">
+    <value>Befehlszeile: DashOps.exe [Optionen] [&lt;Projektdatei&gt;]
+
+Optionen:
+-?, -h, /?, --help
+    Zeige diese Hilfe für die Befehlszeile.
+-p, --preserve-working-dir
+    Ändere das Arbeitsverzeichnis nicht automatisch in das Elternverzeichnis der Projektdatei.</value>
+  </data>
   <data name="MessageBox_OK" xml:space="preserve">
     <value>OK</value>
   </data>

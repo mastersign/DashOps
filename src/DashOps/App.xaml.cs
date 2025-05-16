@@ -36,6 +36,8 @@ public partial class App : Application
     {
         ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
+        var args = new CommandLineArguments(e.Args);
+
         ThemeManager = new()
         {
             AppResources = Resources,
@@ -45,9 +47,33 @@ public partial class App : Application
         ThemeManager.RegisterIconImageResource(32, "LogoImage32");
         ThemeManager.RegisterIconImageResource(64, "LogoImage64");
 
-        if (e.Args.Length == 1)
+        if (args.HasErrors)
         {
-            projectFile = e.Args[0];
+            ShowMessage(
+                CommandLine_Title,
+                string.Format(
+                    CommandLine_InvalidArguments,
+                    string.Join(Environment.NewLine, args.ParsingErrors)),
+                symbol: InteractionSymbol.Error,
+                showInTaskbar: true);
+            Shutdown(1);
+            return;
+        }
+
+        if (args.ShowCommandLineHelp)
+        {
+            ShowMessage(
+                CommandLine_Title,
+                CommandLine_Help,
+                symbol: InteractionSymbol.Info,
+                showInTaskbar: true);
+            Shutdown(1);
+            return;
+        }
+
+        if (!string.IsNullOrWhiteSpace(args.ProjectFile))
+        {
+            projectFile = args.ProjectFile;
             projectFile = Path.IsPathRooted(projectFile)
                 ? projectFile
                 : Path.Combine(Environment.CurrentDirectory, projectFile);
@@ -87,12 +113,12 @@ public partial class App : Application
                 var result = AskYesOrNoQuestion(
                     LoadProject_Title,
                     string.Format(LoadProject_NoProject_1, cwdName1 + Environment.NewLine + userName1),
-                    symbol: InteractionSymbol.Error,
+                    symbol: InteractionSymbol.Question,
                     showInTaskbar: true);
                 if (result)
                 {
                     projectFile = userName1;
-                    throw new NotImplementedException("Write project template to default location");
+                    WriteResourceFileToFileSystem("resources/project-template.yaml", userName1);
                 }
                 else
                 {
@@ -100,6 +126,11 @@ public partial class App : Application
                     return;
                 }
             }
+        }
+
+        if (!args.PreserveWorkingDirectory)
+        {
+            Environment.CurrentDirectory = Path.GetDirectoryName(projectFile);
         }
 
         try
@@ -165,6 +196,14 @@ public partial class App : Application
         {
             OpenProjectEditor(shutdownOnClose: true);
         }
+    }
+
+    public static void WriteResourceFileToFileSystem(string resourcePath, string targetPath)
+    {
+        using var res = Assembly.GetExecutingAssembly().GetManifestResourceStream(
+            typeof(App).Namespace + "." + resourcePath.Replace("/", "."));
+        using var trg = File.Open(targetPath, FileMode.Create, FileAccess.Write, FileShare.None);
+        res.CopyTo(trg);
     }
 
     public void OpenProjectEditor(bool shutdownOnClose = false)

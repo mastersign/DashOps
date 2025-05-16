@@ -1,3 +1,25 @@
 version: "2.0"
 
 title: Dashboard
+color: default
+theme: auto
+
+editor-window:
+  mode: auto
+
+startup-perspective: Tags
+startup-selection: Example
+
+defaults:
+  logs: 'Dashboard Logs'
+  use-powershell-core: true
+  for-actions:
+    use-windows-terminal: true
+
+actions:
+  - title: Hello World
+    command: Write-Output
+    arguments: ['Hello World']
+    keep-open: true
+    tags:
+      - Example

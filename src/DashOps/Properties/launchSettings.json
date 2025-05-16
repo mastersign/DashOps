@@ -4,6 +4,11 @@
       "commandName": "Project",
       "workingDirectory": "..\\.."
     },
+    "DashOps CLI Help": {
+      "commandName": "Project",
+      "workingDirectory": "..\\..",
+      "commandLineArgs": "-h"
+    },
     "DashOps Format v1": {
       "commandName": "Project",
       "workingDirectory": "..\\..\\examples\\format_v1"
