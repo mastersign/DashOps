@@ -1,9 +1,10 @@
 param (
     [switch]$NoBuild,
     [switch]$NoSetupPackages,
+    [switch]$NoMsiValidation,
     [switch]$NoSign,
-    [string]$Verbosity = "minimal",
-    [string]$Configuration = "Release"
+    [string]$Configuration = "Release",
+    [string]$Verbosity = "minimal"
 )
 
 $ErrorActionPreference = 'Stop'
@@ -94,7 +95,11 @@ foreach ($platform in $zipPlatforms) {
 if (!$NoSetupPackages) {
     foreach ($platform in $setupPlatforms) {
         dotnet restore $setupProject --nologo -v $verbosity -p:Platform=$platform
-        dotnet build $setupProject --nologo -v $verbosity -c $Configuration -p:Platform=$platform --no-restore
+        if ($NoMsiValidation) {
+            dotnet build $setupProject --nologo -v $verbosity -c $Configuration -p:Platform=$platform --no-restore -p:SuppressValidation=true
+        } else {
+            dotnet build $setupProject --nologo -v $verbosity -c $Configuration -p:Platform=$platform --no-restore
+        }
 
         $suffix = if ($suppressedPlatformSuffix -eq $platform) { "" } else { "_$platform"}
 

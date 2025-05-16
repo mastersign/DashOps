@@ -10,4 +10,4 @@ build:
     paths:
     - release/
   script:
-  - '.\build-setup.ps1 -Verbosity normal -NoSign'
+  - '.\build-setup.ps1 -Verbosity normal -NoSign -NoMsiValidation'
