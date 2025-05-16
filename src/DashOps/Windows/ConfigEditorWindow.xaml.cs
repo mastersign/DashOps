@@ -154,7 +154,7 @@ public partial class ConfigEditorWindow : UI.FluentWindow
         await editor.LoadTextAsync(
             File.ReadAllText(filename, Encoding.UTF8),
             "yaml",
-            Path.GetFileName(filename));
+            "dashops.yaml");
 
         editor.Visibility = Visibility.Visible;
         editor.InvalidateVisual();
