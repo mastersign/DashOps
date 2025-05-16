@@ -19,6 +19,7 @@ public partial class App : Application
 
     private const Theme DEFAULT_THEME = Theme.Auto;
     private const ThemeAccentColor DEFAULT_ACCENT = ThemeAccentColor.Default;
+    private const int MSG_BOX_MAX_WIDTH = 640;
 
     private string projectFile;
 
@@ -55,7 +56,8 @@ public partial class App : Application
                     CommandLine_InvalidArguments,
                     string.Join(Environment.NewLine, args.ParsingErrors)),
                 symbol: InteractionSymbol.Error,
-                showInTaskbar: true);
+                showInTaskbar: true,
+                maxWidth: MSG_BOX_MAX_WIDTH);
             Shutdown(1);
             return;
         }
@@ -66,7 +68,8 @@ public partial class App : Application
                 CommandLine_Title,
                 CommandLine_Help,
                 symbol: InteractionSymbol.Info,
-                showInTaskbar: true);
+                showInTaskbar: true,
+                maxWidth: MSG_BOX_MAX_WIDTH);
             Shutdown(1);
             return;
         }
@@ -83,7 +86,8 @@ public partial class App : Application
                     LoadProject_Title,
                     string.Format(LoadProject_FileNotFound_1),
                     symbol: InteractionSymbol.Error,
-                    showInTaskbar: true);
+                    showInTaskbar: true,
+                    maxWidth: MSG_BOX_MAX_WIDTH);
                 Shutdown(1);
                 return;
             }
@@ -114,7 +118,8 @@ public partial class App : Application
                     LoadProject_Title,
                     string.Format(LoadProject_NoProject_1, cwdName1 + Environment.NewLine + userName1),
                     symbol: InteractionSymbol.Question,
-                    showInTaskbar: true);
+                    showInTaskbar: true,
+                    maxWidth: MSG_BOX_MAX_WIDTH);
                 if (result)
                 {
                     projectFile = userName1;
@@ -143,7 +148,9 @@ public partial class App : Application
             ShowMessage(
                 LoadProject_Title + (exc.FormatVersion != null ? $" - {Format} " + exc.FormatVersion : ""),
                 string.Format(LoadProject_Error_1, exc.Message),
-                symbol: InteractionSymbol.Error);
+                symbol: InteractionSymbol.Error,
+                showInTaskbar: true,
+                maxWidth: MSG_BOX_MAX_WIDTH);
         }
         catch (UnsupportedProjectFormatException exc)
         {
@@ -151,7 +158,8 @@ public partial class App : Application
                 LoadProject_Title,
                 string.Format(LoadProject_UnsupportedVersion_2, GetAppVersion(), exc.FormatVersion ?? Unknown),
                 symbol: InteractionSymbol.Error,
-                showInTaskbar: true);
+                showInTaskbar: true,
+                maxWidth: MSG_BOX_MAX_WIDTH);
             Shutdown(1);
             return;
         }
@@ -165,7 +173,8 @@ public partial class App : Application
                         ? Environment.NewLine + exc.InnerException.Message
                         : string.Empty),
                 symbol: InteractionSymbol.Error,
-                showInTaskbar: true);
+                showInTaskbar: true,
+                maxWidth: MSG_BOX_MAX_WIDTH);
             Shutdown(1);
             return;
         }
