@@ -34,6 +34,8 @@ public partial class App : Application
 
     private void ApplicationStartupHandler(object sender, StartupEventArgs e)
     {
+        ShutdownMode = ShutdownMode.OnExplicitShutdown;
+
         ThemeManager = new()
         {
             AppResources = Resources,
@@ -107,7 +109,6 @@ public partial class App : Application
         catch (ProjectLoadException exc)
         {
             SuppressMainWindow = true;
-            ShutdownMode = ShutdownMode.OnExplicitShutdown;
             ShowMessage(
                 LoadProject_Title + (exc.FormatVersion != null ? $" - {Format} " + exc.FormatVersion : ""),
                 string.Format(LoadProject_Error_1, exc.Message),
@@ -152,6 +153,7 @@ public partial class App : Application
             };
         }
 
+        ShutdownMode = ShutdownMode.OnLastWindowClose;
         if (ProjectLoader is not null)
         {
             Executor = new Executor();
@@ -161,7 +163,6 @@ public partial class App : Application
         } 
         else
         {
-            ShutdownMode = ShutdownMode.OnLastWindowClose;
             OpenProjectEditor(shutdownOnClose: true);
         }
     }
