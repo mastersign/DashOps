@@ -8,6 +8,9 @@ This file contains the declaration of all the localizable strings.
   <String Id="Application_DashOps_Name" Value="DashOps"/>
   <String Id="Application_DashOps_Description" Value="Grafische Benutzeroberfläche für Skriptausführung und Monitoring unter Windows"/>
 
+  <String Id="DashOps_Project_Description" Value="DashOps-Projekt"/>
+  <String Id="DashOps_Project_Command_Open" Value="Öffnen"/>
+
   <String Id="Feature_DashOps_Title" Value="DashOps"/>
   <String Id="Feature_DashOps_Description" Value="Grafische Benutzeroberfläche für Skriptausführung und Monitoring unter Windows"/>
 

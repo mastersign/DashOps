@@ -34,17 +34,12 @@
 
       <ComponentGroupRef Id="ApplicationFiles" />
       <ComponentGroupRef Id="ApplicationLocalization_de" />
+      
+      <ComponentRef Id="ApplicationOnPath" />
+      <ComponentGroupRef Id="ApplicationRegistration" />
+      <ComponentRef Id="StartMenuFolder" />
+      <ComponentGroupRef Id="StartMenuEntries"/>
 
-      <Component Id="ApplicationOnPath">
-        <RegistryValue Root="HKCU" Key="Software\Mastersign\DashOps"
-                       Name="DashOpsOnPath" Type="integer" Value="1"
-                       KeyPath="yes"/>
-        <Environment Id="AddApplicationToPath" 
-                     Name="PATH" System="true"
-                     Action="set" Value="[INSTALLFOLDER]" Part="last"
-                     Permanent="false"
-                     />
-      </Component>
     </Feature>
 
   </Package>

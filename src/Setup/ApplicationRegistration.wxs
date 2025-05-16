@@ -1,0 +1,37 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+  
+    <ComponentGroup Id="ApplicationRegistration" Directory="INSTALLFOLDER">
+      <Component>
+        <RegistryValue Root="HKLM" Key="SOFTWARE\DashOps\Capabilities" Name="ApplicationName" Value="!(loc.Application_DashOps_Name)" Type="string" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\DashOps\Capabilities" Name="ApplicationDescription" Value="!(loc.Application_DashOps_Description)" Type="string" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\DashOps\Capabilities" Name="ApplicationIcon" Value="[INSTALLFOLDER]DashOps.exe,0" Type="string" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\DashOps\Capabilities\DefaultIcon" Value="[INSTALLFOLDER]DashOps.exe,0" Type="string" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\DashOps\Capabilities\FileAssociations" Name=".dops" Value="DashOps.Project" Type="string" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\DashOps\Capabilities\MIMEAssociations" Name="application/x-dashops-project" Value="DashOps.Project" Type="string" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\DashOps\Capabilities\shell\open\command" Value="&quot;[INSTALLFOLDER]DashOps.exe&quot; &quot;%1&quot;" Type="string" />
+
+        <RegistryValue Root="HKLM" Key="SOFTWARE\RegisteredApplications" Name="DashOps" Value="SOFTWARE\DashOps\Capabilities" Type="string" />
+
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Applications\DashOps.exe\SupportedTypes" Name=".dops" Value="" Type="string" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Applications\DashOps.exe\shell\open" Name="FriendlyAppName" Value="!(loc.Application_DashOps_Name)" Type="string" />
+
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\DashOps.exe" Value="[INSTALLFOLDER]DashOps.exe" Type="string" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\DashOps.exe" Name="Path" Value="[INSTALLFOLDER]" Type="string" />
+      </Component>
+
+      <Component>
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\.dops" Value="DashOps.Project" Type="string" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\.dops" Name="Content Type" Value="application/x-dashops-project" Type="string" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\.dops\OpenWithList\DashOps.exe" Value="" Type="string" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\.dops\OpenWithProgids" Name="DashOps.Project" Value="" Type="string" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\DashOps.Project" Value="!(loc.DashOps_Project_Description)" Type="string" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\DashOps.Project\DefaultIcon" Value="[INSTALLFOLDER]DashOps.exe,0" Type="string" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\DashOps.Project\shell" Value="open" Type="string" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\DashOps.Project\shell\open" Value="!(loc.DashOps_Project_Command_Open)" Type="string" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\DashOps.Project\shell\open\command" Value="&quot;[INSTALLFOLDER]DashOps.exe&quot; &quot;%1&quot;" Type="string" />
+      </Component>
+    </ComponentGroup>
+
+  </Fragment>
+</Wix>
