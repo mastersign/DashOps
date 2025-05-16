@@ -112,6 +112,8 @@ if (!$NoSetupPackages) {
             Copy-Item "$PSScriptRoot\release\$platform\$locale\Setup.msi" $setupPackage -Force
             $setupPackages += $setupPackage
         }
+
+        Remove-Item -Path "$PSScriptRoot\release\$platform" -Recurse
     }
 
     if (!$NoSign) {
