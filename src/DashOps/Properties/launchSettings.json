@@ -1,7 +1,12 @@
 {
   "profiles": {
-    "DashOps Default": {
+    "DashOps No Arguments": {
       "commandName": "Project",
+      "workingDirectory": "..\\.."
+    },
+    "DashOps User Profile": {
+      "commandName": "Project",
+      "commandLineArgs": "\"%USERPROFILE%\\Documents\\Dashboard.dops\"",
       "workingDirectory": "..\\.."
     },
     "DashOps CLI Help": {

@@ -7,7 +7,7 @@ internal class CommandLineArguments
         var p = 0;
         while (p < args.Length)
         {
-            switch (args[p++])
+            switch (args[p])
             {
                 case "-?":
                 case "/?":
@@ -22,7 +22,7 @@ internal class CommandLineArguments
                 default:
                     if (ProjectFile is null)
                     {
-                        ProjectFile = args[p++];
+                        ProjectFile = args[p];
                     }
                     else
                     {
@@ -30,6 +30,7 @@ internal class CommandLineArguments
                     }
                     break;
             }
+            p++;
         }
     }
 
