@@ -12,9 +12,9 @@ startup-selection: Example
 
 defaults:
   logs: 'Dashboard Logs'
-  use-powershell-core: true
+  use-powershell-core: false
   for-actions:
-    use-windows-terminal: true
+    use-windows-terminal: false
 
 actions:
   - title: Hello World
