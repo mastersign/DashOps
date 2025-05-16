@@ -97,6 +97,80 @@ namespace Mastersign.DashOps.Properties.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Format ähnelt.
+        /// </summary>
+        public static string Format {
+            get {
+                return ResourceManager.GetString("Format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die An error occurred while loading the project file:
+        ///
+        ///{0} ähnelt.
+        /// </summary>
+        public static string LoadProject_Error_1 {
+            get {
+                return ResourceManager.GetString("LoadProject_Error_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The project file &apos;{0}&apos; could not be found. ähnelt.
+        /// </summary>
+        public static string LoadProject_FileNotFound_1 {
+            get {
+                return ResourceManager.GetString("LoadProject_FileNotFound_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Loading the project failed.
+        ///
+        ///{0} ähnelt.
+        /// </summary>
+        public static string LoadProject_LoadFailed_1 {
+            get {
+                return ResourceManager.GetString("LoadProject_LoadFailed_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die No project file given as command line argument and no default project file in the current working directory or in the user profile.
+        ///
+        ///{0}
+        ///
+        ///Would you like to create a default DashOps file in the user profiles document folder? ähnelt.
+        /// </summary>
+        public static string LoadProject_NoProject_1 {
+            get {
+                return ResourceManager.GetString("LoadProject_NoProject_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Loading DashOps Project File ähnelt.
+        /// </summary>
+        public static string LoadProject_Title {
+            get {
+                return ResourceManager.GetString("LoadProject_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The format version of the project is not supported.
+        ///
+        ///Application Version: {0}
+        ///File Version: {1} ähnelt.
+        /// </summary>
+        public static string LoadProject_UnsupportedVersion_2 {
+            get {
+                return ResourceManager.GetString("LoadProject_UnsupportedVersion_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die About ähnelt.
         /// </summary>
         public static string Page_About_Title {
@@ -129,6 +203,15 @@ namespace Mastersign.DashOps.Properties.Resources {
         public static string Page_Settings_Title {
             get {
                 return ResourceManager.GetString("Page_Settings_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Unknown ähnelt.
+        /// </summary>
+        public static string Unknown {
+            get {
+                return ResourceManager.GetString("Unknown", resourceCulture);
             }
         }
         

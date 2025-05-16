@@ -144,4 +144,39 @@
   <data name="EditorTitle_1" xml:space="preserve">
     <value>DashOps - {0} - Editor</value>
   </data>
+  <data name="LoadProject_Title" xml:space="preserve">
+    <value>DashOps Projektdatei laden</value>
+  </data>
+  <data name="LoadProject_FileNotFound_1" xml:space="preserve">
+    <value>Die Projektdatei '{0}' wurde nicht gefunden.</value>
+  </data>
+  <data name="LoadProject_NoProject_1" xml:space="preserve">
+    <value>Es wurde keine Projektdatei in der Befehlszeile angegeben und es wurde keine Projektdatei im aktuellen Verzeichnis oder im Benutzerprofil gefunden.
+
+{0}
+
+Soll ein Standardprojekt im Dokumentenordner des Benutzerprofils angelegt werden?</value>
+  </data>
+  <data name="LoadProject_Error_1" xml:space="preserve">
+    <value>Beim Laden der Projektdatei ist ein Fehler aufgetreten:
+
+{0}</value>
+  </data>
+  <data name="LoadProject_UnsupportedVersion_2" xml:space="preserve">
+    <value>Das Format der Projektdatei wird nicht unterstützt.
+
+Anwendungsversion: {0}
+Projektformat: {1}</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unbekannt</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="LoadProject_LoadFailed_1" xml:space="preserve">
+    <value>Laden des Projektes ist fehlgeschlagen.
+
+{0}</value>
+  </data>
 </root>

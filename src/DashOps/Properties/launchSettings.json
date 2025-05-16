@@ -1,5 +1,9 @@
 {
   "profiles": {
+    "DashOps Default": {
+      "commandName": "Project",
+      "workingDirectory": "..\\.."
+    },
     "DashOps Format v1": {
       "commandName": "Project",
       "workingDirectory": "..\\..\\examples\\format_v1"

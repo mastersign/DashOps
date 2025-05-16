@@ -144,4 +144,39 @@
   <data name="EditorTitle_1" xml:space="preserve">
     <value>DashOps - {0} - Editor</value>
   </data>
+  <data name="LoadProject_Title" xml:space="preserve">
+    <value>Loading DashOps Project File</value>
+  </data>
+  <data name="LoadProject_FileNotFound_1" xml:space="preserve">
+    <value>The project file '{0}' could not be found.</value>
+  </data>
+  <data name="LoadProject_NoProject_1" xml:space="preserve">
+    <value>No project file given as command line argument and no default project file in the current working directory or in the user profile.
+
+{0}
+
+Would you like to create a default DashOps file in the user profiles document folder?</value>
+  </data>
+  <data name="LoadProject_Error_1" xml:space="preserve">
+    <value>An error occurred while loading the project file:
+
+{0}</value>
+  </data>
+  <data name="LoadProject_UnsupportedVersion_2" xml:space="preserve">
+    <value>The format version of the project is not supported.
+
+Application Version: {0}
+File Version: {1}</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="LoadProject_LoadFailed_1" xml:space="preserve">
+    <value>Loading the project failed.
+
+{0}</value>
+  </data>
 </root>

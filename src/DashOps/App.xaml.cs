@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using Mastersign.DashOps.Exceptions;
 using Mastersign.DashOps.Windows;
+using static Mastersign.DashOps.Properties.Resources.Common;
 using Mastersign.WpfUiTools;
 using static Mastersign.DashOps.UserInteraction;
 
@@ -51,8 +52,8 @@ public partial class App : Application
             if (!File.Exists(projectFile))
             {
                 ShowMessage(
-                    "Loading DashOps Project File",
-                    $"The project file '{e.Args[0]}' could not be found.",
+                    LoadProject_Title,
+                    string.Format(LoadProject_FileNotFound_1),
                     symbol: InteractionSymbol.Error,
                     showInTaskbar: true);
                 Shutdown(1);
@@ -61,25 +62,41 @@ public partial class App : Application
         }
         else
         {
-            var name1 = Path.Combine(Environment.CurrentDirectory, "dashops.yaml");
-            var name2 = Path.Combine(Environment.CurrentDirectory, "dashops.yml");
-            var name3 = Path.Combine(Environment.CurrentDirectory, "dashops.json");
-            if (File.Exists(name1))
-                projectFile = name1;
-            else if (File.Exists(name2))
-                projectFile = name2;
-            else if (File.Exists(name3))
-                projectFile = name3;
+            var cwdName1 = Path.Combine(Environment.CurrentDirectory, "Dashboard.dops");
+            var cwdName2 = Path.Combine(Environment.CurrentDirectory, "dashops.yaml");
+            var cwdName3 = Path.Combine(Environment.CurrentDirectory, "dashops.yml");
+            var cwdName4 = Path.Combine(Environment.CurrentDirectory, "dashops.json");
+            var userName1 = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Dashboard.dops");
+            var userName2 = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Dashboard.dops");
+            if (File.Exists(cwdName1))
+                projectFile = cwdName1;
+            else if (File.Exists(cwdName2))
+                projectFile = cwdName2;
+            else if (File.Exists(cwdName3))
+                projectFile = cwdName3;
+            else if (File.Exists(cwdName4))
+                projectFile = cwdName4;
+            else if (File.Exists(userName1))
+                projectFile = userName1;
+            else if (File.Exists(userName2))
+                projectFile = userName2;
             else
             {
-                ShowMessage(
-                    "Loading DashOps Project File",
-                    "No project file given as command line argument and no default project file " +
-                    $"in the current working directory: {name1}",
+                var result = AskYesOrNoQuestion(
+                    LoadProject_Title,
+                    string.Format(LoadProject_NoProject_1, cwdName1 + Environment.NewLine + userName1),
                     symbol: InteractionSymbol.Error,
                     showInTaskbar: true);
-                Shutdown(1);
-                return;
+                if (result)
+                {
+                    projectFile = userName1;
+                    throw new NotImplementedException("Write project template to default location");
+                }
+                else
+                {
+                    Shutdown(1);
+                    return;
+                }
             }
         }
 
@@ -92,23 +109,15 @@ public partial class App : Application
             SuppressMainWindow = true;
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
             ShowMessage(
-                "Loading DashOps Project File" + (exc.FormatVersion != null ? " - Format " + exc.FormatVersion : ""),
-                "An error occurred while loading the project file:"
-                + Environment.NewLine
-                + Environment.NewLine
-                + exc.Message,
+                LoadProject_Title + (exc.FormatVersion != null ? $" - {Format} " + exc.FormatVersion : ""),
+                string.Format(LoadProject_Error_1, exc.Message),
                 symbol: InteractionSymbol.Error);
         }
         catch (UnsupportedProjectFormatException exc)
         {
             ShowMessage(
-                "Loading DashOps Project File",
-                "The format of the project file is not supported."
-                + Environment.NewLine
-                + Environment.NewLine
-                + $"Application Version: {GetAppVersion()}"
-                + Environment.NewLine
-                + $"File Version: {exc.FormatVersion ?? "unknown"}",
+                LoadProject_Title,
+                string.Format(LoadProject_UnsupportedVersion_2, GetAppVersion(), exc.FormatVersion ?? Unknown),
                 symbol: InteractionSymbol.Error,
                 showInTaskbar: true);
             Shutdown(1);
@@ -117,14 +126,12 @@ public partial class App : Application
         catch (ProjectLoaderFactoryException exc)
         {
             ShowMessage(
-                "Loading DashOps Project File",
-                "Failed to load project."
-                + Environment.NewLine
-                + Environment.NewLine
-                + exc.Message 
-                + exc.InnerException is not null 
-                    ? Environment.NewLine + exc.InnerException.Message
-                    : string.Empty,
+                LoadProject_Title,
+                string.Format(
+                    LoadProject_LoadFailed_1, 
+                    exc.Message + exc.InnerException is not null 
+                        ? Environment.NewLine + exc.InnerException.Message
+                        : string.Empty),
                 symbol: InteractionSymbol.Error,
                 showInTaskbar: true);
             Shutdown(1);
@@ -163,8 +170,8 @@ public partial class App : Application
     {
         var window = ConfigEditorWindow.Open(
             string.Format(
-                Mastersign.DashOps.Properties.Resources.Common.EditorTitle_1,
-                ProjectLoader?.ProjectView?.Title ?? "Unknown"),
+                EditorTitle_1,
+                ProjectLoader?.ProjectView?.Title ?? Unknown),
             projectFile,
             "dashops-v2",
             lastTime: shutdownOnClose);
