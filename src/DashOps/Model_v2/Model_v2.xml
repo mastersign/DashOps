@@ -301,9 +301,9 @@
       <Property name="ExitCodes" type="int[]" defaultInitialization="false" />
 
       <Property name="UsePowerShellCore" type="bool?" />
-      <Property name="PowerShellExe" />
+      <Property name="PowerShellExe" type="string" />
       <Property name="UsePowerShellProfile" type="bool?" />
-      <Property name="PowerShellExecutionPolicy" defaultInitialization="false" />
+      <Property name="PowerShellExecutionPolicy" type="string" />
 
       <Property name="ForActions" type="DefaultActionSettings" />
       <Property name="ForMonitors" type="DefaultMonitorSettings" />
