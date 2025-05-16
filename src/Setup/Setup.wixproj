@@ -1,7 +1,13 @@
 ﻿<Project Sdk="WixToolset.Sdk/6.0.0">
   <PropertyGroup>
     <OutputType>Package</OutputType>
-    <OutputPath>..\..\setup</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutputPath>..\..\release\x64</OutputPath>
+    <Platforms>x86;x64</Platforms>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <OutputPath>..\..\release\x86</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="WixToolset.UI.wixext" Version="6.0.0" />
@@ -10,7 +16,7 @@
     <ProjectReference Include="..\DashOps\DashOps.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <BindPath Include="..\DashOps\bin\$(Configuration)\net48">
+    <BindPath Include="..\..\publish\$(Platform)">
       <BindName>bin</BindName>
     </BindPath>
   </ItemGroup>

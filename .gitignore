@@ -1,14 +1,13 @@
-obj/
-bin/
-
-.vs/
 *.suo
 *.cache
+*.pfx
 
-/release
-/setup
-/tmp
+obj/
+bin/
+.vs/
+
+/publish/
+/release/
+/tmp/
 /examples/*/logs/
 /artwork/icons/
-/src/packages/
-/auto/nuget.exe
