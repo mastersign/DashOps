@@ -10,11 +10,53 @@ namespace Mastersign.DashOps.Windows;
 
 public partial class ConfigEditorWindow : UI.FluentWindow
 {
+    private static bool IsWebView2Available()
+    {
+        try
+        {
+            Microsoft.Web.WebView2.Core.CoreWebView2Environment.GetAvailableBrowserVersionString();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private const string WEBVIEW2_DOWNLOAD_URL = "https://developer.microsoft.com/de-de/microsoft-edge/webview2";
+
+    private static void ShowWebView2NotFoundMessage()
+    {
+        var msgContent = new StackPanel();
+        msgContent.Children.Add(new TextBlock
+        {
+            Text = Properties.Resources.Common.WebView2_NotFound,
+        });
+        msgContent.Children.Add(new UI.HyperlinkButton
+        {
+            Margin = new Thickness(0, 8, 0, 0),
+            NavigateUri = WEBVIEW2_DOWNLOAD_URL,
+            Content = WEBVIEW2_DOWNLOAD_URL,
+        });
+        UserInteraction.ShowMessage(
+            title: Properties.Resources.Common.WebView2_NotFound_Title,
+            message: msgContent,
+            symbol: InteractionSymbol.Warning,
+            showInTaskbar: true,
+            owner: Application.Current.MainWindow);
+    }
+
     private static ConfigEditorWindow instance;
     private static bool isExiting;
 
     public static Window Open(string title, string filename, string schemaName, bool lastTime = false)
     {
+        if (!IsWebView2Available())
+        {
+            ShowWebView2NotFoundMessage();
+            return null;
+        }
+
         if (lastTime)
         {
             isExiting = true;

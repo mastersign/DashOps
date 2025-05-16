@@ -215,10 +215,14 @@ public partial class App : Application
             projectFile,
             "dashops-v2",
             lastTime: shutdownOnClose);
-        window.Closed += (sender, ea) =>
+
+        if (window is not null)
         {
-            Shutdown(2);
-        };
+            window.Closed += (sender, ea) =>
+            {
+                Shutdown(2);
+            };
+        }
     }
 
     private void ApplicationExitHandler(object sender, ExitEventArgs e)
