@@ -12,6 +12,9 @@ if (!(Test-Path $workDir)) { mkdir $workDir | Out-Null }
 $sizeGroups = Get-Content "$root\sizes.json" | ConvertFrom-Json
 $palette = Get-Content "$root\palette.json" | ConvertFrom-Json
 $appIconTheme = "Default_Light"
+$exeIconThemes = @{
+    "Default_Dark" = "1_Dark"
+}
 
 # The icon size for the window icons is a hot topic,
 # because with 100% HighDPI setting, the icons in the taskbar are rendered with 24px,
@@ -28,6 +31,12 @@ $windowIcoSizes = 16, 24, 48
 
 # Sizes used directly in the application as PNGs
 $appImageSizes = 16, 32, 64
+
+function requiresAllSizes($theme) {
+    if ($theme -eq $appIconTheme) { return $true }
+    if ($theme -in $exeIconThemes.Keys) { return $true }
+    return $false
+}
 
 function setColors(
     [xml]$svg,
@@ -54,10 +63,11 @@ function setColors(
 
 function renderInColor($name, $c1, $c2, $c3) {
     $isAppTheme = $name -eq $appIconTheme
+    $allSizes = requiresAllSizes $name
     $newPNGs = $False
     foreach ($sg in $sizeGroups) {
         foreach ($s in $sg.Sizes) {
-            if (!$isAppTheme -and !($s -in $appImageSizes) -and !($s -in $windowIcoSizes)) {
+            if (!$allSizes -and !($s -in $appImageSizes) -and !($s -in $windowIcoSizes)) {
                 continue
             }
 
@@ -82,8 +92,15 @@ function renderInColor($name, $c1, $c2, $c3) {
         magick convert "$workDir\${name}_*.png" $appIcoFile
     }
 
+    $exeIcoName = $exeIconThemes[$name]
+    if ($exeIcoName) {
+        Write-Output "Combining PNGs into EXE ICO"
+        $exeIcoFile = "$workDir\$exeIcoName.ico"
+        magick convert "$workDir\${name}_*.png" $exeIcoFile
+    }
+
     $icoFile = "$workDir\$name.ico"
-    if (!$newPNGs -and (Test-Path $icoFile)) { continue }
+    if (!$newPNGs -and (Test-Path $icoFile)) { return }
     Write-Output "Combining PNGs into Window ICO for color $name"
     $inputFiles =  $windowIcoSizes | ForEach-Object { "$workDir\${name}_${_}.png" }
     magick convert @inputFiles $icoFile
@@ -100,15 +117,19 @@ foreach ($pc in $palette) {
 
     $c1 = if ($pc.SymbolColor) { $pc.SymbolColor } else { "#FF0000" }
     $c2 = if ($pc.FrameColor) { $pc.FrameColor } else { $c1 }
-    $dark = if ($pc.Dark) { $pc.Dark } else { "#000000" }
     $light = if ($pc.Light) { $pc.Light } else { "#FFFFFF" }
+    $dark = if ($pc.Dark) { $pc.Dark } else { "#000000" }
 
     renderInColor "$($pc.Name)_Light" $c1 $c2 $light
     renderInColor "$($pc.Name)_Dark" $c1 $c2 $dark
 }
 
+Write-Output "Copying icons to project"
 Copy-Item "$workDir\app.ico" "$appDir\icon.ico"
 Copy-Item "$workDir\app.ico" "$setupDir\icon.ico"
+foreach ($icoName in $exeIconThemes.Values) {
+    Copy-Item "$workDir\$icoName.ico" "$appDir\ExeIcons\$icoName.ico"
+}
 foreach ($pc in $palette) {
     foreach ($theme in @("Light", "Dark")) {
         $name = "$($pc.Name)_${theme}"

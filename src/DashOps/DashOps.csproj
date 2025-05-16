@@ -23,7 +23,11 @@
     <Copyright>Copyright © 2025 Tobias Kiertscher</Copyright>
     <WebPage>https://www.mastersign.de</WebPage>
   </PropertyGroup>
-  
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="$(ProjectDir)..\..\tools\InsertIcons.exe &quot;$(TargetDir)\DashOps.exe&quot; &quot;$(ProjectDir)ExeIcons&quot;" />
+  </Target>
+
   <ItemGroup>
     <Resource Include="icon.ico" />
     <Resource Include="Icons\*.ico" />
@@ -122,5 +126,5 @@
       <LastGenOutput>InfoControl.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  
+
 </Project>
