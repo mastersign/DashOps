@@ -5,10 +5,9 @@ build:
   stage: build
   tags:
   - windows
-  - msbuild
+  - dotnet
   artifacts:
     paths:
     - release/
   script:
-  - '.\auto\build.ps1 -Mode Release -MsBuildVerbosity normal'
-  - '.\auto\copy-fileset.ps1'
+  - '.\build-setup.ps1 -Verbosity normal -NoSign'
