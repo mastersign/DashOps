@@ -39,6 +39,8 @@ $appName = "DashOps"
 $appProject = "$PSScriptRoot\src\$appName\$appName.csproj"
 $setupProject = "$PSScriptRoot\src\Setup\Setup.wixproj"
 $setupPackageFile = "$PSScriptRoot\src\Setup\Package.wxs"
+$publishRoot = "$PSScriptRoot\publish"
+$releaseDir = "$PSScriptRoot\release"
 
 $version = ([Version]([xml](Get-Content $setupPackageFile)).Wix.Package.Version).ToString(3)
 
@@ -65,7 +67,7 @@ foreach ($platform in $platforms) {
         dotnet publish $appProject --nologo -v $verbosity -f $framework -c $Configuration -p:Platform=$platform -p:PublishProfile=$platform
     }
 
-    $pubDir = "$PSScriptRoot\publish\$platform"
+    $pubDir = "$publishRoot\$platform"
     foreach ($pattern in $excludeFiles) {
         Get-ChildItem "$pubDir\$pattern" | Remove-Item
     }
@@ -85,10 +87,21 @@ foreach ($platform in $platforms) {
         }
     }
 }
+
 foreach ($platform in $zipPlatforms) {
-    $pubDir = "$PSScriptRoot\publish\$platform"
+    if ($platform -eq "AnyCPU") {
+        ### Equip AnyCPU release with architecture specific files
+        # use X64 as default
+        Copy-Item "$publishRoot\x64\WebView2Loader.dll" "$publishRoot\AnyCPU\WebView2Loader.dll" -Force
+        # add X86 as fallback
+        $x86NativeDir = "$publishRoot\AnyCPU\runtimes\win-x86\native"
+        New-Item -Path $x86NativeDir -ItemType Directory | Out-Null
+        Copy-Item "$publishRoot\x86\WebView2Loader.dll" "$x86NativeDir\WebView2Loader.dll" -Force
+    }
+
+    $pubDir = "$publishRoot\$platform"
     $suffix = if ($suppressedPlatformSuffix -eq $platform) { "" } else { "_$platform"}
-    $zipArchive = "$PSScriptRoot\release\${appName}_v${version}${suffix}.zip"
+    $zipArchive = "$releaseDir\${appName}_v${version}${suffix}.zip"
     Compress-Archive -Path "$pubDir\*" -DestinationPath $zipArchive -CompressionLevel Optimal -Force
 }
 
@@ -105,15 +118,15 @@ if (!$NoSetupPackages) {
 
         foreach ($locale in $locales) {
             $setupPackage = if ($locales.Count -gt 1) {
-                "$PSScriptRoot\release\${appName}_v${version}${suffix}_${locale}.msi"
+                "$releaseDir\${appName}_v${version}${suffix}_${locale}.msi"
             } else {
-                "$PSScriptRoot\release\${appName}_v${version}${suffix}.msi"
+                "$releaseDir\${appName}_v${version}${suffix}.msi"
             }
-            Copy-Item "$PSScriptRoot\release\$platform\$locale\Setup.msi" $setupPackage -Force
+            Copy-Item "$releaseDir\$platform\$locale\Setup.msi" $setupPackage -Force
             $setupPackages += $setupPackage
         }
 
-        Remove-Item -Path "$PSScriptRoot\release\$platform" -Recurse
+        Remove-Item -Path "$releaseDir\$platform" -Recurse
     }
 
     if (!$NoSign) {
