@@ -78,7 +78,15 @@ partial class WebMonitorView
                 wr.Method = WebRequestMethods.Http.Get;
                 wr.Timeout = (int)Timeout.TotalMilliseconds;
 
-                response = (HttpWebResponse)wr.GetResponse();
+                try
+                {
+                    response = (HttpWebResponse)wr.GetResponse();
+                }
+                catch (WebException e) when (e.Response is not null)
+                {
+                    response = (HttpWebResponse)e.Response;
+                }
+
                 if (PrintExecutionInfo)
                 {
                     logWriter?.WriteLine("Method:".PadRight(LOG_INDENT)
