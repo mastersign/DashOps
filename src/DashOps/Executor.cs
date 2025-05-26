@@ -111,6 +111,10 @@ namespace Mastersign.DashOps
                 cmdArgs.Append(executable.WindowsTerminalArguments);
                 cmdArgs.Append(" ");
             }
+            cmdArgs.Append("--startingDirectory \"");
+            cmdArgs.Append(executable.WorkingDirectory);
+            cmdArgs.Append("\" ");
+
             cmdArgs.Append('"');
             cmdArgs.Append(
                 !string.IsNullOrWhiteSpace(executable.PowerShellExe)
