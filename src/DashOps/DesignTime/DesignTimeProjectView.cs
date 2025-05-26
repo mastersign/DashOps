@@ -28,6 +28,54 @@ namespace Mastersign.DashOps.DesignTime
             });
             ActionViews.Add(new ActionView
             {
+                Title = "Backup X on A",
+                Command = "backup_x",
+                Arguments = "--on a",
+                Facets = new Dictionary<string, string>
+                {
+                    {"verb", "backup"},
+                    {"service", "x"},
+                    {"host", "a"},
+                }
+            });
+            ActionViews.Add(new ActionView
+            {
+                Title = "Restore X on A",
+                Command = "restore_x",
+                Arguments = "--on a",
+                Facets = new Dictionary<string, string>
+                {
+                    {"verb", "restore"},
+                    {"service", "x"},
+                    {"host", "a"},
+                }
+            });
+            ActionViews.Add(new ActionView
+            {
+                Title = "Pause X on A",
+                Command = "pause_x",
+                Arguments = "--on a",
+                Facets = new Dictionary<string, string>
+                {
+                    {"verb", "pause"},
+                    {"service", "x"},
+                    {"host", "a"},
+                }
+            });
+            ActionViews.Add(new ActionView
+            {
+                Title = "Restart X on A",
+                Command = "restart_x",
+                Arguments = "--on a",
+                Facets = new Dictionary<string, string>
+                {
+                    {"verb", "restart"},
+                    {"service", "x"},
+                    {"host", "a"},
+                }
+            });
+            ActionViews.Add(new ActionView
+            {
                 Title = "Stop X on A",
                 Command = "stop_x",
                 Arguments = "--on a",
