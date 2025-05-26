@@ -132,7 +132,7 @@ namespace Mastersign.DashOps.Properties.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die DashOps - {0} - Editor ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} - Editor - DashOps ähnelt.
         /// </summary>
         public static string EditorTitle_1 {
             get {

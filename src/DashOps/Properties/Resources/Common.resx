@@ -142,7 +142,7 @@
     <value>Switch Perspective</value>
   </data>
   <data name="EditorTitle_1" xml:space="preserve">
-    <value>DashOps - {0} - Editor</value>
+    <value>{0} - Editor - DashOps</value>
   </data>
   <data name="LoadProject_Title" xml:space="preserve">
     <value>Loading DashOps Project File</value>
