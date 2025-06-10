@@ -2,7 +2,7 @@
 
 > Control panel for script execution and monitoring on Windows
 
-![Logo](res/icon_128.png)
+![Logo](artwork/icon_64.svg)
 
 ## Usage
 
